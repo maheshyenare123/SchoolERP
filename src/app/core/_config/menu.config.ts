@@ -136,6 +136,44 @@ export class MenuConfig {
             
           ]
         },
+        {
+          title: 'Student Information',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+            {
+              title: 'Student Details List',
+              page: '/student-information/student-details'
+            },
+            {
+              title: 'Student Details Edit',
+              page: '/student-information/student-details-edit'
+            },
+            {
+              title: 'Online Admission',
+              page: '/student-information/online-admission'
+            },
+            {
+              title: 'Student Categories',
+              page: '/student-information/student-categories'
+            },
+            {
+              title: 'Student House',
+              page: '/student-information/student-house'
+            },
+            {
+              title: 'Disable Reason',
+              page: '/student-information/disable-reason'
+            },
+            {
+              title: 'Bulk Delete',
+              page: '/student-information/bulk-delete'
+            },
+            
+          ]
+        },
+
+        
 
         // {section: 'Components'},
         // {

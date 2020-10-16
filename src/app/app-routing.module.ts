@@ -40,6 +40,10 @@ const routes: Routes = [
           loadChildren: () => import('./views/pages/front-office/front-office.module').then(m => m.FrontOfficeModule),
         },
 
+        {
+          path: 'student-information',
+          loadChildren: () => import('./views/pages/student-information/student-information.module').then(m => m.StudentInformationModule),
+        },
       
       {
         path: 'user-management',

@@ -44,10 +44,33 @@ export class PageConfig {
         }
       },
 
-
     },
+    'student-information': {
 
-
+      'student-details': {
+        page: { title: 'Student Details List', desc: '' }
+      },
+      'student-details-edit': {
+        page: { title: 'Student Details Edit', desc: '' }
+      },
+      'online-admission': {
+        page: { title: 'Online Admission', desc: '' }
+      },
+      'student-categories': {
+        page: { title: 'Student Categories', desc: '' }
+      },
+      'student-house': {
+        page: { title: 'Student House', desc: '' }
+      },
+      'disable-reason': {
+        page: { title: 'Disable Reason', desc: '' }
+      },
+      'bulk-delete': {
+        page: { title: 'Bulk Delete', desc: '' }
+      },
+      
+      
+    },
     ecommerce: {
       customers: {
         page: { title: 'Customers', desc: '' }
