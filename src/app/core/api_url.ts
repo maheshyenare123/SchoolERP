@@ -25,7 +25,12 @@ export class Constants {
         Reason : '',
      }
 
-     
+     public static Academics: any = {
+      Section:'api/disableReason',
+      Is_Active : '',
+      section : '',
+   }
+
 
     
 }
