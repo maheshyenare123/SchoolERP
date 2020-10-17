@@ -22,6 +22,7 @@ import { StudentCategoriesComponent } from './student-categories/student-categor
 import { StudentHouseComponent } from './student-house/student-house.component';
 import { DisableReasonComponent } from './disable-reason/disable-reason.component';
 import { BulkDeleteComponent } from './bulk-delete/bulk-delete.component';
+import { DisabledStudentComponent } from './disabled-student/disabled-student.component';
 
 const routes: Routes = [
 	{
@@ -45,7 +46,15 @@ const routes: Routes = [
       {
 				path: 'online-admission',
 				component: OnlineAdmissionListComponent
-      },
+	  },
+	  {
+		path: 'disabled-student',
+		component: DisabledStudentComponent
+	},
+	{
+		path: 'bulk-delete',
+		component: BulkDeleteComponent
+	},
       {
 				path: 'student-categories',
 				component: StudentCategoriesComponent
@@ -58,10 +67,7 @@ const routes: Routes = [
 		path: 'disable-reason',
 		component: DisableReasonComponent
 	},
-	{
-		path: 'bulk-delete',
-		component: BulkDeleteComponent
-	},
+	
     ]
   }
 ]
@@ -76,6 +82,7 @@ const routes: Routes = [
     StudentHouseComponent,
     DisableReasonComponent,
     BulkDeleteComponent,
+    DisabledStudentComponent,
 
   ],
   imports: [
