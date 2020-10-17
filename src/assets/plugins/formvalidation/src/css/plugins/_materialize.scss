@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .fv-plugins-materialize {
     .fv-plugins-icon {
         height: 42px;   /* Same as height of input */
@@ -23,30 +22,4 @@
             color: #4CAF50;
         }
     }
-=======
-.fv-plugins-materialize {
-    .fv-plugins-icon {
-        height: 42px;   /* Same as height of input */
-        line-height: 42px;
-        width: 42px;
-    }
-
-    .fv-plugins-icon-check {
-        top: -10px;
-    }
-
-    .fv-invalid-row {
-        .helper-text,
-        .fv-plugins-icon {
-            color: #F44336;
-        }
-    }
-
-    .fv-valid-row {
-        .helper-text,
-        .fv-plugins-icon {
-            color: #4CAF50;
-        }
-    }
->>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b
 }
