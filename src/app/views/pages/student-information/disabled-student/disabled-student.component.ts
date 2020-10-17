@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { BulkDeletesDataSource, StudentDtoModel, BulkDeletesPageRequested, OneBulkDeleteDeleted, ManyBulkDeletesDeleted } from 'src/app/core/student-information';
+import { DisabledStudentsDataSource, StudentDtoModel, DisabledStudentsPageRequested, OneDisabledStudentDeleted, ManyDisabledStudentsDeleted } from 'src/app/core/student-information';
 import { QueryParamsModel, LayoutUtilsService, MessageType } from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -11,19 +11,19 @@ import { SubheaderService } from 'src/app/core/_base/layout';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
-// import { BulkDeleteEditDialogComponent } from '../admission-enquiry-edit/admission-enquiry-edit.dialog.component';
+// import { DisabledStudentEditDialogComponent } from '../admission-enquiry-edit/admission-enquiry-edit.dialog.component';
 
 
 @Component({
-  selector: 'kt-bulk-delete',
-  templateUrl: './bulk-delete.component.html',
-  styleUrls: ['./bulk-delete.component.scss']
+  selector: 'kt-disabled-student',
+  templateUrl: './disabled-student.component.html',
+  styleUrls: ['./disabled-student.component.scss']
 })
-export class BulkDeleteComponent implements OnInit {
+export class DisabledStudentComponent implements OnInit {
 
- // Table fields
-dataSource: BulkDeletesDataSource;
-displayedColumns = ['select','admissionNo', 'name', 'class', 'fatherName', 'dob', 'gender', 'category', 'contact',  'enrolled', 'actions'];
+    // Table fields
+dataSource: DisabledStudentsDataSource;
+displayedColumns = ['admissionNo', 'name', 'class', 'fatherName', 'disableReason', 'gender', 'contact', 'actions'];
 @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 @ViewChild('sort1', {static: true}) sort: MatSort;
 // Filter fields
@@ -33,7 +33,7 @@ filterCondition = '';
 lastQuery: QueryParamsModel;
 // Selection
 selection = new SelectionModel<StudentDtoModel>(true, []);
-bulkDeletesResult: StudentDtoModel[] = [];
+disabledStudentsResult: StudentDtoModel[] = [];
 private subscriptions: Subscription[] = [];
 
 
@@ -51,7 +51,7 @@ constructor(
  * On init
  */
 ngOnInit() {
- this.getAllBulkDeleteList()
+ this.getAllDisabledStudentList()
  // If the user changes the sort order, reset back to the first page.
  const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
  this.subscriptions.push(sortSubscription);
@@ -61,7 +61,7 @@ ngOnInit() {
  - when a sort event occurs => this.sort.sortChange
  **/
  const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-   tap(() => this.loadBulkDeletesList())
+   tap(() => this.loadDisabledStudentsList())
  )
  .subscribe();
  this.subscriptions.push(paginatorSubscriptions);
@@ -73,31 +73,31 @@ ngOnInit() {
    distinctUntilChanged(), // This operator will eliminate duplicate values
    tap(() => {
      this.paginator.pageIndex = 0;
-     this.loadBulkDeletesList();
+     this.loadDisabledStudentsList();
    })
  )
  .subscribe();
  this.subscriptions.push(searchSubscription);
 
  // Init DataSource
- this.dataSource = new BulkDeletesDataSource(this.store);
+ this.dataSource = new DisabledStudentsDataSource(this.store);
  const entitiesSubscription = this.dataSource.entitySubject.pipe(
    skip(1),
    distinctUntilChanged()
  ).subscribe(res => {
-   this.bulkDeletesResult = res;
+   this.disabledStudentsResult = res;
  });
  this.subscriptions.push(entitiesSubscription);
  // First load
  of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-   this.loadBulkDeletesList();
+   this.loadDisabledStudentsList();
  }); // Remove this line, just loading imitation
 }
-getAllBulkDeleteList() {
+getAllDisabledStudentList() {
   // this.admissionService.getList().subscribe((res: any) => {
   //   var data = res['data'];
   //   var content = data['content'];
-  //   this.bulkDeletesResult = content.map((key) => ({ ...key }));
+  //   this.disabledStudentsResult = content.map((key) => ({ ...key }));
   
   // }, (err) => {
   //   console.log('Error while fetching data');
@@ -115,7 +115,7 @@ ngOnDestroy() {
 /**
  * Load Products List
  */
-loadBulkDeletesList() {
+loadDisabledStudentsList() {
   this.selection.clear();
   const queryParams = new QueryParamsModel(
     this.filterConfiguration(),
@@ -125,7 +125,7 @@ loadBulkDeletesList() {
     this.paginator.pageSize
   );
   // Call request from server
-  this.store.dispatch(new BulkDeletesPageRequested({ page: queryParams }));
+  this.store.dispatch(new DisabledStudentsPageRequested({ page: queryParams }));
  
   this.selection.clear();
 }
@@ -184,7 +184,7 @@ restoreState(queryParams: QueryParamsModel, id: number) {
  *
  * @param _item: StudentDtoModel
  */
-deleteBulkDelete(_item: StudentDtoModel) {
+deleteDisabledStudent(_item: StudentDtoModel) {
   const _title = 'Product Delete';
   const _description = 'Are you sure to permanently delete this product?';
   const _waitDesciption = 'Product is deleting...';
@@ -196,7 +196,7 @@ deleteBulkDelete(_item: StudentDtoModel) {
       return;
     }
 //delete api call
-    this.store.dispatch(new OneBulkDeleteDeleted({ id: _item.id }));
+    this.store.dispatch(new OneDisabledStudentDeleted({ id: _item.id }));
     this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
   });
 }
@@ -223,7 +223,7 @@ deleteProducts() {
     }
 
     //many product deleted
-    this.store.dispatch(new ManyBulkDeletesDeleted({ ids: idsForDeletion }));
+    this.store.dispatch(new ManyDisabledStudentsDeleted({ ids: idsForDeletion }));
     this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
     this.selection.clear();
   });
@@ -289,29 +289,29 @@ deleteProducts() {
 /**
 	 * Show add student dialog
 	 */
-	addBulkDelete() {
-		const newBulkDelete = new StudentDtoModel();
-		newBulkDelete.clear(); // Set all defaults fields
-		this.editBulkDelete(newBulkDelete);
+	addDisabledStudent() {
+		const newDisabledStudent = new StudentDtoModel();
+		newDisabledStudent.clear(); // Set all defaults fields
+		this.editDisabledStudent(newDisabledStudent);
 	}
 
 	/**
-	 * Show Edit BulkDelete dialog and save after success close result
-	 * @param bulkDelete: StudentDtoModel
+	 * Show Edit DisabledStudent dialog and save after success close result
+	 * @param disabledStudent: StudentDtoModel
 	 */
-	editBulkDelete(bulkDelete: StudentDtoModel) {
+	editDisabledStudent(disabledStudent: StudentDtoModel) {
 		let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
-    const _saveMessage = bulkDelete.id > 0 ? 'Edit product' : 'Create product';
+    const _saveMessage = disabledStudent.id > 0 ? 'Edit product' : 'Create product';
     
-		const _messageType = bulkDelete.id > 0 ? MessageType.Update : MessageType.Create;
-		// const dialogRef = this.dialog.open(BulkDeleteEditDialogComponent, { data: { bulkDelete } });
+		const _messageType = disabledStudent.id > 0 ? MessageType.Update : MessageType.Create;
+		// const dialogRef = this.dialog.open(DisabledStudentEditDialogComponent, { data: { disabledStudent } });
 		// dialogRef.afterClosed().subscribe(res => {
 		// 	if (!res) {
 		// 		return;
 		// 	}
 
 		// 	this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-		// 	this.loadBulkDeletesList();
+		// 	this.loadDisabledStudentsList();
 		// });
 	}
 
@@ -320,7 +320,7 @@ deleteProducts() {
  */
 isAllSelected() {
   const numSelected = this.selection.selected.length;
-  const numRows = this.bulkDeletesResult.length;
+  const numRows = this.disabledStudentsResult.length;
   return numSelected === numRows;
 }
 
@@ -331,7 +331,7 @@ masterToggle() {
   if (this.isAllSelected()) {
     this.selection.clear();
   } else {
-    this.bulkDeletesResult.forEach(row => this.selection.select(row));
+    this.disabledStudentsResult.forEach(row => this.selection.select(row));
   }
 }
 
@@ -396,7 +396,6 @@ getItemCssClassByCondition(condition: number = 0): string {
   return '';
 }
 }
-
 
 
 

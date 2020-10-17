@@ -5,6 +5,8 @@ export { CategoryDtoModel } from './_models/categoryDto.model';
 export { StudentDtoModel } from './_models/studentDto.model';
 
 //datasource
+export {BulkDeletesDataSource} from './_data-sources/bulk-delete.datasource';
+export {DisabledStudentsDataSource} from './_data-sources/disabled-student.datasource';
 export {DisableReasonsDataSource} from './_data-sources/disable-reason.datasource';
 export {OnlineAdmissionsDataSource} from './_data-sources/online-admission.datasource';
 export {CategorysDataSource} from './_data-sources/student-categories.datasource';
@@ -13,6 +15,8 @@ export {StudentHousesDataSource} from './_data-sources/student-house.datasource'
 export {StudentsDataSource} from './_data-sources/student.datasource';
 
 // Effects
+export {BulkDeleteEffects} from './_effects/bulk-delete.effects';
+export {DisabledStudentEffects} from './_effects/disabled-student.effects';
 export { DisableReasonEffects } from './_effects/disable-reason.effects';
 export { OnlineAdmissionEffects } from './_effects/online-admission.effects';
 export { CategoryEffects } from './_effects/student-categories.effects';
@@ -23,6 +27,36 @@ export { StudentEffects } from './_effects/student.effects';
 
 // Actions
 // Customer Actions =>
+export {
+    BulkDeleteActionToggleLoading,
+    BulkDeleteActionTypes,
+    BulkDeleteActions,
+    BulkDeleteCreated,
+    BulkDeleteOnServerCreated,
+    BulkDeleteUpdated,
+    BulkDeletesPageCancelled,
+    BulkDeletesPageLoaded,
+    BulkDeletesPageRequested,
+    BulkDeletesPageToggleLoading,
+    BulkDeletesStatusUpdated,
+     ManyBulkDeletesDeleted,
+     OneBulkDeleteDeleted
+ } from './_actions/bulk-delete.actions';
+ export {
+    DisabledStudentActionToggleLoading,
+    DisabledStudentActionTypes,
+    DisabledStudentActions,
+    DisabledStudentCreated,
+    DisabledStudentOnServerCreated,
+    DisabledStudentUpdated,
+    DisabledStudentsPageCancelled,
+    DisabledStudentsPageLoaded,
+    DisabledStudentsPageRequested,
+    DisabledStudentsPageToggleLoading,
+    DisabledStudentsStatusUpdated,
+     ManyDisabledStudentsDeleted,
+     OneDisabledStudentDeleted
+ } from './_actions/disabled-student.actions';
 export {
    DisableReasonActionToggleLoading,
    DisableReasonActionTypes,
@@ -123,6 +157,8 @@ export {
 } from './_actions/student.actions';
 
 // Reducers
+export {bulkDeletesReducer } from './_reducers/bulk-delete.reducers';
+export {disabledStudentsReducer} from './_reducers/disabled-student.reducers';
 export {disableReasonsReducer } from './_reducers/disable-reason.reducers';
 export {onlineAdmissionsReducer} from './_reducers/online-admission.reducers';
 export {categorysReducer} from './_reducers/student-categories.reducers';
@@ -132,6 +168,26 @@ export {studentsReducer} from './_reducers/student.reducers';
 
 
 // Selectors
+export {
+    selectBulkDeleteById,
+    selectBulkDeletesActionLoading,
+    selectBulkDeletesInStore,
+    selectBulkDeletesPageLoading,
+    selectBulkDeletesShowInitWaitingMessage,
+    selectBulkDeletesState,
+    selectLastCreatedBulkDeleteId
+} from './_selectors/bulk-delete.selectors';
+
+export {
+    selectDisabledStudentById,
+    selectDisabledStudentsActionLoading,
+    selectDisabledStudentsInStore,
+    selectDisabledStudentsPageLoading,
+    selectDisabledStudentsShowInitWaitingMessage,
+    selectDisabledStudentsState,
+    selectLastCreatedDisabledStudentId
+} from './_selectors/disabled-student.selectors';
+
 export {
     selectDisableReasonById,
     selectDisableReasonsActionLoading,
@@ -195,6 +251,8 @@ export {
 
 
 // Services
+export { BulkDeleteService } from './_services/bulk-delete.service';
+export { DisabledStudentService } from './_services/disabled-student.service';
 export { DisableReasonService } from './_services/disable-reason.service';
 export { OnlineAdmissionService } from './_services/online-admission.service';
 export { CategoryService } from './_services/student-categories.service';
