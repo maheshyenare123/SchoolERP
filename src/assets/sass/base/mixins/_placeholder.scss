@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //
 // Input placeholder color
 //
@@ -17,3 +18,24 @@
     }
     // Safari and Chrome
 }
+=======
+//
+// Input placeholder color
+//
+
+@mixin placeholder($color) {
+    &::-moz-placeholder {
+        color: $color;
+        opacity: 1;
+    }
+    // See https://github.com/twbs/bootstrap/pull/11526
+    &:-ms-input-placeholder {
+        color: $color;
+    }
+    // Internet Explorer 10+
+    &::-webkit-input-placeholder {
+        color: $color;
+    }
+    // Safari and Chrome
+}
+>>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b

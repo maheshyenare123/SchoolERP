@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //
 // Text Stroke
 //
@@ -35,3 +36,42 @@
 	    }
     }
 }
+=======
+//
+// Text Stroke
+//
+
+.strikethrough {
+    display: block;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+
+    span {
+        position: relative;
+        display: inline-block;
+		color: $text-muted;
+		font-weight: 500;
+
+		&:before,
+	    &:after {
+	        content: "";
+	        position: absolute;
+	        top: 50%;
+	        width: 9999px;
+	        height: 1px;
+	        background: $gray-200;
+	    }
+
+	    &:before {
+	        right: 100%;
+	        margin-right: 15px;
+	    }
+
+	    &:after {
+	        left: 100%;
+	        margin-left: 15px;
+	    }
+    }
+}
+>>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b

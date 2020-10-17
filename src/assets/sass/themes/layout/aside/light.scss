@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //
 // Aside light theme
 //
@@ -20,8 +21,27 @@
 
 // Build aside menu theme
 @include menu-ver-build-theme($aside-menu-config, light);
+=======
 //
 // Aside light theme
 //
 
 
+// Initialization of global variables, mixins and functions
+@import "../../../init";
+
+// Base
+.aside {
+	background-color: get($layout-themes, light);
+	box-shadow: 0px 0px 28px 0px rgba(82, 63, 105, 0.08);
+
+	// Aside Menu
+	.aside-menu {
+		// Scrollbar
+		@include perfect-scrollbar-theme(#e0e2f0);
+	}
+}
+
+// Build aside menu theme
+@include menu-ver-build-theme($aside-menu-config, light);
+>>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //
 // Tooltip Mixin
 //
@@ -32,3 +33,39 @@
         }
     }
 }
+=======
+//
+// Tooltip Mixin
+//
+
+@mixin tooltip-theme($color, $bg-color) {
+    .tooltip-inner {
+        color: $color;
+        background-color: $bg-color;
+    }
+
+    &.bs-tooltip-top {
+        .arrow::before {
+            border-top-color: $bg-color;
+        }
+    }
+
+    &.bs-tooltip-right {
+        .arrow::before {
+            border-right-color: #{$bg-color}#{'/*rtl:ignore*/'};
+        }
+    }
+
+    &.bs-tooltip-bottom {
+        .arrow::before {
+            border-bottom-color: $bg-color;
+        }
+    }
+
+    &.bs-tooltip-left {
+        .arrow::before {
+            border-left-color: $bg-color#{'/*rtl:ignore*/'};
+        }
+    }
+}
+>>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b

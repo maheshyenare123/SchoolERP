@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //
 // Error 6
 //
@@ -18,3 +19,25 @@
 		}
 	}
 }
+=======
+//
+// Error 6
+//
+
+// Initialization of global variables, mixins and functions
+@import "../../init";
+
+.error.error-6 {
+	.error-title {
+		font-size: 5rem !important;
+	}
+}
+
+@include media-breakpoint-up(md) {
+	.error.error-6 {
+		.error-title {
+			font-size: 10rem !important;
+		}
+	}
+}
+>>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b

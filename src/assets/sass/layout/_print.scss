@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //
 // Print Mode
 //
@@ -30,3 +31,37 @@
         }
     }
 }
+=======
+//
+// Print Mode
+//
+
+@media print {
+    .print-content-only {
+        padding: 0 !important;
+        background: none !important;
+
+        .wrapper,
+        .page,
+        .content,
+        .container,
+        .container-fluid {
+            background: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .aside,
+        .sidebar,
+        .sticky-toolbar,
+        .scrolltop,
+        .header,
+        .header-mobile,
+        .footer,
+        .subheader,
+        .offcanvas {
+            display: none !important;
+        }
+    }
+}
+>>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b

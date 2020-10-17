@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //
 // BlockUI
 //
@@ -32,3 +33,39 @@
         }
     }
 }
+=======
+//
+// BlockUI
+//
+
+
+
+
+// Base
+.blockui {
+    background: $white;
+    box-shadow: $dropdown-box-shadow;
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    &.blockui-noshadow {
+        box-shadow: none;
+    }
+
+    @include border-radius($border-radius);
+
+    > span {
+        color: $dark-75;
+        padding: 0.75rem 1.2rem;
+        font-size: 1rem;
+        font-weight: 400;
+        flex-wrap: nowrap;
+
+        > .loader,
+        > .spinner {
+            margin-right: 1.25rem;
+        }
+    }
+}
+>>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b
