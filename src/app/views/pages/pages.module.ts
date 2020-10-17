@@ -14,7 +14,6 @@ import { UserManagementModule } from './user-management/user-management.module';
 import {FrontOfficeModule} from './front-office/front-office.module'
 import { MaterialModule} from './material/material.module';
 
-
 @NgModule({
   declarations: [],
   exports: [],

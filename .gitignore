@@ -45,10 +45,6 @@ testem.log
 /e2e/*.js
 /e2e/*.map
 
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 7924ad5... Merge branch 'main' of https://github.com/ashwini201994/SchoolERP into pr/1
 # System Files
 .DS_Store
 Thumbs.db
