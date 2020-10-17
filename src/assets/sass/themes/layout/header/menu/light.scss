@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 //
 // Header menu light theme
 //
@@ -11,17 +10,3 @@
 
 // Build Mobile Header Menu Theme
 @include menu-ver-build-theme(get($header-menu-config, tablet-and-mobile), light);
-=======
-//
-// Header menu light theme
-//
-
-// Initialization of global variables, mixins and functions
-@import "../../../../init";
-
-// Build Desktop Header Menu Theme
-@include menu-hor-build-theme(get($header-menu-config, desktop), light);
-
-// Build Mobile Header Menu Theme
-@include menu-ver-build-theme(get($header-menu-config, tablet-and-mobile), light);
->>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b

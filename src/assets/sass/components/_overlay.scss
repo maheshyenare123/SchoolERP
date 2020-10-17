@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 //
 // Demo
 //
@@ -37,43 +36,3 @@
         cursor: wait;
     }
 }
-=======
-//
-// Demo
-//
-
-
-.overlay  {
-    position: relative;
-
-    .overlay-wrapper {
-
-    }
-
-    .overlay-layer {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: rgba($black, 0.05);
-        transition: all 0.3s ease;
-        opacity: 0;
-    }
-
-    &.overlay-block,
-    &:hover {
-        .overlay-layer {
-            transition: all 0.3s ease;
-            opacity: 1;
-        }
-    }
-
-    &.overlay-block {
-        cursor: wait;
-    }
-}
->>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b

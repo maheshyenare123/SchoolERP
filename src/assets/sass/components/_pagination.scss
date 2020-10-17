@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 //
 // Pagination
 //
@@ -23,29 +22,3 @@
 		}
 	}
 }
-=======
-//
-// Pagination
-//
-
-.pagination {
-	flex:1;
-	display:flex;
-	justify-content: center;
-
-	.page-link {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		transition: $transition-link;
-
-		&.active,
-		&:hover,
-		&:focus {
-			.page-link{
-				transition: $transition-link;
-			}
-		}
-	}
-}
->>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 //
 // Sticky Toolbar
 //
@@ -21,27 +20,3 @@
     @include border-top-left-radius($border-radius);
     @include border-bottom-left-radius($border-radius);
 }
-=======
-//
-// Sticky Toolbar
-//
-
-.sticky-toolbar {
-    width: 46px;
-    position: fixed;
-    top: 30%;
-    right: 0;
-    list-style: none;
-    margin: 0;
-    z-index: get($sticky-toolbar-config, z-index);
-    background: #ffffff;
-    box-shadow: $dropdown-box-shadow;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-
-    @include border-top-left-radius($border-radius);
-    @include border-bottom-left-radius($border-radius);
-}
->>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b
