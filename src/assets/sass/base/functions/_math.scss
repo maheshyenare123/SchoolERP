@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 //
 // Math
 //
@@ -14,20 +13,3 @@
 
     @return $x1;
 }
-=======
-//
-// Math
-//
-
-@function sqrt($r) {
-    $x0: 1;
-    $x1: $x0;
-
-    @for $i from 1 through 10 {
-        $x1: $x0 - ($x0 * $x0 - abs($r)) / (2 * $x0);
-        $x0: $x1;
-    }
-
-    @return $x1;
-}
->>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 //
 // Bootstrap extended functions
 //
@@ -22,28 +21,3 @@
 @function theme-shadow-color($key: "primary") {
     @return get($theme-shadow-colors, $key);
 }
-=======
-//
-// Bootstrap extended functions
-//
-
-@function theme-inverse-color($key: "primary") {
-    @return get($theme-inverse-colors, $key);
-}
-
-@function theme-outline-inverse-color($key: "primary") {
-    @return get($theme-outline-inverse-colors, $key);
-}
-
-@function theme-hover-color($key: "primary") {
-    @return get($theme-hover-colors, $key);
-}
-
-@function theme-light-color($key: "primary") {
-    @return get($theme-light-colors, $key);
-}
-
-@function theme-shadow-color($key: "primary") {
-    @return get($theme-shadow-colors, $key);
-}
->>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b
