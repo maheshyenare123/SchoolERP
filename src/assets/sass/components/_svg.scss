@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //
 // SVG
 //
@@ -15,3 +16,22 @@
         }
     }
 }
+=======
+//
+// SVG
+//
+
+
+// Base
+.svg {
+    @each $name, $color in $theme-text-colors  {
+        &.svg-fill-#{$name} {
+            fill: $color !important;
+        }
+
+        &.svg-fill-light-#{$name} {
+            fill: theme-light-color($name) !important;
+        }
+    }
+}
+>>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b

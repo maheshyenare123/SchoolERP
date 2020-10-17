@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //
 // Bootstrap Session Timeout
 //
@@ -16,3 +17,23 @@
         }
     }
 }
+=======
+//
+// Bootstrap Session Timeout
+//
+
+#session-timeout-dialog {
+    .modal-header {
+        .close {
+            position: absolute;
+            right: 25px;
+            font-size: 0;
+            top: 1.75rem;
+        }
+
+        .modal-title {
+            flex: 1 auto;
+        }
+    }
+}
+>>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b

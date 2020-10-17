@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //
 // Bootstrap Maxlength
 //
@@ -14,3 +15,21 @@
         z-index: 1060 !important;
     }
 }
+=======
+//
+// Bootstrap Maxlength
+//
+
+
+.bootstrap-maxlength {
+    z-index: 1040 !important;
+
+    &.kt-badge {
+        display: inline-flex !important;
+    }
+
+    .modal & {
+        z-index: 1060 !important;
+    }
+}
+>>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b

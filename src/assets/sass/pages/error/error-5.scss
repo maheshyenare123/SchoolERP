@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //
 // Error 5
 //
@@ -18,3 +19,25 @@
 		}
 	}
 }
+=======
+//
+// Error 5
+//
+
+// Initialization of global variables, mixins and functions
+@import "../../init";
+
+.error.error-5 {
+	.error-title {
+		font-size: 7rem !important;
+	}
+}
+
+@include media-breakpoint-up(md) {
+	.error.error-5 {
+		.error-title {
+			font-size: 14rem !important;
+		}
+	}
+}
+>>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b

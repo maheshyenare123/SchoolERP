@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //
 // Mixins
 //
@@ -19,3 +20,26 @@
     "mixins/svg-icon",
     "mixins/navi",
     "mixins/label";
+=======
+//
+// Mixins
+//
+
+// Include mixins
+@import
+    "mixins/tooltip",
+    "mixins/buttons",
+    "mixins/burger-icon",
+    "mixins/checkbox",
+    "mixins/radio",
+    "mixins/switch",
+    "mixins/ki",
+    "mixins/symbol",
+    "mixins/menu-horizontal",
+    "mixins/menu-vertical",
+    "mixins/offcanvas",
+    "mixins/spinner",
+    "mixins/svg-icon",
+    "mixins/navi",
+    "mixins/label";
+>>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b

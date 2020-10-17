@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //
 // Label
 //
@@ -19,3 +20,26 @@
     height: $size;
     width: $size;
 }
+=======
+//
+// Label
+//
+
+@mixin label-size($size, $font-size) {
+    height: $size;
+	width: $size;
+    font-size: $font-size;
+
+    &.label-inline {
+		width: auto;
+    }
+}
+
+@mixin label-dot-size($size) {
+    line-height: $size;
+    min-height: $size;
+    min-width: $size;
+    height: $size;
+    width: $size;
+}
+>>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b
