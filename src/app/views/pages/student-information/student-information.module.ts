@@ -26,7 +26,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { TranslateModule } from '@ngx-translate/core';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { disableReasonsReducer, DisableReasonEffects, studentDetailsReducer, studentsReducer, StudentEffects, CategoryEffects, studentHousesReducer, StudentHouseEffects, categorysReducer, DisableReasonService, StudentService, StudentHouseService, CategoryService } from 'src/app/core/student-information';
+import { disableReasonsReducer, DisableReasonEffects, studentDetailsReducer, studentsReducer, StudentEffects, CategoryEffects, studentHousesReducer, StudentHouseEffects, categorysReducer, DisableReasonService, StudentService, StudentHouseService, CategoryService, onlineAdmissionsReducer, OnlineAdmissionEffects } from 'src/app/core/student-information';
 
 const routes: Routes = [
 	{
@@ -102,12 +102,14 @@ const routes: Routes = [
 		//state manage
 		StoreModule.forFeature('disableReasons', disableReasonsReducer),
 		EffectsModule.forFeature([DisableReasonEffects]),
-		StoreModule.forFeature('stduents', studentsReducer),
+		StoreModule.forFeature('students', studentsReducer),
 		EffectsModule.forFeature([StudentEffects]),
 		StoreModule.forFeature('categorys', categorysReducer),
 		EffectsModule.forFeature([CategoryEffects]),
 		StoreModule.forFeature('studentHouses', studentHousesReducer),
 		EffectsModule.forFeature([StudentHouseEffects]),
+		StoreModule.forFeature('onlineAdmissions', onlineAdmissionsReducer),
+		EffectsModule.forFeature([OnlineAdmissionEffects]),
 
 	], providers: [
 		NgbAlertConfig,

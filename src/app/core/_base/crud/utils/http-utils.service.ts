@@ -27,8 +27,10 @@ export class HttpUtilsService {
    */
   getHTTPHeaders(): HttpHeaders {
     let result = new HttpHeaders();
+const accessToken=localStorage.getItem('token');
+
     result = result.set('Content-Type', 'application/json');
-    result = result.set('Authorization', 'Bearer ' +Constants.URL.accessToken);
+    result = result.set('Authorization', 'Bearer ' +accessToken);
     result = result.set('sessionid', Constants.URL.sessionId);
     return result;
   }

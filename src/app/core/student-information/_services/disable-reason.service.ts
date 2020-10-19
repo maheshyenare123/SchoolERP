@@ -39,7 +39,7 @@ export class DisableReasonService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
-    const url =Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason + '/find';
+    const url =Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       params: httpParams
