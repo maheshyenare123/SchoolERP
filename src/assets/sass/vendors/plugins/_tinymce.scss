@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 //
 // TinyMCE
 //
@@ -13,19 +12,3 @@
     @include border-radius($border-radius !important);
     height: 500px !important;
 }
-=======
-//
-// TinyMCE
-//
-
-
-// Base
-.tox-target{
-    display: none;
-}
-
-.tox-tinymce{
-    @include border-radius($border-radius !important);
-    height: 500px !important;
-}
->>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b

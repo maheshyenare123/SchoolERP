@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .fv-plugins-framework {
     // Hide the clear field icon on IE
     input::-ms-clear,
@@ -7,14 +6,4 @@
         height: 0;
         width: 0;
     }
-=======
-.fv-plugins-framework {
-    // Hide the clear field icon on IE
-    input::-ms-clear,
-    textarea::-ms-clear {
-        display: none;
-        height: 0;
-        width: 0;
-    }
->>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b
 }

@@ -45,10 +45,6 @@ testem.log
 /e2e/*.js
 /e2e/*.map
 
-<<<<<<< HEAD
-=======
-
->>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b
 
 # System Files
 .DS_Store

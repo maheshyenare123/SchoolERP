@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 //
 // valueif
 //
@@ -12,18 +11,3 @@
         @return null;
     }
 }
-=======
-//
-// valueif
-//
-
-@function valueif($check, $trueValue, $falseValue: null) {
-    @if $check {
-        @return $trueValue;
-    } @else if $falseValue != null {
-        @return $falseValue;
-    } @else {
-        @return null;
-    }
-}
->>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .fv-plugins-spectre {
   .input-group .fv-plugins-icon {
     // Need to have a bigger index than `.input-group .form-input:focus` (which is 1)
@@ -17,23 +16,3 @@
     }
   }
 }
-=======
-.fv-plugins-spectre {
-  .input-group .fv-plugins-icon {
-    // Need to have a bigger index than `.input-group .form-input:focus` (which is 1)
-    z-index: 2;
-  }
-
-  .form-group .fv-plugins-icon-check {
-    right: 6px;
-    top: 10px;
-  }
-
-  &:not(.form-horizontal) {
-    .form-group .fv-plugins-icon-check {
-      right: 6px;
-      top: 45px;
-    }
-  }
-}
->>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b

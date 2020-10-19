@@ -45,10 +45,17 @@ const routes: Routes = [
 				pathMatch: 'full'
 			},
 			{
-				path: 'admissionenqury',
-				component: AdmissionEnquiryListComponent
+				path: 'class-timetable',
+				component: ClassTimetableComponent
       },
-      
+      {
+				path: 'class-timetable',
+				component: ClassTimetableComponent
+      },
+      {
+				path: 'class-timetable',
+				component: ClassTimetableComponent
+      },
 
     
     ]

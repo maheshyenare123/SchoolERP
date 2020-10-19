@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 //
 // Fixes
 //
@@ -14,20 +13,3 @@
     transform: translateZ(0);
     -webkit-transform-style: preserve-3d;
 }
-=======
-//
-// Fixes
-//
-
-
-@mixin fix-fixed-position-lags() {
-	// webkit hack for smooth font view on fixed positioned elements
-	-webkit-backface-visibility:hidden;
-	backface-visibility:hidden;
-}
-
-@mixin fix-animation-lags() {
-    transform: translateZ(0);
-    -webkit-transform-style: preserve-3d;
-}
->>>>>>> d05e719b8d76eea2e2bfb31a974d47e8096a290b
