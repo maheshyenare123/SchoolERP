@@ -8,7 +8,7 @@ import {map, mergeMap, tap} from 'rxjs/operators';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
 // CRUD
-import {QueryResultsModel} from '../../_base/crud';
+import {QueryResultsModel, FindResultsModel} from '../../_base/crud';
 // Services
 import {StudentDetailService} from '../_services/student-detail.service';
 // State
@@ -46,13 +46,16 @@ export class StudentDetailEffects {
     map(response => {
       const result: QueryResultsModel = response[0];
       const lastQuery: QueryParamsModel = response[1];
+      const data : FindResultsModel= result['data'];
       return new StudentDetailsPageLoaded({
-        studentDetails: result.items,
-        totalCount: result.totalCount,
+        studentDetails: data.content,
+        totalCount: data.totalPages,
         page: lastQuery
       });
     })
   );
+  
+  
 
   @Effect()
   deleteStudentDetail$ = this.actions$
@@ -116,7 +119,7 @@ export class StudentDetailEffects {
         this.store.dispatch(this.showActionLoadingDistpatcher);
         return this.studentDetailsService.createStudentDetail(payload.studentDetail).pipe(
           tap(res => {
-            this.store.dispatch(new StudentDetailCreated({studentDetail: res}));
+            this.store.dispatch(new StudentDetailCreated({studentDetail: res['data']}));
           })
         );
       }),

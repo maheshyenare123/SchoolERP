@@ -17,16 +17,18 @@ export class CategoryService {
   createCategory(category: CategoryDtoModel): Observable<CategoryDtoModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<CategoryDtoModel>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason, category, {headers: httpHeaders});
+    return this.http.post<CategoryDtoModel>(Constants.URL.HOST_URL+Constants.Student_Information.Student_Category, category, {headers: httpHeaders});
   }
 
   // READ
   getAllCategorys(): Observable<CategoryDtoModel[]> {
-    return this.http.get<CategoryDtoModel[]>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason);
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.get<CategoryDtoModel[]>(Constants.URL.HOST_URL+Constants.Student_Information.Student_Category,{headers: httpHeaders});
   }
 
   getCategoryById(categoryId: number): Observable<CategoryDtoModel> {
-    return this.http.get<CategoryDtoModel>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason+ `/${categoryId}`);
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.get<CategoryDtoModel>(Constants.URL.HOST_URL+Constants.Student_Information.Student_Category+ `/${categoryId}`,{headers: httpHeaders});
   }
 
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
@@ -37,7 +39,7 @@ export class CategoryService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
-    const url =Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason + '/find';
+    const url =Constants.URL.HOST_URL+Constants.Student_Information.Student_Category + '/find';
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       params: httpParams
@@ -46,8 +48,8 @@ export class CategoryService {
 
   // UPDATE => PUT: update the category on the server
   updateCategory(category: CategoryDtoModel): Observable<any> {
-    const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason, category, {headers: httpHeader});
+    const httpHeaders= this.httpUtils.getHTTPHeaders();
+    return this.http.put(Constants.URL.HOST_URL+Constants.Student_Information.Student_Category+'/'+category.id, category, {headers: httpHeaders});
   }
 
   // UPDATE Status
@@ -57,18 +59,19 @@ export class CategoryService {
       categorysForUpdate: categorys,
       newStatus: status
     };
-    const url = Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason+ '/updateStatus';
+    const url = Constants.URL.HOST_URL+Constants.Student_Information.Student_Category+ '/updateStatus';
     return this.http.put(url, body, {headers: httpHeaders});
   }
 
   // DELETE => delete the category from the server
   deleteCategory(categoryId: number): Observable<CategoryDtoModel> {
-    const url = `${Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason}/${categoryId}`;
-    return this.http.delete<CategoryDtoModel>(url);
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    const url = `${Constants.URL.HOST_URL+Constants.Student_Information.Student_Category}/${categoryId}`;
+    return this.http.delete<CategoryDtoModel>(url, {headers: httpHeaders});
   }
 
   deleteCategorys(ids: number[] = []): Observable<any> {
-    const url = Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason + '/deleteCategorys';
+    const url = Constants.URL.HOST_URL+Constants.Student_Information.Student_Category + '/deleteCategorys';
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const body = {categoryIdsForDelete: ids};
     return this.http.put<QueryResultsModel>(url, body, {headers: httpHeaders});

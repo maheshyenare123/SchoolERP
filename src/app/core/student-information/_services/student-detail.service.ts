@@ -17,16 +17,18 @@ export class StudentDetailService {
   createStudentDetail(studentDetail: StudentDtoModel): Observable<StudentDtoModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<StudentDtoModel>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason, studentDetail, {headers: httpHeaders});
+    return this.http.post<StudentDtoModel>(Constants.URL.HOST_URL+Constants.Student_Information.Student, studentDetail, {headers: httpHeaders});
   }
 
   // READ
   getAllStudentDetails(): Observable<StudentDtoModel[]> {
-    return this.http.get<StudentDtoModel[]>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason);
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.get<StudentDtoModel[]>(Constants.URL.HOST_URL+Constants.Student_Information.Student, {headers: httpHeaders});
   }
 
   getStudentDetailById(studentDetailId: number): Observable<StudentDtoModel> {
-    return this.http.get<StudentDtoModel>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason+ `/${studentDetailId}`);
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.get<StudentDtoModel>(Constants.URL.HOST_URL+Constants.Student_Information.Student+ `/${studentDetailId}`, {headers: httpHeaders});
   }
 
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
@@ -37,7 +39,7 @@ export class StudentDetailService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
-    const url =Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason + '/find';
+    const url =Constants.URL.HOST_URL+Constants.Student_Information.Student + '/find';
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       params: httpParams
@@ -46,8 +48,8 @@ export class StudentDetailService {
 
   // UPDATE => PUT: update the studentDetail on the server
   updateStudentDetail(studentDetail: StudentDtoModel): Observable<any> {
-    const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason, studentDetail, {headers: httpHeader});
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.put(Constants.URL.HOST_URL+Constants.Student_Information.Student+'/'+studentDetail.id, studentDetail, {headers: httpHeaders});
   }
 
   // UPDATE Status
@@ -57,18 +59,19 @@ export class StudentDetailService {
       studentDetailsForUpdate: studentDetails,
       newStatus: status
     };
-    const url = Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason+ '/updateStatus';
+    const url = Constants.URL.HOST_URL+Constants.Student_Information.Student+ '/updateStatus';
     return this.http.put(url, body, {headers: httpHeaders});
   }
 
   // DELETE => delete the studentDetail from the server
   deleteStudentDetail(studentDetailId: number): Observable<StudentDtoModel> {
-    const url = `${Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason}/${studentDetailId}`;
-    return this.http.delete<StudentDtoModel>(url);
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    const url = `${Constants.URL.HOST_URL+Constants.Student_Information.Student}/${studentDetailId}`;
+    return this.http.delete<StudentDtoModel>(url,{headers: httpHeaders});
   }
 
   deleteStudentDetails(ids: number[] = []): Observable<any> {
-    const url = Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason + '/deleteStudentDetails';
+    const url = Constants.URL.HOST_URL+Constants.Student_Information.Student + '/deleteStudentDetails';
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const body = {studentDetailIdsForDelete: ids};
     return this.http.put<QueryResultsModel>(url, body, {headers: httpHeaders});

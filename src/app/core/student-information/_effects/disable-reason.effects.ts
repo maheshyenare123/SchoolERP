@@ -8,7 +8,7 @@ import {map, mergeMap, tap} from 'rxjs/operators';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
 // CRUD
-import {QueryResultsModel} from '../../_base/crud';
+import {QueryResultsModel, FindResultsModel} from '../../_base/crud';
 // Services
 import {DisableReasonService} from '../_services/disable-reason.service';
 // State
@@ -46,13 +46,15 @@ export class DisableReasonEffects {
     map(response => {
       const result: QueryResultsModel = response[0];
       const lastQuery: QueryParamsModel = response[1];
+      const data : FindResultsModel= result['data'];
       return new DisableReasonsPageLoaded({
-        disableReasons: result.items,
-        totalCount: result.totalCount,
+        disableReasons: data.content,
+        totalCount: data.totalPages,
         page: lastQuery
       });
     })
   );
+
 
   @Effect()
   deleteDisableReason$ = this.actions$
@@ -116,7 +118,7 @@ export class DisableReasonEffects {
         this.store.dispatch(this.showActionLoadingDistpatcher);
         return this.disableReasonsService.createDisableReason(payload.disableReason).pipe(
           tap(res => {
-            this.store.dispatch(new DisableReasonCreated({disableReason: res}));
+            this.store.dispatch(new DisableReasonCreated({disableReason: res['data']}));
           })
         );
       }),
