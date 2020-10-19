@@ -26,6 +26,11 @@ export class Constants {
      }
 
      
-
+     public static Academics: any = {
+      Class:'class',
+      Is_Active : '',
+      Classes : '',
+      Section : '',
+   }
     
 }

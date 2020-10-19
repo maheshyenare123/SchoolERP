@@ -45,16 +45,20 @@ const routes: Routes = [
 				pathMatch: 'full'
 			},
 			{
-				path: 'class-timetable',
-				component: ClassTimetableComponent
+				path: 'class',
+				component: ClassComponent
       },
       {
-				path: 'class-timetable',
-				component: ClassTimetableComponent
+				path: 'section',
+				component: SectionComponent
       },
       {
-				path: 'class-timetable',
-				component: ClassTimetableComponent
+				path: 'subject',
+				component: SubjectComponent
+      },
+      {
+				path: 'subject-group',
+				component: SubjectGroupComponent
       },
 
     

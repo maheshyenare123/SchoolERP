@@ -172,7 +172,30 @@ export class MenuConfig {
             
           ]
         },
-
+        {
+          title: 'Academics',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+            {
+              title: 'Class',
+              page: '/academics/class'
+            },
+            {
+              title: 'Section',
+              page: '/academics/section'
+            },
+            {
+              title: 'Subject',
+              page: '/academics/subject'
+            },
+            {
+              title: 'Subject Group',
+              page: '/academics/subject-group'
+            },
+            
+          ]
+        },
         
 
         // {section: 'Components'},
