@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from "@angular/common/http";
+import { HttpClient,HttpHeaders, HttpParams } from "@angular/common/http";
 import { Constants } from '../../api_url';
 import { HttpUtilsService, QueryResultsModel, QueryParamsModel } from '../../_base/crud';
 import { StudentDtoModel } from '../_models/studentDto.model';
@@ -37,8 +37,18 @@ export class StudentService {
   findStudents(queryParams: QueryParamsModel): Observable<QueryResultsModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
+    // const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
+    // httpParams.set('isActive', 'active')
 
+    const httpParams =new HttpParams()
+      // .set('classId', '')
+      .set('isActive', 'yes')
+      .set('pageNo', queryParams.pageNumber.toString())
+      .set('pageSize', queryParams.pageSize.toString())
+      // .set('sectionId', '')
+      .set('sortBy', 'id');
+
+      // http://yamistha.cloudjiffy.net/api/student?isActive=yes&pageNo=0&pageSize=10&sortBy=id
     const url =Constants.URL.HOST_URL+Constants.Student_Information.Student ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,

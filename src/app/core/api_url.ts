@@ -24,6 +24,9 @@ export class Constants {
       Student_Category:'category',
       Disable_Reason:'disable-reason',
       Student_House:'school-house',
+      Bulk_Delete:'',
+      Disable_Student:'',
+      
 
      }
    

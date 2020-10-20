@@ -237,6 +237,11 @@ prepareDisableReason(): DisableReasonModel {
 	const controls = this.disableReasonForm.controls;
 	const _disableReason = new DisableReasonModel();
 	_disableReason.id = this.disableReason.id;
+	if(_disableReason.id>0){
+		_disableReason.isActive =this.disableReason.isActive;
+	}else{
+		_disableReason.isActive ='yes'; 	
+	}
 	_disableReason.reason = controls.reason.value;
 
 	return _disableReason;
@@ -272,14 +277,16 @@ onSubmit() {
 		this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
 		this.loadDisableReasonList();
 		this.disableReasonForm.reset();
-		this.disableReason.clear();
-		this.createForm();
+		// this.disableReason.clear();
+		// this.createForm();
+		this.addDisableReason();
 
 }
 onCancel(){
 	this.disableReasonForm.reset();
-	this.disableReason.clear();
-	this.createForm();
+	// this.disableReason.clear();
+	// this.createForm();
+	this.addDisableReason();
 }
 /**
  * Update DisableReason

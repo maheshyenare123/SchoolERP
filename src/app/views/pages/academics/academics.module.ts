@@ -74,6 +74,7 @@ const routes: Routes = [
     AssignClassTeacherComponent,
     PromoteStudentComponent,
     SubjectGroupComponent,
+ 
 
 
   ],
