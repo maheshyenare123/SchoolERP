@@ -177,6 +177,11 @@ export class MenuConfig {
           bullet: 'dot',
           icon: 'flaticon-interface-7',
           submenu: [
+            
+            {
+              title: 'Class Timetable',
+              page: '/academics/class-timetable'
+            },
             {
               title: 'Class',
               page: '/academics/class'

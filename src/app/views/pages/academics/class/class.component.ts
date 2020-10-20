@@ -326,7 +326,7 @@ onAlertClose($event) {
 	this.hasFormErrors = false;
 }
 
-sectionChange($event,sectionid){
+sectionChange($event){
 	if($event.target.checked === true){
 		//this.studentClass.section.push()
 

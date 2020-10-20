@@ -72,7 +72,10 @@ export class PageConfig {
       
     },
     'academics': {
-
+      
+      'class-timetable': {
+        page: { title: 'Class Timetable', desc: '' }
+      },
       'class': {
         page: { title: 'Class', desc: '' }
       },

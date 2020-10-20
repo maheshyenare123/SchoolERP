@@ -335,7 +335,7 @@ onAlertClose($event) {
 	this.hasFormErrors = false;
 }
 
-subjectGroupChange($event,subjectGroupid){
+subjectGroupChange($event){
 	if($event.target.checked === true){
 		//this.subjectGroup.subjects.push()
 
