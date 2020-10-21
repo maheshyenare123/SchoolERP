@@ -48,6 +48,14 @@ const routes: Routes = [
 				path: 'class-timetable',
 				component: ClassTimetableListComponent
       },
+      {
+				path: 'teacher-timetable',
+				component: TeacherTimetableComponent
+      },
+      {
+				path: 'assign-class-teacher',
+				component: AssignClassTeacherComponent
+      },
 			{
 				path: 'class',
 				component: ClassComponent
@@ -124,7 +132,7 @@ const routes: Routes = [
         hasBackdrop: true,
         panelClass: 'kt-mat-dialog-container__wrapper',
         height: 'auto',
-        width: '900px'
+        width: '1100px'
       }
     },
 

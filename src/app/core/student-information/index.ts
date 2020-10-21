@@ -251,25 +251,6 @@ export {
     selectStudentsShowInitWaitingMessage,
     selectStudentsState,
 } from './_selectors/student.selectors';
-export {
-    selectBulkDeleteById,
-    selectBulkDeletesActionLoading,
-    selectBulkDeletesInStore,
-    selectBulkDeletesPageLoading,
-    selectBulkDeletesShowInitWaitingMessage,
-    selectBulkDeletesState,
-    selectLastCreatedBulkDeleteId,
-} from './_selectors/bulk-delete.selectors';
-
-export {
-    selectDisabledStudentById,
-   selectDisabledStudentsActionLoading,
-   selectDisabledStudentsInStore,
-   selectDisabledStudentsPageLoading,
-   selectDisabledStudentsShowInitWaitingMessage,
-   selectDisabledStudentsState,
-   selectLastCreatedDisabledStudentId 
-} from './_selectors/disabled-student.selectors';
 
 
 
@@ -282,7 +263,5 @@ export { CategoryService } from './_services/student-categories.service';
 export { StudentDetailService } from './_services/student-detail.service';
 export { StudentHouseService } from './_services/student-house.service';
 export { StudentService } from './_services/student.service';
-export { BulkDeleteService } from './_services/bulk-delete.service';
-export { DisabledStudentService } from './_services/disabled-student.service';
 
 
