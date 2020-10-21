@@ -13,6 +13,10 @@ import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bott
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { MaterialModule } from '../material/material.module';
+import { NgxPermissionsModule } from 'ngx-permissions';
+import { TranslateModule } from '@ngx-translate/core';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 //component
 import { StudentDetailsListComponent } from './student-details/student-details-list/student-details-list.component';
 import { StudentDetailsEditComponent } from './student-details/student-details-edit/student-details-edit.component';
@@ -22,53 +26,61 @@ import { StudentCategoriesComponent } from './student-categories/student-categor
 import { StudentHouseComponent } from './student-house/student-house.component';
 import { DisableReasonComponent } from './disable-reason/disable-reason.component';
 import { BulkDeleteComponent } from './bulk-delete/bulk-delete.component';
+import { DisabledStudentComponent } from './disabled-student/disabled-student.component';
+
+import { disableReasonsReducer, DisableReasonEffects, studentDetailsReducer, studentsReducer, StudentEffects, CategoryEffects, studentHousesReducer, StudentHouseEffects, categorysReducer, DisableReasonService, StudentService, StudentHouseService, CategoryService, onlineAdmissionsReducer, OnlineAdmissionEffects,disabledStudentsReducer,DisabledStudentEffects,bulkDeletesReducer ,BulkDeleteEffects,BulkDeleteService,DisabledStudentService} from '../../../core/student-information';
+
 
 const routes: Routes = [
-	{
-		path: '',
-		component: StudentInformationComponent,
-		children: [
-      {
-				path: '',
-				redirectTo: 'roles',
-				pathMatch: 'full'
+    {
+        path: '',
+        component: StudentInformationComponent,
+        children: [
+            {
+                path: '',
+                redirectTo: 'roles',
+                pathMatch: 'full'
+            },
+            {
+                path: 'student-details',
+                component: StudentDetailsListComponent
+            },
+            {
+                path: 'student-details-edit',
+                component: StudentDetailsEditComponent
+            },
+
+            {
+                path: 'online-admission',
+                component: OnlineAdmissionListComponent
+            },
+            {
+                path: 'student-categories',
+                component: StudentCategoriesComponent
+            },
+            {
+                path: 'student-house',
+                component: StudentHouseComponent
+            },
+            {
+                path: 'disable-reason',
+                component: DisableReasonComponent
+            },
+            {
+                path: 'bulk-delete',
+                component: BulkDeleteComponent
 			},
 			{
-				path: 'student-details',
-				component: StudentDetailsListComponent
-      },
-      {
-				path: 'student-details-edit',
-				component: StudentDetailsEditComponent
-      },
-      
-      {
-				path: 'online-admission',
-				component: OnlineAdmissionListComponent
-      },
-      {
-				path: 'student-categories',
-				component: StudentCategoriesComponent
-      },
-      {
-				path: 'student-house',
-				component: StudentHouseComponent
-	  },
-	  {
-		path: 'disable-reason',
-		component: DisableReasonComponent
-	},
-	{
-		path: 'bulk-delete',
-		component: BulkDeleteComponent
-	},
-    ]
-  }
+                path: 'disabled-student',
+                component: DisabledStudentComponent
+            },
+        ]
+    }
 ]
 
 @NgModule({
-  declarations: [
-    StudentDetailsListComponent,
+    declarations: [
+           StudentDetailsListComponent,
     StudentInformationComponent,
     StudentDetailsEditComponent,
     OnlineAdmissionListComponent,
@@ -76,30 +88,66 @@ const routes: Routes = [
     StudentHouseComponent,
     DisableReasonComponent,
     BulkDeleteComponent,
+    DisabledStudentComponent,
 
-  ],
-  imports: [
-    CommonModule,
-		PartialsModule,
-		NgbModule,
-		CoreModule,
-		CodePreviewModule,
-		RouterModule.forChild(routes),
-		FormsModule,
-		ReactiveFormsModule,
-		HttpClientModule,
-    PerfectScrollbarModule,
-    MaterialModule,
-  ], providers: [
-    NgbAlertConfig,
-    MatIconRegistry,
-		{ provide: MatBottomSheetRef, useValue: {} },
-		{ provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
-		{ provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
-		{ provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }, ],
-	entryComponents: [
+
+    ],
+    imports: [
+        CommonModule,
+        PartialsModule,
+        NgbModule,
+        CoreModule,
+        CodePreviewModule,
+        RouterModule.forChild(routes),
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        PerfectScrollbarModule,
+        MaterialModule,
+        TranslateModule.forChild(),
+        NgxPermissionsModule.forChild(),
+
+
+        //state manage
+        StoreModule.forFeature('disableReasons', disableReasonsReducer),
+        EffectsModule.forFeature([DisableReasonEffects]),
+        StoreModule.forFeature('students', studentsReducer),
+        EffectsModule.forFeature([StudentEffects]),
+        StoreModule.forFeature('categorys', categorysReducer),
+        EffectsModule.forFeature([CategoryEffects]),
+        StoreModule.forFeature('studentHouses', studentHousesReducer),
+        EffectsModule.forFeature([StudentHouseEffects]),
+        StoreModule.forFeature('onlineAdmissions', onlineAdmissionsReducer),
+		EffectsModule.forFeature([OnlineAdmissionEffects]),
+		StoreModule.forFeature('disabledStudents', disabledStudentsReducer),
+        EffectsModule.forFeature([DisabledStudentEffects]),
+		StoreModule.forFeature('bulkDeletes', bulkDeletesReducer),
+        EffectsModule.forFeature([BulkDeleteEffects]),
+
+
+    ], providers: [
+        NgbAlertConfig,
+        MatIconRegistry,
+        { provide: MatBottomSheetRef, useValue: {} },
+        { provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
+        { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+        { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
     
-	],
-  exports: [RouterModule],
+        DisableReasonService,
+        StudentService,
+        CategoryService,
+		StudentHouseService,
+		BulkDeleteService,
+		DisabledStudentService
+    
+    
+    
+    
+    ],
+    entryComponents: [
+
+    ],
+    exports: [RouterModule],
 })
 export class StudentInformationModule { }
+

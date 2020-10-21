@@ -51,10 +51,16 @@ export class PageConfig {
         page: { title: 'Student Details List', desc: '' }
       },
       'student-details-edit': {
-        page: { title: 'Student Details Edit', desc: '' }
+        page: { title: 'Student Details', desc: '' }
       },
       'online-admission': {
         page: { title: 'Online Admission', desc: '' }
+      },
+      'disabled-student': {
+        page: { title: 'Disabled Student', desc: '' }
+      },
+      'bulk-delete': {
+        page: { title: 'Bulk Delete', desc: '' }
       },
       'student-categories': {
         page: { title: 'Student Categories', desc: '' }
@@ -65,9 +71,7 @@ export class PageConfig {
       'disable-reason': {
         page: { title: 'Disable Reason', desc: '' }
       },
-      'bulk-delete': {
-        page: { title: 'Bulk Delete', desc: '' }
-      },
+      
       
       
     },

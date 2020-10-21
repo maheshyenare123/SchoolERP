@@ -237,6 +237,12 @@ prepareStudentHouse(): SchoolHousModel {
 	const controls = this.studentHouseForm.controls;
 	const _studentHouse = new SchoolHousModel();
 	_studentHouse.id = this.studentHouse.id;
+
+if(_studentHouse.id>0){
+	_studentHouse.isActive =this.studentHouse.isActive;
+}else{
+	_studentHouse.isActive ='yes';
+}
   _studentHouse.houseName = controls.houseName.value;
   _studentHouse.description = controls.description.value;
 
@@ -273,14 +279,16 @@ onSubmit() {
 		this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
 		this.loadStudentHouseList();
 		this.studentHouseForm.reset();
-		this.studentHouse.clear();
-		this.createForm();
+		// this.studentHouse.clear();
+		// this.createForm();
+		this.addStudentHouse();
 
 }
 onCancel(){
 	this.studentHouseForm.reset();
-	this.studentHouse.clear();
-	this.createForm();
+	// this.studentHouse.clear();
+	// this.createForm();
+	this.addStudentHouse();
 }
 /**
  * Update StudentHouse

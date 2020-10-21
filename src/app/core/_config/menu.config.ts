@@ -146,12 +146,20 @@ export class MenuConfig {
               page: '/student-information/student-details'
             },
             {
-              title: 'Student Details Edit',
+              title: 'Student Details',
               page: '/student-information/student-details-edit'
             },
             {
               title: 'Online Admission',
               page: '/student-information/online-admission'
+            },
+            {
+              title: 'Disabled Student',
+              page: '/student-information/disabled-student'
+            },
+            {
+              title: 'Bulk Delete',
+              page: '/student-information/bulk-delete'
             },
             {
               title: 'Student Categories',
@@ -165,10 +173,7 @@ export class MenuConfig {
               title: 'Disable Reason',
               page: '/student-information/disable-reason'
             },
-            {
-              title: 'Bulk Delete',
-              page: '/student-information/bulk-delete'
-            },
+           
             
           ]
         },
