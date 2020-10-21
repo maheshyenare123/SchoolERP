@@ -20,37 +20,31 @@
 			<div class="form-group row">
 				<div class="col-lg-3 kt-margin-bottom-20-mobile">
 					<mat-form-field class="mat-form-field-fluid">
-						<mat-select placeholder="Select Reference"   formControlName="reference" >
-							<mat-option *ngFor="let reference of referenceList" [value]="reference.reference">
-							  {{reference.reference}}
-							</mat-option>
-						  </mat-select>
+						<mat-select placeholder="Class" formControlName="classId">
+							<mat-option value="3">Business</mat-option>
+							<mat-option value="4">Individual</mat-option>
+						</mat-select>
+
 					</mat-form-field>
 				</div>
 				<div class="col-lg-3 kt-margin-bottom-20-mobile">
 					<mat-form-field class="mat-form-field-fluid">
-						<mat-select placeholder="Select Source"   formControlName="source" >
-							<mat-option *ngFor="let source of sourceList" [value]="source.source">
-							  {{source.source}}
-							</mat-option>
-						  </mat-select>
-						
+						<mat-select placeholder="Section" formControlName="sectionId">
+							<mat-option value="0">Business</mat-option>
+							<mat-option value="1">Individual</mat-option>
+						</mat-select>
+
 					</mat-form-field>
 				</div>
 				<div class="col-lg-3 kt-margin-bottom-20-mobile">
 					<mat-form-field class="mat-form-field-fluid">
 				
-						<mat-select placeholder="Select Class"   formControlName="classId" >
-							<mat-option *ngFor="let class of classList" [value]="class.id">
-							  {{class.classses}}
-							</mat-option>
+						<mat-select placeholder="Select Subject Group"   formControlName="subjectGroupId" >
+							<mat-option value="022">Business</mat-option>
+							<mat-option value="122">Individual</mat-option>
 						  </mat-select>
 					</mat-form-field>
 				</div>
-
-				
-
-
 			</div>
 
 		</div>
@@ -98,35 +92,21 @@
 				   </thead>
 				   <tbody>
 					   <tr formArrayName="items"
-						   *ngFor="let item of classTimetableForm.get('items').controls;let i = index;">
+						   *ngFor="let item of classTimetableForm.get('items')?.controls;let i = index;">
 						   <ng-container [formGroupName]="i">
 							   <td class="form-group">
 								   <mat-form-field class="mat-form-field-fluid">
 									   <mat-select placeholder="Select Subject"   formControlName="subjectId" >
-										   <mat-option [value]="sub1">
-											 Sub 1
-										   </mat-option>
-										   <mat-option [value]="sub2">
-											   Sub 2
-											 </mat-option>
-											 <mat-option [value]="sub3">
-											   Sub 3
-											 </mat-option>
+										<mat-option value="02">Business</mat-option>
+										<mat-option value="12">Individual</mat-option>
 										 </mat-select>
 								   </mat-form-field>
 							   </td>
 							   <td class="form-group">
 								   <mat-form-field class="mat-form-field-fluid">
 									   <mat-select placeholder="Select Teacher"   formControlName="staffId" >
-										   <mat-option [value]="staff1">
-											   staff 1
-										   </mat-option>
-										   <mat-option [value]="staff2">
-											   staff 2
-											 </mat-option>
-											 <mat-option [value]="staff3">
-											   staff 3
-											 </mat-option>
+										<mat-option value="033">Business</mat-option>
+										<mat-option value="133">Individual</mat-option>
 										 </mat-select>
 								   </mat-form-field>
 							   </td>
