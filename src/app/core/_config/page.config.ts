@@ -48,10 +48,10 @@ export class PageConfig {
     'student-information': {
 
       'student-details': {
-        page: { title: 'Student Details List', desc: '' }
+        page: { title: 'Student Details', desc: '' }
       },
       'student-details-edit': {
-        page: { title: 'Student Details', desc: '' }
+        page: { title: 'Student Admission', desc: '' }
       },
       'online-admission': {
         page: { title: 'Online Admission', desc: '' }

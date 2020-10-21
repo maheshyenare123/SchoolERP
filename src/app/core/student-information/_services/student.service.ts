@@ -56,6 +56,37 @@ export class StudentService {
     });
   }
 
+
+
+
+  // http://yamistha.cloudjiffy.net/api/student/api/disable-student?classId=1&pageNo=0&pageSize=10&sectionId=1&sortBy=id
+// find disable student
+
+
+findDisableStudents(queryParams: QueryParamsModel,classId:number,sectionId:number): Observable<QueryResultsModel> {
+  // Note: Add headers if needed (tokens/bearer)
+  const httpHeaders = this.httpUtils.getHTTPHeaders();
+  // const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
+  // httpParams.set('isActive', 'active')
+
+  const httpParams =new HttpParams()
+   
+    .set('classId', classId.toString())
+    .set('pageNo', queryParams.pageNumber.toString())
+    .set('pageSize', queryParams.pageSize.toString())
+    .set('sectionId', sectionId.toString())
+    .set('sortBy', 'id');
+
+  const url =Constants.URL.HOST_URL+Constants.Student_Information.Student+'/api/disable-student';
+  
+  return this.http.get<QueryResultsModel>(url, {
+    headers: httpHeaders,
+    params: httpParams
+  });
+}
+
+
+
   // UPDATE => PUT: update the student on the server
   updateStudent(student: StudentDtoModel): Observable<any> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
@@ -81,10 +112,14 @@ export class StudentService {
   }
 
   deleteStudents(ids: number[] = []): Observable<any> {
-    const url = Constants.URL.HOST_URL+Constants.Student_Information.Student + '/deleteStudents';
+    const url = Constants.URL.HOST_URL+Constants.Student_Information.Student + '/bulkdelete';
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const body = {studentIdsForDelete: ids};
-    return this.http.put<QueryResultsModel>(url, body, {headers: httpHeaders});
+    const options = {
+      headers: httpHeaders,
+      body: ids
+    }
+
+    return this.http.delete<QueryResultsModel>(url,options);
   }
 
 

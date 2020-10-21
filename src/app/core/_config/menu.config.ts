@@ -142,11 +142,11 @@ export class MenuConfig {
           icon: 'flaticon-interface-7',
           submenu: [
             {
-              title: 'Student Details List',
+              title: 'Student Details ',
               page: '/student-information/student-details'
             },
             {
-              title: 'Student Details',
+              title: 'Student Admission',
               page: '/student-information/student-details-edit'
             },
             {

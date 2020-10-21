@@ -25,8 +25,7 @@ export class Constants {
       Disable_Reason:'disable-reason',
       Student_House:'school-house',
       Bulk_Delete:'',
-      Disable_Student:'',
-      
+      Disable_Student:'student/api/disable-student',
 
      }
    

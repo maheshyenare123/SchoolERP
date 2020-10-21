@@ -70,7 +70,7 @@ export class ManyDisabledStudentsDeleted implements Action {
 export class DisabledStudentsPageRequested implements Action {
   readonly type = DisabledStudentActionTypes.DisabledStudentsPageRequested;
 
-  constructor(public payload: { page: QueryParamsModel }) {
+  constructor(public payload: { page: QueryParamsModel,classId:number,sectionId:number }) {
   }
 }
 

@@ -25,7 +25,8 @@ import {
   StudentsStatusUpdated,
   StudentUpdated,
   ManyStudentsDeleted,
-  OneStudentDeleted
+  OneStudentDeleted,
+  DisableStudentsPageRequested
 } from '../_actions/student.actions';
 
 @Injectable()
@@ -54,6 +55,29 @@ export class StudentEffects {
       });
     })
   );
+
+  @Effect()
+  loadDisableStudentsPage$ = this.actions$.pipe(
+    ofType<DisableStudentsPageRequested>(StudentActionTypes.DisableStudentsPageRequested),
+    mergeMap(({payload}) => {
+      this.store.dispatch(this.showPageLoadingDistpatcher);
+      const requestToServer = this.studentsService.findDisableStudents(payload.page,payload.classId,payload.sectionId);
+      const lastQuery = of(payload.page);
+      return forkJoin(requestToServer, lastQuery);
+    }),
+    map(response => {
+      const result: QueryResultsModel = response[0];
+      const lastQuery: QueryParamsModel = response[1];
+      const data : FindResultsModel= result['data'];
+      return new StudentsPageLoaded({
+        students: data.content,
+        totalCount: result.totalCount,
+        page: lastQuery
+      });
+    })
+  );
+
+
 
   @Effect()
   deleteStudent$ = this.actions$

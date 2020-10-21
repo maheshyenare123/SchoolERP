@@ -39,7 +39,7 @@ export class DisabledStudentEffects {
     ofType<DisabledStudentsPageRequested>(DisabledStudentActionTypes.DisabledStudentsPageRequested),
     mergeMap(({payload}) => {
       this.store.dispatch(this.showPageLoadingDistpatcher);
-      const requestToServer = this.disabledStudentsService.findDisabledStudents(payload.page);
+      const requestToServer = this.disabledStudentsService.findDisabledStudents(payload.page,payload.classId,payload.sectionId);
       const lastQuery = of(payload.page);
       return forkJoin(requestToServer, lastQuery);
     }),

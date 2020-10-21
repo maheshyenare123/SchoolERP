@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { DisabledStudentsDataSource, StudentDtoModel, DisabledStudentsPageRequested, OneDisabledStudentDeleted, ManyDisabledStudentsDeleted } from 'src/app/core/student-information';
+
 import { QueryParamsModel, LayoutUtilsService, MessageType } from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -12,6 +12,8 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
 // import { DisabledStudentEditDialogComponent } from '../admission-enquiry-edit/admission-enquiry-edit.dialog.component';
+import { StudentsDataSource, StudentDtoModel, OneStudentDeleted, ManyStudentsDeleted } from 'src/app/core/student-information';
+import { DisableStudentsPageRequested } from 'src/app/core/student-information/_actions/student.actions';
 
 
 @Component({
@@ -22,7 +24,7 @@ import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs
 export class DisabledStudentComponent implements OnInit {
 
     // Table fields
-dataSource: DisabledStudentsDataSource;
+dataSource: StudentsDataSource;
 displayedColumns = ['admissionNo', 'name', 'class', 'fatherName', 'disableReason', 'gender', 'contact', 'actions'];
 @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 @ViewChild('sort1', {static: true}) sort: MatSort;
@@ -80,7 +82,7 @@ ngOnInit() {
  this.subscriptions.push(searchSubscription);
 
  // Init DataSource
- this.dataSource = new DisabledStudentsDataSource(this.store);
+ this.dataSource = new StudentsDataSource(this.store);
  const entitiesSubscription = this.dataSource.entitySubject.pipe(
    skip(1),
    distinctUntilChanged()
@@ -125,7 +127,9 @@ loadDisabledStudentsList() {
     this.paginator.pageSize
   );
   // Call request from server
-  this.store.dispatch(new DisabledStudentsPageRequested({ page: queryParams }));
+  const classId=0;
+  const sectionId=0;
+  this.store.dispatch(new DisableStudentsPageRequested({ page: queryParams,classId,sectionId }));
  
   this.selection.clear();
 }
@@ -196,7 +200,7 @@ deleteDisabledStudent(_item: StudentDtoModel) {
       return;
     }
 //delete api call
-    this.store.dispatch(new OneDisabledStudentDeleted({ id: _item.id }));
+    this.store.dispatch(new OneStudentDeleted({ id: _item.id }));
     this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
   });
 }
@@ -223,7 +227,7 @@ deleteProducts() {
     }
 
     //many product deleted
-    this.store.dispatch(new ManyDisabledStudentsDeleted({ ids: idsForDeletion }));
+    this.store.dispatch(new ManyStudentsDeleted({ ids: idsForDeletion }));
     this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
     this.selection.clear();
   });

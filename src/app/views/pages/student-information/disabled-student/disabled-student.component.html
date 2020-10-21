@@ -113,7 +113,7 @@
                 <ng-container matColumnDef="name">
 					<mat-header-cell *matHeaderCellDef mat-sort-header >Name
 					</mat-header-cell>
-					<mat-cell *matCellDef="let disabledStudent" >{{disabledStudent.name}}</mat-cell>
+					<mat-cell *matCellDef="let disabledStudent" >{{disabledStudent.firstname}} {{disabledStudent.lastname}}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="class">
 					<mat-header-cell *matHeaderCellDef mat-sort-header >Class
@@ -136,7 +136,7 @@
                 </ng-container>
 				<ng-container matColumnDef="contact">
 					<mat-header-cell *matHeaderCellDef mat-sort-header>Mobile No.</mat-header-cell>
-					<mat-cell *matCellDef="let disabledStudent">{{disabledStudent.contact}}</mat-cell>
+					<mat-cell *matCellDef="let disabledStudent">{{disabledStudent.mobileno}}</mat-cell>
 				</ng-container>
 			
 				<ng-container matColumnDef="actions">

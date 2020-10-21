@@ -113,7 +113,7 @@
                 <ng-container matColumnDef="name">
 					<mat-header-cell *matHeaderCellDef mat-sort-header >Name
 					</mat-header-cell>
-					<mat-cell *matCellDef="let bulkDelete" >{{bulkDelete.name}}</mat-cell>
+					<mat-cell *matCellDef="let bulkDelete" >{{bulkDelete.firstname}} {{bulkDelete.lastname}}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="class">
 					<mat-header-cell *matHeaderCellDef mat-sort-header >Class
@@ -136,11 +136,11 @@
                 </ng-container>
                 <ng-container matColumnDef="category">
 					<mat-header-cell *matHeaderCellDef mat-sort-header>Category</mat-header-cell>
-					<mat-cell *matCellDef="let bulkDelete">{{bulkDelete.category}}</mat-cell>
+					<mat-cell *matCellDef="let bulkDelete">{{bulkDelete.categoryId}}</mat-cell>
                 </ng-container>
 				<ng-container matColumnDef="contact">
 					<mat-header-cell *matHeaderCellDef mat-sort-header>Mobile No.</mat-header-cell>
-					<mat-cell *matCellDef="let bulkDelete">{{bulkDelete.contact}}</mat-cell>
+					<mat-cell *matCellDef="let bulkDelete">{{bulkDelete.mobileno}}</mat-cell>
 				</ng-container>
 				<ng-container matColumnDef="enrolled">
 					<mat-header-cell *matHeaderCellDef mat-sort-header>Enrolled</mat-header-cell>

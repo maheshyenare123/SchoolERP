@@ -7,7 +7,7 @@ import { QueryResultsModel, BaseDataSource } from '../../_base/crud';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../../reducers';
 // Selectors
-import { selectSubjectsInStore, selectSubjectsPageLoading,selectSubjectsShowInitWaitingMessage } from '../_selectors/Subject.selectors';
+import { selectSubjectsInStore, selectSubjectsPageLoading,selectSubjectsShowInitWaitingMessage } from '../_selectors/subject.selectors';
 
 export class SubjectsDataSource extends BaseDataSource {
   constructor(private store: Store<AppState>) {

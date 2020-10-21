@@ -14,10 +14,7 @@ import { AppState } from '../../../../../core/reducers';
 // CRUD
 import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { StudentDtoModel, selectStudentDetailsActionLoading, StudentDetailUpdated, StudentDetailOnServerCreated, selectLastCreatedStudentDetailId } from '../../../../../core/student-information';
-// // Services and Models
-// import { DeliveryPersonModel, DeliveryPersonUpdated, DeliveryPersonOnServerCreated, selectLastCreatedDeliveryPersonId, selectDeliveryPersonsActionLoading } from '../../../../../core/master-entry';
-// import { EmployeeModel } from '../../../../../core/payroll/_models/employee.model';
+import { StudentDtoModel, selectStudentsActionLoading, StudentUpdated, StudentOnServerCreated, selectLastCreatedStudentId, } from '../../../../../core/student-information';
 
 
 @Component({
@@ -40,7 +37,11 @@ export class StudentDetailsEditComponent implements OnInit {
   isLinear = false;
   studentInformationFormGroup: FormGroup;
   parentGuardianFormGroup: FormGroup;
+
   addMoreDetailFormGroup: FormGroup;
+  uploadDocumentFormGroup: FormGroup;
+
+  
   filesStudent: File[] = [];
   filesFather: File[] = [];
   filesMother: File[] = [];
@@ -64,7 +65,7 @@ export class StudentDetailsEditComponent implements OnInit {
    */
   ngOnInit() {
     debugger
-    this.store.pipe(select(selectStudentDetailsActionLoading)).subscribe(res => this.viewLoading = res);
+    this.store.pipe(select(selectStudentsActionLoading)).subscribe(res => this.viewLoading = res);
 
     //this.studentDetail = this.data.studentDetail;
     const newStudent = new StudentDtoModel();
@@ -383,9 +384,9 @@ export class StudentDetailsEditComponent implements OnInit {
       id: _studentDetail.id,
       changes: _studentDetail
     };
-    this.store.dispatch(new StudentDetailUpdated({
-      partialStudentDetails: updateStudentDetail,
-      studentDetail: _studentDetail
+    this.store.dispatch(new StudentUpdated({
+      partialStudent: updateStudentDetail,
+      student: _studentDetail
     }));
 
 
@@ -402,9 +403,9 @@ export class StudentDetailsEditComponent implements OnInit {
    * @param _studentDetail: StudentDtoModel
    */
   createStudentDetail(_studentDetail: StudentDtoModel) {
-    this.store.dispatch(new StudentDetailOnServerCreated({ studentDetail: _studentDetail }));
+    this.store.dispatch(new StudentOnServerCreated({ student: _studentDetail }));
     this.componentSubscriptions = this.store.pipe(
-      select(selectLastCreatedStudentDetailId),
+      select(selectLastCreatedStudentId),
       delay(1000), // Remove this line
     ).subscribe(res => {
       if (!res) {

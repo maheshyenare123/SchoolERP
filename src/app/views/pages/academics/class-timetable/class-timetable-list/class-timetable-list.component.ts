@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { ClassTimetablesDataSource, ClassTimetableModel, ClassTimetablesPageRequested, OneClassTimetableDeleted, ManyClassTimetablesDeleted } from 'src/app/core/academics';
+import { ClassTimetablesDataSource, ClassTimetableModel, ClassTimetablesPageRequested, OneClassTimetableDeleted, ManyClassTimetablesDeleted } from '../../../../../core/academics';
 import { QueryParamsModel, LayoutUtilsService, MessageType } from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
