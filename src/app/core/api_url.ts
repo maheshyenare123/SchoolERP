@@ -20,17 +20,27 @@ export class Constants {
     }
 
     public static Student_Information: any = {
-        Disable_Reason:'disableReason',
-        Is_Active : '',
-        Reason : '',
+      Student:'student',
+      Student_Category:'category',
+      Disable_Reason:'disable-reason',
+      Student_House:'school-house',
+      Bulk_Delete:'',
+      Disable_Student:'',
+      
+
      }
-
+   
      public static Academics: any = {
-      Section:'api/disableReason',
-      Is_Active : '',
-      section : '',
-   }
+     Assign_Class_Teacher:'',
+     Class:'',
+     Class_TimeTable:'',
+     Promote_Student:'',
+     Section:'',
+     Subject:'',
+     Subject_Group:'',
+     Teacher_TimeTable:'',
 
+     }
 
     
 }

@@ -144,9 +144,10 @@ VisitorBookEditDialogComponent,
     PerfectScrollbarModule,
     MaterialModule,
     TranslateModule.forChild(),
+    NgxPermissionsModule.forChild(),
+
 
     
-    NgxPermissionsModule.forChild(),
 //state manage
     StoreModule.forFeature('admissionEnquirys', admissionEnquirysReducer),
     EffectsModule.forFeature([AdmissionEnquiryEffects]),

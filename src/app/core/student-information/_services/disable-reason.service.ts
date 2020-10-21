@@ -22,11 +22,13 @@ export class DisableReasonService {
 
   // READ
   getAllDisableReasons(): Observable<DisableReasonModel[]> {
-    return this.http.get<DisableReasonModel[]>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason);
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.get<DisableReasonModel[]>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason, {headers: httpHeaders});
   }
 
   getDisableReasonById(disableReasonId: number): Observable<DisableReasonModel> {
-    return this.http.get<DisableReasonModel>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason+ `/${disableReasonId}`);
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.get<DisableReasonModel>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason+ `/${disableReasonId}`, {headers: httpHeaders});
   }
 
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
@@ -37,7 +39,7 @@ export class DisableReasonService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
-    const url =Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason + '/find';
+    const url =Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       params: httpParams
@@ -47,7 +49,7 @@ export class DisableReasonService {
   // UPDATE => PUT: update the disableReason on the server
   updateDisableReason(disableReason: DisableReasonModel): Observable<any> {
     const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason, disableReason, {headers: httpHeader});
+    return this.http.put(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason+'/'+disableReason.id, disableReason, {headers: httpHeader});
   }
 
   // UPDATE Status
@@ -63,8 +65,9 @@ export class DisableReasonService {
 
   // DELETE => delete the disableReason from the server
   deleteDisableReason(disableReasonId: number): Observable<DisableReasonModel> {
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
     const url = `${Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason}/${disableReasonId}`;
-    return this.http.delete<DisableReasonModel>(url);
+    return this.http.delete<DisableReasonModel>(url, {headers: httpHeaders});
   }
 
   deleteDisableReasons(ids: number[] = []): Observable<any> {

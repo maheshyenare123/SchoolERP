@@ -75,6 +75,25 @@ export class PageConfig {
       
       
     },
+    'academics': {
+      
+      'class-timetable': {
+        page: { title: 'Class Timetable', desc: '' }
+      },
+      'class': {
+        page: { title: 'Class', desc: '' }
+      },
+      'section': {
+        page: { title: 'Section', desc: '' }
+      },
+      'subject': {
+        page: { title: 'Subject', desc: '' }
+      },
+      'subject-group': {
+        page: { title: 'Subject Group', desc: '' }
+      },
+         
+    },
     ecommerce: {
       customers: {
         page: { title: 'Customers', desc: '' }

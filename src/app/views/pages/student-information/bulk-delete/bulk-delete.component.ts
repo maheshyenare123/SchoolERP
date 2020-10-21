@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { BulkDeletesDataSource, StudentDtoModel, BulkDeletesPageRequested, OneBulkDeleteDeleted, ManyBulkDeletesDeleted } from 'src/app/core/student-information';
+
 import { QueryParamsModel, LayoutUtilsService, MessageType } from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -11,8 +11,8 @@ import { SubheaderService } from 'src/app/core/_base/layout';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
-// import { BulkDeleteEditDialogComponent } from '../admission-enquiry-edit/admission-enquiry-edit.dialog.component';
 
+import {StudentDtoModel, StudentsDataSource, StudentsPageRequested, OneStudentDeleted, ManyStudentsDeleted } from 'src/app/core/student-information';
 
 @Component({
   selector: 'kt-bulk-delete',
@@ -21,9 +21,9 @@ import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs
 })
 export class BulkDeleteComponent implements OnInit {
 
- // Table fields
-dataSource: BulkDeletesDataSource;
-displayedColumns = ['select','admissionNo', 'name', 'class', 'fatherName', 'dob', 'gender', 'category', 'contact',  'enrolled', 'actions'];
+  // Table fields
+dataSource: StudentsDataSource;
+displayedColumns = ['select','admissionNo', 'name', 'class', 'fatherName', 'dob', 'gender', 'category', 'contact'];
 @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 @ViewChild('sort1', {static: true}) sort: MatSort;
 // Filter fields
@@ -33,9 +33,8 @@ filterCondition = '';
 lastQuery: QueryParamsModel;
 // Selection
 selection = new SelectionModel<StudentDtoModel>(true, []);
-bulkDeletesResult: StudentDtoModel[] = [];
+studentsResult: StudentDtoModel[] = [];
 private subscriptions: Subscription[] = [];
-
 
 constructor(
   public dialog: MatDialog,
@@ -51,7 +50,7 @@ constructor(
  * On init
  */
 ngOnInit() {
- this.getAllBulkDeleteList()
+  this.getAllStudentList()
  // If the user changes the sort order, reset back to the first page.
  const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
  this.subscriptions.push(sortSubscription);
@@ -61,7 +60,7 @@ ngOnInit() {
  - when a sort event occurs => this.sort.sortChange
  **/
  const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-   tap(() => this.loadBulkDeletesList())
+   tap(() => this.loadStudentsList())
  )
  .subscribe();
  this.subscriptions.push(paginatorSubscriptions);
@@ -73,31 +72,32 @@ ngOnInit() {
    distinctUntilChanged(), // This operator will eliminate duplicate values
    tap(() => {
      this.paginator.pageIndex = 0;
-     this.loadBulkDeletesList();
+     this.loadStudentsList();
    })
  )
  .subscribe();
  this.subscriptions.push(searchSubscription);
 
  // Init DataSource
- this.dataSource = new BulkDeletesDataSource(this.store);
+ this.dataSource = new StudentsDataSource(this.store);
  const entitiesSubscription = this.dataSource.entitySubject.pipe(
    skip(1),
    distinctUntilChanged()
  ).subscribe(res => {
-   this.bulkDeletesResult = res;
+   this.studentsResult = res;
+   console.log(this.studentsResult);
  });
  this.subscriptions.push(entitiesSubscription);
  // First load
  of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-   this.loadBulkDeletesList();
+   this.loadStudentsList();
  }); // Remove this line, just loading imitation
 }
-getAllBulkDeleteList() {
-  // this.admissionService.getList().subscribe((res: any) => {
+getAllStudentList() {
+  // this.admissionenqService.getList().subscribe((res: any) => {
   //   var data = res['data'];
   //   var content = data['content'];
-  //   this.bulkDeletesResult = content.map((key) => ({ ...key }));
+  //   this.studentsResult = content.map((key) => ({ ...key }));
   
   // }, (err) => {
   //   console.log('Error while fetching data');
@@ -115,7 +115,7 @@ ngOnDestroy() {
 /**
  * Load Products List
  */
-loadBulkDeletesList() {
+loadStudentsList() {
   this.selection.clear();
   const queryParams = new QueryParamsModel(
     this.filterConfiguration(),
@@ -125,7 +125,7 @@ loadBulkDeletesList() {
     this.paginator.pageSize
   );
   // Call request from server
-  this.store.dispatch(new BulkDeletesPageRequested({ page: queryParams }));
+  this.store.dispatch(new StudentsPageRequested({ page: queryParams }));
  
   this.selection.clear();
 }
@@ -196,7 +196,7 @@ deleteBulkDelete(_item: StudentDtoModel) {
       return;
     }
 //delete api call
-    this.store.dispatch(new OneBulkDeleteDeleted({ id: _item.id }));
+    this.store.dispatch(new OneStudentDeleted({ id: _item.id }));
     this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
   });
 }
@@ -223,7 +223,7 @@ deleteProducts() {
     }
 
     //many product deleted
-    this.store.dispatch(new ManyBulkDeletesDeleted({ ids: idsForDeletion }));
+    this.store.dispatch(new ManyStudentsDeleted({ ids: idsForDeletion }));
     this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
     this.selection.clear();
   });
@@ -320,7 +320,7 @@ deleteProducts() {
  */
 isAllSelected() {
   const numSelected = this.selection.selected.length;
-  const numRows = this.bulkDeletesResult.length;
+  const numRows = this.studentsResult.length;
   return numSelected === numRows;
 }
 
@@ -331,7 +331,7 @@ masterToggle() {
   if (this.isAllSelected()) {
     this.selection.clear();
   } else {
-    this.bulkDeletesResult.forEach(row => this.selection.select(row));
+    this.studentsResult.forEach(row => this.selection.select(row));
   }
 }
 

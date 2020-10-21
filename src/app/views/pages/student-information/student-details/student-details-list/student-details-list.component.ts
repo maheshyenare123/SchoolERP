@@ -86,6 +86,7 @@ ngOnInit() {
    distinctUntilChanged()
  ).subscribe(res => {
    this.studentsResult = res;
+   console.log(this.studentsResult);
  });
  this.subscriptions.push(entitiesSubscription);
  // First load

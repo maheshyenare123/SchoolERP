@@ -17,16 +17,18 @@ export class BulkDeleteService {
   createBulkDelete(bulkDelete: StudentDtoModel): Observable<StudentDtoModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<StudentDtoModel>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason, bulkDelete, {headers: httpHeaders});
+    return this.http.post<StudentDtoModel>(Constants.URL.HOST_URL+Constants.Student_Information.Bulk_Delete, bulkDelete, {headers: httpHeaders});
   }
 
   // READ
   getAllBulkDeletes(): Observable<StudentDtoModel[]> {
-    return this.http.get<StudentDtoModel[]>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason);
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.get<StudentDtoModel[]>(Constants.URL.HOST_URL+Constants.Student_Information.Bulk_Delete, {headers: httpHeaders});
   }
 
   getBulkDeleteById(bulkDeleteId: number): Observable<StudentDtoModel> {
-    return this.http.get<StudentDtoModel>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason+ `/${bulkDeleteId}`);
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.get<StudentDtoModel>(Constants.URL.HOST_URL+Constants.Student_Information.Bulk_Delete+ `/${bulkDeleteId}`, {headers: httpHeaders});
   }
 
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
@@ -37,7 +39,7 @@ export class BulkDeleteService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
-    const url =Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason + '/find';
+    const url =Constants.URL.HOST_URL+Constants.Student_Information.Bulk_Delete ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       params: httpParams
@@ -46,8 +48,8 @@ export class BulkDeleteService {
 
   // UPDATE => PUT: update the BulkDelete on the server
   updateBulkDelete(bulkDelete: StudentDtoModel): Observable<any> {
-    const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason, bulkDelete, {headers: httpHeader});
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.put(Constants.URL.HOST_URL+Constants.Student_Information.Bulk_Delete+'/'+bulkDelete.id, bulkDelete, {headers: httpHeaders});
   }
 
   // UPDATE Status
@@ -57,18 +59,19 @@ export class BulkDeleteService {
       bulkDeletesForUpdate: bulkDeletes,
       newStatus: status
     };
-    const url = Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason+ '/updateStatus';
+    const url = Constants.URL.HOST_URL+Constants.Student_Information.Bulk_Delete+ '/updateStatus';
     return this.http.put(url, body, {headers: httpHeaders});
   }
 
   // DELETE => delete the BulkDelete from the server
   deleteBulkDelete(bulkDeleteId: number): Observable<StudentDtoModel> {
-    const url = `${Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason}/${bulkDeleteId}`;
-    return this.http.delete<StudentDtoModel>(url);
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    const url = `${Constants.URL.HOST_URL+Constants.Student_Information.Bulk_Delete}/${bulkDeleteId}`;
+    return this.http.delete<StudentDtoModel>(url,{headers: httpHeaders});
   }
 
   deleteBulkDeletes(ids: number[] = []): Observable<any> {
-    const url = Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason + '/deleteBulkDeletes';
+    const url = Constants.URL.HOST_URL+Constants.Student_Information.Bulk_Delete + '/deleteBulkDeletes';
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const body = {bulkDeleteIdsForDelete: ids};
     return this.http.put<QueryResultsModel>(url, body, {headers: httpHeaders});

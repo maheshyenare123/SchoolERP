@@ -17,18 +17,18 @@ export class SectionService {
   createSection(section: SectionDtoModel): Observable<SectionDtoModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<SectionDtoModel>(Constants.URL.HOST_URL+Constants.Academics.Section, section, {headers: httpHeaders});
+    return this.http.post<SectionDtoModel>(Constants.URL.HOST_URL+Constants.Academics.Class, section, {headers: httpHeaders});
   }
 
   // READ
   getAllSections(): Observable<SectionDtoModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<SectionDtoModel[]>(Constants.URL.HOST_URL+Constants.Academics.Section, {headers: httpHeaders});
+    return this.http.get<SectionDtoModel[]>(Constants.URL.HOST_URL+Constants.Academics.Class, {headers: httpHeaders});
   }
 
   getSectionById(sectionId: number): Observable<SectionDtoModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<SectionDtoModel>(Constants.URL.HOST_URL+Constants.Academics.Section+ `/${sectionId}`, {headers: httpHeaders});
+    return this.http.get<SectionDtoModel>(Constants.URL.HOST_URL+Constants.Academics.Class+ `/${sectionId}`, {headers: httpHeaders});
   }
 
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
@@ -39,7 +39,7 @@ export class SectionService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
-    const url =Constants.URL.HOST_URL+Constants.Academics.Section ;
+    const url =Constants.URL.HOST_URL+Constants.Academics.Class ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       // params: httpParams
@@ -49,7 +49,7 @@ export class SectionService {
   // UPDATE => PUT: update the Section on the server
   updateSection(section: SectionDtoModel): Observable<any> {
     const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Academics.Section+'/'+section.id, section, {headers: httpHeader});
+    return this.http.put(Constants.URL.HOST_URL+Constants.Academics.Class+'/'+section.id, section, {headers: httpHeader});
   }
 
   // UPDATE Status
@@ -59,19 +59,19 @@ export class SectionService {
       sectionsForUpdate: sections,
       newStatus: status
     };
-    const url = Constants.URL.HOST_URL+Constants.Academics.Section+ '/updateStatus';
+    const url = Constants.URL.HOST_URL+Constants.Academics.Class+ '/updateStatus';
     return this.http.put(url, body, {headers: httpHeaders});
   }
 
   // DELETE => delete the Section from the server
   deleteSection(sectionId: number): Observable<SectionDtoModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const url = `${Constants.URL.HOST_URL+Constants.Academics.Section}/${sectionId}`;
+    const url = `${Constants.URL.HOST_URL+Constants.Academics.Class}/${sectionId}`;
     return this.http.delete<SectionDtoModel>(url, {headers: httpHeaders});
   }
 
   deleteSections(ids: number[] = []): Observable<any> {
-    const url = Constants.URL.HOST_URL+Constants.Academics.Section + '/deleteSections';
+    const url = Constants.URL.HOST_URL+Constants.Academics.Class + '/deleteSections';
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const body = {sectionIdsForDelete: ids};
     return this.http.put<QueryResultsModel>(url, body, {headers: httpHeaders});

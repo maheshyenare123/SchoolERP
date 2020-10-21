@@ -24,7 +24,6 @@ import { MaterialModule } from '../material/material.module';
 
 
 import { AcademicsComponent } from './academics.component';
-import { ClassTimetableComponent } from './class-timetable/class-timetable.component';
 import { TeacherTimetableComponent } from './teacher-timetable/teacher-timetable.component';
 import { SubjectComponent } from './subject/subject.component';
 import { SectionComponent} from './section/section.component';
@@ -32,7 +31,8 @@ import { ClassComponent} from './class/class.component';
 import { AssignClassTeacherComponent } from './assign-class-teacher/assign-class-teacher.component';
 import { PromoteStudentComponent } from './promote-student/promote-student.component';
 import { SubjectGroupComponent } from './subject-group/subject-group.component';
-
+import { ClassTimetableListComponent } from './class-timetable/class-timetable-list/class-timetable-list.component'
+import { ClassTimetableEditDialogComponent } from './class-timetable/class-timetable-edit/class-timetable-edit.dialog.component'
 
 const routes: Routes = [
 	{
@@ -43,18 +43,26 @@ const routes: Routes = [
 				path: '',
 				redirectTo: 'roles',
 				pathMatch: 'full'
-			},
+      },
+      {
+				path: 'class-timetable',
+				component: ClassTimetableListComponent
+      },
 			{
-				path: 'class-timetable',
-				component: ClassTimetableComponent
+				path: 'class',
+				component: ClassComponent
       },
       {
-				path: 'class-timetable',
-				component: ClassTimetableComponent
+				path: 'section',
+				component: SectionComponent
       },
       {
-				path: 'class-timetable',
-				component: ClassTimetableComponent
+				path: 'subject',
+				component: SubjectComponent
+      },
+      {
+				path: 'subject-group',
+				component: SubjectGroupComponent
       },
 
     
@@ -66,7 +74,6 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AcademicsComponent,
-    ClassTimetableComponent,
     TeacherTimetableComponent,
     SubjectComponent,
     SectionComponent,
@@ -74,8 +81,8 @@ const routes: Routes = [
     AssignClassTeacherComponent,
     PromoteStudentComponent,
     SubjectGroupComponent,
-
-
+    ClassTimetableListComponent,
+    ClassTimetableEditDialogComponent
   ],
   imports: [
     CommonModule,
@@ -129,7 +136,9 @@ const routes: Routes = [
 
   ],
    
-    entryComponents: [],
+    entryComponents: [
+      ClassTimetableEditDialogComponent,
+    ],
     exports: [RouterModule],
 })
 export class AcademicsModule { }
