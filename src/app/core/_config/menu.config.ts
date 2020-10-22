@@ -216,7 +216,27 @@ export class MenuConfig {
             
           ]
         },
-        
+        {
+          title: 'Attendance',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+            
+            {
+              title: 'Student Attendance',
+              page: '/attendance/student-attendance'
+            },
+            {
+              title: 'Attendance By Date',
+              page: '/attendance/attendance-by-date'
+            },
+            {
+              title: 'Approve Leave',
+              page: '/attendance/approve-leave'
+            },
+            
+          ]
+        },
 
         // {section: 'Components'},
         // {

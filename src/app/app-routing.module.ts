@@ -48,6 +48,10 @@ const routes: Routes = [
           path: 'academics',
           loadChildren: () => import('./views/pages/academics/academics.module').then(m => m.AcademicsModule),
         },
+        {
+          path: 'attendance',
+          loadChildren: () => import('./views/pages/attendance/attendance.module').then(m => m.AttendanceModule),
+        },
       {
         path: 'user-management',
         loadChildren: () => import('./views/pages/user-management/user-management.module').then(m => m.UserManagementModule),

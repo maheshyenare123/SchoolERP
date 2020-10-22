@@ -22,17 +22,105 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MaterialModule } from '../material/material.module';
 
 
-
-
-
 import { AttendanceComponent } from './attendance.component';
+import { StudentAttendanceComponent } from './student-attendance/student-attendance.component';
+import { AttendanceByDateComponent } from './attendance-by-date/attendance-by-date.component';
+import { ApproveLeaveEditDialogComponent } from './approve-leave/approve-leave-edit/approve-leave-edit.dialog.component';
+import { ApproveLeaveListComponent } from './approve-leave/approve-leave-list/approve-leave-list.component';
+const routes: Routes = [
+	{
+		path: '',
+		component: AttendanceComponent,
+		children: [
+      {
+				path: '',
+				redirectTo: 'roles',
+				pathMatch: 'full'
+      },
+      {
+				path: 'student-attendance',
+				component: StudentAttendanceComponent
+      },
+      {
+				path: 'attendance-by-date',
+				component: AttendanceByDateComponent
+      },
+      {
+				path: 'approve-leave',
+				component: ApproveLeaveListComponent
+      },
+			
 
+    
+    ]
+  }
+]
 
 
 @NgModule({
-  declarations: [AttendanceComponent],
+  declarations: [
+    AttendanceComponent,
+    StudentAttendanceComponent,
+    AttendanceByDateComponent,
+    ApproveLeaveEditDialogComponent,
+    ApproveLeaveListComponent
+],
+
   imports: [
-    CommonModule
-  ]
+    CommonModule,
+		PartialsModule,
+		NgbModule,
+		CoreModule,
+		CodePreviewModule,
+		RouterModule.forChild(routes),
+		FormsModule,
+		ReactiveFormsModule,
+		HttpClientModule,
+    PerfectScrollbarModule,
+    MaterialModule,
+    TranslateModule.forChild(),
+    NgxPermissionsModule.forChild(),
+  ],
+  providers: [
+    NgbAlertConfig,
+    MatIconRegistry,
+    ModuleGuard,
+    InterceptService,
+    TypesUtilsService,
+    HttpUtilsService,
+    LayoutUtilsService,
+		{ provide: MatBottomSheetRef, useValue: {} },
+		{ provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
+		{ provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptService,
+      multi: true
+    },
+
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {
+        hasBackdrop: true,
+        panelClass: 'kt-mat-dialog-container__wrapper',
+        height: 'auto',
+        width: '900px'
+      }
+    },
+
+
+
+//custom service
+
+
+
+  ],
+   
+    entryComponents: [
+      ApproveLeaveEditDialogComponent,
+    ],
+    exports: [RouterModule],
 })
 export class AttendanceModule { }
