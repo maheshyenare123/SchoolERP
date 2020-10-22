@@ -24,6 +24,7 @@ fatherPhone: string;
 fatherPic: string;
 feesDiscount: number;
 firstname: string;
+//gender: string;
 guardianAddress: string;
 guardianEmail: string;
 guardianIs: string;

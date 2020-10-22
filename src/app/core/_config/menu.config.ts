@@ -187,6 +187,16 @@ export class MenuConfig {
               title: 'Class Timetable',
               page: '/academics/class-timetable'
             },
+
+            {
+              title: 'Teacher Timetable',
+              page: '/academics/teacher-timetable'
+            },
+            {
+              title: 'Assign Class Teacher',
+              page: '/academics/assign-class-teacher'
+            },
+            
             {
               title: 'Class',
               page: '/academics/class'

@@ -7,21 +7,21 @@ import { QueryResultsModel, BaseDataSource } from '../../_base/crud';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../../reducers';
 // Selectors
-import {  selectBulkDeletesInStore,selectBulkDeletesPageLoading,selectBulkDeletesShowInitWaitingMessage} from '../_selectors/bulk-delete.selectors';
+import { selectClasssInStore, selectClasssPageLoading,selectClasssShowInitWaitingMessage } from '../_selectors/Class.selectors';
 
-export class BulkDeletesDataSource extends BaseDataSource {
+export class ClasssDataSource extends BaseDataSource {
   constructor(private store: Store<AppState>) {
     super();
     this.loading$ = this.store.pipe(
-      select(selectBulkDeletesPageLoading)
+      select(selectClasssPageLoading)
     );
 
     this.isPreloadTextViewed$ = this.store.pipe(
-      select(selectBulkDeletesShowInitWaitingMessage)
+      select(selectClasssShowInitWaitingMessage)
     );
 
     this.store.pipe(
-      select(selectBulkDeletesInStore)
+      select(selectClasssInStore)
     ).subscribe((response: QueryResultsModel) => {
       this.paginatorTotalSubject.next(response.totalCount);
       this.entitySubject.next(response.items);

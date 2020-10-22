@@ -17,18 +17,18 @@ export class ClassTimetableService {
   createClassTimetable(classTimetable: ClassTimetableModel): Observable<ClassTimetableModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<ClassTimetableModel>(Constants.URL.HOST_URL+Constants.Academics.class, classTimetable, {headers: httpHeaders});
+    return this.http.post<ClassTimetableModel>(Constants.URL.HOST_URL+Constants.Academics.Class_TimeTable, classTimetable, {headers: httpHeaders});
   }
 
   // READ
   getAllClassTimetables(): Observable<ClassTimetableModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<ClassTimetableModel[]>(Constants.URL.HOST_URL+Constants.Academics.Class, {headers: httpHeaders});
+    return this.http.get<ClassTimetableModel[]>(Constants.URL.HOST_URL+Constants.Academics.Class_TimeTable, {headers: httpHeaders});
   }
 
   getClassTimetableById(classTimetableId: number): Observable<ClassTimetableModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<ClassTimetableModel>(Constants.URL.HOST_URL+Constants.Academics.class+ `/${classTimetableId}`, {headers: httpHeaders});
+    return this.http.get<ClassTimetableModel>(Constants.URL.HOST_URL+Constants.Academics.Class_TimeTable+ `/${classTimetableId}`, {headers: httpHeaders});
   }
 
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
@@ -39,7 +39,7 @@ export class ClassTimetableService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
-    const url =Constants.URL.HOST_URL+Constants.Academics.Class ;
+    const url =Constants.URL.HOST_URL+Constants.Academics.Class_TimeTable ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       // params: httpParams
@@ -49,7 +49,7 @@ export class ClassTimetableService {
   // UPDATE => PUT: update the ClassTimetable on the server
   updateClassTimetable(classTimetable: ClassTimetableModel): Observable<any> {
     const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Academics.Class+'/'+classTimetable.id, classTimetable, {headers: httpHeader});
+    return this.http.put(Constants.URL.HOST_URL+Constants.Academics.Class_TimeTable+'/'+classTimetable.id, classTimetable, {headers: httpHeader});
   }
 
   // UPDATE Status
@@ -59,19 +59,19 @@ export class ClassTimetableService {
       classTimetablesForUpdate: classTimetables,
       newStatus: status
     };
-    const url = Constants.URL.HOST_URL+Constants.Academics.Class+ '/updateStatus';
+    const url = Constants.URL.HOST_URL+Constants.Academics.Class_TimeTable+ '/updateStatus';
     return this.http.put(url, body, {headers: httpHeaders});
   }
 
   // DELETE => delete the ClassTimetable from the server
   deleteClassTimetable(classTimetableId: number): Observable<ClassTimetableModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const url = `${Constants.URL.HOST_URL+Constants.Academics.Class}/${classTimetableId}`;
+    const url = `${Constants.URL.HOST_URL+Constants.Academics.Class_TimeTable}/${classTimetableId}`;
     return this.http.delete<ClassTimetableModel>(url, {headers: httpHeaders});
   }
 
   deleteClassTimetables(ids: number[] = []): Observable<any> {
-    const url = Constants.URL.HOST_URL+Constants.Academics.Class + '/deleteClassTimetables';
+    const url = Constants.URL.HOST_URL+Constants.Academics.Class_TimeTable + '/deleteClassTimetables';
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const body = {classTimetableIdsForDelete: ids};
     return this.http.put<QueryResultsModel>(url, body, {headers: httpHeaders});

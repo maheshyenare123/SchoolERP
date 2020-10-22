@@ -1,43 +1,43 @@
 export class Constants {
     public static URL: any = {
-        HOST_URL: 'http://yamistha.cloudjiffy.net/api/',
+        HOST_URL: 'http://yamistha.cloudjiffy.net/',
        accessToken:'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdXBlcmFkbWluQGdtYWlsLmNvbSIsIlNlc3Npb25JRCI6MSwiaWF0IjoxNjAyOTIxMjk1LCJleHAiOjE2MDMwMDc2OTV9.9yG8Kaw2H3rW_x36syT2HZbznn8KbjjrNNkiw29WpJ3TA_HFnixPRJuFcRZfN9DL_83rCV7ZXtvK7wzLwcu1RA',
        sessionId:'1',
 
     }
 
     public static Front_Office: any = {
-       Admission_Enquiry:'enquiry',
-       Complain:'complaint',
-       ComplainType:'complaint-type',
-       Phone_Call_Log:'general-call',
-       Postal_Dispatch:'dispatch-receive',
-       Postal_Receive:'dispatch-receive',
-       Visitor_Book:'visitors-book',
-       Visitor_Purpose:'visitor-purpose',
-       Reference:'reference',
-       Source:'source',
+       Admission_Enquiry:'api/enquiry',
+       Complain:'api/complaint',
+       ComplainType:'api/complaint-type',
+       Phone_Call_Log:'api/general-call',
+       Postal_Dispatch:'api/dispatch-receive',
+       Postal_Receive:'api/dispatch-receive',
+       Visitor_Book:'api/visitors-book',
+       Visitor_Purpose:'api/visitor-purpose',
+       Reference:'api/reference',
+       Source:'api/source',
     }
 
     public static Student_Information: any = {
-      Student:'student',
-      Student_Category:'category',
-      Disable_Reason:'disable-reason',
-      Student_House:'school-house',
-      Bulk_Delete:'',
-      Disable_Student:'student/api/disable-student',
+      Student:'api/student',
+      Student_Category:'api/category',
+      Disable_Reason:'api/disable-reason',
+      Student_House:'api/school-house',
+      Disable_Student:'api/student/api/disable-student',
 
      }
    
      public static Academics: any = {
-     Assign_Class_Teacher:'',
-     Class:'',
-     Class_TimeTable:'',
-     Promote_Student:'',
-     Section:'',
-     Subject:'',
-     Subject_Group:'',
-     Teacher_TimeTable:'',
+
+      Class_TimeTable:'/api/',
+      Teacher_TimeTable:'api/',
+     Assign_Class_Teacher:'api/',
+     Class:'api/class',
+     Section:'api/section',
+     Subject:'api/subject',
+     Subject_Group:'api/subject-group',
+    
 
      }
 

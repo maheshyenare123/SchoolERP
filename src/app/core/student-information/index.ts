@@ -14,14 +14,15 @@ export { StudentsDataSource } from './_data-sources/student.datasource';
 export { BulkDeletesDataSource } from './_data-sources/bulk-delete.datasource';
 export { DisabledStudentsDataSource } from './_data-sources/disabled-student.datasource';
 // Effects
+export {BulkDeleteEffects} from './_effects/bulk-delete.effects';
+export {DisabledStudentEffects} from './_effects/disabled-student.effects';
 export { DisableReasonEffects } from './_effects/disable-reason.effects';
 export { OnlineAdmissionEffects } from './_effects/online-admission.effects';
 export { CategoryEffects } from './_effects/student-categories.effects';
 export { StudentDetailEffects } from './_effects/student-detail.effects';
 export { StudentHouseEffects } from './_effects/student-house.effects';
 export { StudentEffects } from './_effects/student.effects';
-export { BulkDeleteEffects } from './_effects/bulk-delete.effects';
-export { DisabledStudentEffects } from './_effects/disabled-student.effects';
+;
 
 // Actions
 // Customer Actions =>
@@ -172,6 +173,26 @@ export { disabledStudentsReducer } from './_reducers/disabled-student.reducers';
 
 // Selectors
 export {
+    selectBulkDeleteById,
+    selectBulkDeletesActionLoading,
+    selectBulkDeletesInStore,
+    selectBulkDeletesPageLoading,
+    selectBulkDeletesShowInitWaitingMessage,
+    selectBulkDeletesState,
+    selectLastCreatedBulkDeleteId
+} from './_selectors/bulk-delete.selectors';
+
+export {
+    selectDisabledStudentById,
+    selectDisabledStudentsActionLoading,
+    selectDisabledStudentsInStore,
+    selectDisabledStudentsPageLoading,
+    selectDisabledStudentsShowInitWaitingMessage,
+    selectDisabledStudentsState,
+    selectLastCreatedDisabledStudentId
+} from './_selectors/disabled-student.selectors';
+
+export {
     selectDisableReasonById,
     selectDisableReasonsActionLoading,
     selectDisableReasonsInStore,
@@ -230,36 +251,17 @@ export {
     selectStudentsShowInitWaitingMessage,
     selectStudentsState,
 } from './_selectors/student.selectors';
-export {
-    selectBulkDeleteById,
-    selectBulkDeletesActionLoading,
-    selectBulkDeletesInStore,
-    selectBulkDeletesPageLoading,
-    selectBulkDeletesShowInitWaitingMessage,
-    selectBulkDeletesState,
-    selectLastCreatedBulkDeleteId,
-} from './_selectors/bulk-delete.selectors';
-
-export {
-    selectDisabledStudentById,
-   selectDisabledStudentsActionLoading,
-   selectDisabledStudentsInStore,
-   selectDisabledStudentsPageLoading,
-   selectDisabledStudentsShowInitWaitingMessage,
-   selectDisabledStudentsState,
-   selectLastCreatedDisabledStudentId 
-} from './_selectors/disabled-student.selectors';
 
 
 
 // Services
+export { BulkDeleteService } from './_services/bulk-delete.service';
+export { DisabledStudentService } from './_services/disabled-student.service';
 export { DisableReasonService } from './_services/disable-reason.service';
 export { OnlineAdmissionService } from './_services/online-admission.service';
 export { CategoryService } from './_services/student-categories.service';
 export { StudentDetailService } from './_services/student-detail.service';
 export { StudentHouseService } from './_services/student-house.service';
 export { StudentService } from './_services/student.service';
-export { BulkDeleteService } from './_services/bulk-delete.service';
-export { DisabledStudentService } from './_services/disabled-student.service';
 
 

@@ -80,6 +80,12 @@ export class PageConfig {
       'class-timetable': {
         page: { title: 'Class Timetable', desc: '' }
       },
+      'teacher-timetable': {
+        page: { title: 'Teacher Timetable', desc: '' }
+      },
+      'assign-class-teacher': {
+        page: { title: 'Assign Class Teacher', desc: '' }
+      },
       'class': {
         page: { title: 'Class', desc: '' }
       },

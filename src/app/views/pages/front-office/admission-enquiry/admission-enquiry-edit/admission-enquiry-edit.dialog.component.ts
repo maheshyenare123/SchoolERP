@@ -15,6 +15,7 @@ import { AppState } from '../../../../../core/reducers';
 import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EnquiryModel, selectAdmissionEnquirysActionLoading, AdmissionEnquiryUpdated, AdmissionEnquiryOnServerCreated, selectLastCreatedAdmissionEnquiryId, ReferenceModel, SourceModel, AdmissionEnquiryService, SourceService, ReferenceService } from '../../../../../core/front-office';
+import { StudentClassService } from 'src/app/core/academics';
 // // Services and Models
 // import { DeliveryPersonModel, DeliveryPersonUpdated, DeliveryPersonOnServerCreated, selectLastCreatedDeliveryPersonId, selectDeliveryPersonsActionLoading } from '../../../../../core/master-entry';
 // import { EmployeeModel } from '../../../../../core/payroll/_models/employee.model';
@@ -48,7 +49,7 @@ classList=[]
 		private typesUtilsService: TypesUtilsService,
 		private referenceService:ReferenceService,
 		private sourceService:SourceService,
-		private admissionEnquiryService:AdmissionEnquiryService
+		private studentClassService:StudentClassService
 		) {
 	}
 
@@ -89,7 +90,7 @@ loadAllSources() {
 	//get All Class List
 	loadAllClasses() {
 		debugger
-		this.admissionEnquiryService.getAllClasses().subscribe(res => {
+		this.studentClassService.getAllStudentClasss().subscribe(res => {
 			const data=res['data'];
 			this.classList=data['content'];
 			console.log(this.classList)

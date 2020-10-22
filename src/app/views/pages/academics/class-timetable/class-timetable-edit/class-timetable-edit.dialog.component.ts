@@ -15,6 +15,7 @@ import { AppState } from '../../../../../core/reducers';
 import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ClassTimetableModel, selectClassTimetablesActionLoading, ClassTimetableUpdated, ClassTimetableOnServerCreated, selectLastCreatedClassTimetableId, ClassTimetableService } from '../../../../../core/academics';
+import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
 // // Services and Models
 // import { DeliveryPersonModel, DeliveryPersonUpdated, DeliveryPersonOnServerCreated, selectLastCreatedDeliveryPersonId, selectDeliveryPersonsActionLoading } from '../../../../../core/master-entry';
 // import { EmployeeModel } from '../../../../../core/payroll/_models/employee.model';
@@ -40,6 +41,7 @@ export class ClassTimetableEditDialogComponent implements OnInit, OnDestroy {
 	private componentSubscriptions: Subscription;
 
 classList=[]
+	day: string = "Monday";
 	constructor(public dialogRef: MatDialogRef<ClassTimetableEditDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		private fb: FormBuilder,
@@ -146,6 +148,12 @@ classList=[]
 		itemArray.removeAt(index);
 	  }
 
+	  tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
+		console.log('tabChangeEvent => ', tabChangeEvent); 
+		this.day =  tabChangeEvent.tab.textLabel
+		console.log('index => ', tabChangeEvent.index); 
+	}
+
 	/**
 	 * Returns page title
 	 */
@@ -181,7 +189,7 @@ classList=[]
 		_classTimetable.classId = controls1.classId.value;
 		_classTimetable.sectionId = controls1.sectionId.value;
 		_classTimetable.subjectGroupId = controls1.subjectGroupId.value;
-		_classTimetable.day = controls.day.value;
+		_classTimetable.day =  this.day// controls.day.value;
 		_classTimetable.timeTable = controls.items.value;
 	
 		return _classTimetable;

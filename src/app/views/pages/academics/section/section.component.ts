@@ -2,8 +2,8 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { SectionsDataSource, SectionDtoModel,selectSectionsActionLoading } from '../../../../core/academics';
-import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from 'src/app/core/_base/crud';
+import { SectionsDataSource, SectionDtoModel, selectSectionsActionLoading } from '../../../../core/academics';
+import { QueryParamsModel, LayoutUtilsService, MessageType, TypesUtilsService } from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -25,40 +25,40 @@ import { SectionsPageRequested, OneSectionDeleted, ManySectionsDeleted, Sections
 
 
 @Component({
-  selector: 'kt-section',
-  templateUrl: './section.component.html',
-  styleUrls: ['./section.component.scss']
+	selector: 'kt-section',
+	templateUrl: './section.component.html',
+	styleUrls: ['./section.component.scss']
 })
 export class SectionComponent implements OnInit {
 
-   // Table fields
-dataSource: SectionsDataSource;
-//  dataSource = new MatTableDataSource(ELEMENT_DATA);
-displayedColumns = ['id', 'section', 'actions'];
-@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-@ViewChild('sort1', {static: true}) sort: MatSort;
-// Filter fields
-@ViewChild('searchInput', {static: true}) searchInput: ElementRef;
-filterStatus = '';
-filterType = '';
-// Selection
-selection = new SelectionModel<SectionDtoModel>(true, []);
-sectionsResult: SectionDtoModel[] = [];
-// Subscriptions
-private subscriptions: Subscription[] = [];
+	// Table fields
+	dataSource: SectionsDataSource;
+	//  dataSource = new MatTableDataSource(ELEMENT_DATA);
+	displayedColumns = ['id', 'section', 'actions'];
+	@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+	@ViewChild('sort1', { static: true }) sort: MatSort;
+	// Filter fields
+	@ViewChild('searchInput', { static: true }) searchInput: ElementRef;
+	filterStatus = '';
+	filterType = '';
+	// Selection
+	selection = new SelectionModel<SectionDtoModel>(true, []);
+	sectionsResult: SectionDtoModel[] = [];
+	// Subscriptions
+	private subscriptions: Subscription[] = [];
 
-// Public properties
-section: SectionDtoModel;
-sectionForm: FormGroup;
-hasFormErrors = false;
-viewLoading = false;
-// Private properties
-private componentSubscriptions: Subscription;
-
-
+	// Public properties
+	section: SectionDtoModel;
+	sectionForm: FormGroup;
+	hasFormErrors = false;
+	viewLoading = false;
+	// Private properties
+	private componentSubscriptions: Subscription;
 
 
-  constructor(public dialog: MatDialog,
+
+
+	constructor(public dialog: MatDialog,
 		public snackBar: MatSnackBar,
 		private layoutUtilsService: LayoutUtilsService,
 		private translate: TranslateService,
@@ -66,11 +66,11 @@ private componentSubscriptions: Subscription;
 		private fb: FormBuilder,
 		private typesUtilsService: TypesUtilsService) { }
 
-  ngOnInit() {
+	ngOnInit() {
 
-	debugger;
-	
-    const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+		debugger;
+
+		const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 		this.subscriptions.push(sortSubscription);
 
 		/* Data load will be triggered in two cases:
@@ -80,7 +80,7 @@ private componentSubscriptions: Subscription;
 		const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
 			tap(() => this.loadSectionList())
 		)
-		.subscribe();
+			.subscribe();
 		this.subscriptions.push(paginatorSubscriptions);
 
 		// Filtration, bind to searchInput
@@ -93,18 +93,18 @@ private componentSubscriptions: Subscription;
 				this.loadSectionList();
 			})
 		)
-		.subscribe();
+			.subscribe();
 		this.subscriptions.push(searchSubscription);
 
 		// Init DataSource
 		this.dataSource = new SectionsDataSource(this.store);
-	
+
 		const entitiesSubscription = this.dataSource.entitySubject.pipe(
 			skip(1),
 			distinctUntilChanged()
 		).subscribe(res => {
 			debugger
-	console.log(res);
+			console.log(res);
 			this.sectionsResult = res;
 		});
 		this.subscriptions.push(entitiesSubscription);
@@ -113,12 +113,12 @@ private componentSubscriptions: Subscription;
 			this.loadSectionList();
 		}); // Remove this line, just loading imitation
 
-this.addSection();
-		
-  }
-/**
-	 * On Destroy
-	 */
+		this.addSection();
+
+	}
+	/**
+		 * On Destroy
+		 */
 	ngOnDestroy() {
 		this.subscriptions.forEach(el => el.unsubscribe());
 	}
@@ -181,7 +181,7 @@ this.addSection();
 			this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
 			this.loadSectionList();
 		});
-		
+
 
 	}
 
@@ -189,7 +189,7 @@ this.addSection();
 	 * Show add Section dialog
 	 */
 	addSection() {
-		this.section=new SectionDtoModel();
+		this.section = new SectionDtoModel();
 		this.section.clear(); //
 		this.createForm();
 
@@ -200,131 +200,137 @@ this.addSection();
 	 * @param section: SectionDtoModel
 	 */
 	editSection(section: SectionDtoModel) {
-		
-		this.section=section;
+
+		this.section = section;
 		this.createForm();
 
 	}
 
 
 
-createForm() {
-	debugger;
-	this.sectionForm = this.fb.group({
-		section: [this.section.section, Validators.required],
-
-		
-	});
-}
+	createForm() {
+		debugger;
+		this.sectionForm = this.fb.group({
+			section: [this.section.section, Validators.required],
 
 
-/**
- * Check control is invalid
- * @param controlName: string
- */
-isControlInvalid(controlName: string): boolean {
-	const control = this.sectionForm.controls[controlName];
-	const result = control.invalid && control.touched;
-	return result;
-}
-
-/** ACTIONS */
-
-/**
- * Returns prepared Section
- */
-prepareSection(): SectionDtoModel {
-	const controls = this.sectionForm.controls;
-	const _section = new SectionDtoModel();
-	_section.id = this.section.id;
-	_section.section = controls.section.value;
-	_section.isActive='yes';
-	return _section;
-}
-
-/**
- * On Submit
- */
-onSubmit() {
-	this.hasFormErrors = false;
-	const controls = this.sectionForm.controls;
-	/** check form */
-	if (this.sectionForm.invalid) {
-		Object.keys(controls).forEach(controlName =>
-			controls[controlName].markAsTouched()
-		);
-
-		this.hasFormErrors = true;
-		return;
+		});
 	}
 
-	const editedSection = this.prepareSection();
-	if (editedSection.id > 0) {
-		this.updateSection(editedSection);
-	} else {
-		this.createSection(editedSection);
+
+	/**
+	 * Check control is invalid
+	 * @param controlName: string
+	 */
+	isControlInvalid(controlName: string): boolean {
+		const control = this.sectionForm.controls[controlName];
+		const result = control.invalid && control.touched;
+		return result;
 	}
-	this.loadSectionList();
-	const	_saveMessage= editedSection.id > 0 ? 'Purpose  has been updated' : 'Purpose has been created';
-		
-	const _messageType = editedSection.id > 0 ? MessageType.Update : MessageType.Create;
-	
+
+	/** ACTIONS */
+
+	/**
+	 * Returns prepared Section
+	 */
+	prepareSection(): SectionDtoModel {
+		const controls = this.sectionForm.controls;
+		const _section = new SectionDtoModel();
+		_section.id = this.section.id;
+		if (_section.id > 0) {
+			_section.isActive = this.section.isActive;
+		} else {
+			_section.isActive = 'yes';
+		}
+
+		_section.section = controls.section.value;
+
+		return _section;
+	}
+
+	/**
+	 * On Submit
+	 */
+	onSubmit() {
+		this.hasFormErrors = false;
+		const controls = this.sectionForm.controls;
+		/** check form */
+		if (this.sectionForm.invalid) {
+			Object.keys(controls).forEach(controlName =>
+				controls[controlName].markAsTouched()
+			);
+
+			this.hasFormErrors = true;
+			return;
+		}
+
+		const editedSection = this.prepareSection();
+		if (editedSection.id > 0) {
+			this.updateSection(editedSection);
+		} else {
+			this.createSection(editedSection);
+		}
+		this.loadSectionList();
+		const _saveMessage = editedSection.id > 0 ? 'Purpose  has been updated' : 'Purpose has been created';
+
+		const _messageType = editedSection.id > 0 ? MessageType.Update : MessageType.Create;
+
 		this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-		
+
 		this.sectionForm.reset();
 
 		this.addSection();
 		// this.section.clear();
 		// this.createForm();
 
-}
-onCancel(){
-	this.sectionForm.reset();
-	this.addSection();
-	// this.section.clear();
-	// this.createForm();
-}
-/**
- * Update Section
- *
- * @param _section: SectionDtoModel
- */
-updateSection(_section: SectionDtoModel) {
-	const updateSection: Update<SectionDtoModel> = {
-		id: _section.id,
-		changes: _section
-	};
-	this.store.dispatch(new SectionUpdated({
-		partialSection: updateSection,
-		section: _section
-	}));
+	}
+	onCancel() {
+		this.sectionForm.reset();
+		this.addSection();
+		// this.section.clear();
+		// this.createForm();
+	}
+	/**
+	 * Update Section
+	 *
+	 * @param _section: SectionDtoModel
+	 */
+	updateSection(_section: SectionDtoModel) {
+		const updateSection: Update<SectionDtoModel> = {
+			id: _section.id,
+			changes: _section
+		};
+		this.store.dispatch(new SectionUpdated({
+			partialSection: updateSection,
+			section: _section
+		}));
 
 
-}
+	}
 
-/**
- * Create Section
- *
- * @param _section: SectionDtoModel
- */
-createSection(_section:SectionDtoModel) {
-	this.store.dispatch(new SectionOnServerCreated({ section: _section }));
-	this.componentSubscriptions = this.store.pipe(
-		select(selectLastCreatedSectionId),
-		// delay(1000), // Remove this line
-	).subscribe(res => {
-		if (!res) {
-			return;
-		}
+	/**
+	 * Create Section
+	 *
+	 * @param _section: SectionDtoModel
+	 */
+	createSection(_section: SectionDtoModel) {
+		this.store.dispatch(new SectionOnServerCreated({ section: _section }));
+		this.componentSubscriptions = this.store.pipe(
+			select(selectLastCreatedSectionId),
+			// delay(1000), // Remove this line
+		).subscribe(res => {
+			if (!res) {
+				return;
+			}
 
-		// this.dialogRef.close({ _section, isEdit: false });
-	});
-}
+			// this.dialogRef.close({ _section, isEdit: false });
+		});
+	}
 
-/** Alect Close event */
-onAlertClose($event) {
-	this.hasFormErrors = false;
-}
+	/** Alect Close event */
+	onAlertClose($event) {
+		this.hasFormErrors = false;
+	}
 
 }
 // export class NgbdTimepickerSteps {

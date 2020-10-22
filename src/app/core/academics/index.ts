@@ -7,7 +7,8 @@ export {StudentClassModel} from './_models/student-class.model';
 export {SubjectModel} from './_models/subject.model';
 export {SubjectDtoModel} from './_models/subjectDto.model';
 export {SubjectGroupDtoModel} from './_models/subjectGroupDto.model';
-export {ClassTimetableModel} from './_models/class-timetable.model'
+export {ClassTimetableModel} from './_models/class-timetable.model';
+export {AssignClassTeacherModel} from './_models/assign-class-teacher.model';
 
 //datasource
 export {StudentClasssDataSource} from './_data-sources/student-class.datasource';
@@ -15,7 +16,7 @@ export {SectionsDataSource} from './_data-sources/section.datasource';
 export {SubjectsDataSource} from './_data-sources/subject.datasource';
 export {SubjectGroupsDataSource} from './_data-sources/subject-group.datasource';
 export {ClassTimetablesDataSource} from './_data-sources/class-timetable.datasource';
-
+export {AssignClassTeachersDataSource} from './_data-sources/assign-class-teacher.datasource';
 
 // Effects
 export { StudentClassEffects } from './_effects/student-class.effects';
@@ -23,6 +24,9 @@ export { SectionEffects } from './_effects/section.effects';
 export { SubjectEffects } from './_effects/subject.effects';
 export { SubjectGroupEffects } from './_effects/subject-group.effects';
 export { ClassTimetableEffects } from './_effects/class-timetable.effects';
+export { AssignClassTeacherEffects } from './_effects/assign-class-teacher.effects';
+
+
 // Actions
 // Customer Actions =>
 export {
@@ -102,6 +106,21 @@ export {
     OneClassTimetableDeleted
 } from './_actions/class-timetable.actions';
 
+export {
+    AssignClassTeacherActionToggleLoading,
+    AssignClassTeacherActionTypes,
+    AssignClassTeacherActions,
+    AssignClassTeacherCreated,
+    AssignClassTeacherOnServerCreated,
+    AssignClassTeacherUpdated,
+    AssignClassTeachersPageCancelled,
+    AssignClassTeachersPageLoaded,
+    AssignClassTeachersPageRequested,
+    AssignClassTeachersPageToggleLoading,
+    AssignClassTeachersStatusUpdated,
+    ManyAssignClassTeachersDeleted,
+    OneAssignClassTeacherDeleted
+} from './_actions/assign-class-teacher.actions';
 
 // Reducers
 export { studentClasssReducer } from './_reducers/student-class.reducers';
@@ -109,7 +128,7 @@ export { sectionsReducer } from './_reducers/section.reducers';
 export { subjectsReducer } from './_reducers/subject.reducers';
 export { subjectGroupsReducer } from './_reducers/subject-group.reducers';
 export { classTimetablesReducer } from './_reducers/class-timetable.reducers';
-
+export { assignClassTeachersReducer } from './_reducers/assign-class-teacher.reducers';
 
 // Selectors
 export {
@@ -157,6 +176,15 @@ export {
     selectClassTimetablesState,
     selectLastCreatedClassTimetableId
 } from './_selectors/class-timetable.selectors';
+export {
+    selectAssignClassTeacherById,
+    selectAssignClassTeachersActionLoading,
+    selectAssignClassTeachersInStore,
+    selectAssignClassTeachersPageLoading,
+    selectAssignClassTeachersShowInitWaitingMessage,
+    selectAssignClassTeachersState,
+    selectLastCreatedAssignClassTeacherId
+} from './_selectors/assign-class-teacher.selectors';
 
 
 
@@ -166,3 +194,4 @@ export { SectionService } from './_services/section.service';
 export { SubjectService } from './_services/subject.service';
 export { SubjectGroupService } from './_services/subject-group.service';
 export { ClassTimetableService } from './_services/class-timetable.service';
+export { AssignClassTeacherService } from './_services/assign-class-teacher.service';

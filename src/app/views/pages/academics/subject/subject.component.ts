@@ -239,10 +239,15 @@ prepareSubject(): SubjectDtoModel {
 	const controls = this.subjectForm.controls;
 	const _subject = new SubjectDtoModel();
 	_subject.id = this.subject.id;
-  _subject.name = controls.name.value;
+	if (_subject.id > 0) {
+		_subject.isActive = this.subject.isActive;
+	} else {
+		_subject.isActive = 'yes';
+	}
+  _subject.name = controls.subject.value;
   _subject.type = controls.type.value;
   _subject.code = controls.code.value;
-	_subject.isActive='yes';
+
 	return _subject;
 }
 

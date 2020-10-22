@@ -31,12 +31,27 @@
                                     </mat-form-field>
                                 </div>
                                 <div class="col-lg-12 kt-margin-bottom-20-mobile">
-                                    <label >Subject Type</label><br>
+                                    <section class="example-section">
+                                    <label >Subject Type :</label><br>
                                     <mat-radio-group aria-label="Select an option" formControlName="type" >
-                                        <mat-radio-button value="Theory">Theory</mat-radio-button>
-                                        <mat-radio-button value="Practical">Practical</mat-radio-button>
+                                        <mat-radio-button class="example-margin" value="Theory">Theory</mat-radio-button>
+                                        <mat-radio-button class="example-margin" value="Practical">Practical</mat-radio-button>
                                       </mat-radio-group>
+                                      </section>
                                 </div>
+
+                                <!-- <section class="example-section">
+                                    <label class="example-margin">Align:</label>
+                                    <mat-radio-group [(ngModel)]="align">
+                                      <mat-radio-button class="example-margin" value="start">Start</mat-radio-button>
+                                      <mat-radio-button class="example-margin" value="end">End</mat-radio-button>
+                                    </mat-radio-group>
+                                  </section> -->
+
+
+
+
+
                                 <div class="col-lg-12 kt-margin-bottom-20-mobile">
                                     <mat-form-field class="mat-form-field-fluid">
                                         <input matInput placeholder="Enter Subject Code"
@@ -112,7 +127,7 @@
                         <ng-container matColumnDef="subject">
                             <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Subject
                             </mat-header-cell>
-                            <mat-cell *matCellDef="let subject">{{subject.subject}}</mat-cell>
+                            <mat-cell *matCellDef="let subject">{{subject.name}}</mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="subjectCode">
                             <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Subject Code

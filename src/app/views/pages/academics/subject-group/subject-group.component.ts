@@ -241,6 +241,12 @@ prepareSubjectGroup(): SubjectGroupDtoModel {
 	const controls = this.subjectGroupForm.controls;
 	const _subjectGroup = new SubjectGroupDtoModel();
 	_subjectGroup.id = this.subjectGroup.id;
+	// if (_subjectGroup.id > 0) {
+	// 	_subjectGroup.isActive = this.subjectGroup.isActive;
+	// } else {
+	// 	_subjectGroup.isActive = 'yes';
+	// }
+
 	_subjectGroup.name = controls.name.value;
   _subjectGroup.classId = controls.classId.value;
   _subjectGroup.className = controls.className.value;

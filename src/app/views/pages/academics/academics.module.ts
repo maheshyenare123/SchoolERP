@@ -16,8 +16,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { TranslateModule } from '@ngx-translate/core';
-import { ModuleGuard } from 'src/app/core/auth';
-import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from 'src/app/core/_base/crud';
+import { ModuleGuard } from '../../../core/auth';
+import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from '../../../core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MaterialModule } from '../material/material.module';
 
@@ -33,6 +33,8 @@ import { PromoteStudentComponent } from './promote-student/promote-student.compo
 import { SubjectGroupComponent } from './subject-group/subject-group.component';
 import { ClassTimetableListComponent } from './class-timetable/class-timetable-list/class-timetable-list.component'
 import { ClassTimetableEditDialogComponent } from './class-timetable/class-timetable-edit/class-timetable-edit.dialog.component'
+import { AssignClassTeachersPageCancelled, classTimetablesReducer, ClassTimetableEffects, assignClassTeachersReducer, AssignClassTeacherEffects, SectionEffects, sectionsReducer, subjectsReducer, SubjectEffects, subjectGroupsReducer, SubjectGroupEffects, ClassTimetableService, AssignClassTeacherService, SectionService, SubjectService, SubjectGroupService, StudentClassEffects, studentClasssReducer, StudentClassService } from 'src/app/core/academics';
+
 
 const routes: Routes = [
 	{
@@ -47,6 +49,14 @@ const routes: Routes = [
       {
 				path: 'class-timetable',
 				component: ClassTimetableListComponent
+      },
+      {
+				path: 'teacher-timetable',
+				component: TeacherTimetableComponent
+      },
+      {
+				path: 'assign-class-teacher',
+				component: AssignClassTeacherComponent
       },
 			{
 				path: 'class',
@@ -98,6 +108,23 @@ const routes: Routes = [
     MaterialModule,
     TranslateModule.forChild(),
     NgxPermissionsModule.forChild(),
+
+  //state manage
+  StoreModule.forFeature('classTimetables', classTimetablesReducer),
+  EffectsModule.forFeature([ClassTimetableEffects]),
+  StoreModule.forFeature('assignClassTeachers', assignClassTeachersReducer),
+  EffectsModule.forFeature([AssignClassTeacherEffects]),
+  StoreModule.forFeature('studentClasss', studentClasssReducer),
+  EffectsModule.forFeature([StudentClassEffects]),
+  StoreModule.forFeature('sections', sectionsReducer),
+  EffectsModule.forFeature([SectionEffects]),
+  StoreModule.forFeature('subjects', subjectsReducer),
+  EffectsModule.forFeature([SubjectEffects]),
+  StoreModule.forFeature('subjectGroups', subjectGroupsReducer),
+  EffectsModule.forFeature([SubjectGroupEffects]),
+
+
+
   ],
   providers: [
     NgbAlertConfig,
@@ -124,13 +151,20 @@ const routes: Routes = [
         hasBackdrop: true,
         panelClass: 'kt-mat-dialog-container__wrapper',
         height: 'auto',
-        width: '900px'
+        width: '1100px'
       }
     },
 
 
 
 //custom service
+ClassTimetableService,
+AssignClassTeacherService,
+StudentClassService,
+SectionService,
+SubjectService,
+SubjectGroupService,
+
 
 
 

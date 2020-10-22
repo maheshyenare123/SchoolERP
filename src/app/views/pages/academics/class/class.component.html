@@ -107,9 +107,14 @@
                         </ng-container>
 
                         <ng-container matColumnDef="section">
-                            <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Section
-                            </mat-header-cell>
-                            <mat-cell *matCellDef="let studentClass">{{studentClass.section}}</mat-cell>
+                            <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Section   </mat-header-cell>
+                            <mat-cell *matCellDef="let studentClass">
+                                <ng-container *ngFor="let section of studentClass.section">
+                                    {{section.section}}  
+                                    <br /> 
+                                </ng-container>
+                                </mat-cell>
+                                
                         </ng-container>
 
                         <ng-container matColumnDef="actions">

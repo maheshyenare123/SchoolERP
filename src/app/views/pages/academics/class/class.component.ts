@@ -105,6 +105,7 @@ private componentSubscriptions: Subscription;
 			debugger
 	console.log(res);
 			this.studentClasssResult = res;
+			
 		});
 		this.subscriptions.push(entitiesSubscription);
 		// First load
@@ -236,9 +237,17 @@ prepareStudentClass(): StudentClassModel {
 	const controls = this.studentClassForm.controls;
 	const _studentClass = new StudentClassModel();
 	_studentClass.id = this.studentClass.id;
+
+	if (_studentClass.id > 0) {
+		_studentClass.isActive = this.studentClass.isActive;
+	} else {
+		_studentClass.isActive = 'yes';
+	}
+
+
 	_studentClass.classses = controls.classses.value;
 	_studentClass.section = controls.section.value;
-	_studentClass.isActive='yes';
+	
 	return _studentClass;
 }
 
