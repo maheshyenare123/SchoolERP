@@ -8,7 +8,7 @@ import {map, mergeMap, tap} from 'rxjs/operators';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
 // CRUD
-import {QueryResultsModel} from '../../_base/crud';
+import {QueryResultsModel, FindResultsModel} from '../../_base/crud';
 // Services
 import {BulkDeleteService} from '../_services/bulk-delete.service';
 // State
@@ -46,9 +46,10 @@ export class BulkDeleteEffects {
     map(response => {
       const result: QueryResultsModel = response[0];
       const lastQuery: QueryParamsModel = response[1];
+      const data : FindResultsModel= result['data']
       return new BulkDeletesPageLoaded({
-        bulkDeletes: result.items,
-        totalCount: result.totalCount,
+        bulkDeletes: data.content,
+        totalCount: data.totalPages,
         page: lastQuery
       });
     })
@@ -116,7 +117,7 @@ export class BulkDeleteEffects {
         this.store.dispatch(this.showActionLoadingDistpatcher);
         return this.bulkDeletesService.createBulkDelete(payload.bulkDelete).pipe(
           tap(res => {
-            this.store.dispatch(new BulkDeleteCreated({bulkDelete: res}));
+            this.store.dispatch(new BulkDeleteCreated({bulkDelete: res['data']}));
           })
         );
       }),

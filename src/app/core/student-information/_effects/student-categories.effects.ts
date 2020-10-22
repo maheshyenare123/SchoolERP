@@ -8,7 +8,7 @@ import {map, mergeMap, tap} from 'rxjs/operators';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
 // CRUD
-import {QueryResultsModel} from '../../_base/crud';
+import {QueryResultsModel, FindResultsModel} from '../../_base/crud';
 // Services
 import {CategoryService} from '../_services/student-categories.service';
 // State
@@ -46,14 +46,15 @@ export class CategoryEffects {
     map(response => {
       const result: QueryResultsModel = response[0];
       const lastQuery: QueryParamsModel = response[1];
+      const data : FindResultsModel= result['data'];
       return new CategorysPageLoaded({
-        categorys: result.items,
-        totalCount: result.totalCount,
+        categorys: data.content,
+        totalCount: data.totalPages,
         page: lastQuery
       });
     })
   );
-
+  
   @Effect()
   deleteCategory$ = this.actions$
     .pipe(
@@ -116,7 +117,7 @@ export class CategoryEffects {
         this.store.dispatch(this.showActionLoadingDistpatcher);
         return this.categorysService.createCategory(payload.category).pipe(
           tap(res => {
-            this.store.dispatch(new CategoryCreated({category: res}));
+            this.store.dispatch(new CategoryCreated({category: res['data']}));
           })
         );
       }),

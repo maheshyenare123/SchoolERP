@@ -17,16 +17,18 @@ export class DisabledStudentService {
   createDisabledStudent(disabledStudent: StudentDtoModel): Observable<StudentDtoModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<StudentDtoModel>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason, disabledStudent, {headers: httpHeaders});
+    return this.http.post<StudentDtoModel>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Student, disabledStudent, {headers: httpHeaders});
   }
 
   // READ
   getAllDisabledStudents(): Observable<StudentDtoModel[]> {
-    return this.http.get<StudentDtoModel[]>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason);
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.get<StudentDtoModel[]>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Student, {headers: httpHeaders});
   }
 
   getDisabledStudentById(disabledStudentId: number): Observable<StudentDtoModel> {
-    return this.http.get<StudentDtoModel>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason+ `/${disabledStudentId}`);
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.get<StudentDtoModel>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Student+ `/${disabledStudentId}`, {headers: httpHeaders});
   }
 
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
@@ -37,7 +39,7 @@ export class DisabledStudentService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
-    const url =Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason + '/find';
+    const url =Constants.URL.HOST_URL+Constants.Student_Information.Disable_Student;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       params: httpParams
@@ -46,8 +48,8 @@ export class DisabledStudentService {
 
   // UPDATE => PUT: update the DisabledStudent on the server
   updateDisabledStudent(disabledStudent: StudentDtoModel): Observable<any> {
-    const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason, disabledStudent, {headers: httpHeader});
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.put(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Student+'/'+disabledStudent.id, disabledStudent, {headers: httpHeaders});
   }
 
   // UPDATE Status
@@ -57,18 +59,19 @@ export class DisabledStudentService {
       disabledStudentsForUpdate: disabledStudents,
       newStatus: status
     };
-    const url = Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason+ '/updateStatus';
+    const url = Constants.URL.HOST_URL+Constants.Student_Information.Disable_Student+ '/updateStatus';
     return this.http.put(url, body, {headers: httpHeaders});
   }
 
   // DELETE => delete the DisabledStudent from the server
   deleteDisabledStudent(disabledStudentId: number): Observable<StudentDtoModel> {
-    const url = `${Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason}/${disabledStudentId}`;
-    return this.http.delete<StudentDtoModel>(url);
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    const url = `${Constants.URL.HOST_URL+Constants.Student_Information.Disable_Student}/${disabledStudentId}`;
+    return this.http.delete<StudentDtoModel>(url, {headers: httpHeaders});
   }
 
   deleteDisabledStudents(ids: number[] = []): Observable<any> {
-    const url = Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason + '/deleteDisabledStudents';
+    const url = Constants.URL.HOST_URL+Constants.Student_Information.Disable_Student + '/deleteDisabledStudents';
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const body = {disabledStudentIdsForDelete: ids};
     return this.http.put<QueryResultsModel>(url, body, {headers: httpHeaders});

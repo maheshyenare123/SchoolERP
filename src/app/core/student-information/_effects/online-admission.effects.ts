@@ -8,7 +8,7 @@ import {map, mergeMap, tap} from 'rxjs/operators';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
 // CRUD
-import {QueryResultsModel} from '../../_base/crud';
+import {QueryResultsModel, FindResultsModel} from '../../_base/crud';
 // Services
 import {OnlineAdmissionService} from '../_services/online-admission.service';
 // State
@@ -46,14 +46,15 @@ export class OnlineAdmissionEffects {
     map(response => {
       const result: QueryResultsModel = response[0];
       const lastQuery: QueryParamsModel = response[1];
+      const data : FindResultsModel= result['data'];
       return new OnlineAdmissionsPageLoaded({
-        onlineAdmissions: result.items,
-        totalCount: result.totalCount,
+        onlineAdmissions: data.content,
+        totalCount: data.totalPages,
         page: lastQuery
       });
     })
   );
-
+  
   @Effect()
   deleteOnlineAdmission$ = this.actions$
     .pipe(
@@ -116,7 +117,7 @@ export class OnlineAdmissionEffects {
         this.store.dispatch(this.showActionLoadingDistpatcher);
         return this.onlineAdmissionsService.createOnlineAdmission(payload.onlineAdmission).pipe(
           tap(res => {
-            this.store.dispatch(new OnlineAdmissionCreated({onlineAdmission: res}));
+            this.store.dispatch(new OnlineAdmissionCreated({onlineAdmission: res['data']}));
           })
         );
       }),

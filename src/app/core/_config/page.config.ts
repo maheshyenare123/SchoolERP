@@ -75,6 +75,31 @@ export class PageConfig {
       
       
     },
+    'academics': {
+      
+      'class-timetable': {
+        page: { title: 'Class Timetable', desc: '' }
+      },
+      'teacher-timetable': {
+        page: { title: 'Teacher Timetable', desc: '' }
+      },
+      'assign-class-teacher': {
+        page: { title: 'Assign Class Teacher', desc: '' }
+      },
+      'class': {
+        page: { title: 'Class', desc: '' }
+      },
+      'section': {
+        page: { title: 'Section', desc: '' }
+      },
+      'subject': {
+        page: { title: 'Subject', desc: '' }
+      },
+      'subject-group': {
+        page: { title: 'Subject Group', desc: '' }
+      },
+         
+    },
     ecommerce: {
       customers: {
         page: { title: 'Customers', desc: '' }

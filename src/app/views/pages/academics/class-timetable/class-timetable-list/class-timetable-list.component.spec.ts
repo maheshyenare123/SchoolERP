@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ClassTimetableComponent } from './class-timetable.component';
+import { ClassTimetableListComponent } from './class-timetable-list.component';
 
-describe('ClassTimetableComponent', () => {
-  let component: ClassTimetableComponent;
-  let fixture: ComponentFixture<ClassTimetableComponent>;
+describe('ClassTimetableListComponent', () => {
+  let component: ClassTimetableListComponent;
+  let fixture: ComponentFixture<ClassTimetableListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ClassTimetableComponent ]
+      declarations: [ ClassTimetableListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ClassTimetableComponent);
+    fixture = TestBed.createComponent(ClassTimetableListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

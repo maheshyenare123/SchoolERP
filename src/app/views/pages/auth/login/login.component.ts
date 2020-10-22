@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
 // Auth
 import { AuthNoticeService, AuthService, Login } from '../../../../core/auth';
+import { AuthLoginService } from './auth-login.service';
 
 /**
  * ! Just example => Should be removed in development
@@ -59,7 +60,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 		private store: Store<AppState>,
 		private fb: FormBuilder,
 		private cdr: ChangeDetectorRef,
-		private route: ActivatedRoute
+		private route: ActivatedRoute,
+		private authloginservice: AuthLoginService,
 	) {
 		this.unsubscribe = new Subject();
 	}
@@ -123,6 +125,34 @@ export class LoginComponent implements OnInit, OnDestroy {
 	/**
 	 * Form Submit
 	 */
+
+	login() {
+
+		const authData = {
+			username: 'superadmin@gmail.com',
+			password: '123'
+		}
+		this.authloginservice.isLogin(authData).subscribe((res: any) => {
+			console.log(res);
+
+			localStorage.setItem('token', res['accessToken']);
+
+			//    this.jwtauth.setToken(res.accessToken);
+			//   this.localstorage.set("CurrentRole",res.roles[0]);
+			//   this.localstorage.set("CurrentUsername",res.username);
+			//   this.localstorage.set("access_token",res);
+			//   this.router.navigate(['/admin']);
+			//  console.log(this.jwtauth.getSessionID());
+			console.log('success');
+			alert('Login Successfull');
+
+		}, (err) => {
+			console.log('Error While Login');
+			alert('Wrong Credentials!!!');
+			console.error(err);
+		});
+	}
+
 	submit() {
 		const controls = this.loginForm.controls;
 		/** check form */
@@ -134,7 +164,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 		}
 
 		this.loading = true;
-
+		this.login();
 		const authData = {
 			email: controls.email.value,
 			password: controls.password.value
@@ -144,7 +174,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 			.pipe(
 				tap(user => {
 					if (user) {
-						this.store.dispatch(new Login({authToken: user.accessToken}));
+						this.store.dispatch(new Login({ authToken: user.accessToken }));
 						this.router.navigateByUrl(this.returnUrl); // Main page
 					} else {
 						this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');

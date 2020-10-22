@@ -44,7 +44,10 @@ const routes: Routes = [
           path: 'student-information',
           loadChildren: () => import('./views/pages/student-information/student-information.module').then(m => m.StudentInformationModule),
         },
-      
+        {
+          path: 'academics',
+          loadChildren: () => import('./views/pages/academics/academics.module').then(m => m.AcademicsModule),
+        },
       {
         path: 'user-management',
         loadChildren: () => import('./views/pages/user-management/user-management.module').then(m => m.UserManagementModule),

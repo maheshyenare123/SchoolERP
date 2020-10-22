@@ -238,7 +238,14 @@ prepareCategory(): CategoryDtoModel {
 	const controls = this.categoryForm.controls;
 	const _category = new CategoryDtoModel();
 	_category.id = this.category.id;
+	if(_category.id>0 ){
+		_category.isActive=this.category.isActive;
+	}else{
+		_category.isActive='yes';
+	}
+
 	_category.category = controls.category.value;
+
 
 	return _category;
 }
@@ -273,14 +280,17 @@ onSubmit() {
 		this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
 		this.loadCategoryList();
 		this.categoryForm.reset();
-		this.category.clear();
-		this.createForm();
+		// this.category.clear();
+		// this.createForm();
+		this.addCategory();
+
 
 }
 onCancel(){
 	this.categoryForm.reset();
-	this.category.clear();
-	this.createForm();
+	// this.category.clear();
+	// this.createForm();
+	this.addCategory();
 }
 /**
  * Update Category

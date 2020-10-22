@@ -113,7 +113,7 @@
                 <ng-container matColumnDef="name">
 					<mat-header-cell *matHeaderCellDef mat-sort-header >Name
 					</mat-header-cell>
-					<mat-cell *matCellDef="let student" >{{student.name}}</mat-cell>
+					<mat-cell *matCellDef="let student" >{{student.firstname}} {{student.lastname}}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="class">
 					<mat-header-cell *matHeaderCellDef mat-sort-header >Class
@@ -136,11 +136,11 @@
                 </ng-container>
                 <ng-container matColumnDef="category">
 					<mat-header-cell *matHeaderCellDef mat-sort-header>Category</mat-header-cell>
-					<mat-cell *matCellDef="let student">{{student.category}}</mat-cell>
+					<mat-cell *matCellDef="let student">{{student.categoryId}}</mat-cell>
                 </ng-container>
 				<ng-container matColumnDef="contact">
 					<mat-header-cell *matHeaderCellDef mat-sort-header>Contact</mat-header-cell>
-					<mat-cell *matCellDef="let student">{{student.contact}}</mat-cell>
+					<mat-cell *matCellDef="let student">{{student.mobileno}}</mat-cell>
 				</ng-container>
 				
 
