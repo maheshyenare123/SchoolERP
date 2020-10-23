@@ -161,14 +161,14 @@ this.addSubjectGroup();
 setSubjectDataInChecboxList(){
 	this.subjectList.forEach(element => {
 	
-		this.subjectCheckBoxList.push({ 'data':	(SubjectModel).apply(element), 'isChecked': false })
+		this.subjectCheckBoxList.push({ 'data':	new SubjectModel(element.id,element.name,element.id), 'isChecked': false })
 	})
 }
 
 
 setSectionDataInChecboxList(){
 	this.sectionList.forEach(element => {
-		this.sectionCheckBoxList.push({ 'data':(SectionModel).apply(element), 'isChecked': false })
+		this.sectionCheckBoxList.push({ 'data':new SectionModel(element.id,element.section,element.id), 'isChecked': false })
 	})
 }
 

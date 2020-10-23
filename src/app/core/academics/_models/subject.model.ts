@@ -9,4 +9,9 @@ export class SubjectModel {
         this.name = '';
         this.subjectGroupSubjectId = 0;
     }
+    constructor(id:number,name:string,subjectGroupSubjectId:number){
+        this.id=id;
+        this.name=name;
+        this.subjectGroupSubjectId=subjectGroupSubjectId
+    }
 }

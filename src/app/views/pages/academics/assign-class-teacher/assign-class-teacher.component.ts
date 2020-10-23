@@ -2,7 +2,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { AssignClassTeachersDataSource, AssignClassTeacherModel, selectAssignClassTeachersActionLoading, StudentClassService, StudentClassModel, SectionModel, SectionService, AssignClassTeacherService } from '../../../../core/academics';
+import { AssignClassTeachersDataSource, AssignClassTeacherModel, StudentClassService, StudentClassModel, SectionService, AssignClassTeacherService, SectionDtoModel } from '../../../../core/academics';
 import { QueryParamsModel, LayoutUtilsService, MessageType, TypesUtilsService } from '../../../../core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -53,7 +53,7 @@ export class AssignClassTeacherComponent implements OnInit {
 
 
 	classList: StudentClassModel[] = [];
-	sectionList: SectionModel[] = [];
+	sectionList: SectionDtoModel[] = [];
 	staffList: StaffDtoModel[] = [];
 	staffCheckBoxList: StaffCheckBox[] = [];
 	constructor(public dialog: MatDialog,
