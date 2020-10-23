@@ -111,6 +111,12 @@ export class PageConfig {
         page: { title: 'Approve Leave', desc: '' }
       },
     },
+    'homework': {
+      'homework-list': {
+        page: { title: 'Home Work', desc: '' }
+      },
+      
+    },
     ecommerce: {
       customers: {
         page: { title: 'Customers', desc: '' }

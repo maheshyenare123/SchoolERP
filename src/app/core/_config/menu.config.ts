@@ -238,6 +238,23 @@ export class MenuConfig {
           ]
         },
 
+        {
+          title: 'HomeWork',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+            
+            {
+              title: 'Homework',
+              page: '/homework/homework-list'
+            },
+            
+          ]
+        },
+
+
+
+        
         // {section: 'Components'},
         // {
         //   title: 'Google Material',
