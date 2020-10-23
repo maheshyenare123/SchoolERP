@@ -42,13 +42,6 @@ import { ModuleGuard } from 'src/app/core/auth';
 import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from 'src/app/core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
-// import { MatRadioModule } from '@angular/material/radio';
-// import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-// import { MatRippleModule, MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
-// import { MatDialogModule } from '@angular/material/dialog';
-// import { MatIconRegistry, MatIconModule } from '@angular/material/icon';
-// import { MatCheckboxModule } from '@angular/material/checkbox';
-// import { MatDatepickerModule, MatDatepickerIntl } from '@angular/material/datepicker';
 
 const routes: Routes = [
 	{

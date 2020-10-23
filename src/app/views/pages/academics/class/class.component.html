@@ -30,14 +30,29 @@
 
                                     </mat-form-field>
                                 </div>
-                                <div class="col-lg-12 kt-margin-bottom-20-mobile">
-                                    <!-- make it dynamic -->
+                                <!-- <div class="col-lg-12 kt-margin-bottom-20-mobile">
+                                   
                                     <label>Section<sup style="color: red;">*</sup></label><br>
                                     <input type="checkbox" value="A" (onChange)="sectionChange($event)"/>&nbsp; A<br>
                                     <input type="checkbox" value="B" (onChange)="sectionChange($event)"/>&nbsp;B<br>
                                     <input type="checkbox" value="C" (onChange)="sectionChange($event)"/>&nbsp;C<br>
                                     <input type="checkbox" value="D" (onChange)="sectionChange($event)"/>&nbsp;D<br>
+                                </div> -->
+                                <div class="col-lg-12 kt-margin-bottom-20-mobile">
+                                    <label>Section </label>
+                                    <section class="example-section" *ngFor="let check of sectionCheckBoxList">
+                                        <mat-checkbox class="example-margin"  [checked]="check.isChecked" (change)="onCheckBoxChanges($event.checked,check.data.id)">
+                                            {{check.data.section}}
+                                        </mat-checkbox>
+                                        <!-- <mat-error *ngIf="checkBoxError">
+                                            Teacher
+                                            <strong>is required</strong>
+                                        </mat-error> -->
+                                    </section>
+
                                 </div>
+
+                                
                             </div>
                             <div class="row text-right">
                                 <div class="col-lg-12">

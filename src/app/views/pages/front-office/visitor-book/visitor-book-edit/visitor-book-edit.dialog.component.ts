@@ -47,6 +47,7 @@ constructor(public dialogRef: MatDialogRef<VisitorBookEditDialogComponent>,
  * On init
  */
 ngOnInit() {
+
 	this.loadAllVisitorPurposes();
 	this.store.pipe(select(selectVisitorBooksActionLoading)).subscribe(res => this.viewLoading = res);
 	// loadding

@@ -7,8 +7,8 @@ export class SubjectGroupDtoModel {
     description: string;
     id: number;
     name: string;
-    sections: SectionModel;
-    subjects: SubjectModel;	
+    sections: SectionModel[];
+    subjects: SubjectModel[];	
 
     clear() {
         this.classId = 0;
@@ -16,7 +16,7 @@ export class SubjectGroupDtoModel {
         this.description = '';
         this.id = 0;
         this.name = '';
-        this.sections = new SectionModel;
-        this.subjects = new SubjectModel;
+        this.sections = [];
+        this.subjects = [];
     }
 }

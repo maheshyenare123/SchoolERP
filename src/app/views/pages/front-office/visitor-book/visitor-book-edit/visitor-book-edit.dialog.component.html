@@ -99,16 +99,18 @@
                         formControlName="inTime" [ngxTimepicker]="picker" />
                         <ngx-material-timepicker #picker></ngx-material-timepicker> -->
                         <label>In Time</label>
-                    <ngx-timepicker-field  [controlOnly]="true" placeholder="Choose a Time " formControlName="inTime"></ngx-timepicker-field>
+                    <ngx-timepicker-field  [controlOnly]="true" placeholder="Choose a Time "  [defaultTime]="'12:11 AM'" formControlName="inTime"></ngx-timepicker-field>
                 </div>
-			<!--  [defaultTime]="'11:11 am'" -->
+			
+
+
 			</div>
 
             <div class="col-lg-4 kt-margin-bottom-20-mobile">
                 <div class="ngx-timepicker-field-example">
                         
                         <label>Out Time</label>
-                    <ngx-timepicker-field  [controlOnly]="true" placeholder="Choose a Time "  formControlName="outTime"></ngx-timepicker-field>
+                    <ngx-timepicker-field  [controlOnly]="true" placeholder="Choose a Time "  [defaultTime]="'12:11 AM'"  formControlName="outTime"></ngx-timepicker-field>
 				</div>
 				<!-- <ngx-mat-timepicker formControlName="outTime"></ngx-mat-timepicker> -->
 				

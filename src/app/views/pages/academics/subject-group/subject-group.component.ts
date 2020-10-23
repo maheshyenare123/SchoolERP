@@ -2,7 +2,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { SubjectGroupsDataSource, SubjectGroupDtoModel,selectSubjectGroupsActionLoading } from '../../../../core/academics';
+import { SubjectGroupsDataSource, SubjectGroupDtoModel,selectSubjectGroupsActionLoading, SubjectModel, SectionModel, StudentClassModel, SectionDtoModel, StudentClassService, SectionService, SubjectService, SubjectDtoModel } from '../../../../core/academics';
 import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -21,6 +21,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { SubjectGroupsPageRequested, OneSubjectGroupDeleted, ManySubjectGroupsDeleted, SubjectGroupsStatusUpdated, SubjectGroupUpdated, SubjectGroupOnServerCreated, selectLastCreatedSubjectGroupId } from '../../../../core/academics';
+import { ClassDtoModel } from 'src/app/core/Models/classDto.model';
 
 @Component({
   selector: 'kt-subject-group',
@@ -55,6 +56,11 @@ private componentSubscriptions: Subscription;
 
 
 
+classList: StudentClassModel[] = [];
+	sectionList: SectionDtoModel[] = [];
+	subjectList: SubjectDtoModel[] = [];
+	subjectCheckBoxList: SubjectCheckBox[] = [];
+	sectionCheckBoxList: SectionCheckBox[] = [];
 
   constructor(public dialog: MatDialog,
 		public snackBar: MatSnackBar,
@@ -62,12 +68,17 @@ private componentSubscriptions: Subscription;
 		private translate: TranslateService,
 		private store: Store<AppState>,
 		private fb: FormBuilder,
-		private typesUtilsService: TypesUtilsService) { }
+		private typesUtilsService: TypesUtilsService,
+		private studentClassService: StudentClassService,
+		private sectionService: SectionService,
+		private subjectService: SubjectService) { }
 
   ngOnInit() {
 
 	debugger;
-	
+	this.loadAllSubject();
+	this.loadAllClasses();
+	// this.loadAllSections();
     const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 		this.subscriptions.push(sortSubscription);
 
@@ -114,6 +125,55 @@ private componentSubscriptions: Subscription;
 this.addSubjectGroup();
 		
   }
+
+	//get All Class List
+	loadAllClasses() {
+		debugger
+		this.studentClassService.getAllStudentClasss().subscribe(res => {
+			const data = res['data'];
+			this.classList = data['content'];
+			console.log(this.classList)
+		}, err => {
+		});
+	}
+	loadAllSectionsByClassId(id:number) {
+		debugger
+		this.sectionService.getAllSections().subscribe(res => {
+			const data = res['data'];
+			this.sectionList = data['content'];
+			console.log(this.sectionList)
+			this.setSectionDataInChecboxList();
+		}, err => {
+		});
+	}
+
+	loadAllSubject() {
+		debugger
+		this.subjectService.getAllSubjects().subscribe(res => {
+			const data = res['data'];
+			this.subjectList = data['content'];
+			console.log(this.subjectList)
+			this.setSubjectDataInChecboxList();
+		
+		}, err => {
+		});
+	}
+setSubjectDataInChecboxList(){
+	this.subjectList.forEach(element => {
+	
+		this.subjectCheckBoxList.push({ 'data':	(SubjectModel).apply(element), 'isChecked': false })
+	})
+}
+
+
+setSectionDataInChecboxList(){
+	this.sectionList.forEach(element => {
+		this.sectionCheckBoxList.push({ 'data':(SectionModel).apply(element), 'isChecked': false })
+	})
+}
+
+
+
 /**
 	 * On Destroy
 	 */
@@ -201,9 +261,30 @@ this.addSubjectGroup();
 	 * @param subjectGroup: SubjectGroupDtoModel
 	 */
 	editSubjectGroup(subjectGroup: SubjectGroupDtoModel) {
-		
+	
 		this.subjectGroup=subjectGroup;
+		this.loadAllSectionsByClassId(this.subjectGroup.classId);
 		this.createForm();
+		//by default check section checkbox
+			this.sectionCheckBoxList.forEach(element => {
+				this.subjectGroup.sections.forEach(innerElement => {
+					if (element.data.id == innerElement.id) {
+						element.isChecked = true;
+					}
+				})
+
+
+		})
+//by default check subject checkbox
+		this.subjectCheckBoxList.forEach(element => {
+			this.subjectGroup.subjects.forEach(innerElement => {
+				if (element.data.id == innerElement.id) {
+					element.isChecked = true;
+				}
+			})
+
+
+		})
 
 	}
 
@@ -216,12 +297,38 @@ createForm() {
     classId: [this.subjectGroup.classId, Validators.required],
     className: [this.subjectGroup.className, ],
 		description: [this.subjectGroup.description, ],
-    sections: [this.subjectGroup.sections, Validators.required],
-		subjects: [this.subjectGroup.subjects, Validators.required],
+    // sections: [this.subjectGroup.sections, Validators.required],
+		// subjects: [this.subjectGroup.subjects, Validators.required],
 	});
 }
 
+onSubjectCheckBoxChanges(_isChecked: boolean, id: number) {
+	// get current position of the changes element by ID
+	const index = this.subjectCheckBoxList.findIndex(_ => _.data.id === id);
+	// if (!(index > -1)) return;
 
+	// const isChecked = this.checkBoxes[index].isChecked;
+	if (_isChecked) {
+		this.subjectCheckBoxList[index].isChecked = _isChecked;
+	}else{
+		this.subjectCheckBoxList[index].isChecked = _isChecked;
+	}
+}
+onSectionCheckBoxChanges(_isChecked: boolean, id: number) {
+	// get current position of the changes element by ID
+	const index = this.sectionCheckBoxList.findIndex(_ => _.data.id === id);
+	// if (!(index > -1)) return;
+	if (_isChecked) {
+		this.sectionCheckBoxList[index].isChecked = _isChecked;
+	}else{
+		this.sectionCheckBoxList[index].isChecked = _isChecked;
+	}
+}
+onClassSelectChange(classObj:StudentClassModel){
+	this.loadAllSectionsByClassId(classObj.id);
+	this.subjectGroupForm.controls.className.setValue(classObj.classses);
+
+}
 /**
  * Check control is invalid
  * @param controlName: string
@@ -251,9 +358,24 @@ prepareSubjectGroup(): SubjectGroupDtoModel {
   _subjectGroup.classId = controls.classId.value;
   _subjectGroup.className = controls.className.value;
   _subjectGroup.description = controls.description.value;
-  _subjectGroup.sections = controls.sections.value;
-  _subjectGroup.subjects = controls.subjects.value;
-   
+//   _subjectGroup.sections = controls.sections.value;
+//   _subjectGroup.subjects = controls.subjects.value;
+
+const sectionData: SectionModel[] = [];
+		this.sectionCheckBoxList.forEach(element => {
+			if (element.isChecked) {
+				sectionData.push(element.data);
+			}
+		})
+		_subjectGroup.sections =sectionData;
+
+const subjectData: SubjectModel[] = [];
+		this.subjectCheckBoxList.forEach(element => {
+			if (element.isChecked) {
+				subjectData.push(element.data);
+			}
+		})
+		_subjectGroup.subjects =subjectData;
 	return _subjectGroup;
 }
 
@@ -274,6 +396,7 @@ onSubmit() {
 	}
 
 	const editedSubjectGroup = this.prepareSubjectGroup();
+	console.log(editedSubjectGroup);
 	if (editedSubjectGroup.id > 0) {
 		this.updateSubjectGroup(editedSubjectGroup);
 	} else {
@@ -291,6 +414,10 @@ onSubmit() {
 		this.addSubjectGroup();
 		// this.subjectGroup.clear();
 		// this.createForm();
+		this.subjectCheckBoxList = [];
+		this.setSubjectDataInChecboxList();
+		this.sectionCheckBoxList=[];
+		// this.setSectionDataInChecboxList();
 
 }
 onCancel(){
@@ -298,6 +425,9 @@ onCancel(){
 	this.addSubjectGroup();
 	// this.subjectGroup.clear();
 	// this.createForm();
+	this.subjectCheckBoxList = [];
+		this.setSubjectDataInChecboxList();
+		this.sectionCheckBoxList=[];
 }
 /**
  * Update SubjectGroup
@@ -341,25 +471,12 @@ onAlertClose($event) {
 	this.hasFormErrors = false;
 }
 
-subjectGroupChange($event){
-	if($event.target.checked === true){
-		//this.subjectGroup.subjects.push()
-
-	}else{
-
-	}
 }
-classChange($event){
-//this.subjectGroup.sections ==
+export class SubjectCheckBox {
+  data:SubjectModel;
+  isChecked:boolean;
 }
-sectionChange($event){
-//this.subjectGroup.sections ==
-}
-
-}
-// export class NgbdTimepickerSteps {
-//     time: NgbTimeStruct = {hour: 13, minute: 30, second: 0};
-//     hourStep = 1;
-//     minuteStep = 15;
-//     secondStep = 30;
-// }
+export class SectionCheckBox {
+	data:SectionModel;
+	isChecked:boolean;
+  }

@@ -31,6 +31,7 @@ export class AssignClassTeacherService {
 getAllStaffs(): Observable<StaffDtoModel[]> {
   const httpHeaders = this.httpUtils.getHTTPHeaders();
   return this.http.get<StaffDtoModel[]>(Constants.URL.HOST_URL+'api/staff', {headers: httpHeaders});
+ 
 }
 
 

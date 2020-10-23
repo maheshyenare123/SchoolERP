@@ -32,30 +32,66 @@
                                 </div>
                                 <div class="col-lg-12 kt-margin-bottom-20-mobile">
                                     <mat-form-field class="mat-form-field-fluid">
-                                        <mat-select placeholder="Class" formControlName="classId" (onChange)="classChange($event)">
-                                            <mat-option value="0">Business</mat-option>
-                                            <mat-option value="1">Individual</mat-option>
+                                        <mat-select placeholder="Select Class" formControlName="classId" >
+
+                                            <mat-option *ngFor="let classData of classList" [value]="classData.id" (change)="onClassSelectChange(classData)">
+                                                {{classData.classses}}
+                                            </mat-option>
                                         </mat-select>
 
                                     </mat-form-field>
                                 </div>
-                                <div class="col-lg-12 kt-margin-bottom-20-mobile">
+                                <!-- <div class="col-lg-12 kt-margin-bottom-20-mobile">
                                     <mat-form-field class="mat-form-field-fluid">
-                                        <mat-select placeholder="Section" (onChange)="sectionChange($event)">
-                                            <mat-option value="0">Business</mat-option>
-                                            <mat-option value="1">Individual</mat-option>
+                                        <mat-select placeholder="Select Section" formControlName="sections">
+
+                                            <mat-option *ngFor="let sectionData of sectionList" [value]="sectionData">
+                                                {{sectionData.section}}
+                                            </mat-option>
+
+
                                         </mat-select>
 
                                     </mat-form-field>
-                                </div>
+                                </div> -->
                                 <div class="col-lg-12 kt-margin-bottom-20-mobile">
-                                    <!-- make it dynamic -->
+                                    <label>Section </label>
+                                    <section class="example-section" *ngFor="let check of sectionCheckBoxList">
+                                        <mat-checkbox class="example-margin"  [checked]="check.isChecked" (change)="onSectionCheckBoxChanges($event.checked,check.data.id)">
+                                            {{check.data.name}} 
+                                        </mat-checkbox>
+                                        <!-- <mat-error *ngIf="checkBoxError">
+                                            Teacher
+                                            <strong>is required</strong>
+                                        </mat-error> -->
+                                    </section>
+
+                                </div>
+
+                                <!-- <div class="col-lg-12 kt-margin-bottom-20-mobile">
+                                    
                                     <label>Subject Group<sup style="color: red;">*</sup></label><br>
                                     <input type="checkbox" value="A" (onChange)="subjectGroupChange($event)"/>&nbsp; A<br>
                                     <input type="checkbox" value="B" (onChange)="subjectGroupChange($event)"/>&nbsp;B<br>
                                     <input type="checkbox" value="C" (onChange)="subjectGroupChange($event)"/>&nbsp;C<br>
                                     <input type="checkbox" value="D" (onChange)="subjectGroupChange($event)"/>&nbsp;D<br>
+                                </div> -->
+                                <div class="col-lg-12 kt-margin-bottom-20-mobile">
+                                    <label>Subject Group </label>
+                                    <section class="example-section" *ngFor="let check of subjectCheckBoxList">
+                                        <mat-checkbox class="example-margin"  [checked]="check.isChecked" (change)="onSubjectCheckBoxChanges($event.checked,check.data.id)">
+                                            {{check.data.name}} 
+                                        </mat-checkbox>
+                                        <!-- <mat-error *ngIf="checkBoxError">
+                                            Teacher
+                                            <strong>is required</strong>
+                                        </mat-error> -->
+                                    </section>
+
                                 </div>
+
+
+
                                 <div class="col-lg-12 kt-margin-bottom-20-mobile">
                                     <mat-form-field class="mat-form-field-fluid">
                                         <textarea matInput rows="2" placeholder="Enter Description" formControlName="description"></textarea>

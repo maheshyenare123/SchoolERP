@@ -18,6 +18,7 @@ import { FormGroup, Validators, FormBuilder, FormArray, FormControl, ValidatorFn
 
 import { AssignClassTeachersPageRequested, OneAssignClassTeacherDeleted, ManyAssignClassTeachersDeleted, AssignClassTeachersStatusUpdated, AssignClassTeacherUpdated, AssignClassTeacherOnServerCreated, selectLastCreatedAssignClassTeacherId } from '../../../../core/academics';
 import { StaffDtoModel } from 'src/app/core/academics/_models/staffDto.model';
+import { element } from 'protractor';
 
 @Component({
 	selector: 'kt-assign-class-teacher',
@@ -54,6 +55,7 @@ export class AssignClassTeacherComponent implements OnInit {
 	classList: StudentClassModel[] = [];
 	sectionList: SectionModel[] = [];
 	staffList: StaffDtoModel[] = [];
+	staffCheckBoxList: StaffCheckBox[] = [];
 	constructor(public dialog: MatDialog,
 		public snackBar: MatSnackBar,
 		private layoutUtilsService: LayoutUtilsService,
@@ -117,7 +119,7 @@ export class AssignClassTeacherComponent implements OnInit {
 		}); // Remove this line, just loading imitation
 
 
-
+		this.addAssignClassTeacher();
 	}
 
 	//get All Class List
@@ -143,14 +145,21 @@ export class AssignClassTeacherComponent implements OnInit {
 	loadAllStaff() {
 		debugger
 		this.assignClassTeacherService.getAllStaffs().subscribe(res => {
+			console.log("response collage List")
+			console.log(res)
 			const data = res['data'];
 			this.staffList = data['content'];
 			console.log(this.staffList)
-			this.addAssignClassTeacher();
+			this.setDataInChecboxList();
+		
 		}, err => {
 		});
 	}
-
+setDataInChecboxList(){
+	this.staffList.forEach(element => {
+		this.staffCheckBoxList.push({ 'data': element, 'isChecked': false })
+	})
+}
 
 
 	/**
@@ -233,6 +242,7 @@ export class AssignClassTeacherComponent implements OnInit {
 		this.assignClassTeacher.clear(); //
 		this.createForm();
 
+
 	}
 
 	/**
@@ -243,76 +253,58 @@ export class AssignClassTeacherComponent implements OnInit {
 
 		this.assignClassTeacher = assignClassTeacher;
 		this.createForm();
+		// this.setDataInChecboxList();
+
+		this.staffCheckBoxList.forEach(element => {
+			this.assignClassTeacher.staffs.forEach(innerElement => {
+				if (element.data.id == innerElement.id) {
+					element.isChecked = true;
+				}
+			})
+
+
+		})
+
 
 	}
 
 
-	fruits: Array<String> = ['Mango', 'Grapes', 'Strawberry', 'Oranges'];
-	Data: Array<any> = [
-		{ id: 1, name: 'Mango', value: '7 kg' },
-		{ id: 2, name: 'Grapes', value: '5 kg' },
-		{ id: 3, name: 'Strawberry', value: '10 kg ' },
-		{ id: 4, name: 'Oranges', value: '', }
-	]
-
 
 	createForm() {
 		debugger;
- 
-	
+
+
 		this.assignClassTeacherForm = this.fb.group({
 			classId: [this.assignClassTeacher.classId, Validators.required],
 			sections: [this.assignClassTeacher.sections, Validators.required],
 			// staffs: [this.assignClassTeacher.staffs, Validators.required],
 			// staffs: this.fb.array([])
 			// favFruits: this.addFruitsControls(),
-			staffArrays: this.fb.array([''], [Validators.required])
+			// staffArrays: this.fb.array([''], [Validators.required])
 		});
 		// this.createStaffRow();
-		
-		if(this.assignClassTeacher.id>0){
-
-this.staffList.forEach(staffElement => {
-	this.assignClassTeacher.staffs.forEach(updateElement=>{
-		
-	
-	
-	});
-});
 
 
-			this.assignClassTeacher.staffs.forEach(element=>{
-			this.onChange(element,true)});
-		}
-		
+
 
 	}
 
-	// createStaffRow() {
-	// 	const staffArray = <FormArray>this.assignClassTeacherForm.controls.staffArrays;
-	// 	this.data.forEach(element => {
-	// 		staffArray.push(new FormControl(this.fb.group({
-	// 			staffName: [element.name],
-	// 		})));
-	// 	});  
-	
-		
-	//   }
+	onCheckBoxChanges(_isChecked: boolean, id: number) {
+		// get current position of the changes element by ID
+		const index = this.staffCheckBoxList.findIndex(_ => _.data.id === id);
+		// if (!(index > -1)) return;
 
-	  
-
-	onChange(staff: any, isChecked: boolean) {
-		const staffArray = <FormArray>this.assignClassTeacherForm.controls.staffArrays;
-
-		if (isChecked) {
-
-			staffArray.push(new FormControl({ staff }));
-		} else {
-
-			let index = staffArray.controls.findIndex(x => x.value.staff.id == staff.id)
-			staffArray.removeAt(index);
+		// const isChecked = this.checkBoxes[index].isChecked;
+		if (_isChecked) {
+			this.staffCheckBoxList[index].isChecked = _isChecked;
+		}else{
+			this.staffCheckBoxList[index].isChecked = _isChecked;
 		}
 	}
+
+
+
+	
 
 
 	/**
@@ -324,14 +316,7 @@ this.staffList.forEach(staffElement => {
 		const result = control.invalid && control.touched;
 		return result;
 	}
-	// getCheckBoxError() {
-	// 	if(this.assignClassTeacherForm.touched) {
-	// 	  const value = this.assignClassTeacherForm.get('staffArrays').invalid;
-	// 	//You can call .hasError('required') as well!
-	// 	  return value;
-	// 	}
-	// 	return false;
-	// 	}
+
 	/** ACTIONS */
 
 	/**
@@ -343,9 +328,16 @@ this.staffList.forEach(staffElement => {
 		_assignClassTeacher.id = this.assignClassTeacher.id;
 		_assignClassTeacher.classId = controls.classId.value;
 		_assignClassTeacher.sections = controls.sections.value;
-		_assignClassTeacher.staffs = controls.staffs.value;
-
+		// _assignClassTeacher.staffs = controls.staffs.value;
+		const staffData: StaffDtoModel[] = [];
+		this.staffCheckBoxList.forEach(element => {
+			if (element.isChecked) {
+				staffData.push(element.data);
+			}
+		})
+		_assignClassTeacher.staffs = staffData;
 		return _assignClassTeacher;
+
 	}
 
 	/**
@@ -365,6 +357,7 @@ this.staffList.forEach(staffElement => {
 		}
 
 		const editedAssignClassTeacher = this.prepareAssignClassTeacher();
+		console.log(editedAssignClassTeacher)
 		if (editedAssignClassTeacher.id > 0) {
 			this.updateAssignClassTeacher(editedAssignClassTeacher);
 		} else {
@@ -380,6 +373,8 @@ this.staffList.forEach(staffElement => {
 		this.assignClassTeacherForm.reset();
 
 		this.addAssignClassTeacher();
+		this.staffCheckBoxList = [];
+		this.setDataInChecboxList();
 		// this.assignClassTeacher.clear();
 		// this.createForm();
 
@@ -389,6 +384,8 @@ this.staffList.forEach(staffElement => {
 		this.addAssignClassTeacher();
 		// this.assignClassTeacher.clear();
 		// this.createForm();
+		this.staffCheckBoxList = [];
+		this.setDataInChecboxList();
 	}
 	/**
 	 * Update AssignClassTeacher
@@ -431,21 +428,7 @@ this.staffList.forEach(staffElement => {
 	onAlertClose($event) {
 		this.hasFormErrors = false;
 	}
-	assignClassTeacherChange($event) {
-		if ($event.target.checked === true) {
-			//this.assignClassTeacher.staffs.push()
 
-		} else {
-
-		}
-	}
-
-	classChange($event) {
-		//this.assignClassTeacher.className ==
-	}
-	sectionChange($event) {
-		//this.assignClassTeacher.sections ==
-	}
 
 }
 // export class NgbdTimepickerSteps {
@@ -454,3 +437,8 @@ this.staffList.forEach(staffElement => {
 //     minuteStep = 15;
 //     secondStep = 30;
 // }
+
+export class StaffCheckBox {
+	data: StaffDtoModel;
+	isChecked: boolean;
+}

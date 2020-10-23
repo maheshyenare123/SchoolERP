@@ -2,7 +2,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { StudentClasssDataSource, StudentClassModel,selectStudentClasssActionLoading } from '../../../../core/academics';
+import { StudentClasssDataSource, StudentClassModel,selectStudentClasssActionLoading, SectionModel, SectionService, SectionDtoModel } from '../../../../core/academics';
 import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -55,7 +55,9 @@ viewLoading = false;
 private componentSubscriptions: Subscription;
 
 
+sectionList: SectionDtoModel[] = [];
 
+	sectionCheckBoxList: SectionCheckBox[] = [];
 
   constructor(public dialog: MatDialog,
 		public snackBar: MatSnackBar,
@@ -63,10 +65,11 @@ private componentSubscriptions: Subscription;
 		private translate: TranslateService,
 		private store: Store<AppState>,
 		private fb: FormBuilder,
-		private typesUtilsService: TypesUtilsService) { }
+		private typesUtilsService: TypesUtilsService,
+		private sectionService: SectionService,) { }
 
   ngOnInit() {
-
+	this.loadAllSections();
 	debugger;
 	
     const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
@@ -116,7 +119,23 @@ private componentSubscriptions: Subscription;
 this.addStudentClass();
 		
   }
-/**
+
+  loadAllSections() {
+	debugger
+	this.sectionService.getAllSections().subscribe(res => {
+		const data = res['data'];
+		this.sectionList = data['content'];
+		console.log(this.sectionList)
+		this.setDataInChecboxList();
+	}, err => {
+	});
+}
+  setDataInChecboxList(){
+	this.sectionList.forEach(element => {
+		this.sectionCheckBoxList.push({ 'data': element, 'isChecked': false })
+	})
+}
+   /**
 	 * On Destroy
 	 */
 	ngOnDestroy() {
@@ -164,10 +183,10 @@ this.addStudentClass();
 	 */
 	deleteStudentClass(_item: StudentClassModel) {
 
-		const _title = 'Purpose';
-		const _description = 'Are you sure to permanently delete selected purpose?';
-		const _waitDesciption = 'Purpose is deleting...';
-		const _deleteMessage = ' Selected purpose has been deleted';
+		const _title = 'Class';
+		const _description = 'Are you sure to permanently delete selected Class?';
+		const _waitDesciption = 'Class is deleting...';
+		const _deleteMessage = ' Selected Class has been deleted';
 
 
 
@@ -204,6 +223,18 @@ this.addStudentClass();
 		this.studentClass=studentClass;
 		this.createForm();
 
+		// this.setDataInChecboxList();
+
+		this.sectionCheckBoxList.forEach(element => {
+			this.studentClass.section.forEach(innerElement => {
+				if (element.data.id == innerElement.id) {
+					element.isChecked = true;
+				}
+			})
+
+
+		})
+
 	}
 
 
@@ -212,11 +243,22 @@ createForm() {
 	debugger;
 	this.studentClassForm = this.fb.group({
 		classses: [this.studentClass.classses, Validators.required],
-		section: [this.studentClass.section, ],
+		// section: [this.studentClass.section, ],
 		
 	});
 }
+onCheckBoxChanges(e: boolean, id: number) {
+	// get current position of the changes element by ID
+	const index = this.sectionCheckBoxList.findIndex(_ => _.data.id === id);
+	// if (!(index > -1)) return;
 
+	// const isChecked = this.checkBoxes[index].isChecked;
+	if (e) {
+		this.sectionCheckBoxList[index].isChecked = e;
+	}else{
+		this.sectionCheckBoxList[index].isChecked = e;
+	}
+}
 
 /**
  * Check control is invalid
@@ -246,7 +288,14 @@ prepareStudentClass(): StudentClassModel {
 
 
 	_studentClass.classses = controls.classses.value;
-	_studentClass.section = controls.section.value;
+	// _studentClass.section = controls.section.value;
+	const _sectionData: SectionDtoModel[] = [];
+		this.sectionCheckBoxList.forEach(element => {
+			if (element.isChecked) {
+				_sectionData.push(element.data);
+			}
+		})
+		_studentClass.section = _sectionData;
 	
 	return _studentClass;
 }
@@ -268,13 +317,13 @@ onSubmit() {
 	}
 
 	const editedStudentClass = this.prepareStudentClass();
+	console.log(editedStudentClass);
 	if (editedStudentClass.id > 0) {
 		this.updateStudentClass(editedStudentClass);
 	} else {
 		this.createStudentClass(editedStudentClass);
 	}
-	this.loadStudentClassList();
-	const	_saveMessage= editedStudentClass.id > 0 ? 'Purpose  has been updated' : 'Purpose has been created';
+	const	_saveMessage= editedStudentClass.id > 0 ? 'Class  has been updated' : 'Class has been created';
 		
 	const _messageType = editedStudentClass.id > 0 ? MessageType.Update : MessageType.Create;
 	
@@ -285,6 +334,8 @@ onSubmit() {
 		this.addStudentClass();
 		// this.studentClass.clear();
 		// this.createForm();
+		this.sectionCheckBoxList = [];
+		this.setDataInChecboxList();
 
 }
 onCancel(){
@@ -292,6 +343,8 @@ onCancel(){
 	this.addStudentClass();
 	// this.studentClass.clear();
 	// this.createForm();
+	this.sectionCheckBoxList = [];
+		this.setDataInChecboxList();
 }
 /**
  * Update StudentClass
@@ -307,6 +360,7 @@ updateStudentClass(_studentClass: StudentClassModel) {
 		partialStudentClass: updateStudentClass,
 		studentClass: _studentClass
 	}));
+	this.loadStudentClassList();
 
 
 }
@@ -328,6 +382,8 @@ createStudentClass(_studentClass:StudentClassModel) {
 
 		// this.dialogRef.close({ _studentClass, isEdit: false });
 	});
+	this.loadStudentClassList();
+
 }
 
 /** Alect Close event */
@@ -345,9 +401,7 @@ sectionChange($event){
 }
 
 }
-// export class NgbdTimepickerSteps {
-//     time: NgbTimeStruct = {hour: 13, minute: 30, second: 0};
-//     hourStep = 1;
-//     minuteStep = 15;
-//     secondStep = 30;
-// }
+export class SectionCheckBox {
+	data: SectionDtoModel;
+	isChecked: boolean;
+}

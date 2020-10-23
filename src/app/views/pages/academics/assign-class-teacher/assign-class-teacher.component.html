@@ -61,9 +61,9 @@
 
                                 <div class="col-lg-12 kt-margin-bottom-20-mobile">
                                     <label>Teacher </label>
-                                    <section class="example-section" *ngFor="let data of staffList">
-                                        <mat-checkbox class="example-margin" (change)="onChange(data,$event.checked)">
-                                            {{data.name}} {{data.surname}}
+                                    <section class="example-section" *ngFor="let check of staffCheckBoxList">
+                                        <mat-checkbox class="example-margin"  [checked]="check.isChecked" (change)="onCheckBoxChanges($event.checked,check.data.id)">
+                                            {{check.data.name}} {{check.data.surname}}
                                         </mat-checkbox>
                                         <!-- <mat-error *ngIf="checkBoxError">
                                             Teacher
@@ -72,17 +72,7 @@
                                     </section>
 
                                 </div>
-                                <!-- <div class="col-lg-12 kt-margin-bottom-20-mobile">
-                                    <label>Teacher </label>
-                                    <section  class="example-section" formArrayName="staffArrays"
-                                        *ngFor="let item of assignClassTeacherForm.get('staffArrays')?.controls;let i = index;">
-                                        <ng-container [formGroupName]="i">
-                                            <mat-checkbox  (change)="onChange(data,$event.checked)"
-                                          formControlName="staffName">staffName
-                                        </mat-checkbox>
-                                        </ng-container>
-                                    </section>
-                                </div> -->
+                               
 
 
 
