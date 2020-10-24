@@ -26,7 +26,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 // State
-import { metaReducers, reducers } from './core/reducers';
+import { metaReducers, reducers, createMetaReducers } from './core/reducers';
 // Components
 import { AppComponent } from './app.component';
 // Modules
@@ -115,7 +115,13 @@ export function getHighlightLanguages() {
     PartialsModule,
     CoreModule,
     OverlayModule,
-    StoreModule.forRoot(reducers, {metaReducers}),
+    StoreModule.forRoot(reducers, {metaReducers }),
+  //   ,runtimeChecks: { 
+  //     strictStateImmutability: false, 
+  //     strictActionImmutability: false,
+  // }
+  // StoreModule.forRoot(reducers, {   metaReducers: createMetaReducers()}),
+
     EffectsModule.forRoot([]),
     StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
     StoreDevtoolsModule.instrument(),

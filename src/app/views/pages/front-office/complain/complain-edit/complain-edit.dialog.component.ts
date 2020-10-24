@@ -15,7 +15,7 @@ import { AppState } from '../../../../../core/reducers';
 import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ComplaintModel, selectComplaintsActionLoading, ComplaintUpdated, ComplaintOnServerCreated, selectLastCreatedComplaintId, ComplaintTypeModel, SourceModel, ComplaintTypeService, SourceService } from '../../../../../core/front-office';
-import { TimestampModel } from 'src/app/core/front-office/_models/timestamp.model';
+import { TimestampModel } from '../../../../../core/front-office/_models/timestamp.model';
 // // Services and Models
 // import { DeliveryPersonModel, DeliveryPersonUpdated, DeliveryPersonOnServerCreated, selectLastCreatedDeliveryPersonId, selectDeliveryPersonsActionLoading } from '../../../../../core/master-entry';
 // import { EmployeeModel } from '../../../../../core/payroll/_models/employee.model';

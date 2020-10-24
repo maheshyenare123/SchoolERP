@@ -1,13 +1,13 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { PhoneCallLogsDataSource, GeneralCallModel, PhoneCallLogsPageRequested, OnePhoneCallLogDeleted } from 'src/app/core/front-office';
-import { QueryParamsModel, LayoutUtilsService, MessageType } from 'src/app/core/_base/crud';
+import { PhoneCallLogsDataSource, GeneralCallModel, PhoneCallLogsPageRequested, OnePhoneCallLogDeleted } from '../../../../../core/front-office';
+import { QueryParamsModel, LayoutUtilsService, MessageType } from '../../../../../core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SubheaderService } from 'src/app/core/_base/layout';
+import { SubheaderService } from '../../../../../core/_base/layout';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';

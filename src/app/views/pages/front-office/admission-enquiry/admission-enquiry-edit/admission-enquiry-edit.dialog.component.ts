@@ -15,7 +15,7 @@ import { AppState } from '../../../../../core/reducers';
 import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EnquiryModel, selectAdmissionEnquirysActionLoading, AdmissionEnquiryUpdated, AdmissionEnquiryOnServerCreated, selectLastCreatedAdmissionEnquiryId, ReferenceModel, SourceModel, AdmissionEnquiryService, SourceService, ReferenceService } from '../../../../../core/front-office';
-import { StudentClassService } from 'src/app/core/academics';
+import { StudentClassService } from '../../../../../core/academics';
 // // Services and Models
 // import { DeliveryPersonModel, DeliveryPersonUpdated, DeliveryPersonOnServerCreated, selectLastCreatedDeliveryPersonId, selectDeliveryPersonsActionLoading } from '../../../../../core/master-entry';
 // import { EmployeeModel } from '../../../../../core/payroll/_models/employee.model';

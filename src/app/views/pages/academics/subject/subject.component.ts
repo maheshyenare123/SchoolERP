@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ActivatedRoute, Router } from '@angular/router';
-import { SubheaderService } from 'src/app/core/_base/layout';
+import { SubheaderService } from '../../../../core/_base/layout';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';

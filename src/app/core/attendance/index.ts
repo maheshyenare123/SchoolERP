@@ -2,7 +2,7 @@
 //models
 export {StudentAttendenceDtoModel} from './_models/studentAttendenceDto.model';
 export {ApproveLeaveDtoModel} from './_models/approve-leave.model';
-
+export {AttendenceTypeModel} from './_models/attendenceType.model'
 //datasource
 export {StudentAttendencesDataSource} from './_data-sources/student-attendance.datasource';
 export {ApproveLeavesDataSource} from './_data-sources/approve-leave.datasource';
@@ -74,3 +74,4 @@ export {
 // Services
 export { StudentAttendenceService} from './_services/student-attendance.service';
 export { ApproveLeaveService} from './_services/approve-leave.service';
+export{  AttendenceTypeService} from './_services/attendance-type.service';

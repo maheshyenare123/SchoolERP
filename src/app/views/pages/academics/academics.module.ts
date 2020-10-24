@@ -33,7 +33,7 @@ import { PromoteStudentComponent } from './promote-student/promote-student.compo
 import { SubjectGroupComponent } from './subject-group/subject-group.component';
 import { ClassTimetableListComponent } from './class-timetable/class-timetable-list/class-timetable-list.component'
 import { ClassTimetableEditDialogComponent } from './class-timetable/class-timetable-edit/class-timetable-edit.dialog.component'
-import { AssignClassTeachersPageCancelled, classTimetablesReducer, ClassTimetableEffects, assignClassTeachersReducer, AssignClassTeacherEffects, SectionEffects, sectionsReducer, subjectsReducer, SubjectEffects, subjectGroupsReducer, SubjectGroupEffects, ClassTimetableService, AssignClassTeacherService, SectionService, SubjectService, SubjectGroupService, StudentClassEffects, studentClasssReducer, StudentClassService } from 'src/app/core/academics';
+import { AssignClassTeachersPageCancelled, classTimetablesReducer, ClassTimetableEffects, assignClassTeachersReducer, AssignClassTeacherEffects, SectionEffects, sectionsReducer, subjectsReducer, SubjectEffects, subjectGroupsReducer, SubjectGroupEffects, ClassTimetableService, AssignClassTeacherService, SectionService, SubjectService, SubjectGroupService, StudentClassEffects, studentClasssReducer, StudentClassService } from '../../../core/academics';
 
 
 const routes: Routes = [

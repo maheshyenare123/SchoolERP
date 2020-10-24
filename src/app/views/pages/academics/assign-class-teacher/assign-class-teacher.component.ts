@@ -17,7 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder, FormArray, FormControl, ValidatorFn } from '@angular/forms';
 
 import { AssignClassTeachersPageRequested, OneAssignClassTeacherDeleted, ManyAssignClassTeachersDeleted, AssignClassTeachersStatusUpdated, AssignClassTeacherUpdated, AssignClassTeacherOnServerCreated, selectLastCreatedAssignClassTeacherId } from '../../../../core/academics';
-import { StaffDtoModel } from 'src/app/core/academics/_models/staffDto.model';
+import { StaffDtoModel } from '../../../../core/academics/_models/staffDto.model';
 import { element } from 'protractor';
 
 @Component({

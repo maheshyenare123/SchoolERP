@@ -16,8 +16,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { TranslateModule } from '@ngx-translate/core';
-import { ModuleGuard } from 'src/app/core/auth';
-import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from 'src/app/core/_base/crud';
+import { ModuleGuard } from '../../../core/auth';
+import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from '../../../core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MaterialModule } from '../material/material.module';
 
@@ -27,6 +27,8 @@ import { StudentAttendanceComponent } from './student-attendance/student-attenda
 import { AttendanceByDateComponent } from './attendance-by-date/attendance-by-date.component';
 import { ApproveLeaveEditDialogComponent } from './approve-leave/approve-leave-edit/approve-leave-edit.dialog.component';
 import { ApproveLeaveListComponent } from './approve-leave/approve-leave-list/approve-leave-list.component';
+import { StudentAttendenceEffects, approveLeavesReducer, ApproveLeaveEffects, studentAttendencesReducer, StudentAttendenceService, ApproveLeaveService, AttendenceTypeService } from '../../../core/attendance';
+
 const routes: Routes = [
 	{
 		path: '',
@@ -80,6 +82,16 @@ const routes: Routes = [
     MaterialModule,
     TranslateModule.forChild(),
     NgxPermissionsModule.forChild(),
+
+
+
+
+
+//state manage
+StoreModule.forFeature('studentAttendences', studentAttendencesReducer),
+EffectsModule.forFeature([StudentAttendenceEffects]),
+StoreModule.forFeature('approveLeaves', approveLeavesReducer),
+EffectsModule.forFeature([ApproveLeaveEffects]),
   ],
   providers: [
     NgbAlertConfig,
@@ -113,7 +125,9 @@ const routes: Routes = [
 
 
 //custom service
-
+StudentAttendenceService,
+ApproveLeaveService,
+AttendenceTypeService,
 
 
   ],

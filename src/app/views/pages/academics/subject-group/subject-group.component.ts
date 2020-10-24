@@ -3,14 +3,14 @@ import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrate
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { SubjectGroupsDataSource, SubjectGroupDtoModel,selectSubjectGroupsActionLoading, SubjectModel, SectionModel, StudentClassModel, SectionDtoModel, StudentClassService, SectionService, SubjectService, SubjectDtoModel } from '../../../../core/academics';
-import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from 'src/app/core/_base/crud';
+import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from '../../../../core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ActivatedRoute, Router } from '@angular/router';
-import { SubheaderService } from 'src/app/core/_base/layout';
+import { SubheaderService } from '../../../../core/_base/layout';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
@@ -21,7 +21,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { SubjectGroupsPageRequested, OneSubjectGroupDeleted, ManySubjectGroupsDeleted, SubjectGroupsStatusUpdated, SubjectGroupUpdated, SubjectGroupOnServerCreated, selectLastCreatedSubjectGroupId } from '../../../../core/academics';
-import { ClassDtoModel } from 'src/app/core/Models/classDto.model';
+
 
 @Component({
   selector: 'kt-subject-group',

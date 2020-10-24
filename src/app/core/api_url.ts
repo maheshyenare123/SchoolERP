@@ -29,7 +29,6 @@ export class Constants {
      }
    
      public static Academics: any = {
-
       Class_TimeTable:'/api/',
       Teacher_TimeTable:'api/',
      Assign_Class_Teacher:'api/',
@@ -40,6 +39,16 @@ export class Constants {
     
 
      }
+
+     public static Attendance: any = {
+ 
+        Approve_Leave:'api/student-apply-leave',
+        Attendance_By_Date:'',
+        Student_Attendance:'api/student-attendance',
+     Attendance_Type:'api/attendance-type'
+     }
+
+
      public static Homework: any = {
      
       Homework_Add:'homework',

@@ -42,7 +42,10 @@
                                             <mat-option *ngFor="let sectionData of sectionList" [value]="sectionData">
                                                 {{sectionData.section}}
                                             </mat-option>
-
+                                            <mat-error>Section
+                                                <strong>is required</strong>
+                                            </mat-error>
+    
 
                                         </mat-select>
                                         <mat-error>Section

@@ -13,18 +13,21 @@ import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bott
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { MaterialModule } from '../material/material.module';
-
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { TranslateModule } from '@ngx-translate/core';
-import { ModuleGuard } from 'src/app/core/auth';
-import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from 'src/app/core/_base/crud';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from '../../../core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
- //import { CKEditorModule } from 'ng2-ckeditor';
+import { ModuleGuard } from 'src/app/core/auth';
+
 
 import {HomeworkComponent} from './homework.component';
 import { HomeworkListComponent } from './homework-list/homework-list.component';
 import {HomeworkEditDialogComponent } from './homework-edit/homework-edit.dialog.component'
 import {HomeworkEvaluationEditDialogComponent } from './homework-evaluation-edit/homework-evaluation-edit.dialog.component'
+import { HomeworkEffects, homeworksReducer, HomeworkService } from 'src/app/core/homework';
+
 
 const routes: Routes = [
 	{
@@ -54,23 +57,22 @@ const routes: Routes = [
   imports: [
     CommonModule,
     PartialsModule,
-		NgbModule,
-		CoreModule,
-		CodePreviewModule,
-		RouterModule.forChild(routes),
-		FormsModule,
-		ReactiveFormsModule,
-		HttpClientModule,
+    NgbModule,
+    CoreModule,
+    CodePreviewModule,
+    RouterModule.forChild(routes),
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
     PerfectScrollbarModule,
     MaterialModule,
     TranslateModule.forChild(),
     NgxPermissionsModule.forChild(),
-   // CKEditorModule
 
     
-//state manage
-    // StoreModule.forFeature('admissionEnquirys', admissionEnquirysReducer),
-    // EffectsModule.forFeature([AdmissionEnquiryEffects]),
+// state manage
+    StoreModule.forFeature('homeworks', homeworksReducer),
+    EffectsModule.forFeature([HomeworkEffects]),
    
   ],
   providers: [
@@ -105,7 +107,7 @@ const routes: Routes = [
 
 
 //custom service
-
+HomeworkService
 
 
   ],

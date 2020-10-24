@@ -5,7 +5,7 @@ import {HttpHeaders, HttpParams} from '@angular/common/http';
 import {QueryResultsModel} from '../models/query-models/query-results.model';
 import {QueryParamsModel} from '../models/query-models/query-params.model';
 import {HttpExtenstionsModel} from '../../crud/models/http-extentsions-model';
-import { Constants } from 'src/app/core/api_url';
+import { Constants } from '../../../../core/api_url';
 
 @Injectable()
 export class HttpUtilsService {

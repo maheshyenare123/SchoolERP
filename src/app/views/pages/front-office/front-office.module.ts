@@ -34,12 +34,12 @@ import { PostalReceiveEditDialogComponent } from './postal-receive/postal-receiv
 import { ComplainEditDialogComponent } from './complain/complain-edit/complain-edit.dialog.component';
 import { VisitorBookEditDialogComponent } from './visitor-book/visitor-book-edit/visitor-book-edit.dialog.component';
 import { StoreModule } from '@ngrx/store';
-import { admissionEnquirysReducer, AdmissionEnquiryEffects, VisitorPurposeEffects, visitorPurposesReducer, SourceEffects, sourcesReducer, ReferenceEffects, referencesReducer, ComplaintTypeEffects, complaintTypesReducer, VisitorBookEffects, visitorBooksReducer, PostalReceiveEffects, postalReceivesReducer, PostalDispatchEffects, postalDispatchsReducer, PhoneCallLogEffects, phoneCallLogsReducer, ComplaintEffects, complaintsReducer, AdmissionEnquiryService, ComplaintTypeService, ComplaintService, PostalDispatchService, PostalReceiveService, VisitorBookService, ReferenceService, SourceService, VisitorPurposeService, PhoneCallLogService } from 'src/app/core/front-office';
+import { admissionEnquirysReducer, AdmissionEnquiryEffects, VisitorPurposeEffects, visitorPurposesReducer, SourceEffects, sourcesReducer, ReferenceEffects, referencesReducer, ComplaintTypeEffects, complaintTypesReducer, VisitorBookEffects, visitorBooksReducer, PostalReceiveEffects, postalReceivesReducer, PostalDispatchEffects, postalDispatchsReducer, PhoneCallLogEffects, phoneCallLogsReducer, ComplaintEffects, complaintsReducer, AdmissionEnquiryService, ComplaintTypeService, ComplaintService, PostalDispatchService, PostalReceiveService, VisitorBookService, ReferenceService, SourceService, VisitorPurposeService, PhoneCallLogService } from '../../../core/front-office';
 import { EffectsModule } from '@ngrx/effects';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { TranslateModule } from '@ngx-translate/core';
-import { ModuleGuard } from 'src/app/core/auth';
-import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from 'src/app/core/_base/crud';
+import { ModuleGuard } from '../../../core/auth';
+import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from '../../../core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 

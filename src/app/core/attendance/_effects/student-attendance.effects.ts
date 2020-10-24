@@ -39,7 +39,7 @@ export class StudentAttendenceEffects {
     ofType<StudentAttendencesPageRequested>(StudentAttendenceActionTypes.StudentAttendencesPageRequested),
     mergeMap(({payload}) => {
       this.store.dispatch(this.showPageLoadingDistpatcher);
-      const requestToServer = this.studentAttendencesService.findStudentAttendences(payload.page);
+      const requestToServer = this.studentAttendencesService.findStudentAttendences(payload.page,payload.classId,payload.sectionId,payload.date);
       const lastQuery = of(payload.page);
       return forkJoin(requestToServer, lastQuery);
     }),
@@ -49,8 +49,8 @@ export class StudentAttendenceEffects {
       const data : FindResultsModel= result['data'];
       return new StudentAttendencesPageLoaded({
         studentAttendences: data.content,
-    totalCount: data.totalPages,
-    page: lastQuery
+        totalCount: data.totalPages,
+         page: lastQuery
       });
     })
   );
