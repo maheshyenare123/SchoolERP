@@ -40,6 +40,10 @@ export class Constants {
     
 
      }
-
+     public static Homework: any = {
+     
+      Homework_Add:'homework',
+     
+   }
     
 }

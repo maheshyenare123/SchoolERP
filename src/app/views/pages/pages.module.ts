@@ -15,6 +15,7 @@ import {FrontOfficeModule} from './front-office/front-office.module'
 import { MaterialModule} from './material/material.module';
 
 
+
 @NgModule({
   declarations: [],
   exports: [],
@@ -29,7 +30,8 @@ import { MaterialModule} from './material/material.module';
     UserManagementModule,
     MaterialModule,
     
-    FrontOfficeModule
+    FrontOfficeModule,
+    
   ],
   providers: []
 })
