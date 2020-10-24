@@ -100,6 +100,23 @@ export class PageConfig {
       },
          
     },
+    'attendance': {
+      'student-attendance': {
+        page: { title: 'Student Attendance', desc: '' }
+      },
+      'attendance-by-date': {
+        page: { title: 'Attendance By Date', desc: '' }
+      },
+      'approve-leave': {
+        page: { title: 'Approve Leave', desc: '' }
+      },
+    },
+    'homework': {
+      'homework-list': {
+        page: { title: 'Home Work', desc: '' }
+      },
+      
+    },
     ecommerce: {
       customers: {
         page: { title: 'Customers', desc: '' }

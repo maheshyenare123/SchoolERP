@@ -11,7 +11,7 @@ export class Constants {
        Complain:'complaint',
        ComplainType:'complaint-type',
        Phone_Call_Log:'general-call',
-       Postal_Dispatch:'dispatch-receive',
+       Homework_Add:'dispatch-receive',
        Postal_Receive:'dispatch-receive',
        Visitor_Book:'visitors-book',
        Visitor_Purpose:'visitor-purpose',
@@ -41,6 +41,10 @@ export class Constants {
      Teacher_TimeTable:'',
 
      }
-
+     public static Homework: any = {
+     
+      Homework_Add:'homework',
+     
+   }
     
 }

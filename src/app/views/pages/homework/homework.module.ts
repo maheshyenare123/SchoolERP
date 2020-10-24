@@ -12,63 +12,48 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
+import { MaterialModule } from '../material/material.module';
+
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModuleGuard } from 'src/app/core/auth';
 import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from 'src/app/core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
-import { MaterialModule } from '../material/material.module';
+import { CKEditorModule } from 'ng2-ckeditor';
 
+import {HomeworkComponent} from './homework.component';
+import { HomeworkListComponent } from './homework-list/homework-list.component';
+import {HomeworkEditDialogComponent } from './homework-edit/homework-edit.dialog.component'
+import {HomeworkEvaluationEditDialogComponent } from './homework-evaluation-edit/homework-evaluation-edit.dialog.component'
 
-import { AttendanceComponent } from './attendance.component';
-import { StudentAttendanceComponent } from './student-attendance/student-attendance.component';
-import { AttendanceByDateComponent } from './attendance-by-date/attendance-by-date.component';
-import { ApproveLeaveEditDialogComponent } from './approve-leave/approve-leave-edit/approve-leave-edit.dialog.component';
-import { ApproveLeaveListComponent } from './approve-leave/approve-leave-list/approve-leave-list.component';
 const routes: Routes = [
 	{
 		path: '',
-		component: AttendanceComponent,
+		component: HomeworkComponent,
 		children: [
       {
 				path: '',
 				redirectTo: 'roles',
 				pathMatch: 'full'
+			},
+			{
+				path: 'homework-list',
+				component: HomeworkListComponent
       },
-      {
-				path: 'student-attendance',
-				component: StudentAttendanceComponent
-      },
-      {
-				path: 'attendance-by-date',
-				component: AttendanceByDateComponent
-      },
-      {
-				path: 'approve-leave',
-				component: ApproveLeaveListComponent
-      },
-			
-
-    
-    ]
+    ] 
   }
 ]
 
-
 @NgModule({
   declarations: [
-    AttendanceComponent,
-    StudentAttendanceComponent,
-    AttendanceByDateComponent,
-    ApproveLeaveEditDialogComponent,
-    ApproveLeaveListComponent
-],
-
+    HomeworkComponent,
+    HomeworkListComponent,
+    HomeworkEditDialogComponent,
+    HomeworkEvaluationEditDialogComponent
+  ],
   imports: [
     CommonModule,
-		PartialsModule,
+    PartialsModule,
 		NgbModule,
 		CoreModule,
 		CodePreviewModule,
@@ -80,6 +65,13 @@ const routes: Routes = [
     MaterialModule,
     TranslateModule.forChild(),
     NgxPermissionsModule.forChild(),
+   // CKEditorModule
+
+    
+//state manage
+    // StoreModule.forFeature('admissionEnquirys', admissionEnquirysReducer),
+    // EffectsModule.forFeature([AdmissionEnquiryEffects]),
+   
   ],
   providers: [
     NgbAlertConfig,
@@ -119,8 +111,11 @@ const routes: Routes = [
   ],
    
     entryComponents: [
-      ApproveLeaveEditDialogComponent,
-    ],
-    exports: [RouterModule],
+      HomeworkEditDialogComponent,
+      HomeworkEvaluationEditDialogComponent
+	],
+  exports: [RouterModule],
+
 })
-export class AttendanceModule { }
+
+export class HomeworkModule { }
