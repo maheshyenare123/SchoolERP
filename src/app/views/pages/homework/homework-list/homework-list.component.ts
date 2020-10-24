@@ -41,6 +41,7 @@ searchForm: FormGroup;
 hasFormErrors = false;
 homework: HomeworkDtoModel;
 temp: HomeworkDtoModel;
+viewLoading = false;
 constructor(public dialog: MatDialog,
              private activatedRoute: ActivatedRoute,
              private router: Router,
