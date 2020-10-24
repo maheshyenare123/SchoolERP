@@ -19,7 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ModuleGuard } from 'src/app/core/auth';
 import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from 'src/app/core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
-import { CKEditorModule } from 'ng2-ckeditor';
+ //import { CKEditorModule } from 'ng2-ckeditor';
 
 import {HomeworkComponent} from './homework.component';
 import { HomeworkListComponent } from './homework-list/homework-list.component';
