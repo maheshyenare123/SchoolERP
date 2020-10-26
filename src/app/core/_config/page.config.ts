@@ -117,6 +117,13 @@ export class PageConfig {
       },
       
     },
+    'library': {
+      'book-list': {
+        page: { title: 'Book List', desc: '' }
+      },
+      
+    },
+    
     ecommerce: {
       customers: {
         page: { title: 'Customers', desc: '' }

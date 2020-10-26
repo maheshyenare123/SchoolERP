@@ -252,7 +252,21 @@ export class MenuConfig {
           ]
         },
 
+        {
+          title: 'Library',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+            
+            {
+              title: 'Book List',
+              page: '/library/book-list'
+            },
+            
+          ]
+        },
 
+        
 
         
         // {section: 'Components'},
