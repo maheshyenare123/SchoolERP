@@ -1,8 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators,FormArray} from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { HomeworksDataSource, HomeworkDtoModel, HomeworksPageRequested, OneHomeworkDeleted, ManyHomeworksDeleted } from 'src/app/core/homework';
+import { BooksDataSource, BookModel, BooksPageRequested, OneBookDeleted, ManyBooksDeleted } from 'src/app/core/library';
 import { QueryParamsModel, LayoutUtilsService, MessageType } from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -12,20 +11,19 @@ import { SubheaderService } from 'src/app/core/_base/layout';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
-import { HomeworkEditDialogComponent } from '../homework-edit/homework-edit.dialog.component';
-import { HomeworkEvaluationEditDialogComponent } from '../homework-evaluation-edit/homework-evaluation-edit.dialog.component';
+//import { BookEditDialogComponent } from '../-Book-edit/-Book-edit.dialog.component';
 
 
 @Component({
-  selector: 'kt-homework-list',
-  templateUrl: './homework-list.component.html',
-  styleUrls: ['./homework-list.component.scss']
+  selector: 'kt-book-list',
+  templateUrl: './book-list.component.html',
+  styleUrls: ['./book-list.component.scss']
 })
-export class HomeworkListComponent implements OnInit {
+export class BookListComponent implements OnInit {
 
   // Table fields
-dataSource: HomeworksDataSource;
-displayedColumns = ['class', 'section', 'subjectGroup', 'subject', 'homeworkDate', 'submitDate', 'evaluationDate', 'createdBy', 'actions'];
+dataSource: BooksDataSource;
+displayedColumns = ['bookTitle', 'bookNumber', 'isbnNumber', 'publisher', 'author', 'subject', 'rackNumber', 'qty', 'available', 'bookPrice', 'postDate', 'actions'];
 @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 @ViewChild('sort1', {static: true}) sort: MatSort;
 // Filter fields
@@ -34,29 +32,24 @@ filterStatus = '';
 filterCondition = '';
 lastQuery: QueryParamsModel;
 // Selection
-selection = new SelectionModel<HomeworkDtoModel>(true, []);
-homeworksResult: HomeworkDtoModel[] = [];
+selection = new SelectionModel<BookModel>(true, []);
+booksResult: BookModel[] = [];
 private subscriptions: Subscription[] = [];
-searchForm: FormGroup;
-hasFormErrors = false;
-homework: HomeworkDtoModel;
-temp: HomeworkDtoModel;
-viewLoading = false;
+
+
 constructor(public dialog: MatDialog,
              private activatedRoute: ActivatedRoute,
              private router: Router,
              private subheaderService: SubheaderService,
              private layoutUtilsService: LayoutUtilsService,
-             private store: Store<AppState>,
-             private fb: FormBuilder,) { }
+             private store: Store<AppState>) { }
 
 
 /**
  * On init
  */
 ngOnInit() {
-  
-//  this.getAllHomeworkList()
+ this.getAllBookList()
  // If the user changes the sort order, reset back to the first page.
  const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
  this.subscriptions.push(sortSubscription);
@@ -66,7 +59,7 @@ ngOnInit() {
  - when a sort event occurs => this.sort.sortChange
  **/
  const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-   tap(() => this.loadHomeworksList())
+   tap(() => this.loadBooksList())
  )
  .subscribe();
  this.subscriptions.push(paginatorSubscriptions);
@@ -78,38 +71,37 @@ ngOnInit() {
    distinctUntilChanged(), // This operator will eliminate duplicate values
    tap(() => {
      this.paginator.pageIndex = 0;
-     this.loadHomeworksList();
+     this.loadBooksList();
    })
  )
  .subscribe();
  this.subscriptions.push(searchSubscription);
 
  // Init DataSource
- this.dataSource = new HomeworksDataSource(this.store);
+ this.dataSource = new BooksDataSource(this.store);
  const entitiesSubscription = this.dataSource.entitySubject.pipe(
    skip(1),
    distinctUntilChanged()
  ).subscribe(res => {
-   this.homeworksResult = res;
-   console.log(this.homeworksResult);
+   this.booksResult = res;
+   console.log(this.booksResult);
  });
  this.subscriptions.push(entitiesSubscription);
  // First load
  of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-   this.loadHomeworksList();
+   this.loadBooksList();
  }); // Remove this line, just loading imitation
 }
-getAllHomeworkList() {
+getAllBookList() {
   // this.enqService.getList().subscribe((res: any) => {
   //   var data = res['data'];
   //   var content = data['content'];
-  //   this.homeworksResult = content.map((key) => ({ ...key }));
+  //   this.booksResult = content.map((key) => ({ ...key }));
   
   // }, (err) => {
   //   console.log('Error while fetching data');
   //   console.error(err);
   // });
-  this.createForm();
 }
 
 /**
@@ -122,7 +114,7 @@ ngOnDestroy() {
 /**
  * Load Products List
  */
-loadHomeworksList() {
+loadBooksList() {
   this.selection.clear();
   const queryParams = new QueryParamsModel(
     this.filterConfiguration(),
@@ -132,7 +124,7 @@ loadHomeworksList() {
     this.paginator.pageSize
   );
   // Call request from server
-  this.store.dispatch(new HomeworksPageRequested({ page: queryParams }));
+  this.store.dispatch(new BooksPageRequested({ page: queryParams }));
  
   this.selection.clear();
 }
@@ -185,50 +177,17 @@ restoreState(queryParams: QueryParamsModel, id: number) {
   }
 }
 
-
-createForm() {
-  this.searchForm = this.fb.group({
-    classesId: [this.homework.classesId, Validators.required],
-    sectionId: [this.homework.sectionId, Validators.required],
-    subjectGroupSubjectId: [this.homework.subjectGroupSubjectId, Validators.required],
-    subjectId: [this.homework.subjectId, Validators.required],
-
-  })
-
-}
-
-	/**
-	 * On Search
-	 */
-	onSearch() {
-		this.hasFormErrors = false;
-		const controls = this.searchForm.controls;
-		/** check form */
-		if (this.searchForm.invalid) {
-			Object.keys(controls).forEach(controlName =>
-				controls[controlName].markAsTouched()
-			);
-
-			this.hasFormErrors = true;
-			return;
-		}
-
-		//search api
-
-		
-	}
-
 /** ACTIONS */
 /**
  * Delete product
  *
- * @param _item: HomeworkDtoModel
+ * @param _item: BookModel
  */
-deleteHomework(_item: HomeworkDtoModel) {
-  const _title = ' Homework Delete';
-  const _description = 'Are you sure to permanently delete this  Homework?';
-  const _waitDesciption = ' Homework is deleting...';
-  const _deleteMessage = ` Homework has been deleted`;
+deleteBook(_item: BookModel) {
+  const _title = ' Book Delete';
+  const _description = 'Are you sure to permanently delete this  Book?';
+  const _waitDesciption = ' Book is deleting...';
+  const _deleteMessage = ` Book has been deleted`;
 
   const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
   dialogRef.afterClosed().subscribe(res => {
@@ -236,7 +195,7 @@ deleteHomework(_item: HomeworkDtoModel) {
       return;
     }
 //delete api call
-    this.store.dispatch(new OneHomeworkDeleted({ id: _item.id }));
+    this.store.dispatch(new OneBookDeleted({ id: _item.id }));
     this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
   });
 }
@@ -245,10 +204,10 @@ deleteHomework(_item: HomeworkDtoModel) {
  * Delete products
  */
 deleteProducts() {
-  const _title = ' Homeworks Delete';
-  const _description = 'Are you sure to permanently delete selected  Homeworks?';
-  const _waitDesciption = ' Homeworks are deleting...';
-  const _deleteMessage = 'Selected  Homeworks have been deleted';
+  const _title = ' Books Delete';
+  const _description = 'Are you sure to permanently delete selected  Books?';
+  const _waitDesciption = ' Books are deleting...';
+  const _deleteMessage = 'Selected  Books have been deleted';
 
   const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
   dialogRef.afterClosed().subscribe(res => {
@@ -263,7 +222,7 @@ deleteProducts() {
     }
 
     //many product deleted
-    this.store.dispatch(new ManyHomeworksDeleted({ ids: idsForDeletion }));
+    this.store.dispatch(new ManyBooksDeleted({ ids: idsForDeletion }));
     this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
     this.selection.clear();
   });
@@ -329,47 +288,30 @@ deleteProducts() {
 /**
 	 * Show add customer dialog
 	 */
-	addHomework() {
-		const newCustomer = new HomeworkDtoModel();
+	addBook() {
+		const newCustomer = new BookModel();
 		newCustomer.clear(); // Set all defaults fields
-    this.editHomework(newCustomer);
-    this.temp = newCustomer;
+		this.editBook(newCustomer);
 	}
 
 	/**
 	 * Show Edit customer dialog and save after success close result
 	 * @param customer: CustomerModel
 	 */
-	editHomework(homework: HomeworkDtoModel) {
+	editBook(book: BookModel) {
 		let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
-    const _saveMessage = homework.id > 0 ? 'Edit  Homework' : 'Create  Homework';
+    const _saveMessage = book.id > 0 ? 'Edit  Book' : 'Create  Book';
     
-		const _messageType = homework.id > 0 ? MessageType.Update : MessageType.Create;
-		const dialogRef = this.dialog.open(HomeworkEditDialogComponent, { data: { homework } });
-		dialogRef.afterClosed().subscribe(res => {
-			if (!res) {
-				return;
-			}
+		const _messageType = book.id > 0 ? MessageType.Update : MessageType.Create;
+		// const dialogRef = this.dialog.open(BookEditDialogComponent, { data: { book } });
+		// dialogRef.afterClosed().subscribe(res => {
+		// 	if (!res) {
+		// 		return;
+		// 	}
 
-			this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-			this.loadHomeworksList();
-		});
-  }
-  
-  evaluateHomework(homework: HomeworkDtoModel) {
-		let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
-    //const _saveMessage = homework.id > 0 ? 'Edit  Homework' : 'Create  Homework';
-    
-		//const _messageType = homework.id > 0 ? MessageType.Update : MessageType.Create;
-		const dialogRef = this.dialog.open(HomeworkEvaluationEditDialogComponent, { data: { homework } });
-		dialogRef.afterClosed().subscribe(res => {
-			if (!res) {
-				return;
-			}
-
-		//	this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-			this.loadHomeworksList();
-		});
+		// 	this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
+		// 	this.loadBooksList();
+		// });
 	}
 
 /**
@@ -377,13 +319,10 @@ deleteProducts() {
  */
 isAllSelected() {
   const numSelected = this.selection.selected.length;
-  const numRows = this.homeworksResult.length;
+  const numRows = this.booksResult.length;
   return numSelected === numRows;
 }
-/** Alect Close event */
-onAlertClose($event) {
-  this.hasFormErrors = false;
-}
+
 /**
  * Selects all rows if they are not all selected; otherwise clear selection
  */
@@ -391,7 +330,7 @@ masterToggle() {
   if (this.isAllSelected()) {
     this.selection.clear();
   } else {
-    this.homeworksResult.forEach(row => this.selection.select(row));
+    this.booksResult.forEach(row => this.selection.select(row));
   }
 }
 
@@ -456,5 +395,3 @@ getItemCssClassByCondition(condition: number = 0): string {
   return '';
 }
 }
-
-

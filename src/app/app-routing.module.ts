@@ -56,6 +56,10 @@ const routes: Routes = [
           path: 'homework',
           loadChildren: () => import('./views/pages/homework/homework.module').then(m => m.HomeworkModule),
         },
+        {
+          path: 'library',
+          loadChildren: () => import('./views/pages/library/library.module').then(m => m.LibraryModule),
+        },
       {
         path: 'user-management',
         loadChildren: () => import('./views/pages/user-management/user-management.module').then(m => m.UserManagementModule),
