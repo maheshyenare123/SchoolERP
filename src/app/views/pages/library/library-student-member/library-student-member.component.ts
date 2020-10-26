@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { BooksDataSource, BookModel, BooksPageRequested, OneBookDeleted, ManyBooksDeleted } from 'src/app/core/library';
+import { LibraryStudentMembersDataSource, LibraryStudentMemberModel, LibraryStudentMembersPageRequested, OneLibraryStudentMemberDeleted, ManyLibraryStudentMembersDeleted } from 'src/app/core/library';
 import { QueryParamsModel, LayoutUtilsService, MessageType } from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -11,19 +11,21 @@ import { SubheaderService } from 'src/app/core/_base/layout';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
-import { BookEditDialogComponent } from '../Book-edit/Book-edit.dialog.component';
+import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from 'src/app/core/academics';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { LibraryStudentMemberEditDialogComponent } from '../library-student-member-edit/library-student-member-edit.dialog.component';
 
 
 @Component({
-  selector: 'kt-book-list',
-  templateUrl: './book-list.component.html',
-  styleUrls: ['./book-list.component.scss']
+  selector: 'kt-library-student-member',
+  templateUrl: './library-student-member.component.html',
+  styleUrls: ['./library-student-member.component.scss']
 })
-export class BookListComponent implements OnInit {
+export class LibraryStudentMemberComponent implements OnInit {
 
   // Table fields
-dataSource: BooksDataSource;
-displayedColumns = ['bookTitle', 'bookNumber', 'isbnNumber', 'publisher', 'author', 'subject', 'rackNumber', 'qty', 'available', 'bookPrice', 'postDate', 'actions'];
+dataSource: LibraryStudentMembersDataSource;
+displayedColumns = ['memberId', 'libraryCardNo', 'addmissionNo', 'studentName', 'class', 'fatherName', 'dob', 'gender', 'mobileNo', 'actions'];
 @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 @ViewChild('sort1', {static: true}) sort: MatSort;
 // Filter fields
@@ -32,9 +34,23 @@ filterStatus = '';
 filterCondition = '';
 lastQuery: QueryParamsModel;
 // Selection
-selection = new SelectionModel<BookModel>(true, []);
-booksResult: BookModel[] = [];
+selection = new SelectionModel<LibraryStudentMemberModel>(true, []);
+libraryStudentMembersResult: LibraryStudentMemberModel[] = [];
 private subscriptions: Subscription[] = [];
+
+
+searchForm: FormGroup;
+hasFormErrors = false;
+viewLoading = false;
+// Private properties
+private componentSubscriptions: Subscription;
+
+classId: number;
+sectionId: number;
+
+
+classList: StudentClassModel[] = [];
+sectionList: SectionDtoModel[] = [];
 
 
 constructor(public dialog: MatDialog,
@@ -42,14 +58,23 @@ constructor(public dialog: MatDialog,
              private router: Router,
              private subheaderService: SubheaderService,
              private layoutUtilsService: LayoutUtilsService,
-             private store: Store<AppState>) { }
+             private store: Store<AppState>,
+             private fb: FormBuilder,
+             private studentClassService: StudentClassService,
+             private sectionService: SectionService,
+             ) { }
 
 
 /**
  * On init
  */
 ngOnInit() {
- this.getAllBookList()
+
+	this.loadAllClasses();
+		this.loadAllSectionsByClassId(1);
+
+
+ this.getAllLibraryStudentMemberList()
  // If the user changes the sort order, reset back to the first page.
  const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
  this.subscriptions.push(sortSubscription);
@@ -59,7 +84,7 @@ ngOnInit() {
  - when a sort event occurs => this.sort.sortChange
  **/
  const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-   tap(() => this.loadBooksList())
+   tap(() => this.loadLibraryStudentMembersList())
  )
  .subscribe();
  this.subscriptions.push(paginatorSubscriptions);
@@ -71,38 +96,96 @@ ngOnInit() {
    distinctUntilChanged(), // This operator will eliminate duplicate values
    tap(() => {
      this.paginator.pageIndex = 0;
-     this.loadBooksList();
+     this.loadLibraryStudentMembersList();
    })
  )
  .subscribe();
  this.subscriptions.push(searchSubscription);
 
  // Init DataSource
- this.dataSource = new BooksDataSource(this.store);
+ this.dataSource = new LibraryStudentMembersDataSource(this.store);
  const entitiesSubscription = this.dataSource.entitySubject.pipe(
    skip(1),
    distinctUntilChanged()
  ).subscribe(res => {
-   this.booksResult = res;
-   console.log(this.booksResult);
+   this.libraryStudentMembersResult = res;
+   console.log(this.libraryStudentMembersResult);
  });
  this.subscriptions.push(entitiesSubscription);
  // First load
  of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-   this.loadBooksList();
+   this.loadLibraryStudentMembersList();
  }); // Remove this line, just loading imitation
+
+ this.createForm();
 }
-getAllBookList() {
+getAllLibraryStudentMemberList() {
   // this.enqService.getList().subscribe((res: any) => {
   //   var data = res['data'];
   //   var content = data['content'];
-  //   this.booksResult = content.map((key) => ({ ...key }));
+  //   this.LibraryStudentMembersResult = content.map((key) => ({ ...key }));
   
   // }, (err) => {
   //   console.log('Error while fetching data');
   //   console.error(err);
   // });
+
+
 }
+
+//get All Class List
+
+loadAllClasses() {
+	debugger
+	this.studentClassService.getAllStudentClasss().subscribe(res => {
+		const data = res['data'];
+		this.classList = data['content'];
+		console.log(this.classList)
+	}, err => {
+	});
+}
+onClassSelectChange(classObj:StudentClassModel){
+	// this.loadAllSectionsByClassId(classObj.id);
+}
+loadAllSectionsByClassId(id:number) {
+	debugger
+	this.sectionService.getAllSections().subscribe(res => {
+		const data = res['data'];
+		this.sectionList = data['content'];
+		console.log(this.sectionList)
+	}, err => {
+	});
+}
+	onSearch() {
+		debugger;
+		this.hasFormErrors = false;
+		const controls = this.searchForm.controls;
+		/** check form */
+		if (this.searchForm.invalid) {
+			Object.keys(controls).forEach(controlName =>
+				controls[controlName].markAsTouched()
+			);
+
+			this.hasFormErrors = true;
+			return;
+		}
+
+//		this.getAllStudentList(controls.classId.value, controls.sectionId.value);
+
+
+	}
+
+	createForm() {
+		debugger;
+		this.searchForm = this.fb.group({
+			classId: [this.classId, Validators.required],
+			sectionId: [this.sectionId, Validators.required],
+		})
+
+	
+	}
+
+
 
 /**
  * On Destroy
@@ -114,7 +197,7 @@ ngOnDestroy() {
 /**
  * Load Products List
  */
-loadBooksList() {
+loadLibraryStudentMembersList() {
   this.selection.clear();
   const queryParams = new QueryParamsModel(
     this.filterConfiguration(),
@@ -124,7 +207,7 @@ loadBooksList() {
     this.paginator.pageSize
   );
   // Call request from server
-  this.store.dispatch(new BooksPageRequested({ page: queryParams }));
+  this.store.dispatch(new LibraryStudentMembersPageRequested({ page: queryParams }));
  
   this.selection.clear();
 }
@@ -181,13 +264,13 @@ restoreState(queryParams: QueryParamsModel, id: number) {
 /**
  * Delete product
  *
- * @param _item: BookModel
+ * @param _item: LibraryStudentMemberModel
  */
-deleteBook(_item: BookModel) {
-  const _title = ' Book Delete';
-  const _description = 'Are you sure to permanently delete this  Book?';
-  const _waitDesciption = ' Book is deleting...';
-  const _deleteMessage = ` Book has been deleted`;
+deleteLibraryStudentMember(_item: LibraryStudentMemberModel) {
+  const _title = ' Library Student Member Delete';
+  const _description = 'Are you sure to permanently delete this  Library Student Member?';
+  const _waitDesciption = ' Library Student Member is deleting...';
+  const _deleteMessage = ` Library Student Member has been deleted`;
 
   const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
   dialogRef.afterClosed().subscribe(res => {
@@ -195,7 +278,7 @@ deleteBook(_item: BookModel) {
       return;
     }
 //delete api call
-    this.store.dispatch(new OneBookDeleted({ id: _item.id }));
+    this.store.dispatch(new OneLibraryStudentMemberDeleted({ id: _item.studentId }));
     this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
   });
 }
@@ -204,10 +287,10 @@ deleteBook(_item: BookModel) {
  * Delete products
  */
 deleteProducts() {
-  const _title = ' Books Delete';
-  const _description = 'Are you sure to permanently delete selected  Books?';
-  const _waitDesciption = ' Books are deleting...';
-  const _deleteMessage = 'Selected  Books have been deleted';
+  const _title = ' Library Student Members Delete';
+  const _description = 'Are you sure to permanently delete selected  Library Student Members?';
+  const _waitDesciption = ' Library Student Members are deleting...';
+  const _deleteMessage = 'Selected  Library Student Members have been deleted';
 
   const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
   dialogRef.afterClosed().subscribe(res => {
@@ -218,11 +301,11 @@ deleteProducts() {
     const idsForDeletion: number[] = [];
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.selection.selected.length; i++) {
-      idsForDeletion.push(this.selection.selected[i].id);
+      idsForDeletion.push(this.selection.selected[i].studentId);
     }
 
     //many product deleted
-    this.store.dispatch(new ManyBooksDeleted({ ids: idsForDeletion }));
+    this.store.dispatch(new ManyLibraryStudentMembersDeleted({ ids: idsForDeletion }));
     this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
     this.selection.clear();
   });
@@ -288,29 +371,29 @@ deleteProducts() {
 /**
 	 * Show add customer dialog
 	 */
-	addBook() {
-		const newCustomer = new BookModel();
+	addLibraryStudentMember() {
+		const newCustomer = new LibraryStudentMemberModel();
 		newCustomer.clear(); // Set all defaults fields
-		this.editBook(newCustomer);
+		this.editLibraryStudentMember(newCustomer);
 	}
 
 	/**
 	 * Show Edit customer dialog and save after success close result
 	 * @param customer: CustomerModel
 	 */
-	editBook(book: BookModel) {
+	editLibraryStudentMember(libraryStudentMember: LibraryStudentMemberModel) {
 		let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
-    const _saveMessage = book.id > 0 ? 'Edit  Book' : 'Create  Book';
+    const _saveMessage = libraryStudentMember.studentId > 0 ? 'Edit  Library Student Member' : 'Create  Library Student Member';
     
-		const _messageType = book.id > 0 ? MessageType.Update : MessageType.Create;
-		const dialogRef = this.dialog.open(BookEditDialogComponent, { data: { book } });
+		const _messageType = libraryStudentMember.studentId > 0 ? MessageType.Update : MessageType.Create;
+		const dialogRef = this.dialog.open(LibraryStudentMemberEditDialogComponent, { data: { libraryStudentMember } });
 		dialogRef.afterClosed().subscribe(res => {
 			if (!res) {
 				return;
 			}
 
 			this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-			this.loadBooksList();
+			this.loadLibraryStudentMembersList();
 		});
 	}
 
@@ -319,7 +402,7 @@ deleteProducts() {
  */
 isAllSelected() {
   const numSelected = this.selection.selected.length;
-  const numRows = this.booksResult.length;
+  const numRows = this.libraryStudentMembersResult.length;
   return numSelected === numRows;
 }
 
@@ -330,7 +413,7 @@ masterToggle() {
   if (this.isAllSelected()) {
     this.selection.clear();
   } else {
-    this.booksResult.forEach(row => this.selection.select(row));
+    this.libraryStudentMembersResult.forEach(row => this.selection.select(row));
   }
 }
 

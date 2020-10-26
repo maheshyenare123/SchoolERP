@@ -22,19 +22,23 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { CKEditorModule } from 'ng2-ckeditor';
 
 
-import { LibraryComponent } from './library.component';
-import { BookEditDialogComponent } from './Book-edit/Book-edit.dialog.component';
-import { BookListComponent } from './book-list/book-list.component';
-import { LibraryStudentMemberComponent } from './library-student-member/library-student-member.component';
-import { LibraryStaffMemberComponent } from './library-staff-member/library-staff-member.component';
-import { LibraryStudentMemberEditDialogComponent } from './library-student-member-edit/library-student-member-edit.dialog.component';
-import { LibraryStaffMemberEditDialogComponent } from './library-staff-member-edit/library-staff-member-edit.dialog.component';
-import { IssueReturnBookComponent } from './issue-return-book/issue-return-book.component';
-import { LibraryMemberListComponent } from './library-member-list/library-member-list.component';
+
+
+import { HumanResourceComponent } from './human-resource.component';
+import { DesignationComponent } from './designation/designation.component';
+import { DepartmentComponent } from './department/department.component';
+import { LeaveTypeComponent } from './leave-type/leave-type.component';
+import { ApplyLeaveComponent } from './apply-leave/apply-leave.component';
+
+
+
+
+
+
 const routes: Routes = [
 	{
 		path: '',
-		component: LibraryComponent,
+		component: HumanResourceComponent,
 		children: [
       {
 				path: '',
@@ -42,20 +46,20 @@ const routes: Routes = [
 				pathMatch: 'full'
 			},
 			{
-				path: 'book-list',
-				component: BookListComponent
+				path: 'apply-leave',
+				component: ApplyLeaveComponent
       },
       {
-				path: 'library-student-member',
-				component: LibraryStudentMemberComponent
+				path: 'leave-type',
+				component: LeaveTypeComponent
       },
       {
-				path: 'library-staff-member',
-				component: LibraryStaffMemberComponent
+				path: 'department',
+				component: DepartmentComponent
       },
        {
-				path: 'library-member-list',
-				component: LibraryMemberListComponent
+				path: 'designation',
+				component: DesignationComponent
       },
     ] 
   }
@@ -63,15 +67,11 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    LibraryComponent,
-    BookEditDialogComponent,
-    BookListComponent,
-    LibraryStudentMemberEditDialogComponent,
-    LibraryStudentMemberComponent,
-    LibraryStaffMemberEditDialogComponent,
-    LibraryStaffMemberComponent,
-    IssueReturnBookComponent,
-    LibraryMemberListComponent
+    HumanResourceComponent,
+    DesignationComponent, 
+    DepartmentComponent,
+     LeaveTypeComponent, 
+     ApplyLeaveComponent
   ],
   imports: [
     CommonModule,
@@ -94,6 +94,7 @@ const routes: Routes = [
     // StoreModule.forFeature('admissionEnquirys', admissionEnquirysReducer),
     // EffectsModule.forFeature([AdmissionEnquiryEffects]),
    
+    
   ],
   providers: [
     NgbAlertConfig,
@@ -133,12 +134,13 @@ const routes: Routes = [
   ],
    
     entryComponents: [
-      BookEditDialogComponent,
-      LibraryStudentMemberEditDialogComponent,
-      LibraryStaffMemberEditDialogComponent,
+     
 	],
   exports: [RouterModule],
 
 })
 
-export class LibraryModule { }
+
+
+
+export class HumanResourceModule { }

@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { BooksDataSource, BookModel, BooksPageRequested, OneBookDeleted, ManyBooksDeleted } from 'src/app/core/library';
+import { LibraryStaffMembersDataSource, LibraryStaffMemberModel, LibraryStaffMembersPageRequested, OneLibraryStaffMemberDeleted, ManyLibraryStaffMembersDeleted } from 'src/app/core/library';
 import { QueryParamsModel, LayoutUtilsService, MessageType } from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -11,19 +11,19 @@ import { SubheaderService } from 'src/app/core/_base/layout';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
-import { BookEditDialogComponent } from '../Book-edit/Book-edit.dialog.component';
+import { LibraryStaffMemberEditDialogComponent } from '../library-staff-member-edit/library-staff-member-edit.dialog.component';
 
 
 @Component({
-  selector: 'kt-book-list',
-  templateUrl: './book-list.component.html',
-  styleUrls: ['./book-list.component.scss']
+  selector: 'kt-library-staff-member',
+  templateUrl: './library-staff-member.component.html',
+  styleUrls: ['./library-staff-member.component.scss']
 })
-export class BookListComponent implements OnInit {
+export class LibraryStaffMemberComponent implements OnInit {
 
-  // Table fields
-dataSource: BooksDataSource;
-displayedColumns = ['bookTitle', 'bookNumber', 'isbnNumber', 'publisher', 'author', 'subject', 'rackNumber', 'qty', 'available', 'bookPrice', 'postDate', 'actions'];
+   // Table fields
+dataSource: LibraryStaffMembersDataSource;
+displayedColumns = ['memberId', 'libraryCardNo', 'staffName', 'email', 'dob', 'mobileNo', 'actions'];
 @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 @ViewChild('sort1', {static: true}) sort: MatSort;
 // Filter fields
@@ -32,24 +32,25 @@ filterStatus = '';
 filterCondition = '';
 lastQuery: QueryParamsModel;
 // Selection
-selection = new SelectionModel<BookModel>(true, []);
-booksResult: BookModel[] = [];
+selection = new SelectionModel<LibraryStaffMemberModel>(true, []);
+libraryStaffMembersResult: LibraryStaffMemberModel[] = [];
 private subscriptions: Subscription[] = [];
-
 
 constructor(public dialog: MatDialog,
              private activatedRoute: ActivatedRoute,
              private router: Router,
              private subheaderService: SubheaderService,
              private layoutUtilsService: LayoutUtilsService,
-             private store: Store<AppState>) { }
+             private store: Store<AppState>,
+             ) { }
 
 
 /**
  * On init
  */
 ngOnInit() {
- this.getAllBookList()
+
+ this.getAllLibraryStaffMemberList()
  // If the user changes the sort order, reset back to the first page.
  const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
  this.subscriptions.push(sortSubscription);
@@ -59,7 +60,7 @@ ngOnInit() {
  - when a sort event occurs => this.sort.sortChange
  **/
  const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-   tap(() => this.loadBooksList())
+   tap(() => this.loadLibraryStaffMembersList())
  )
  .subscribe();
  this.subscriptions.push(paginatorSubscriptions);
@@ -71,38 +72,39 @@ ngOnInit() {
    distinctUntilChanged(), // This operator will eliminate duplicate values
    tap(() => {
      this.paginator.pageIndex = 0;
-     this.loadBooksList();
+     this.loadLibraryStaffMembersList();
    })
  )
  .subscribe();
  this.subscriptions.push(searchSubscription);
 
  // Init DataSource
- this.dataSource = new BooksDataSource(this.store);
+ this.dataSource = new LibraryStaffMembersDataSource(this.store);
  const entitiesSubscription = this.dataSource.entitySubject.pipe(
    skip(1),
    distinctUntilChanged()
  ).subscribe(res => {
-   this.booksResult = res;
-   console.log(this.booksResult);
+   this.libraryStaffMembersResult = res;
+   console.log(this.libraryStaffMembersResult);
  });
  this.subscriptions.push(entitiesSubscription);
  // First load
  of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-   this.loadBooksList();
+   this.loadLibraryStaffMembersList();
  }); // Remove this line, just loading imitation
 }
-getAllBookList() {
+getAllLibraryStaffMemberList() {
   // this.enqService.getList().subscribe((res: any) => {
   //   var data = res['data'];
   //   var content = data['content'];
-  //   this.booksResult = content.map((key) => ({ ...key }));
+  //   this.LibraryStaffMembersResult = content.map((key) => ({ ...key }));
   
   // }, (err) => {
   //   console.log('Error while fetching data');
   //   console.error(err);
   // });
 }
+
 
 /**
  * On Destroy
@@ -114,7 +116,7 @@ ngOnDestroy() {
 /**
  * Load Products List
  */
-loadBooksList() {
+loadLibraryStaffMembersList() {
   this.selection.clear();
   const queryParams = new QueryParamsModel(
     this.filterConfiguration(),
@@ -124,7 +126,7 @@ loadBooksList() {
     this.paginator.pageSize
   );
   // Call request from server
-  this.store.dispatch(new BooksPageRequested({ page: queryParams }));
+  this.store.dispatch(new LibraryStaffMembersPageRequested({ page: queryParams }));
  
   this.selection.clear();
 }
@@ -181,13 +183,13 @@ restoreState(queryParams: QueryParamsModel, id: number) {
 /**
  * Delete product
  *
- * @param _item: BookModel
+ * @param _item: LibraryStaffMemberModel
  */
-deleteBook(_item: BookModel) {
-  const _title = ' Book Delete';
-  const _description = 'Are you sure to permanently delete this  Book?';
-  const _waitDesciption = ' Book is deleting...';
-  const _deleteMessage = ` Book has been deleted`;
+deleteLibraryStaffMember(_item: LibraryStaffMemberModel) {
+  const _title = ' Library Staff Member Delete';
+  const _description = 'Are you sure to permanently delete this  Library Staff Member?';
+  const _waitDesciption = ' Library Staff Member is deleting...';
+  const _deleteMessage = ` Library Staff Member has been deleted`;
 
   const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
   dialogRef.afterClosed().subscribe(res => {
@@ -195,7 +197,7 @@ deleteBook(_item: BookModel) {
       return;
     }
 //delete api call
-    this.store.dispatch(new OneBookDeleted({ id: _item.id }));
+    this.store.dispatch(new OneLibraryStaffMemberDeleted({ id: _item.staffId }));
     this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
   });
 }
@@ -204,10 +206,10 @@ deleteBook(_item: BookModel) {
  * Delete products
  */
 deleteProducts() {
-  const _title = ' Books Delete';
-  const _description = 'Are you sure to permanently delete selected  Books?';
-  const _waitDesciption = ' Books are deleting...';
-  const _deleteMessage = 'Selected  Books have been deleted';
+  const _title = ' Library Staff Members Delete';
+  const _description = 'Are you sure to permanently delete selected  Library Staff Members?';
+  const _waitDesciption = ' Library Staff Members are deleting...';
+  const _deleteMessage = 'Selected  Library Staff Members have been deleted';
 
   const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
   dialogRef.afterClosed().subscribe(res => {
@@ -218,11 +220,11 @@ deleteProducts() {
     const idsForDeletion: number[] = [];
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.selection.selected.length; i++) {
-      idsForDeletion.push(this.selection.selected[i].id);
+      idsForDeletion.push(this.selection.selected[i].staffId);
     }
 
     //many product deleted
-    this.store.dispatch(new ManyBooksDeleted({ ids: idsForDeletion }));
+    this.store.dispatch(new ManyLibraryStaffMembersDeleted({ ids: idsForDeletion }));
     this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
     this.selection.clear();
   });
@@ -288,29 +290,29 @@ deleteProducts() {
 /**
 	 * Show add customer dialog
 	 */
-	addBook() {
-		const newCustomer = new BookModel();
+	addLibraryStaffMember() {
+		const newCustomer = new LibraryStaffMemberModel();
 		newCustomer.clear(); // Set all defaults fields
-		this.editBook(newCustomer);
+		this.editLibraryStaffMember(newCustomer);
 	}
 
 	/**
 	 * Show Edit customer dialog and save after success close result
 	 * @param customer: CustomerModel
 	 */
-	editBook(book: BookModel) {
+	editLibraryStaffMember(libraryStaffMember: LibraryStaffMemberModel) {
 		let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
-    const _saveMessage = book.id > 0 ? 'Edit  Book' : 'Create  Book';
+    const _saveMessage = libraryStaffMember.staffId > 0 ? 'Edit  Library Staff Member' : 'Create  Library Staff Member';
     
-		const _messageType = book.id > 0 ? MessageType.Update : MessageType.Create;
-		const dialogRef = this.dialog.open(BookEditDialogComponent, { data: { book } });
+		const _messageType = libraryStaffMember.staffId > 0 ? MessageType.Update : MessageType.Create;
+		const dialogRef = this.dialog.open(LibraryStaffMemberEditDialogComponent, { data: { libraryStaffMember } });
 		dialogRef.afterClosed().subscribe(res => {
 			if (!res) {
 				return;
 			}
 
 			this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-			this.loadBooksList();
+			this.loadLibraryStaffMembersList();
 		});
 	}
 
@@ -319,7 +321,7 @@ deleteProducts() {
  */
 isAllSelected() {
   const numSelected = this.selection.selected.length;
-  const numRows = this.booksResult.length;
+  const numRows = this.libraryStaffMembersResult.length;
   return numSelected === numRows;
 }
 
@@ -330,7 +332,7 @@ masterToggle() {
   if (this.isAllSelected()) {
     this.selection.clear();
   } else {
-    this.booksResult.forEach(row => this.selection.select(row));
+    this.libraryStaffMembersResult.forEach(row => this.selection.select(row));
   }
 }
 

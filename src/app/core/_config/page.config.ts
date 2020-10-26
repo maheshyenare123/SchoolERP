@@ -121,9 +121,33 @@ export class PageConfig {
       'book-list': {
         page: { title: 'Book List', desc: '' }
       },
+      'library-student-member': {
+        page: { title: 'Library Student Member', desc: '' }
+      },
+      'library-staff-member': {
+        page: { title: 'Library Staff Member', desc: '' }
+      },
+      'library-member-list': {
+        page: { title: 'Library Member List', desc: '' }
+      },
       
     },
-    
+
+    'human-resource': {
+      'apply-leave': {
+        page: { title: 'Apply Leave', desc: '' }
+      },
+      'leave-type': {
+        page: { title: 'Leave Type', desc: '' }
+      },
+      'department': {
+        page: { title: 'Department', desc: '' }
+      },
+      'designation': {
+        page: { title: 'Designation', desc: '' }
+      },
+      
+    },
     ecommerce: {
       customers: {
         page: { title: 'Customers', desc: '' }

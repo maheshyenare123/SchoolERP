@@ -1,4 +1,4 @@
-export class LibraryStudentMemberDtoModel {
+export class LibraryStudentMemberModel {
 
     admissionNo: string;
     classes: string;
