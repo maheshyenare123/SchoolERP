@@ -19,20 +19,22 @@
 			<div class="form-group row">
 				<div class="col-lg-4 kt-margin-bottom-20-mobile">
 					<mat-form-field class="mat-form-field-fluid">
-						<!-- formControlName="classId" there is no such variable -->
-						<mat-select placeholder="Class" >
-							<mat-option value="3">Business</mat-option>
-							<mat-option value="4">Individual</mat-option>
-						</mat-select>
-
-					</mat-form-field>
+					<mat-select placeholder="Select Class" formControlName="classId" >
+						<mat-option *ngFor="let classData of classList" [value]="classData.id" (change)="onClassSelectChange(classData)">
+							{{classData.classses}}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
 				</div>
 				<div class="col-lg-3 kt-margin-bottom-20-mobile">
 					<mat-form-field class="mat-form-field-fluid">
-						<!-- formControlName="sectionId"  there is no such variable -->
-						<mat-select placeholder="Section" >
-							<mat-option value="0">Business</mat-option>
-							<mat-option value="1">Individual</mat-option>
+					
+						<mat-select placeholder="Select Section" formControlName="sectionId">
+							<mat-option *ngFor="let sectionData of sectionList" [value]="sectionData.id">
+								{{sectionData.section}}
+							</mat-option>
+
+
 						</mat-select>
 
 					</mat-form-field>
@@ -40,10 +42,13 @@
 				<div class="col-lg-3 kt-margin-bottom-20-mobile">
 					<mat-form-field class="mat-form-field-fluid">
 						<!-- formControlName="studentId" there is no such variable  -->
-						<mat-select placeholder="Select Student" >
-							<mat-option value="022">Business</mat-option>
-							<mat-option value="122">Individual</mat-option>
-						  </mat-select>
+						<mat-select placeholder="Select Student" formControlName="studentId">
+							<mat-option *ngFor="let student of studentList" [value]="student.id">
+								{{sectionData.section}}
+							</mat-option>
+
+
+						</mat-select>
 					</mat-form-field>
 				</div>
 			</div>

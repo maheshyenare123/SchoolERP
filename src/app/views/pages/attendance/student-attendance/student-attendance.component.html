@@ -179,7 +179,7 @@
                     <div class="mr-2"></div>
                     <div>
                         <!-- make table row disable for this event -->
-                        <button type="button" mat-raised-button color="primary" (click)="markAsHoliday()" [disabled]="viewLoading" matTooltip="Save changes">
+                        <button type="button" mat-raised-button color="primary" (click)="onMarkAsHoliday()" [disabled]="viewLoading" matTooltip="Save changes">
                             Mark As Holiday
                         </button> &nbsp;
                         <button type="button" mat-raised-button color="primary" (click)="onSaveAttendance()" [disabled]="viewLoading" matTooltip="Save changes">
@@ -218,15 +218,15 @@
                         <ng-container matColumnDef="attendance">
                             <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Attendance
                             </mat-header-cell>
-                            <mat-cell *matCellDef="let studentAttendence">
+                            <mat-cell *matCellDef="let studentAttendence;let i=index">
                                 <!-- <mat-radio-group aria-label="Select an option" value="{{studentAttendence.attendenceType}}" >
                                     <mat-radio-button value="Present">Present</mat-radio-button>
                                     <mat-radio-button value="Late">Late</mat-radio-button>
                                     <mat-radio-button value="Absent">Absent</mat-radio-button>
                                     <mat-radio-button value="HalfDay">HalfDay</mat-radio-button>
-                                  </mat-radio-group> attendanceTypeList  [checked]="attendanceType.type === 'absent'"-->
-                                  <mat-radio-group  [(ngModel)]="studentAttendence.attendenceType">
-                                <mat-radio-button  *ngFor="let attendanceType of attendanceTypeList" [value]="attendanceType.type"  [checked]="attendanceType.type === 'absent'"   >
+                                  </mat-radio-group> attendanceTypeList  [checked]="attendanceType.type === 'absent'"   [(ngModel)]="studentAttendencesResult[i].attendenceType"-->
+                                 <mat-radio-group [(ngModel)]="studentAttendence.attendenceType"  (change)="onChangeAttendanceType(i,studentAttendence,$event)"    >
+                                <mat-radio-button  *ngFor="let attendanceType of attendanceTypeList" [value]="attendanceType" >
                                   {{attendanceType.type}}
                                 </mat-radio-button>
                               </mat-radio-group>
@@ -245,12 +245,13 @@
                         <ng-container matColumnDef="note">
                             <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Note
                             </mat-header-cell>
-                            <mat-cell *matCellDef="let studentAttendence">
+                            <mat-cell *matCellDef="let studentAttendence ;let i=index">
                                 
                             <mat-form-field class="mat-form-field-fluid">
-                                <input  matInput [(ngModel)]="studentAttendence.note" value="{{studentAttendence.note}}" />
+                                <input  matInput  value="{{studentAttendence.note}}" />
                                 
                             </mat-form-field>
+                            <!-- [(ngModel)]="studentAttendencesResult[i].note" -->
                             
                             </mat-cell>
                         </ng-container>

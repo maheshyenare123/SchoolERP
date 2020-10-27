@@ -124,7 +124,7 @@ loadAllSources() {
 			contact: [this.complain.contact,[Validators.required,
 				Validators.pattern("^[0-9]*$"),
 				Validators.maxLength(10)]],
-			createdAt: [this.complain.createdAt,''],
+			// createdAt: [this.complain.createdAt,''],
 			date: [this.typesUtilsService.getDateFromString(this.complain.date), Validators.compose([Validators.nullValidator])],
 			description: [this.complain.description, ''],
 			email: [this.complain.email, Validators.compose([ Validators.email])],
@@ -174,31 +174,6 @@ loadAllSources() {
 		const controls = this.complainForm.controls;
 		const _complain = new ComplaintModel();
 		_complain.id = this.complain.id;
-if(this.complain.id>0){
-	_complain.createdAt=this.complain.createdAt;
-	_complain.isActive = this.complain.isActive;
-}
-else{
-	const timestamp=new TimestampModel(); 
-	timestamp.clear();
-	_complain.createdAt=timestamp;
-	_complain.isActive = 'yes';
-}
-// 		actionTaken: string;
-    // assigned: string;
-    // complaintType: string;
-    // contact: string;
-    // createdAt:TimestampModel; 
-    // date: string;
-    // description: string;
-    // email: string;
-    // id: number;
-    // image: string;
-    // isActive: string;
-    // name: string;
-    // note: string;
-	// source: string;
-
 		_complain.actionTaken = controls.actionTaken.value;
 		_complain.assigned = controls.assigned.value;
 		_complain.complaintType = controls.complaintType.value;

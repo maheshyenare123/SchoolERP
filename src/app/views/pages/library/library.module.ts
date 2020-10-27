@@ -19,8 +19,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ModuleGuard } from 'src/app/core/auth';
 import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from 'src/app/core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
-import { CKEditorModule } from 'ng2-ckeditor';
-
 
 import { LibraryComponent } from './library.component';
 import { BookListComponent } from './book-list/book-list.component';

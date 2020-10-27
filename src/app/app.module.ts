@@ -115,11 +115,14 @@ export function getHighlightLanguages() {
     PartialsModule,
     CoreModule,
     OverlayModule,
-    StoreModule.forRoot(reducers, {metaReducers }),
+    StoreModule.forRoot(reducers, {metaReducers}),
   //   ,runtimeChecks: { 
-  //     strictStateImmutability: false, 
-  //     strictActionImmutability: false,
-  // }
+  //     strictStateImmutability: true,
+  //     strictActionImmutability: true,
+  //     strictStateSerializability: true,
+  //     strictActionSerializability: true,
+  // } 
+    
   // StoreModule.forRoot(reducers, {   metaReducers: createMetaReducers()}),
 
     EffectsModule.forRoot([]),

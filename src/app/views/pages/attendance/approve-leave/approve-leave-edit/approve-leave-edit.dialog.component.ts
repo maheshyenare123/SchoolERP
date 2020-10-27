@@ -15,6 +15,8 @@ import { AppState } from '../../../../../core/reducers';
 import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ApproveLeaveDtoModel, selectApproveLeavesActionLoading, ApproveLeaveUpdated, selectLastCreatedApproveLeaveId, ApproveLeaveOnServerCreated } from '../../../../../core/attendance';
+import { StudentDtoModel, StudentService } from 'src/app/core/student-information';
+import { SectionDtoModel, StudentClassModel, SectionService, StudentClassService } from 'src/app/core/academics';
 
 
 
@@ -37,11 +39,18 @@ viewLoading = false;
 private componentSubscriptions: Subscription;
 files: File[] = [];
 
+classList: StudentClassModel[] = [];
+	sectionList: SectionDtoModel[] = [];
+studentList: StudentDtoModel[] = [];
+
 constructor(public dialogRef: MatDialogRef<ApproveLeaveEditDialogComponent>,
 	@Inject(MAT_DIALOG_DATA) public data: any,
 	private fb: FormBuilder,
 	private store: Store<AppState>,
-	private typesUtilsService: TypesUtilsService) {
+	private typesUtilsService: TypesUtilsService,
+	private studentClassService: StudentClassService,
+	private sectionService: SectionService,
+	private studentService: StudentService) {
 }
 
 /**
@@ -53,7 +62,38 @@ ngOnInit() {
 	this.approveLeave = this.data.approveLeave;
 	this.createForm();
 }
+	//get All Class List
+	loadAllClasses() {
+		debugger
+		this.studentClassService.getAllStudentClasss().subscribe(res => {
+			const data = res['data'];
+			this.classList = data['content'];
+			console.log(this.classList)
+		}, err => {
+		});
+	}
+	loadAllSectionsByClassId(id:number) {
+		debugger
+		this.sectionService.getAllSections().subscribe(res => {
+			const data = res['data'];
+			this.sectionList = data['content'];
+			console.log(this.sectionList)
+			
+		}, err => {
+		});
+	}
 
+	loadAllStudent() {
+		debugger
+		this.studentService.getAllStudents().subscribe(res => {
+			const data = res['data'];
+			this.studentList = data['content'];
+			console.log(this.studentList)
+		
+		
+		}, err => {
+		});
+	}
 /**
  * On destroy
  */

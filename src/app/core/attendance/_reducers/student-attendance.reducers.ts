@@ -50,21 +50,22 @@ export function studentAttendencesReducer(state = initialStudentAttendencesState
       });
     case StudentAttendenceActionTypes.StudentAttendenceUpdated:
       return adapter.updateOne(action.payload.partialStudentAttendence, state);
-    // case StudentAttendenceActionTypes.StudentAttendencesStatusUpdated: {
-    //   // tslint:disable-next-line
-    //   const _partialStudentAttendences: Update<StudentAttendenceDtoModel>[] = [];
-    //   // tslint:disable-next-line:prefer-const
-    //   // tslint:disable-next-line
-    //   for (let i = 0; i < action.payload.studentAttendences.length; i++) {
-    //     _partialStudentAttendences.push({
-    //       id: action.payload.studentAttendences[i].id,
-    //       changes: {
-    //         status: action.payload.status
-    //       }
-    //     });
-    //   }
-    //   return adapter.updateMany(_partialStudentAttendences, state);
-    // }
+    case StudentAttendenceActionTypes.StudentAttendencesStatusUpdated: {
+      // tslint:disable-next-line
+      const _partialStudentAttendences: Update<StudentAttendenceDtoModel>[] = [];
+      // tslint:disable-next-line:prefer-const
+      // tslint:disable-next-line
+      for (let i = 0; i < action.payload.studentAttendences.length; i++) {
+        _partialStudentAttendences.push({
+          id: action.payload.studentAttendences[i].id,
+          changes: {
+            
+            // status: action.payload.status
+          }
+        });
+      }
+      return adapter.updateMany(_partialStudentAttendences, state);
+    }
     case StudentAttendenceActionTypes.OneStudentAttendenceDeleted:
       return adapter.removeOne(action.payload.id, state);
     case StudentAttendenceActionTypes.ManyStudentAttendencesDeleted:
@@ -82,6 +83,7 @@ export function studentAttendencesReducer(state = initialStudentAttendencesState
         lastQuery: action.payload.page,
         showInitWaitingMessage: false
       });
+      
     }
     default:
       return state;

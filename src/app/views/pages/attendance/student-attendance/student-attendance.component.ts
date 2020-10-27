@@ -45,6 +45,7 @@ export class StudentAttendanceComponent implements OnInit {
 	// Selection
 	selection = new SelectionModel<StudentAttendenceDtoModel>(true, []);
 	studentAttendencesResult: StudentAttendenceDtoModel[] = [];
+	studentAttendenceForFill: StudentAttendenceDtoModel[] = [];
 	// Subscriptions
 	private subscriptions: Subscription[] = [];
 
@@ -66,6 +67,7 @@ export class StudentAttendanceComponent implements OnInit {
 	sectionList: SectionDtoModel[] = [];
 	attendanceTypeList:AttendenceTypeModel[]=[];
 
+	markAsHoliday:boolean=false;
 	constructor(public dialog: MatDialog,
 		public snackBar: MatSnackBar,
 		private layoutUtilsService: LayoutUtilsService,
@@ -174,6 +176,10 @@ loadAllSectionsByClassId(id:number) {
 			console.log(res);
 			this.studentAttendencesResult = res;
 			console.log(this.studentAttendencesResult);
+			if(this.studentAttendencesResult){
+				this.studentAttendenceForFill=this.studentAttendencesResult;
+			}
+		
 		});
 		this.subscriptions.push(entitiesSubscription);
 		// First load
@@ -213,10 +219,27 @@ loadAllSectionsByClassId(id:number) {
 
 //save Attendance button 
 	onSaveAttendance(){
-console.log(this.studentAttendencesResult);
+console.log(this.studentAttendenceForFill);
+
+this.markAsHoliday=false;
+
 	}
+	onMarkAsHoliday(){
+	this.markAsHoliday=true;
+}
+	onChangeAttendanceType(index,studentAttendance,attendanceType){
+		console.log(index);
+		console.log(studentAttendance);
+		console.log(attendanceType);
 
-
+		this.studentAttendenceForFill.forEach(element=>{
+			if(element.rollNo==studentAttendance.rollNo && element.admissionNo==studentAttendance.admissionNo){
+				element.attendenceType=attendanceType.type;
+				element.attendenceTypeId=	attendanceType.id;
+			}
+		})
+		
+	}
 
 	/**
 	 * Returns object for filter
@@ -398,23 +421,7 @@ console.log(this.studentAttendencesResult);
 
 
 
-	/**
- * Mark As Holiday
- */
-	markAsHoliday() {
 
-		//search api
-
-	}
-
-	/**
- * On Save
- */
-	onSave() {
-
-
-
-	}
 	/**
 	 * Update StudentAttendence
 	 *

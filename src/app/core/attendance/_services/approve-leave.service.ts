@@ -17,18 +17,18 @@ export class ApproveLeaveService {
   createApproveLeave(approveLeave: ApproveLeaveDtoModel): Observable<ApproveLeaveDtoModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<ApproveLeaveDtoModel>(Constants.URL.HOST_URL+Constants.Academics.Class, approveLeave, {headers: httpHeaders});
+    return this.http.post<ApproveLeaveDtoModel>(Constants.URL.HOST_URL+Constants.Attendance.Approve_Leave, approveLeave, {headers: httpHeaders});
   }
 
   // READ
   getAllApproveLeaves(): Observable<ApproveLeaveDtoModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<ApproveLeaveDtoModel[]>(Constants.URL.HOST_URL+Constants.Academics.Class, {headers: httpHeaders});
+    return this.http.get<ApproveLeaveDtoModel[]>(Constants.URL.HOST_URL+Constants.Attendance.Approve_Leave, {headers: httpHeaders});
   }
 
   getApproveLeaveById(approveLeaveId: number): Observable<ApproveLeaveDtoModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<ApproveLeaveDtoModel>(Constants.URL.HOST_URL+Constants.Academics.Class+ `/${approveLeaveId}`, {headers: httpHeaders});
+    return this.http.get<ApproveLeaveDtoModel>(Constants.URL.HOST_URL+Constants.Attendance.Approve_Leave+ `/${approveLeaveId}`, {headers: httpHeaders});
   }
 
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
@@ -39,7 +39,7 @@ export class ApproveLeaveService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
-    const url =Constants.URL.HOST_URL+Constants.Academics.Class ;
+    const url =Constants.URL.HOST_URL+Constants.Attendance.Approve_Leave ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       // params: httpParams
@@ -49,7 +49,7 @@ export class ApproveLeaveService {
   // UPDATE => PUT: update the ApproveLeave on the server
   updateApproveLeave(approveLeave: ApproveLeaveDtoModel): Observable<any> {
     const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Academics.Class+'/'+approveLeave.id, approveLeave, {headers: httpHeader});
+    return this.http.put(Constants.URL.HOST_URL+Constants.Attendance.Approve_Leave+'/'+approveLeave.id, approveLeave, {headers: httpHeader});
   }
 
   // UPDATE Status
@@ -59,19 +59,19 @@ export class ApproveLeaveService {
       approveLeavesForUpdate: approveLeaves,
       newStatus: status
     };
-    const url = Constants.URL.HOST_URL+Constants.Academics.Class+ '/updateStatus';
+    const url = Constants.URL.HOST_URL+Constants.Attendance.Approve_Leave+ '/updateStatus';
     return this.http.put(url, body, {headers: httpHeaders});
   }
 
   // DELETE => delete the ApproveLeave from the server
   deleteApproveLeave(approveLeaveId: number): Observable<ApproveLeaveDtoModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const url = `${Constants.URL.HOST_URL+Constants.Academics.Class}/${approveLeaveId}`;
+    const url = `${Constants.URL.HOST_URL+Constants.Attendance.Approve_Leave}/${approveLeaveId}`;
     return this.http.delete<ApproveLeaveDtoModel>(url, {headers: httpHeaders});
   }
 
   deleteApproveLeaves(ids: number[] = []): Observable<any> {
-    const url = Constants.URL.HOST_URL+Constants.Academics.Class + '/deleteApproveLeaves';
+    const url = Constants.URL.HOST_URL+Constants.Attendance.Approve_Leave + '/deleteApproveLeaves';
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const body = {approveLeaveIdsForDelete: ids};
     return this.http.put<QueryResultsModel>(url, body, {headers: httpHeaders});
