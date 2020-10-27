@@ -134,6 +134,16 @@ export class PageConfig {
     },
 
     'human-resource': {
+      
+      'add-staff': {
+        page: { title: 'Add Staff', desc: '' }
+      },
+      'staff-directory': {
+        page: { title: 'Staff Directory', desc: '' }
+      },
+      'staff-attendance': {
+        page: { title: 'Staff Attendance', desc: '' }
+      },
       'apply-leave': {
         page: { title: 'Apply Leave', desc: '' }
       },
@@ -145,6 +155,12 @@ export class PageConfig {
       },
       'designation': {
         page: { title: 'Designation', desc: '' }
+      },
+      'disabled-staff': {
+        page: { title: 'Disabled Staff', desc: '' }
+      },
+      'staff-rating': {
+        page: { title: 'Staff Rating', desc: '' }
       },
       
     },

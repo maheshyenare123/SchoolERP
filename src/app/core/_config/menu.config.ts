@@ -285,7 +285,19 @@ export class MenuConfig {
           bullet: 'dot',
           icon: 'flaticon-interface-7',
           submenu: [
-            
+           
+            {
+              title: 'Add Staff',
+              page: '/human-resource/add-staff'
+            },
+            {
+              title: 'Staff Directory',
+              page: '/human-resource/staff-directory'
+            },
+            {
+              title: 'Staff Attendance',
+              page: '/human-resource/staff-attendance'
+            },
             {
               title: 'Apply Leave',
               page: '/human-resource/apply-leave'
@@ -302,7 +314,16 @@ export class MenuConfig {
               title: 'Designation',
               page: '/human-resource/designation'
             },
+            {
+              title: 'Disabled Staff',
+              page: '/human-resource/disabled-staff'
+            },
+            {
+              title: 'Staff Rating',
+              page: '/human-resource/staff-rating'
+            },
 
+            
             
           ]
         },

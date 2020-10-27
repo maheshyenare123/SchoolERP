@@ -54,5 +54,14 @@ export class Constants {
       Homework_Add:'homework',
      
    }
+
+
+   public static Human_Resource: any = {
+      Staff:'api/staff',
+      StaffDesignation:'api/staffDesignation',
+      Department:'api/department',
+      StaffAttendance:'api/staffAttendance',
+      StaffRating:'api/staffRating',
+   }
     
 }

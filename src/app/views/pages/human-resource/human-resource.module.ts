@@ -29,9 +29,11 @@ import { DesignationComponent } from './designation/designation.component';
 import { DepartmentComponent } from './department/department.component';
 import { LeaveTypeComponent } from './leave-type/leave-type.component';
 import { ApplyLeaveComponent } from './apply-leave/apply-leave.component';
-
-
-
+import { StaffDirectoryComponent } from './staff/staff-directory/staff-directory.component';
+import { AddStaffComponent } from './staff/add-staff/add-staff.component';
+import { StaffAttendanceComponent } from './staff-attendance/staff-attendance.component';
+import { DisabledStaffComponent } from './disabled-staff/disabled-staff.component';
+import { StaffRatingComponent } from './staff-rating/staff-rating.component';
 
 
 
@@ -44,7 +46,19 @@ const routes: Routes = [
 				path: '',
 				redirectTo: 'roles',
 				pathMatch: 'full'
-			},
+      },
+      {
+				path: 'add-staff',
+				component: AddStaffComponent
+      },
+      {
+				path: 'staff-directory',
+				component: StaffDirectoryComponent
+      },
+      {
+				path: 'staff-attendance',
+				component: StaffAttendanceComponent
+      },
 			{
 				path: 'apply-leave',
 				component: ApplyLeaveComponent
@@ -61,6 +75,14 @@ const routes: Routes = [
 				path: 'designation',
 				component: DesignationComponent
       },
+      {
+				path: 'disabled-staff',
+				component: DisabledStaffComponent
+      },
+      {
+				path: 'staff-rating',
+				component: StaffRatingComponent
+      },
     ] 
   }
 ]
@@ -71,7 +93,7 @@ const routes: Routes = [
     DesignationComponent, 
     DepartmentComponent,
      LeaveTypeComponent, 
-     ApplyLeaveComponent
+     ApplyLeaveComponent, StaffDirectoryComponent, AddStaffComponent, StaffAttendanceComponent, DisabledStaffComponent, StaffRatingComponent
   ],
   imports: [
     CommonModule,
@@ -94,7 +116,7 @@ const routes: Routes = [
     // StoreModule.forFeature('admissionEnquirys', admissionEnquirysReducer),
     // EffectsModule.forFeature([AdmissionEnquiryEffects]),
    
-    
+  
   ],
   providers: [
     NgbAlertConfig,
