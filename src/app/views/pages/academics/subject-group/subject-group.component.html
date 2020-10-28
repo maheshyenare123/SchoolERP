@@ -32,9 +32,9 @@
                                 </div>
                                 <div class="col-lg-12 kt-margin-bottom-20-mobile">
                                     <mat-form-field class="mat-form-field-fluid">
-                                        <mat-select placeholder="Select Class" formControlName="classId" >
+                                        <mat-select placeholder="Select Class" formControlName="classId"  (selectionChange)="onClassSelectChange($event.value)">
 
-                                            <mat-option *ngFor="let classData of classList" [value]="classData.id" (change)="onClassSelectChange(classData)">
+                                            <mat-option *ngFor="let classData of classList" [value]="classData.id" >
                                                 {{classData.classses}}
                                             </mat-option>
                                         </mat-select>
@@ -167,28 +167,40 @@
                         <ng-container matColumnDef="classSection">
                             <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Class Section
                             </mat-header-cell>
-                            <mat-cell *matCellDef="let subjectGroup">{{subjectGroup.sections}}</mat-cell>
+                            <mat-cell *matCellDef="let subjectGroup">
+                                
+                                <ng-container *ngFor="let section of subjectGroup.sections">
+                                 {{subjectGroup.className}} - {{section.name}}  
+                                    <br /> 
+                                </ng-container>
+                                
+                               </mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="subject">
                             <!-- ATTRIBUTE mat-sort-header  for sorting | https://material.angular.io/components/sort/overview -->
                             <mat-header-cell *matHeaderCellDef mat-sort-header>Subject</mat-header-cell>
-                            <mat-cell *matCellDef="let subjectGroup">{{subjectGroup.subjects}}</mat-cell>
+                            <mat-cell *matCellDef="let subjectGroup">
+                                <ng-container *ngFor="let subject of subjectGroup.subjects">
+                                     {{subject.name}}  
+                                       <br/> 
+                                   </ng-container>
+                            </mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="actions">
                             <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                             <mat-cell *matCellDef="let subjectGroup">
                                
                                     <button mat-icon-button color="primary" matTooltip="Edit Subject Group"
-                                        (click)="editsubjectGroup(subjectGroup)">
+                                        (click)="editSubjectGroup(subjectGroup)">
                                         <mat-icon>create</mat-icon>
                                     </button>&nbsp;
                               
 
-                                
+<!--                                 
                                     <button mat-icon-button color="warn" matTooltip="Delete Subject Group"
                                         type="button" (click)="deleteSubjectGroup(subjectGroup)">
                                         <mat-icon>delete</mat-icon>
-                                    </button>&nbsp;
+                                    </button>&nbsp; -->
                                 
 
 

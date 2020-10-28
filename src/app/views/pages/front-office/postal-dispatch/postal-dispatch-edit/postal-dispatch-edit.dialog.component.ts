@@ -15,6 +15,7 @@ import { AppState } from '../../../../../core/reducers';
 import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DispatchReceiveModel, selectPostalDispatchsActionLoading, PostalDispatchUpdated, selectLastCreatedPostalDispatchId, PostalDispatchOnServerCreated } from '../../../../../core/front-office';
+import { Constants } from 'src/app/core/api_url';
 
 
 
@@ -123,17 +124,13 @@ preparepostalDispatch(): DispatchReceiveModel {
 	const _postalDispatch = new DispatchReceiveModel();
 	_postalDispatch.id = this.postalDispatch.id;
 
-	// date: string;
-		// fromTitle: string;
-		// id: number;
-		// image: string;
-		// isActive: string;
-		// note: string;
-		// referenceNo: string;
-		// toTitle: string;
-		// type: string;
+	if(_postalDispatch.id>0){
+		_postalDispatch.isActive = controls.isActive.value;
+	}else{
+		_postalDispatch.isActive = 'yes';
+	}
 		_postalDispatch.address = controls.address.value;
-		const _date = controls.address.value;
+		const _date = controls.date.value;
 		if (_date) {
 			_postalDispatch.date = this.typesUtilsService.dateFormat(_date);
 		} else {
@@ -141,11 +138,11 @@ preparepostalDispatch(): DispatchReceiveModel {
 		}
 	_postalDispatch.fromTitle = controls.fromTitle.value;
 	_postalDispatch.image = controls.image.value;
-	_postalDispatch.isActive = controls.isActive.value;
+	
 	_postalDispatch.note = controls.note.value;
 	_postalDispatch.referenceNo = controls.referenceNo.value;
 	_postalDispatch.toTitle = controls.toTitle.value;
-	_postalDispatch.type = controls.type.value;
+	_postalDispatch.type = Constants.DISPATCH;
 	// _postalDispatch.isActive='yes'
 	return _postalDispatch;
 }

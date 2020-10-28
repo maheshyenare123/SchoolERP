@@ -15,6 +15,7 @@ import { AppState } from '../../../../../core/reducers';
 import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DispatchReceiveModel, selectPostalReceivesActionLoading, PostalReceiveUpdated, PostalReceiveOnServerCreated, selectLastCreatedPostalReceiveId } from '../../../../../core/front-office';
+import { Constants } from 'src/app/core/api_url';
 // // Services and Models
 
 
@@ -98,10 +99,10 @@ createForm() {
  */
 getTitle(): string {
 	if (this.postalReceive.id > 0) {
-		return `Edit Postal Dispatch '${this.postalReceive.toTitle}'`;
+		return `Edit Postal Receive '${this.postalReceive.toTitle}'`;
 	}
 
-	return 'New Postal Dispatch';
+	return 'New Postal Receive';
 }
 
 /**
@@ -124,15 +125,13 @@ preparepostalReceive(): DispatchReceiveModel {
 	const _postalReceive = new DispatchReceiveModel();
 	_postalReceive.id = this.postalReceive.id;
 
-	// date: string;
-		// fromTitle: string;
-		// id: number;
-		// image: string;
-		// isActive: string;
-		// note: string;
-		// referenceNo: string;
-		// toTitle: string;
-		// type: string;
+
+if(_postalReceive.id>0){
+	_postalReceive.isActive = controls.isActive.value;
+}else{
+	_postalReceive.isActive = 'yes';
+}
+
 		_postalReceive.address = controls.address.value;
 		const _date = controls.date.value;
 		if (_date) {
@@ -142,11 +141,10 @@ preparepostalReceive(): DispatchReceiveModel {
 		}
 	_postalReceive.fromTitle = controls.fromTitle.value;
 	_postalReceive.image = controls.image.value;
-	_postalReceive.isActive = controls.isActive.value;
 	_postalReceive.note = controls.note.value;
 	_postalReceive.referenceNo = controls.referenceNo.value;
 	_postalReceive.toTitle = controls.toTitle.value;
-	_postalReceive.type = controls.type.value;
+	_postalReceive.type = Constants.RECEIVE;
 	// _postalReceive.isActive='yes'
 	return _postalReceive;
 }

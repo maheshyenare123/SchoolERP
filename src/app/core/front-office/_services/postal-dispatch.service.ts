@@ -35,6 +35,7 @@ export class PostalDispatchService {
   // items => filtered/sorted result
   // Server should return filtered/sorted result
   findPostalDispatchs(queryParams: QueryParamsModel): Observable<QueryResultsModel> {
+    debugger;
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     // const httpParams = this.httpUtils.getFindHTTPParams(queryParams);

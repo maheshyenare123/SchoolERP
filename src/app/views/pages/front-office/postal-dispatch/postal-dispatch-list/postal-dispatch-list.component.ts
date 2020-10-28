@@ -84,6 +84,7 @@ ngOnInit() {
  ).subscribe(res => {
    this.postalDispatchsResult = res;
    console.log(this.postalDispatchsResult);
+  if(this.postalDispatchsResult.length==0)this.dataSource.hasItems=false;
  });
  this.subscriptions.push(entitiesSubscription);
  // First load
@@ -167,15 +168,15 @@ restoreState(queryParams: QueryParamsModel, id: number) {
 
 /** ACTIONS */
 /**
- * Delete product
+ * Delete Postal Dispatch
  *
  * @param _item: DispatchReceiveModel
  */
 deletePostalDispatch(_item: DispatchReceiveModel) {
-  const _title = 'Product Delete';
-  const _description = 'Are you sure to permanently delete this product?';
-  const _waitDesciption = 'Product is deleting...';
-  const _deleteMessage = `Product has been deleted`;
+  const _title = 'Postal Dispatch Delete';
+  const _description = 'Are you sure to permanently delete this Postal Dispatch?';
+  const _waitDesciption = 'Postal Dispatch is deleting...';
+  const _deleteMessage = `Postal Dispatch has been deleted`;
 
   const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
   dialogRef.afterClosed().subscribe(res => {
@@ -189,13 +190,13 @@ deletePostalDispatch(_item: DispatchReceiveModel) {
 }
 
 /**
- * Delete products
+ * Delete Postal Dispatch
  */
 deleteProducts() {
-  const _title = 'Products Delete';
-  const _description = 'Are you sure to permanently delete selected products?';
-  const _waitDesciption = 'Products are deleting...';
-  const _deleteMessage = 'Selected products have been deleted';
+  const _title = 'Postal Dispatchs Delete';
+  const _description = 'Are you sure to permanently delete selected Postal Dispatchs?';
+  const _waitDesciption = 'Postal Dispatchs are deleting...';
+  const _deleteMessage = 'Selected Postal Dispatchs have been deleted';
 
   const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
   dialogRef.afterClosed().subscribe(res => {
@@ -209,7 +210,7 @@ deleteProducts() {
       idsForDeletion.push(this.selection.selected[i].id);
     }
 
-    //many product deleted
+    //many Postal Dispatch deleted
     this.store.dispatch(new ManyPostalDispatchsDeleted({ ids: idsForDeletion }));
     this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
     this.selection.clear();
@@ -217,7 +218,7 @@ deleteProducts() {
 }
 
 /**
- * Fetch selected products
+ * Fetch selected Postal Dispatch
  */
 // fetchProducts() {
 //   // tslint:disable-next-line:prefer-const
@@ -287,8 +288,8 @@ deleteProducts() {
 	 * @param customer: CustomerModel
 	 */
 	editPostalDispatch(postalDispatch: DispatchReceiveModel) {
-		let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
-    const _saveMessage = postalDispatch.id > 0 ? 'Edit product' : 'Create product';
+		
+    const _saveMessage = postalDispatch.id > 0 ? 'Edit Postal Dispatch' : 'Create Postal Dispatch';
     
 		const _messageType = postalDispatch.id > 0 ? MessageType.Update : MessageType.Create;
 		const dialogRef = this.dialog.open(PostalDispatchEditDialogComponent, { data: { postalDispatch } });

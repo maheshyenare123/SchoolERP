@@ -25,7 +25,10 @@ export class StudentClassService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     return this.http.get<StudentClassModel[]>(Constants.URL.HOST_URL+Constants.Academics.Class, {headers: httpHeaders});
   }
-
+  getAllSectionByClasssId(id): Observable<StudentClassModel[]> {
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.get<StudentClassModel[]>(Constants.URL.HOST_URL+Constants.Academics.Class+"/"+id+"/sections", {headers: httpHeaders});
+  }
   getStudentClassById(studentClassId: number): Observable<StudentClassModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     return this.http.get<StudentClassModel>(Constants.URL.HOST_URL+Constants.Academics.Class+ `/${studentClassId}`, {headers: httpHeaders});

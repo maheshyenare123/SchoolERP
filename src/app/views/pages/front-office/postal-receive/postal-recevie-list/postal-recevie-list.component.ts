@@ -84,6 +84,7 @@ ngOnInit() {
  ).subscribe(res => {
    this.postalReceivesResult = res;
    console.log(this.postalReceivesResult);
+   if(this.postalReceivesResult.length==0)this.dataSource.hasItems=false;
  });
  this.subscriptions.push(entitiesSubscription);
  // First load
@@ -168,15 +169,15 @@ restoreState(queryParams: QueryParamsModel, id: number) {
 
 /** ACTIONS */
 /**
- * Delete product
+ * Delete  Postal Receive
  *
  * @param _item: DispatchReceiveModel
  */
 deletePostalReceive(_item: DispatchReceiveModel) {
-  const _title = 'Product Delete';
-  const _description = 'Are you sure to permanently delete this product?';
-  const _waitDesciption = 'Product is deleting...';
-  const _deleteMessage = `Product has been deleted`;
+  const _title = ' Postal Receive Delete';
+  const _description = 'Are you sure to permanently delete this Postal Receive?';
+  const _waitDesciption = ' Postal Receive is deleting...';
+  const _deleteMessage = ` Postal Receive has been deleted`;
 
   const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
   dialogRef.afterClosed().subscribe(res => {
@@ -190,13 +191,13 @@ deletePostalReceive(_item: DispatchReceiveModel) {
 }
 
 /**
- * Delete products
+ * Delete  Postal Receives
  */
 deleteProducts() {
-  const _title = 'Products Delete';
-  const _description = 'Are you sure to permanently delete selected products?';
-  const _waitDesciption = 'Products are deleting...';
-  const _deleteMessage = 'Selected products have been deleted';
+  const _title = ' Postal Receives Delete';
+  const _description = 'Are you sure to permanently delete selected  Postal Receives?';
+  const _waitDesciption = ' Postal Receives are deleting...';
+  const _deleteMessage = 'Selected  Postal Receives have been deleted';
 
   const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
   dialogRef.afterClosed().subscribe(res => {
@@ -210,7 +211,7 @@ deleteProducts() {
       idsForDeletion.push(this.selection.selected[i].id);
     }
 
-    //many product deleted
+    //many  Postal Receive deleted
     this.store.dispatch(new ManyPostalReceivesDeleted({ ids: idsForDeletion }));
     this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
     this.selection.clear();
@@ -218,7 +219,7 @@ deleteProducts() {
 }
 
 /**
- * Fetch selected products
+ * Fetch selected  Postal Receive
  */
 // fetchProducts() {
 //   // tslint:disable-next-line:prefer-const
@@ -289,7 +290,7 @@ deleteProducts() {
 	 */
 	editPostalReceive(postalReceive: DispatchReceiveModel) {
 		let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
-    const _saveMessage = postalReceive.id > 0 ? 'Edit product' : 'Create product';
+    const _saveMessage = postalReceive.id > 0 ? 'Edit Postal Receive' : 'Create Postal Receive';
     
 		const _messageType = postalReceive.id > 0 ? MessageType.Update : MessageType.Create;
 		const dialogRef = this.dialog.open(PostalReceiveEditDialogComponent, { data: { postalReceive } });

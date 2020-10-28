@@ -25,6 +25,7 @@ export class ClassService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     return this.http.get<ClassDtoModel[]>(Constants.URL.HOST_URL+Constants.Academics.Class, {headers: httpHeaders});
   }
+ 
 
   getClassById(classId: number): Observable<ClassDtoModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();

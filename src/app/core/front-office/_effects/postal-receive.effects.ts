@@ -44,6 +44,7 @@ export class PostalReceiveEffects {
       return forkJoin(requestToServer, lastQuery);
     }),
     map(response => {
+      debugger;
       const result: QueryResultsModel = response[0];
       const lastQuery: QueryParamsModel = response[1];
       const data : FindResultsModel= result['data'];
@@ -118,7 +119,7 @@ export class PostalReceiveEffects {
         this.store.dispatch(this.showActionLoadingDistpatcher);
         return this.postalReceivesService.createPostalReceive(payload.postalReceive).pipe(
           tap(res => {
-            this.store.dispatch(new PostalReceiveCreated({postalReceive: res}));
+            this.store.dispatch(new PostalReceiveCreated({postalReceive: res['data']}));
           })
         );
       }),

@@ -12,6 +12,7 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { MAT_STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MaterialModule } from '../material/material.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { TranslateModule } from '@ngx-translate/core';
@@ -29,6 +30,7 @@ import { BulkDeleteComponent } from './bulk-delete/bulk-delete.component';
 import { DisabledStudentComponent } from './disabled-student/disabled-student.component';
 
 import { disableReasonsReducer, DisableReasonEffects, studentDetailsReducer, studentsReducer, StudentEffects, CategoryEffects, studentHousesReducer, StudentHouseEffects, categorysReducer, DisableReasonService, StudentService, StudentHouseService, CategoryService, onlineAdmissionsReducer, OnlineAdmissionEffects,disabledStudentsReducer,DisabledStudentEffects,bulkDeletesReducer ,BulkDeleteEffects,BulkDeleteService,DisabledStudentService} from '../../../core/student-information';
+
 
 
 const routes: Routes = [
@@ -132,7 +134,7 @@ const routes: Routes = [
         { provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
         { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
         { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
-    
+       {provide: MAT_STEPPER_GLOBAL_OPTIONS, useValue: {showError: true}},
         DisableReasonService,
         StudentService,
         CategoryService,

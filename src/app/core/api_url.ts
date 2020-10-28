@@ -7,8 +7,8 @@ export class Constants {
    }
 
   
-      public static   DISPATCH:'dispatch';
-      public static    RECEIVE:'receive';
+      public static DISPATCH:string='dispatch';
+      public static RECEIVE:string='receive';
    
 
    public static Front_Office: any = {

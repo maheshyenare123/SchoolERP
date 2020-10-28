@@ -44,6 +44,7 @@ export class PostalDispatchEffects {
       return forkJoin(requestToServer, lastQuery);
     }),
     map(response => {
+      debugger;
       const result: QueryResultsModel = response[0];
       const lastQuery: QueryParamsModel = response[1];
       const data : FindResultsModel= result['data'];

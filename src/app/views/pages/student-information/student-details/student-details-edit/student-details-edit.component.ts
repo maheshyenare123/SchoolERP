@@ -73,6 +73,7 @@ export class StudentDetailsEditComponent implements OnInit {
 		newStudent
     this.studentDetail = newStudent
     this.createForm();
+    this.isLinear = true;
   }
 
   /**

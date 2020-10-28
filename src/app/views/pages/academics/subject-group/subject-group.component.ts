@@ -138,9 +138,9 @@ this.addSubjectGroup();
 	}
 	loadAllSectionsByClassId(id:number) {
 		debugger
-		this.sectionService.getAllSections().subscribe(res => {
-			const data = res['data'];
-			this.sectionList = data['content'];
+		this.studentClassService.getAllSectionByClasssId(id).subscribe(res => {
+		
+			this.sectionList = res['data'];
 			console.log(this.sectionList)
 			this.setSectionDataInChecboxList();
 		}, err => {
@@ -167,9 +167,20 @@ setSubjectDataInChecboxList(){
 
 
 setSectionDataInChecboxList(){
+	this.sectionCheckBoxList=[];
 	this.sectionList.forEach(element => {
 		this.sectionCheckBoxList.push({ 'data':new SectionModel(element.id,element.section,element.id), 'isChecked': false })
 	})
+	//by default check section checkbox
+if(this.subjectGroup.id>0){
+	this.sectionCheckBoxList.forEach(element => {
+		this.subjectGroup.sections.forEach(innerElement => {
+			if (element.data.id == innerElement.id) {
+				element.isChecked = true;
+			}
+		})
+	})
+}
 }
 
 
@@ -225,10 +236,10 @@ setSectionDataInChecboxList(){
 	 */
 	deleteSubjectGroup(_item: SubjectGroupDtoModel) {
 
-		const _title = 'Purpose';
-		const _description = 'Are you sure to permanently delete selected purpose?';
-		const _waitDesciption = 'Purpose is deleting...';
-		const _deleteMessage = ' Selected purpose has been deleted';
+		const _title = 'Subject Group';
+		const _description = 'Are you sure to permanently delete selected Subject Group?';
+		const _waitDesciption = 'Subject Group is deleting...';
+		const _deleteMessage = ' Selected Subject Group has been deleted';
 
 
 
@@ -265,16 +276,7 @@ setSectionDataInChecboxList(){
 		this.subjectGroup=subjectGroup;
 		this.loadAllSectionsByClassId(this.subjectGroup.classId);
 		this.createForm();
-		//by default check section checkbox
-			this.sectionCheckBoxList.forEach(element => {
-				this.subjectGroup.sections.forEach(innerElement => {
-					if (element.data.id == innerElement.id) {
-						element.isChecked = true;
-					}
-				})
-
-
-		})
+	
 //by default check subject checkbox
 		this.subjectCheckBoxList.forEach(element => {
 			this.subjectGroup.subjects.forEach(innerElement => {
@@ -323,9 +325,13 @@ onSectionCheckBoxChanges(_isChecked: boolean, id: number) {
 	}else{
 		this.sectionCheckBoxList[index].isChecked = _isChecked;
 	}
+
+
+
 }
-onClassSelectChange(classObj:StudentClassModel){
-	this.loadAllSectionsByClassId(classObj.id);
+onClassSelectChange(classId){
+	this.loadAllSectionsByClassId(classId);
+	var classObj=this.classList.find(x => x.id === classId);
 	this.subjectGroupForm.controls.className.setValue(classObj.classses);
 
 }
@@ -403,7 +409,7 @@ onSubmit() {
 		this.createSubjectGroup(editedSubjectGroup);
 	}
 	this.loadSubjectGroupList();
-	const	_saveMessage= editedSubjectGroup.id > 0 ? 'Purpose  has been updated' : 'Purpose has been created';
+	const	_saveMessage= editedSubjectGroup.id > 0 ? 'Subject Group  has been updated' : 'Subject Group has been created';
 		
 	const _messageType = editedSubjectGroup.id > 0 ? MessageType.Update : MessageType.Create;
 	
