@@ -11,7 +11,7 @@ import { SubheaderService } from 'src/app/core/_base/layout';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
-//import { BookEditDialogComponent } from '../-Book-edit/-Book-edit.dialog.component';
+import { BookEditDialogComponent } from '../Book-edit/Book-edit.dialog.component';
 
 
 @Component({
@@ -303,15 +303,15 @@ deleteProducts() {
     const _saveMessage = book.id > 0 ? 'Edit  Book' : 'Create  Book';
     
 		const _messageType = book.id > 0 ? MessageType.Update : MessageType.Create;
-		// const dialogRef = this.dialog.open(BookEditDialogComponent, { data: { book } });
-		// dialogRef.afterClosed().subscribe(res => {
-		// 	if (!res) {
-		// 		return;
-		// 	}
+		const dialogRef = this.dialog.open(BookEditDialogComponent, { data: { book } });
+		dialogRef.afterClosed().subscribe(res => {
+			if (!res) {
+				return;
+			}
 
-		// 	this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-		// 	this.loadBooksList();
-		// });
+			this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
+			this.loadBooksList();
+		});
 	}
 
 /**

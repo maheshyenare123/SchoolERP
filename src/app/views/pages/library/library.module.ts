@@ -21,8 +21,14 @@ import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsServi
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 import { LibraryComponent } from './library.component';
+import { BookEditDialogComponent } from './Book-edit/Book-edit.dialog.component';
 import { BookListComponent } from './book-list/book-list.component';
-
+import { LibraryStudentMemberComponent } from './library-student-member/library-student-member.component';
+import { LibraryStaffMemberComponent } from './library-staff-member/library-staff-member.component';
+import { LibraryStudentMemberEditDialogComponent } from './library-student-member-edit/library-student-member-edit.dialog.component';
+import { LibraryStaffMemberEditDialogComponent } from './library-staff-member-edit/library-staff-member-edit.dialog.component';
+import { IssueReturnBookComponent } from './issue-return-book/issue-return-book.component';
+import { LibraryMemberListComponent } from './library-member-list/library-member-list.component';
 const routes: Routes = [
 	{
 		path: '',
@@ -37,6 +43,18 @@ const routes: Routes = [
 				path: 'book-list',
 				component: BookListComponent
       },
+      {
+				path: 'library-student-member',
+				component: LibraryStudentMemberComponent
+      },
+      {
+				path: 'library-staff-member',
+				component: LibraryStaffMemberComponent
+      },
+       {
+				path: 'library-member-list',
+				component: LibraryMemberListComponent
+      },
     ] 
   }
 ]
@@ -44,7 +62,14 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     LibraryComponent,
-    BookListComponent
+    BookEditDialogComponent,
+    BookListComponent,
+    LibraryStudentMemberEditDialogComponent,
+    LibraryStudentMemberComponent,
+    LibraryStaffMemberEditDialogComponent,
+    LibraryStaffMemberComponent,
+    IssueReturnBookComponent,
+    LibraryMemberListComponent
   ],
   imports: [
     CommonModule,
@@ -106,7 +131,9 @@ const routes: Routes = [
   ],
    
     entryComponents: [
-     
+      BookEditDialogComponent,
+      LibraryStudentMemberEditDialogComponent,
+      LibraryStaffMemberEditDialogComponent,
 	],
   exports: [RouterModule],
 

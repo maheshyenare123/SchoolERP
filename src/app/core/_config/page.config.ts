@@ -121,9 +121,49 @@ export class PageConfig {
       'book-list': {
         page: { title: 'Book List', desc: '' }
       },
+      'library-student-member': {
+        page: { title: 'Library Student Member', desc: '' }
+      },
+      'library-staff-member': {
+        page: { title: 'Library Staff Member', desc: '' }
+      },
+      'library-member-list': {
+        page: { title: 'Library Member List', desc: '' }
+      },
       
     },
-    
+
+    'human-resource': {
+      
+      'add-staff': {
+        page: { title: 'Add Staff', desc: '' }
+      },
+      'staff-directory': {
+        page: { title: 'Staff Directory', desc: '' }
+      },
+      'staff-attendance': {
+        page: { title: 'Staff Attendance', desc: '' }
+      },
+      'apply-leave': {
+        page: { title: 'Apply Leave', desc: '' }
+      },
+      'leave-type': {
+        page: { title: 'Leave Type', desc: '' }
+      },
+      'department': {
+        page: { title: 'Department', desc: '' }
+      },
+      'designation': {
+        page: { title: 'Designation', desc: '' }
+      },
+      'disabled-staff': {
+        page: { title: 'Disabled Staff', desc: '' }
+      },
+      'staff-rating': {
+        page: { title: 'Staff Rating', desc: '' }
+      },
+      
+    },
     ecommerce: {
       customers: {
         page: { title: 'Customers', desc: '' }

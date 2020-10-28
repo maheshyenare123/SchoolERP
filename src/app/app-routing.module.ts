@@ -60,6 +60,10 @@ const routes: Routes = [
           path: 'library',
           loadChildren: () => import('./views/pages/library/library.module').then(m => m.LibraryModule),
         },
+        {
+          path: 'human-resource',
+          loadChildren: () => import('./views/pages/human-resource/human-resource.module').then(m => m.HumanResourceModule),
+        },
       {
         path: 'user-management',
         loadChildren: () => import('./views/pages/user-management/user-management.module').then(m => m.UserManagementModule),

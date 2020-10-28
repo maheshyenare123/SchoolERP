@@ -356,6 +356,8 @@ export class StudentDetailsEditComponent implements OnInit {
   }
 
   onSubmit1() {
+//only save add siblings
+
     this.hasFormErrors = false;
     const controls = this.studentDetailForm.controls;
     /** check form */
@@ -421,6 +423,8 @@ export class StudentDetailsEditComponent implements OnInit {
 
   onCancel() {
     this.studentDetailForm.reset();
+    this.studentInformationFormGroup.reset();
+    this.addMoreDetailFormGroup.reset();
     this.studentDetail.clear();
     this.createForm();
   }

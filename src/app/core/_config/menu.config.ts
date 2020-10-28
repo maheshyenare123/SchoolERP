@@ -262,12 +262,71 @@ export class MenuConfig {
               title: 'Book List',
               page: '/library/book-list'
             },
+            {
+              title: 'Library Student Member',
+              page: '/library/library-student-member'
+            },
+            {
+              title: 'Library Staff Member',
+              page: '/library/library-staff-member'
+            },
+            {
+              title: 'Library Member List',
+              page: '/library/library-member-list'
+            },
+
             
           ]
         },
 
         
+        {
+          title: 'Human Resource',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+           
+            {
+              title: 'Add Staff',
+              page: '/human-resource/add-staff'
+            },
+            {
+              title: 'Staff Directory',
+              page: '/human-resource/staff-directory'
+            },
+            {
+              title: 'Staff Attendance',
+              page: '/human-resource/staff-attendance'
+            },
+            {
+              title: 'Apply Leave',
+              page: '/human-resource/apply-leave'
+            },
+            {
+              title: 'Leave Type',
+              page: '/human-resource/leave-type'
+            },
+            {
+              title: 'Department',
+              page: '/human-resource/department'
+            },
+            {
+              title: 'Designation',
+              page: '/human-resource/designation'
+            },
+            {
+              title: 'Disabled Staff',
+              page: '/human-resource/disabled-staff'
+            },
+            {
+              title: 'Staff Rating',
+              page: '/human-resource/staff-rating'
+            },
 
+            
+            
+          ]
+        },
         
         // {section: 'Components'},
         // {

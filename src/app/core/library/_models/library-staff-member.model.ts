@@ -1,4 +1,4 @@
-export class LibraryStaffMemberDtoModel {
+export class LibraryStaffMemberModel {
 
     dob: string;
     email: string;
