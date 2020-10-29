@@ -147,6 +147,9 @@ export class PageConfig {
       'apply-leave': {
         page: { title: 'Apply Leave', desc: '' }
       },
+      'approve-leave-request': {
+        page: { title: 'Approve Leave Request', desc: '' }
+      },
       'leave-type': {
         page: { title: 'Leave Type', desc: '' }
       },
@@ -155,6 +158,9 @@ export class PageConfig {
       },
       'designation': {
         page: { title: 'Designation', desc: '' }
+      },
+      'payroll': {
+        page: { title: 'Payroll', desc: '' }
       },
       'disabled-staff': {
         page: { title: 'Disabled Staff', desc: '' }

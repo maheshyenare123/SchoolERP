@@ -29,15 +29,21 @@ import { HumanResourceComponent } from './human-resource.component';
 import { DesignationComponent } from './designation/designation.component';
 import { DepartmentComponent } from './department/department.component';
 import { LeaveTypeComponent } from './leave-type/leave-type.component';
-import { ApplyLeaveComponent } from './apply-leave/apply-leave.component';
+import { ApplyLeaveComponent } from './staff-leave/apply-leave/apply-leave.component';
 import { StaffDirectoryComponent } from './staff/staff-directory/staff-directory.component';
 import { AddStaffComponent } from './staff/add-staff/add-staff.component';
 import { StaffAttendanceComponent } from './staff-attendance/staff-attendance.component';
 import { DisabledStaffComponent } from './disabled-staff/disabled-staff.component';
 import { StaffRatingComponent } from './staff-rating/staff-rating.component';
-
-
-
+import { ApproveLeaveRequestComponent } from './staff-leave/approve-leave-request/approve-leave-request.component';
+import { PayrollComponent } from './staff-payroll/payroll/payroll.component';
+import { ApplyLeaveEditDialogComponent } from './staff-leave/apply-leave-edit/apply-leave-edit.dialog.component';
+import { ApplyLeaveViewDialogComponent } from './staff-leave/apply-leave-view/apply-leave-view.dialog.component';
+import { GeneratePayrollEditDialogComponent } from './staff-payroll/generate-payroll-edit/generate-payroll-edit.dialog.component';
+import { ProceedPayEditDialogComponent } from './staff-payroll/proceed-pay-edit/proceed-pay-edit.dialog.component';
+import { ViewPayslipEditDialogComponent } from './staff-payroll/view-payslip-edit/view-payslip-edit.dialog.component';
+import { ApproveLeaveRequestViewDialogComponent } from './staff-leave/approve-leave-request-view/approve-leave-request-view.dialog.component';
+import { ApproveLeaveRequestEditDialogComponent } from './staff-leave/approve-leave-request-edit/approve-leave-request-edit.dialog.component';
 const routes: Routes = [
 	{
 		path: '',
@@ -65,6 +71,10 @@ const routes: Routes = [
 				component: ApplyLeaveComponent
       },
       {
+				path: 'approve-leave-request',
+				component: ApproveLeaveRequestComponent
+      },
+      {
 				path: 'leave-type',
 				component: LeaveTypeComponent
       },
@@ -77,6 +87,10 @@ const routes: Routes = [
 				component: DesignationComponent
       },
       {
+				path: 'payroll',
+				component: PayrollComponent
+      },
+      {
 				path: 'disabled-staff',
 				component: DisabledStaffComponent
       },
@@ -84,6 +98,7 @@ const routes: Routes = [
 				path: 'staff-rating',
 				component: StaffRatingComponent
       },
+
     ] 
   }
 ]
@@ -91,10 +106,24 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     HumanResourceComponent,
-    DesignationComponent, 
+    DesignationComponent,
     DepartmentComponent,
-     LeaveTypeComponent, 
-     ApplyLeaveComponent, StaffDirectoryComponent, AddStaffComponent, StaffAttendanceComponent, DisabledStaffComponent, StaffRatingComponent
+    LeaveTypeComponent,
+    ApplyLeaveComponent,
+    StaffDirectoryComponent,
+    AddStaffComponent,
+    StaffAttendanceComponent,
+    DisabledStaffComponent,
+    StaffRatingComponent,
+    ApproveLeaveRequestComponent,
+    PayrollComponent,
+    ApplyLeaveEditDialogComponent,
+    GeneratePayrollEditDialogComponent,
+    ProceedPayEditDialogComponent,
+    ViewPayslipEditDialogComponent,
+    ApplyLeaveViewDialogComponent,
+    ApproveLeaveRequestViewDialogComponent,
+    ApproveLeaveRequestEditDialogComponent
   ],
   imports: [
     CommonModule,
@@ -144,7 +173,7 @@ const routes: Routes = [
         hasBackdrop: true,
         panelClass: 'kt-mat-dialog-container__wrapper',
         height: 'auto',
-        width: '900px'
+        width: '1200px'
       }
     },
 
@@ -157,7 +186,13 @@ const routes: Routes = [
   ],
    
     entryComponents: [
-     
+      ApplyLeaveEditDialogComponent,
+      GeneratePayrollEditDialogComponent,
+      ProceedPayEditDialogComponent,
+      ViewPayslipEditDialogComponent,
+      ApplyLeaveViewDialogComponent,
+      ApproveLeaveRequestViewDialogComponent,
+      ApproveLeaveRequestEditDialogComponent
 	],
   exports: [RouterModule],
 

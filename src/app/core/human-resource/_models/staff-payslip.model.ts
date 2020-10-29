@@ -1,10 +1,11 @@
-export class staffPayslipDtoModel {
+export class StaffPayslipModel {
 
     basic: number;
     id: number;
     leaveDeduction: number;
     month: string;
     netSalary: number;
+    grossSalary: number;
     paymentDate: string;
     paymentMode: string;
     remark: string;
@@ -21,6 +22,7 @@ clear() {
     this.leaveDeduction= 0;
     this.month= '';
     this.netSalary= 0;
+    this.grossSalary= 0;
     this.paymentDate= '';
     this.paymentMode= '';
     this.remark= '';

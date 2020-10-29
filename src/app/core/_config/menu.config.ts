@@ -303,6 +303,11 @@ export class MenuConfig {
               page: '/human-resource/apply-leave'
             },
             {
+              title: 'Approve Leave Request',
+              page: '/human-resource/approve-leave-request'
+            },
+            
+            {
               title: 'Leave Type',
               page: '/human-resource/leave-type'
             },
@@ -314,6 +319,11 @@ export class MenuConfig {
               title: 'Designation',
               page: '/human-resource/designation'
             },
+            {
+              title: 'Payroll',
+              page: '/human-resource/payroll'
+            },
+            
             {
               title: 'Disabled Staff',
               page: '/human-resource/disabled-staff'
