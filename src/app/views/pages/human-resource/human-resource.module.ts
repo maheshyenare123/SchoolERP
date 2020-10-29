@@ -146,7 +146,6 @@ const routes: Routes = [
     // StoreModule.forFeature('admissionEnquirys', admissionEnquirysReducer),
     // EffectsModule.forFeature([AdmissionEnquiryEffects]),
    
-  
   ],
   providers: [
     NgbAlertConfig,
@@ -176,15 +175,9 @@ const routes: Routes = [
         width: '1200px'
       }
     },
-
-
-
 //custom service
 
-
-
   ],
-   
     entryComponents: [
       ApplyLeaveEditDialogComponent,
       GeneratePayrollEditDialogComponent,
@@ -197,8 +190,5 @@ const routes: Routes = [
   exports: [RouterModule],
 
 })
-
-
-
 
 export class HumanResourceModule { }

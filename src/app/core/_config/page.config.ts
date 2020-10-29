@@ -170,6 +170,14 @@ export class PageConfig {
       },
       
     },
+
+    'fees-collection': {
+      'fees-reminder': {
+        page: { title: 'Fees Reminder', desc: '' }
+      },
+      
+    },
+
     ecommerce: {
       customers: {
         page: { title: 'Customers', desc: '' }

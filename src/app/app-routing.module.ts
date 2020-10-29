@@ -64,6 +64,10 @@ const routes: Routes = [
           path: 'human-resource',
           loadChildren: () => import('./views/pages/human-resource/human-resource.module').then(m => m.HumanResourceModule),
         },
+        {
+          path: 'fees-collection',
+          loadChildren: () => import('./views/pages/fees-collection/fees-collection.module').then(m => m.FeesCollectionModule),
+        },
       {
         path: 'user-management',
         loadChildren: () => import('./views/pages/user-management/user-management.module').then(m => m.UserManagementModule),
