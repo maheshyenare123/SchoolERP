@@ -92,9 +92,9 @@ classList=[]
 	 * Returns page title
 	 */
 	getTitle(): string {
-		if (this.libraryStudentMember.studentId > 0) {
-			return `Edit Library Student Member '${this.libraryStudentMember.firstName}'`;
-		}
+		// if (this.libraryStudentMember.studentId > 0) {
+		// 	return `Edit Library Student Member '${this.libraryStudentMember.firstName}'`;
+		// }
 
 		return 'New Library Student Member';
 	}
@@ -157,11 +157,11 @@ classList=[]
 		}
 
 		const editedlibraryStudentMember = this.preparelibraryStudentMember();
-		if (editedlibraryStudentMember.studentId > 0) {
-			this.updateLibraryStudentMember(editedlibraryStudentMember);
-		} else {
+		// if (editedlibraryStudentMember.studentId > 0) {
+		// 	this.updateLibraryStudentMember(editedlibraryStudentMember);
+		// } else {
 			this.createLibraryStudentMember(editedlibraryStudentMember);
-		}
+		// }
 
 
 		

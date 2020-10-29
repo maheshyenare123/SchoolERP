@@ -1,10 +1,6 @@
 <kt-portlet>
 	<kt-portlet-header [sticky]="true" [title]="'Student List'" [class]="'card-head-lg'"
-		[viewLoading$]="dataSource.loading$">
-		<!-- <ng-container ktPortletTools>
-			<button (click)="addBook()" mat-raised-button color="primary" matTooltip="Create new Book">New
-				Book</button>
-		</ng-container> -->
+		><!-- [viewLoading$]="dataSource.loading$"> -->
 	</kt-portlet-header>
 	<!-- end::Header -->
 
@@ -66,7 +62,9 @@
 
         </div>
     </kt-portlet-body>
-
+	<kt-portlet-header [sticky]="true" [title]="'Students List'" [class]="'card-head-lg'"
+	[viewLoading$]="dataSource.loading$">
+</kt-portlet-header>
 	<kt-portlet-body>
 		<!-- start::FILTERS & GROUP ACTIONS -->
 		<div class="form mb-3">
@@ -223,14 +221,19 @@
                     <!-- make action conditiion with help of libraryCardNo Variable edit function for add library card no
                          and delete for delete library card no i.e. add Membership and surrendor the member ship -->
 					<mat-cell *matCellDef="let libraryStudentMember">
+					
+						<ng-container *ngIf="libraryStudentMember.memberId==0">
 						<button type="button" (click)="editLibraryStudentMember(libraryStudentMember)" mat-icon-button color="primary"
-							matTooltip="Edit Library Student Member">
+							matTooltip="add Membership">
 							<mat-icon>create</mat-icon>
 						</button>&nbsp;
+						</ng-container>
+						<ng-container *ngIf="libraryStudentMember.memberId>0">
 						<button mat-icon-button color="warn" type="button" (click)="deleteLibraryStudentMember(libraryStudentMember)"
-							matTooltip="Delete Library Student Member">
+							matTooltip="Surrender Membership">
 							<mat-icon>delete</mat-icon>
 						</button>&nbsp;
+					</ng-container>
 						<!-- <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="More actions">
 							<mat-icon>more_vert</mat-icon>
 						</button>

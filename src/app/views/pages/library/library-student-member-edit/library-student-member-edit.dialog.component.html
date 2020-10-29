@@ -5,19 +5,17 @@
 			<h3 class="card-label">{{getTitle()}}</h3>
 		</div>
 	</div>
-	<form class="form" [formGroup]="libraryStudentMemberForm">
+	<form class="form" [formGroup]="libraryStudentMemberForm"  autocomplete="off">
 		<div class="card-body">
 
 			<div class="card-body-progress">
 				<mat-spinner [diameter]="20"></mat-spinner>
 			</div>
 
-			<kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
-				Oh snap! Change a few things up and try submitting again.
-			</kt-alert>
+			<div class="form-section form-section-first">
 
 			<div class="form-group row">
-				<div class="col-lg-4 kt-margin-bottom-20-mobile">
+				<div class="col-lg-6 kt-margin-bottom-20-mobile">
 					<mat-form-field class="mat-form-field-fluid">
 						<input matInput placeholder="Enter Library Card No" formControlName="libraryCardNo" />
 						<mat-error> Library Card No is
@@ -28,6 +26,7 @@
 				</div>
 			</div>
 
+		</div>
 		</div>
 		<div class="card-footer">
 			<div class="d-flex justify-content-between">

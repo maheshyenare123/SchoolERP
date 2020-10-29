@@ -17,13 +17,13 @@ export class BookService {
   createBook(book: BookModel): Observable<BookModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<BookModel>(Constants.URL.HOST_URL+Constants.Front_Office.Admission_Enquiry, book, {headers: httpHeaders});
+    return this.http.post<BookModel>(Constants.URL.HOST_URL+Constants.Library.Book, book, {headers: httpHeaders});
   }
 
   // READ
   getAllBooks(): Observable<BookModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<BookModel[]>(Constants.URL.HOST_URL+Constants.Front_Office.Admission_Enquiry, {headers: httpHeaders});
+    return this.http.get<BookModel[]>(Constants.URL.HOST_URL+Constants.Library.Book, {headers: httpHeaders});
   }
   // READ
   getAllClasses(): Observable<BookModel[]> {
@@ -33,7 +33,7 @@ export class BookService {
 
   getBookById(bookId: number): Observable<BookModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<BookModel>(Constants.URL.HOST_URL+Constants.Front_Office.Admission_Enquiry+ `/${bookId}`, {headers: httpHeaders});
+    return this.http.get<BookModel>(Constants.URL.HOST_URL+Constants.Library.Book+ `/${bookId}`, {headers: httpHeaders});
   }
 
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
@@ -44,7 +44,7 @@ export class BookService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
-    const url =Constants.URL.HOST_URL+Constants.Front_Office.Admission_Enquiry ;
+    const url =Constants.URL.HOST_URL+Constants.Library.Book ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       // params: httpParams
@@ -54,7 +54,7 @@ export class BookService {
   // UPDATE => PUT: update the Book on the server
   updateBook(book: BookModel): Observable<any> {
     const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Front_Office.Admission_Enquiry+'/'+book.id, book, {headers: httpHeader});
+    return this.http.put(Constants.URL.HOST_URL+Constants.Library.Book+'/'+book.id, book, {headers: httpHeader});
   }
 
   // UPDATE Status
@@ -64,19 +64,19 @@ export class BookService {
       booksForUpdate: books,
       newStatus: status
     };
-    const url = Constants.URL.HOST_URL+Constants.Front_Office.Admission_Enquiry+ '/updateStatus';
+    const url = Constants.URL.HOST_URL+Constants.Library.Book+ '/updateStatus';
     return this.http.put(url, body, {headers: httpHeaders});
   }
 
   // DELETE => delete the Book from the server
   deleteBook(bookId: number): Observable<BookModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const url = `${Constants.URL.HOST_URL+Constants.Front_Office.Admission_Enquiry}/${bookId}`;
+    const url = `${Constants.URL.HOST_URL+Constants.Library.Book}/${bookId}`;
     return this.http.delete<BookModel>(url, {headers: httpHeaders});
   }
 
   deleteBooks(ids: number[] = []): Observable<any> {
-    const url = Constants.URL.HOST_URL+Constants.Front_Office.Admission_Enquiry + '/deleteBooks';
+    const url = Constants.URL.HOST_URL+Constants.Library.Book + '/deleteBooks';
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const body = {bookIdsForDelete: ids};
     return this.http.put<QueryResultsModel>(url, body, {headers: httpHeaders});

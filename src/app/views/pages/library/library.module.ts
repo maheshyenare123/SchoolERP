@@ -29,6 +29,9 @@ import { LibraryStudentMemberEditDialogComponent } from './library-student-membe
 import { LibraryStaffMemberEditDialogComponent } from './library-staff-member-edit/library-staff-member-edit.dialog.component';
 import { IssueReturnBookComponent } from './issue-return-book/issue-return-book.component';
 import { LibraryMemberListComponent } from './library-member-list/library-member-list.component';
+import { BookService, LibraryStudentMemberService, LibraryStaffMemberService, booksReducer, BookEffects, LibraryStaffMemberEffects, LibraryStudentMemberEffects, libraryStudentMembersReducer, libraryStaffMembersReducer } from 'src/app/core/library';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 const routes: Routes = [
 	{
 		path: '',
@@ -89,8 +92,12 @@ const routes: Routes = [
 
     
 //state manage
-    // StoreModule.forFeature('admissionEnquirys', admissionEnquirysReducer),
-    // EffectsModule.forFeature([AdmissionEnquiryEffects]),
+    StoreModule.forFeature('books', booksReducer),
+    EffectsModule.forFeature([BookEffects]),
+    StoreModule.forFeature('libraryStaffMembers', libraryStaffMembersReducer),
+    EffectsModule.forFeature([LibraryStaffMemberEffects]),
+    StoreModule.forFeature('libraryStudentMembers', libraryStudentMembersReducer),
+    EffectsModule.forFeature([LibraryStudentMemberEffects]),
    
   ],
   providers: [
@@ -126,8 +133,9 @@ const routes: Routes = [
 
 //custom service
 
-
-
+BookService,
+LibraryStaffMemberService,
+LibraryStudentMemberService
   ],
    
     entryComponents: [

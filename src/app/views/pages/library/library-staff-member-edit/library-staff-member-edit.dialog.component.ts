@@ -71,12 +71,11 @@ classList=[]
 
 	createForm() {
 		this.libraryStaffMemberForm = this.fb.group({
-			admissionNo: [this.libraryStaffMember.email,''],
-			classes: [this.libraryStaffMember.name, ''],
+			name:[this.libraryStaffMember.name, Validators.required],
+			email: [this.libraryStaffMember.email,''],
 			dob: [this.typesUtilsService.getDateFromString(this.libraryStaffMember.dob), Validators.compose([Validators.nullValidator])],
 			gender: [this.libraryStaffMember.gender, ''],
-			isActive: [this.libraryStaffMember.isActive, ''],
-			
+			// isActive: [this.libraryStaffMember.isActive, ''],
 			libraryCardNo: [this.libraryStaffMember.libraryCardNo, Validators.required],
 			memberId: [this.libraryStaffMember.memberId, 0],
 			mobileno: [this.libraryStaffMember.mobileno, ''],
@@ -88,9 +87,9 @@ classList=[]
 	 * Returns page title
 	 */
 	getTitle(): string {
-		if (this.libraryStaffMember.staffId > 0) {
-			return `Edit Library Staff Member '${this.libraryStaffMember.name}'`;
-		}
+		// if (this.libraryStaffMember.staffId > 0) {
+		// 	return `Edit Library Staff Member '${this.libraryStaffMember.name}'`;
+		// }
 
 		return 'New Library Staff Member';
 	}
@@ -114,13 +113,15 @@ classList=[]
 		const controls = this.libraryStaffMemberForm.controls;
 		const _libraryStaffMember = new LibraryStaffMemberModel();
 		_libraryStaffMember.staffId = this.libraryStaffMember.staffId;
+	
+		_libraryStaffMember.name = controls.name.value;
+		_libraryStaffMember.email = controls.email.value;
 
-		_libraryStaffMember.email = controls.classes.value;
-		_libraryStaffMember.gender = controls.fatherName.value;
-		_libraryStaffMember.libraryCardNo = controls.firstName.value;
-		_libraryStaffMember.memberId = controls.gender.value;
-		_libraryStaffMember.mobileno = controls.sessionID.value;
-		_libraryStaffMember.name = controls.lastName.value;
+		_libraryStaffMember.gender = controls.gender.value;
+		_libraryStaffMember.libraryCardNo = controls.libraryCardNo.value;
+		_libraryStaffMember.memberId = controls.memberId.value;
+		_libraryStaffMember.mobileno = controls.mobileno.value;
+		
 		
 		const _dob = controls.dob.value;
 		if (_dob) {
@@ -150,11 +151,11 @@ classList=[]
 		}
 
 		const editedlibraryStaffMember = this.preparelibraryStaffMember();
-		if (editedlibraryStaffMember.staffId > 0) {
-			this.updateLibraryStaffMember(editedlibraryStaffMember);
-		} else {
+		// if (editedlibraryStaffMember.staffId > 0) {
+		// 	this.updateLibraryStaffMember(editedlibraryStaffMember);
+		// } else {
 			this.createLibraryStaffMember(editedlibraryStaffMember);
-		}
+		// }
 
 
 		

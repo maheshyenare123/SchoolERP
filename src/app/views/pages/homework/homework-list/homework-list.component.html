@@ -2,13 +2,9 @@
 	<kt-portlet-header [sticky]="true" [title]="'Homework List'" [class]="'card-head-lg'"
 		[viewLoading$]="dataSource.loading$">
 		<ng-container ktPortletTools>
-			<button (click)="addHomework()" mat-raised-button color="primary" matTooltip="Create new Homework">New
+			<button (click)="addNewHomework()" mat-raised-button color="primary" matTooltip="Create new Homework">New
                 Homework</button>
 
-                <!-- <button (click)="evaluateHomework(temp)" mat-raised-button color="primary" matTooltip="Create new Homework">Evaluate
-                    Homework</button>
-                 -->
-                
 		</ng-container>
 	</kt-portlet-header>
 	<!-- end::Header -->
@@ -29,38 +25,41 @@
                 <div class="form-group row">
                     <div class="col-lg-3 kt-margin-bottom-20-mobile">
                         <mat-form-field class="mat-form-field-fluid">
-                            <mat-select placeholder="Class" formControlName="classesId">
-                                <mat-option value="3">Business</mat-option>
-                                <mat-option value="4">Individual</mat-option>
-                            </mat-select>
+							<mat-select placeholder="Select Class" formControlName="classesId"  (selectionChange)="onClassSelectChange($event.value)">
+								<mat-option *ngFor="let classData of classList" [value]="classData.id" >
+									{{classData.classses}}
+								</mat-option>
+							</mat-select>
     
                         </mat-form-field>
                     </div>
                     <div class="col-lg-3 kt-margin-bottom-20-mobile">
                         <mat-form-field class="mat-form-field-fluid">
-                            <mat-select placeholder="Section" formControlName="sectionId">
-                                <mat-option value="0">Business</mat-option>
-                                <mat-option value="1">Individual</mat-option>
-                            </mat-select>
+							<mat-select placeholder="Select Section" formControlName="sectionId"  >
+								<mat-option *ngFor="let section of sectionList" [value]="section.id" >
+									{{section.section}}
+								</mat-option>
+							</mat-select>
     
                         </mat-form-field>
                     </div>
                     <div class="col-lg-3 kt-margin-bottom-20-mobile">
                         <mat-form-field class="mat-form-field-fluid">
                     
-                            <mat-select placeholder="Select Subject Group"   formControlName="subjectGroupSubjectId" >
-                                <mat-option value="022">Business</mat-option>
-                                <mat-option value="122">Individual</mat-option>
-                              </mat-select>
+                            <mat-select placeholder="Select Subject Group" formControlName="subjectGroupSubjectId"  >
+								<mat-option *ngFor="let subjectGroup of subjectGroupList" [value]="subjectGroup.id" >
+									{{subjectGroup.name}}
+								</mat-option>
+							</mat-select>
                         </mat-form-field>
                     </div>
                     <div class="col-lg-3 kt-margin-bottom-20-mobile">
                         <mat-form-field class="mat-form-field-fluid">
-                    
-                            <mat-select placeholder="Select Subject" formControlName="subjectId" >
-                                <mat-option value="0222">Business</mat-option>
-                                <mat-option value="1222">Individual</mat-option>
-                              </mat-select>
+							<mat-select placeholder="Select Subject" formControlName="subjectId"  >
+								<mat-option *ngFor="let subject of subjectList" [value]="subject.id" >
+									{{subject.name}}
+								</mat-option>
+							</mat-select>
                         </mat-form-field>
                     </div>
                 </div>
@@ -78,9 +77,9 @@
             </div>
         </form>
     
-		<div class="form mb-3">
+		<!-- <div class="form mb-3"> -->
 			<!-- start::FILTERS -->
-			<div class="form-filtration">
+			<!-- <div class="form-filtration"> -->
 				<!-- <div class="row align-items-center">
 					<div class="col-md-2 kt-margin-bottom-10-mobile">
 						<mat-form-field>
@@ -108,7 +107,7 @@
 							</mat-hint>
 						</mat-form-field>
 					</div> -->
-					<div class="col-md-4 kt-margin-bottom-10-mobile">
+					<!-- <div class="col-md-4 kt-margin-bottom-10-mobile">
 						<mat-form-field>
 							<input matInput placeholder="Search product" #searchInput placeholder="Search"
 								class="mat-form-field mat-form-field-fluid">
@@ -118,7 +117,7 @@
 						</mat-form-field>
 					</div>
 				</div>
-			</div>
+			</div> -->
         
             <!-- <div class="row align-items-center collapse form-group-actions kt-margin-top-20 kt-margin-bottom-20"
 				[ngClass]="{'show' : selection.selected.length > 0}">
@@ -153,6 +152,13 @@
 			
 		<!-- </div> -->
 		<!-- end::FILTERS & GROUP ACTIONS -->
+	</kt-portlet-body>
+
+	<kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Homework List'"
+	[viewLoading$]="dataSource.loading$">
+</kt-portlet-header>
+<!-- end::Header -->
+<kt-portlet-body>
 
 	<div class="mat-table-wrapper">
 			<mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource" matSort #sort1="matSort"

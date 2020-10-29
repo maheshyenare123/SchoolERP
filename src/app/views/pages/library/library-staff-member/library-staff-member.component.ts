@@ -305,7 +305,7 @@ deleteProducts() {
     const _saveMessage = libraryStaffMember.staffId > 0 ? 'Edit  Library Staff Member' : 'Create  Library Staff Member';
     
 		const _messageType = libraryStaffMember.staffId > 0 ? MessageType.Update : MessageType.Create;
-		const dialogRef = this.dialog.open(LibraryStaffMemberEditDialogComponent, { data: { libraryStaffMember } });
+		const dialogRef = this.dialog.open(LibraryStaffMemberEditDialogComponent, { data: { libraryStaffMember }, width: '450px'});
 		dialogRef.afterClosed().subscribe(res => {
 			if (!res) {
 				return;

@@ -38,14 +38,14 @@ export class BookEditDialogComponent implements OnInit, OnDestroy {
 	// Private properties
 	private componentSubscriptions: Subscription;
 
-classList=[]
+	classList = []
 	constructor(public dialogRef: MatDialogRef<BookEditDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		private fb: FormBuilder,
 		private store: Store<AppState>,
 		private typesUtilsService: TypesUtilsService,
-		private bookService:BookService
-		) {
+		private bookService: BookService
+	) {
 	}
 
 	/**
@@ -55,7 +55,7 @@ classList=[]
 
 
 		this.store.pipe(select(selectBooksActionLoading)).subscribe(res => this.viewLoading = res);
-		
+
 		this.book = this.data.book;
 		this.createForm();
 	}
@@ -116,6 +116,12 @@ classList=[]
 		const controls = this.bookForm.controls;
 		const _book = new BookModel();
 		_book.id = this.book.id;
+		
+		if (_book.id > 0) {
+			_book.isActive = this.book.isActive;
+		} else {
+			_book.isActive = 'yes';
+		}
 
 		_book.bookTitle = controls.bookTitle.value;
 		_book.bookNo = controls.bookNo.value;
@@ -134,7 +140,7 @@ classList=[]
 		}
 		_book.description = controls.description.value;
 		_book.avaliable = controls.avaliable.value;
-		_book.isActive='yes'
+
 		return _book;
 	}
 
@@ -162,7 +168,7 @@ classList=[]
 		}
 
 
-		
+
 	}
 
 	/**
@@ -180,7 +186,7 @@ classList=[]
 			book: _book
 		}));
 
-		
+
 
 		// Remove this line
 		of(undefined).pipe(delay(1000)).subscribe(() => this.dialogRef.close({ _book, isEdit: true }));
@@ -206,7 +212,7 @@ classList=[]
 			this.dialogRef.close({ _book, isEdit: false });
 		});
 
-		
+
 	}
 
 	/** Alect Close event */
@@ -219,7 +225,7 @@ classList=[]
 		let inputChar = String.fromCharCode(event.charCode);
 		if (!pattern.test(inputChar)) {
 			event.preventDefault();
-	
+
 		}
 	}
 }

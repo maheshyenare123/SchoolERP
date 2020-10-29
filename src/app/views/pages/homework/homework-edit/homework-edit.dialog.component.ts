@@ -15,10 +15,8 @@ import { AppState } from '../../../../core/reducers';
 import { TypesUtilsService } from '../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { HomeworkDtoModel, selectHomeworksActionLoading, HomeworkUpdated, HomeworkOnServerCreated, selectLastCreatedHomeworkId,  HomeworkService } from '../../../../core/homework';
-// // Services and Models
-// import { DeliveryPersonModel, DeliveryPersonUpdated, DeliveryPersonOnServerCreated, selectLastCreatedDeliveryPersonId, selectDeliveryPersonsActionLoading } from '../../../../../core/master-entry';
-// import { EmployeeModel } from '../../../../../core/payroll/_models/employee.model';
-
+import { SectionService, SubjectService, StudentClassService, StudentClassModel, SectionDtoModel, SubjectDtoModel, SubjectGroupDtoModel, SubjectGroupService } from 'src/app/core/academics';
+// Services and Models
 
 
 @Component({
@@ -39,17 +37,21 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 	private componentSubscriptions: Subscription;
 	files: File[] = [];
 	ckeConfig:any;
-	// referenceList:ReferenceModel[] = [];
-	// sourceList:SourceModel[]=[];
-classList=[]
+
+
+
+    classList: StudentClassModel[] = [];
+	sectionList: SectionDtoModel[] = [];
+	subjectList: SubjectDtoModel[] = [];
+	subjectGroupList: SubjectGroupDtoModel[] = [];
 	constructor(public dialogRef: MatDialogRef<HomeworkEditDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		private fb: FormBuilder,
 		private store: Store<AppState>,
 		private typesUtilsService: TypesUtilsService,
-		// private referenceService:ReferenceService,
-		// private sourceService:SourceService,
-		private homeworkService:HomeworkService
+		private studentClassService: StudentClassService,
+		private subjectService: SubjectService,
+		private subjectGroupService: SubjectGroupService,
 		) {
 	}
 
@@ -58,43 +60,10 @@ classList=[]
 	 */
 	ngOnInit() {
 
-		this.ckeConfig = {
-			height: 50,
-			enterMode: 2,
-			allowedContent: true,
-			forcePasteAsPlainText: true,
-	  
-			font_names: 'Arial;Comic Sans Ms;Times New Roman;Verdana;Tahoma',
-			toolbarGroups: [
-			  { name: 'document', groups: ['mode', 'document', 'doctools'] },
-			  { name: 'clipboard', groups: ['clipboard', 'undo'] },
-			  { name: 'editing', groups: ['find', 'selection', 'spellchecker', 'editing'] },
-			  { name: 'forms', groups: ['forms'] },
-			  // '/',
-			  { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
-			  { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph'] },
-			  // { name: 'links', groups: ['links'] },
-			  // { name: 'insert', groups: ['insert'] },
-			  // '/',
-			  { name: 'styles', groups: ['styles'] },
-			  { name: 'colors', groups: ['colors'] },
-			  { name: 'tools', groups: ['tools'] },
-			  { name: 'others', groups: ['others'] },
-			  { name: 'about', groups: ['about'] },
-	  
-			],
-	  
-	  
-			removeButtons: 'Source,Save,NewPage,Preview,Print,Templates,Cut,Copy,Paste,PasteText,PasteFromWord,Undo,Redo,Find,Replace,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CopyFormatting,RemoveFormat,CreateDiv,Blockquote,BidiLtr,BidiRtl,Language,Unlink,Anchor,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Maximize,ShowBlocks,About'
-		  };
-	  
-		  this.ckeConfig.extraPlugins = 'autogrow';
-		  this.ckeConfig.autoGrow_minHeight = 250;
-		  this.ckeConfig.autoGrow_maxHeight = 600;
-		//All Get Call
-		// this.loadAllReferences();
-		// this.loadAllSources();
-		//this.loadAllClasses();
+		// All Get Call
+		this.loadAllSubject();
+		this.loadAllClasses();
+		this.loadAllSubjectGroup();
 
 		this.store.pipe(select(selectHomeworksActionLoading)).subscribe(res => this.viewLoading = res);
 		
@@ -102,34 +71,68 @@ classList=[]
 		this.createForm();
 	}
 
-// 	//get All Complain Type List
-// loadAllReferences() {
-// 	debugger
-// 	this.referenceService.getAllReferences().subscribe(res => {
-// 		const data=res['data'];
-// 		this.referenceList=data['content'];
-// 	}, err => {
-// 	});
-// }
-// 	//get All Source List
-// loadAllSources() {
-// 	debugger
-// 	this.sourceService.getAllSources().subscribe(res => {
-// 		const data=res['data'];
-// 		this.sourceList=data['content'];
-// 	}, err => {
-// 	});
-// }
+
 	//get All Class List
-	// loadAllClasses() {
-	// 	debugger
-	// 	this.homeworkService.getAllClasses().subscribe(res => {
-	// 		const data=res['data'];
-	// 		this.classList=data['content'];
-	// 		console.log(this.classList)
-	// 	}, err => {
-	// 	});
-	// }
+	loadAllClasses() {
+		debugger
+		this.studentClassService.getAllStudentClasss().subscribe(res => {
+			const data = res['data'];
+			this.classList = data['content'];
+			console.log(this.classList)
+		}, err => {
+		});
+	}
+	loadAllSectionsByClassId(id:number) {
+		debugger
+		this.studentClassService.getAllSectionByClasssId(id).subscribe(res => {
+		
+			this.sectionList = res['data'];
+			console.log(this.sectionList)
+			
+		}, err => {
+		});
+	}
+
+	loadAllSubject() {
+		debugger
+		this.subjectService.getAllSubjects().subscribe(res => {
+			const data = res['data'];
+			this.subjectList = data['content'];
+			console.log(this.subjectList)
+		
+		
+		}, err => {
+		});
+	}
+	loadAllSubjectGroup() {
+		debugger
+		this.subjectGroupService.getAllSubjectGroups().subscribe(res => {
+			const data = res['data'];
+			this.subjectGroupList = data['content'];
+			console.log(this.subjectList)
+		}, err => {
+		});
+	}
+
+	onClassSelectChange(classId){
+		this.loadAllSectionsByClassId(classId);
+		var classObj=this.classList.find(x => x.id === classId);
+		this.homeworkForm.controls.classes.setValue(classObj.classses);
+	
+	}
+	onSectionSelectChange(subjectId){
+		
+		var sectionObj=this.sectionList.find(x => x.id === subjectId);
+		this.homeworkForm.controls.section.setValue(sectionObj.section);
+	
+	}
+	onSubjectSelectChange(subjectId){
+		
+		var subjectObj=this.subjectList.find(x => x.id === subjectId);
+		this.homeworkForm.controls.subjectName.setValue(subjectObj.name);
+	
+	}
+
 	/**
 	 * On destroy
 	 */
@@ -151,7 +154,7 @@ classList=[]
 			homeworkDate: [this.typesUtilsService.getDateFromString(this.homework.homeworkDate), Validators.compose([Validators.nullValidator])],
 			submitDate: [this.typesUtilsService.getDateFromString(this.homework.submitDate), Validators.compose([Validators.nullValidator])],
 			description: [this.homework.description, Validators.required],
-			
+			assigned:['', Validators.required],
 			// isActive: string;
 
 		});
@@ -188,6 +191,12 @@ classList=[]
 		const _homework = new HomeworkDtoModel();
 		_homework.id = this.homework.id;
 	
+		if(_homework.id >0){
+			_homework.isActive=	this.homework.isActive;
+		}else{
+			_homework.isActive='yes';
+		}
+
 		_homework.classes = controls.classes.value;
 		_homework.classesId = controls.classesId.value;
 		_homework.section = controls.section.value;

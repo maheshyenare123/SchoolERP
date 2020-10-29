@@ -14,6 +14,7 @@ import { AppState } from '../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
 import { HomeworkEditDialogComponent } from '../homework-edit/homework-edit.dialog.component';
 import { HomeworkEvaluationEditDialogComponent } from '../homework-evaluation-edit/homework-evaluation-edit.dialog.component';
+import { StudentClassService, SubjectService, SubjectGroupService, SectionDtoModel, StudentClassModel, SubjectDtoModel, SubjectGroupDtoModel } from 'src/app/core/academics';
 
 
 @Component({
@@ -41,76 +42,153 @@ searchForm: FormGroup;
 hasFormErrors = false;
 homework: HomeworkDtoModel;
 temp: HomeworkDtoModel;
-viewLoading = false;
+
+viewLoading=false;
+
+classList: StudentClassModel[] = [];
+sectionList: SectionDtoModel[] = [];
+subjectList: SubjectDtoModel[] = [];
+subjectGroupList: SubjectGroupDtoModel[] = [];
+
 constructor(public dialog: MatDialog,
              private activatedRoute: ActivatedRoute,
              private router: Router,
              private subheaderService: SubheaderService,
              private layoutUtilsService: LayoutUtilsService,
              private store: Store<AppState>,
-             private fb: FormBuilder,) { }
+             private fb: FormBuilder,
+             private studentClassService: StudentClassService,
+		private subjectService: SubjectService,
+    private subjectGroupService: SubjectGroupService,
+    ) { }
 
 
 /**
  * On init
  */
 ngOnInit() {
-  
-//  this.getAllHomeworkList()
- // If the user changes the sort order, reset back to the first page.
- const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
- this.subscriptions.push(sortSubscription);
 
- /* Data load will be triggered in two cases:
- - when a pagination event occurs => this.paginator.page
- - when a sort event occurs => this.sort.sortChange
- **/
- const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-   tap(() => this.loadHomeworksList())
- )
- .subscribe();
- this.subscriptions.push(paginatorSubscriptions);
 
- // Filtration, bind to searchInput
- const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
-   // tslint:disable-next-line:max-line-length
-   debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
-   distinctUntilChanged(), // This operator will eliminate duplicate values
-   tap(() => {
-     this.paginator.pageIndex = 0;
-     this.loadHomeworksList();
-   })
- )
- .subscribe();
- this.subscriptions.push(searchSubscription);
+this.addHomework(); 
+// All Get Call
+this.loadAllSubject();
+this.loadAllClasses();
+this.loadAllSubjectGroup();
 
- // Init DataSource
- this.dataSource = new HomeworksDataSource(this.store);
- this.dataSource .loading$;
- const entitiesSubscription = this.dataSource.entitySubject.pipe(
-   skip(1),
-   distinctUntilChanged()
- ).subscribe(res => {
-   this.homeworksResult = res;
-   console.log(this.homeworksResult);
- });
- this.subscriptions.push(entitiesSubscription);
- // First load
- of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-   this.loadHomeworksList();
- }); // Remove this line, just loading imitation
+// Init DataSource
+this.dataSource = new HomeworksDataSource(this.store);
+
 }
-getAllHomeworkList() {
-  // this.enqService.getList().subscribe((res: any) => {
-  //   var data = res['data'];
-  //   var content = data['content'];
-  //   this.homeworksResult = content.map((key) => ({ ...key }));
-  
-  // }, (err) => {
-  //   console.log('Error while fetching data');
-  //   console.error(err);
-  // });
-  this.createForm();
+
+
+	//get All Class List
+	loadAllClasses() {
+		debugger
+		this.studentClassService.getAllStudentClasss().subscribe(res => {
+			const data = res['data'];
+			this.classList = data['content'];
+			console.log(this.classList)
+		}, err => {
+		});
+	}
+	loadAllSectionsByClassId(id:number) {
+		debugger
+		this.studentClassService.getAllSectionByClasssId(id).subscribe(res => {
+		
+			this.sectionList = res['data'];
+			console.log(this.sectionList)
+			
+		}, err => {
+		});
+	}
+
+	loadAllSubject() {
+		debugger
+		this.subjectService.getAllSubjects().subscribe(res => {
+			const data = res['data'];
+			this.subjectList = data['content'];
+			console.log(this.subjectList)
+		
+		
+		}, err => {
+		});
+	}
+	loadAllSubjectGroup() {
+		debugger
+		this.subjectGroupService.getAllSubjectGroups().subscribe(res => {
+			const data = res['data'];
+			this.subjectGroupList = data['content'];
+			console.log(this.subjectList)
+		}, err => {
+		});
+	}
+
+	onClassSelectChange(classId){
+		this.loadAllSectionsByClassId(classId);
+		// var classObj=this.classList.find(x => x.id === classId);
+		// this.homeworkForm.controls.classes.setValue(classObj.classses);
+	
+	}
+
+
+
+onSearch(){
+  this.hasFormErrors = false;
+  const controls = this.searchForm.controls;
+  /** check form */
+  if (this.searchForm.invalid) {
+    Object.keys(controls).forEach(controlName =>
+      controls[controlName].markAsTouched()
+    );
+
+    this.hasFormErrors = true;
+    return;
+  }
+// If the user changes the sort order, reset back to the first page.
+const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+this.subscriptions.push(sortSubscription);
+
+/* Data load will be triggered in two cases:
+- when a pagination event occurs => this.paginator.page
+- when a sort event occurs => this.sort.sortChange
+**/
+const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
+  tap(() => this.loadHomeworksList())
+)
+.subscribe();
+this.subscriptions.push(paginatorSubscriptions);
+
+// Filtration, bind to searchInput
+//  const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
+//    // tslint:disable-next-line:max-line-length
+//    debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
+//    distinctUntilChanged(), // This operator will eliminate duplicate values
+//    tap(() => {
+//      this.paginator.pageIndex = 0;
+//      this.loadHomeworksList();
+//    })
+//  )
+//  .subscribe();
+//  this.subscriptions.push(searchSubscription);
+
+// Init DataSource
+this.dataSource = new HomeworksDataSource(this.store);
+this.dataSource .loading$;
+const entitiesSubscription = this.dataSource.entitySubject.pipe(
+  skip(1),
+  distinctUntilChanged()
+).subscribe(res => {
+  this.homeworksResult = res;
+  console.log(this.homeworksResult);
+});
+this.subscriptions.push(entitiesSubscription);
+// First load
+of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
+  this.loadHomeworksList();
+}); // Remove this line, just loading imitation
+
+
+
 }
 
 /**
@@ -143,8 +221,8 @@ loadHomeworksList() {
  */
 filterConfiguration(): any {
   const filter: any = {};
-  const searchText: string = this.searchInput.nativeElement.value;
-
+  // const searchText: string = this.searchInput.nativeElement.value;
+  const searchText: string ='';
   if (this.filterStatus && this.filterStatus.length > 0) {
     filter.status = +this.filterStatus;
   }
@@ -186,7 +264,12 @@ restoreState(queryParams: QueryParamsModel, id: number) {
   }
 }
 
+	addHomework() {
+		this.homework=new HomeworkDtoModel();
+		this.homework.clear(); //
+		this.createForm();
 
+	}
 createForm() {
   this.searchForm = this.fb.group({
     classesId: [this.homework.classesId, Validators.required],
@@ -198,26 +281,7 @@ createForm() {
 
 }
 
-	/**
-	 * On Search
-	 */
-	onSearch() {
-		this.hasFormErrors = false;
-		const controls = this.searchForm.controls;
-		/** check form */
-		if (this.searchForm.invalid) {
-			Object.keys(controls).forEach(controlName =>
-				controls[controlName].markAsTouched()
-			);
-
-			this.hasFormErrors = true;
-			return;
-		}
-
-		//search api
-
-		
-	}
+	
 
 /** ACTIONS */
 /**
@@ -330,7 +394,7 @@ deleteProducts() {
 /**
 	 * Show add customer dialog
 	 */
-	addHomework() {
+	addNewHomework() {
 		const newCustomer = new HomeworkDtoModel();
 		newCustomer.clear(); // Set all defaults fields
     this.editHomework(newCustomer);
@@ -342,9 +406,8 @@ deleteProducts() {
 	 * @param customer: CustomerModel
 	 */
 	editHomework(homework: HomeworkDtoModel) {
-		let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
+		
     const _saveMessage = homework.id > 0 ? 'Edit  Homework' : 'Create  Homework';
-    
 		const _messageType = homework.id > 0 ? MessageType.Update : MessageType.Create;
 		const dialogRef = this.dialog.open(HomeworkEditDialogComponent, { data: { homework } });
 		dialogRef.afterClosed().subscribe(res => {

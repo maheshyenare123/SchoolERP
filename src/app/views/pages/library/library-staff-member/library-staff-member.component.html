@@ -148,14 +148,24 @@
                     <!-- make action conditiion with help of libraryCardNo Variable edit function for add library card no
                          and delete for delete library card no i.e. add Membership and surrendor the member ship -->
 					<mat-cell *matCellDef="let libraryStaffMember">
-						<button type="button" (click)="editLibraryStaffMember(libraryStaffMember)" mat-icon-button color="primary"
+						<ng-container *ngIf="libraryStaffMember.memberId==0">
+
+							<button type="button" (click)="editLibraryStaffMember(libraryStaffMember)" mat-icon-button color="primary"
 							matTooltip="Edit Library Staff Member">
 							<mat-icon>create</mat-icon>
 						</button>&nbsp;
-						<button mat-icon-button color="warn" type="button" (click)="deleteLibraryStaffMember(libraryStudentMember)"
-							matTooltip="Delete Library Staff Member">
+						</ng-container>
+						<ng-container *ngIf="libraryStaffMember.memberId>0">
+							<button mat-icon-button color="warn" type="button" (click)="deleteLibraryStaffMember(libraryStudentMember)"
+							matTooltip="Surrender Membership">
 							<mat-icon>delete</mat-icon>
 						</button>&nbsp;
+						</ng-container>
+						
+						<!-- <button mat-icon-button color="warn" type="button" (click)="deleteLibraryStaffMember(libraryStudentMember)"
+							matTooltip="Delete Library Staff Member">
+							<mat-icon>delete</mat-icon>
+						</button>&nbsp; -->
 						<!-- <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="More actions">
 							<mat-icon>more_vert</mat-icon>
 						</button>

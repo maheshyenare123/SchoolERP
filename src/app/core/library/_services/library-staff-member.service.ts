@@ -17,13 +17,13 @@ export class LibraryStaffMemberService {
   createLibraryStaffMember(libraryStaffMember: LibraryStaffMemberModel): Observable<LibraryStaffMemberModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<LibraryStaffMemberModel>(Constants.URL.HOST_URL+Constants.Front_Office.Admission_Enquiry, libraryStaffMember, {headers: httpHeaders});
+    return this.http.post<LibraryStaffMemberModel>(Constants.URL.HOST_URL+Constants.Library.Library_Staff_Member, libraryStaffMember, {headers: httpHeaders});
   }
 
   // READ
   getAllLibraryStaffMembers(): Observable<LibraryStaffMemberModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<LibraryStaffMemberModel[]>(Constants.URL.HOST_URL+Constants.Front_Office.Admission_Enquiry, {headers: httpHeaders});
+    return this.http.get<LibraryStaffMemberModel[]>(Constants.URL.HOST_URL+Constants.Library.Library_Staff_Member, {headers: httpHeaders});
   }
   // READ
   getAllClasses(): Observable<LibraryStaffMemberModel[]> {
@@ -33,7 +33,7 @@ export class LibraryStaffMemberService {
 
   getLibraryStaffMemberById(libraryStaffMemberId: number): Observable<LibraryStaffMemberModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<LibraryStaffMemberModel>(Constants.URL.HOST_URL+Constants.Front_Office.Admission_Enquiry+ `/${libraryStaffMemberId}`, {headers: httpHeaders});
+    return this.http.get<LibraryStaffMemberModel>(Constants.URL.HOST_URL+Constants.Library.Library_Staff_Member+ `/${libraryStaffMemberId}`, {headers: httpHeaders});
   }
 
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
@@ -44,7 +44,7 @@ export class LibraryStaffMemberService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
-    const url =Constants.URL.HOST_URL+Constants.Front_Office.Admission_Enquiry ;
+    const url =Constants.URL.HOST_URL+Constants.Library.Library_Staff_Member ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       // params: httpParams
@@ -54,7 +54,7 @@ export class LibraryStaffMemberService {
   // UPDATE => PUT: update the LibraryStaffMember on the server
   updateLibraryStaffMember(libraryStaffMember: LibraryStaffMemberModel): Observable<any> {
     const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Front_Office.Admission_Enquiry+'/'+libraryStaffMember.memberId, libraryStaffMember, {headers: httpHeader});
+    return this.http.put(Constants.URL.HOST_URL+Constants.Library.Library_Staff_Member+'/'+libraryStaffMember.memberId, libraryStaffMember, {headers: httpHeader});
   }
 
   // UPDATE Status
@@ -64,19 +64,19 @@ export class LibraryStaffMemberService {
       libraryStaffMembersForUpdate: libraryStaffMembers,
       newStatus: status
     };
-    const url = Constants.URL.HOST_URL+Constants.Front_Office.Admission_Enquiry+ '/updateStatus';
+    const url = Constants.URL.HOST_URL+Constants.Library.Library_Staff_Member+ '/updateStatus';
     return this.http.put(url, body, {headers: httpHeaders});
   }
 
   // DELETE => delete the LibraryStaffMember from the server
   deleteLibraryStaffMember(libraryStaffMemberId: number): Observable<LibraryStaffMemberModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const url = `${Constants.URL.HOST_URL+Constants.Front_Office.Admission_Enquiry}/${libraryStaffMemberId}`;
+    const url = `${Constants.URL.HOST_URL+Constants.Library.Library_Staff_Member}/${libraryStaffMemberId}`;
     return this.http.delete<LibraryStaffMemberModel>(url, {headers: httpHeaders});
   }
 
   deleteLibraryStaffMembers(ids: number[] = []): Observable<any> {
-    const url = Constants.URL.HOST_URL+Constants.Front_Office.Admission_Enquiry + '/deleteLibraryStaffMembers';
+    const url = Constants.URL.HOST_URL+Constants.Library.Library_Staff_Member + '/deleteLibraryStaffMembers';
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const body = {libraryStaffMemberIdsForDelete: ids};
     return this.http.put<QueryResultsModel>(url, body, {headers: httpHeaders});

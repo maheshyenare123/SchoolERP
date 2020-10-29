@@ -39,7 +39,7 @@ export class LibraryStudentMemberEffects {
     ofType<LibraryStudentMembersPageRequested>(LibraryStudentMemberActionTypes.LibraryStudentMembersPageRequested),
     mergeMap(({payload}) => {
       this.store.dispatch(this.showPageLoadingDistpatcher);
-      const requestToServer = this.libraryStudentMembersService.findLibraryStudentMembers(payload.page);
+      const requestToServer = this.libraryStudentMembersService.findLibraryStudentMembers(payload.page,payload.classId,payload.sectionId);
       const lastQuery = of(payload.page);
       return forkJoin(requestToServer, lastQuery);
     }),

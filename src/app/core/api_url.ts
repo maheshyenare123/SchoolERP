@@ -6,10 +6,10 @@ export class Constants {
 
    }
 
-  
-      public static DISPATCH:string='dispatch';
-      public static RECEIVE:string='receive';
-   
+
+   public static DISPATCH: string = 'dispatch';
+   public static RECEIVE: string = 'receive';
+
 
    public static Front_Office: any = {
       Admission_Enquiry: 'api/enquiry',
@@ -56,17 +56,24 @@ export class Constants {
 
    public static Homework: any = {
 
-      Homework_Add: 'homework',
+      Homework_Add: 'api/homework',
 
+   }
+   public static Library: any = {
+
+      Book: 'api/book',
+      Library_Member: 'api/library-member',
+      Library_student_Member: 'api/library-member/student',
+      Library_Staff_Member: 'api/library-member/staff'
    }
 
 
    public static Human_Resource: any = {
-      Staff:'api/staff',
-      StaffDesignation:'api/staffDesignation',
-      Department:'api/department',
-      StaffAttendance:'api/staffAttendance',
-      StaffRating:'api/staffRating',
+      Staff: 'api/staff',
+      StaffDesignation: 'api/staffDesignation',
+      Department: 'api/department',
+      StaffAttendance: 'api/staffAttendance',
+      StaffRating: 'api/staffRating',
    }
-    
+
 }

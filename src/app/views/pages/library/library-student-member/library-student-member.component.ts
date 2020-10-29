@@ -73,65 +73,11 @@ ngOnInit() {
 	this.loadAllClasses();
 		this.loadAllSectionsByClassId(1);
 
-
- this.getAllLibraryStudentMemberList()
- // If the user changes the sort order, reset back to the first page.
- const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
- this.subscriptions.push(sortSubscription);
-
- /* Data load will be triggered in two cases:
- - when a pagination event occurs => this.paginator.page
- - when a sort event occurs => this.sort.sortChange
- **/
- const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-   tap(() => this.loadLibraryStudentMembersList())
- )
- .subscribe();
- this.subscriptions.push(paginatorSubscriptions);
-
- // Filtration, bind to searchInput
- const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
-   // tslint:disable-next-line:max-line-length
-   debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
-   distinctUntilChanged(), // This operator will eliminate duplicate values
-   tap(() => {
-     this.paginator.pageIndex = 0;
-     this.loadLibraryStudentMembersList();
-   })
- )
- .subscribe();
- this.subscriptions.push(searchSubscription);
-
+ this.createForm();
  // Init DataSource
  this.dataSource = new LibraryStudentMembersDataSource(this.store);
- const entitiesSubscription = this.dataSource.entitySubject.pipe(
-   skip(1),
-   distinctUntilChanged()
- ).subscribe(res => {
-   this.libraryStudentMembersResult = res;
-   console.log(this.libraryStudentMembersResult);
- });
- this.subscriptions.push(entitiesSubscription);
- // First load
- of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-   this.loadLibraryStudentMembersList();
- }); // Remove this line, just loading imitation
-
- this.createForm();
 }
-getAllLibraryStudentMemberList() {
-  // this.enqService.getList().subscribe((res: any) => {
-  //   var data = res['data'];
-  //   var content = data['content'];
-  //   this.LibraryStudentMembersResult = content.map((key) => ({ ...key }));
-  
-  // }, (err) => {
-  //   console.log('Error while fetching data');
-  //   console.error(err);
-  // });
 
-
-}
 
 //get All Class List
 
@@ -170,11 +116,54 @@ loadAllSectionsByClassId(id:number) {
 			return;
 		}
 
-//		this.getAllStudentList(controls.classId.value, controls.sectionId.value);
+		this.getAllLibraryStudentMember(controls.classId.value, controls.sectionId.value);
 
 
 	}
+getAllLibraryStudentMember(classId,sectionId){
+  // If the user changes the sort order, reset back to the first page.
+ const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+ this.subscriptions.push(sortSubscription);
 
+ /* Data load will be triggered in two cases:
+ - when a pagination event occurs => this.paginator.page
+ - when a sort event occurs => this.sort.sortChange
+ **/
+ const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
+   tap(() => this.loadLibraryStudentMembersList(classId,sectionId))
+ )
+ .subscribe();
+ this.subscriptions.push(paginatorSubscriptions);
+
+ // Filtration, bind to searchInput
+ const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
+   // tslint:disable-next-line:max-line-length
+   debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
+   distinctUntilChanged(), // This operator will eliminate duplicate values
+   tap(() => {
+     this.paginator.pageIndex = 0;
+     this.loadLibraryStudentMembersList(classId,sectionId);
+   })
+ )
+ .subscribe();
+ this.subscriptions.push(searchSubscription);
+
+ // Init DataSource
+ this.dataSource = new LibraryStudentMembersDataSource(this.store);
+ const entitiesSubscription = this.dataSource.entitySubject.pipe(
+   skip(1),
+   distinctUntilChanged()
+ ).subscribe(res => {
+   this.libraryStudentMembersResult = res;
+   console.log(this.libraryStudentMembersResult);
+ });
+ this.subscriptions.push(entitiesSubscription);
+ // First load
+ of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
+   this.loadLibraryStudentMembersList(classId,sectionId);
+ }); // Remove this line, just loading imitation
+
+}
 	createForm() {
 		debugger;
 		this.searchForm = this.fb.group({
@@ -197,7 +186,7 @@ ngOnDestroy() {
 /**
  * Load Products List
  */
-loadLibraryStudentMembersList() {
+loadLibraryStudentMembersList(classId,sectionId) {
   this.selection.clear();
   const queryParams = new QueryParamsModel(
     this.filterConfiguration(),
@@ -207,7 +196,7 @@ loadLibraryStudentMembersList() {
     this.paginator.pageSize
   );
   // Call request from server
-  this.store.dispatch(new LibraryStudentMembersPageRequested({ page: queryParams }));
+  this.store.dispatch(new LibraryStudentMembersPageRequested({ page: queryParams,classId,sectionId }));
  
   this.selection.clear();
 }
@@ -383,17 +372,19 @@ deleteProducts() {
 	 */
 	editLibraryStudentMember(libraryStudentMember: LibraryStudentMemberModel) {
 		let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
-    const _saveMessage = libraryStudentMember.studentId > 0 ? 'Edit  Library Student Member' : 'Create  Library Student Member';
-    
-		const _messageType = libraryStudentMember.studentId > 0 ? MessageType.Update : MessageType.Create;
-		const dialogRef = this.dialog.open(LibraryStudentMemberEditDialogComponent, { data: { libraryStudentMember } });
+    // const _saveMessage = libraryStudentMember.studentId > 0 ? 'Edit  Library Student Member' : 'Create  Library Student Member';
+    const _saveMessage ='Create Library Student Member';
+		// const _messageType = libraryStudentMember.studentId > 0 ? MessageType.Update : MessageType.Create;
+  	const _messageType = MessageType.Create;
+  
+    const dialogRef = this.dialog.open(LibraryStudentMemberEditDialogComponent, { data: { libraryStudentMember },width: '450px' });
 		dialogRef.afterClosed().subscribe(res => {
 			if (!res) {
 				return;
 			}
 
 			this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-			this.loadLibraryStudentMembersList();
+			// this.loadLibraryStudentMembersList();
 		});
 	}
 

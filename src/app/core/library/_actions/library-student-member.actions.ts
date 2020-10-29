@@ -70,7 +70,7 @@ export class ManyLibraryStudentMembersDeleted implements Action {
 export class LibraryStudentMembersPageRequested implements Action {
   readonly type = LibraryStudentMemberActionTypes.LibraryStudentMembersPageRequested;
 
-  constructor(public payload: { page: QueryParamsModel }) {
+  constructor(public payload: { page: QueryParamsModel,classId:number,sectionId:number }) {
   }
 }
 

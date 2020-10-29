@@ -35,18 +35,18 @@
 
 // @include tablet-and-mobile {
 // 	// Dialog
-// 	.mat-dialog-container-wrapper {
-// 		max-width: 90%;
+	.mat-dialog-container-wrapper {
+		max-width: 90%;
 		
-// 		.mat-dialog-container {
-// 		   	.card {
-// 		       	.card-body {
-// 		       		overflow: auto;
-// 		       		max-height: 60vh; 
-// 		       	}
-// 		   	}
-// 		}
-// 	}
+		.mat-dialog-container {
+		   	.card {
+		       	.card-body {
+		       		overflow: auto;
+		       		max-height: 60vh; 
+		       	}
+		   	}
+		}
+	}
 // }
 
 
