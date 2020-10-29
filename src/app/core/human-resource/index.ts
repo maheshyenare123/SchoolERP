@@ -6,6 +6,8 @@ export {LeaveTypeModel} from './_models/leave-type.model';
 export {StaffModel} from './_models/staff.model';
 export {StaffAttendanceModel} from './_models/staff-attendance.model';
 export {StaffRatingModel} from './_models/staff-rating.model';
+export {StaffLeaveRequestModel} from './_models/staff-leave-request.model';
+export {StaffPayslipModel} from './_models/staff-payslip.model';
 
 
 
@@ -16,6 +18,8 @@ export {LeaveTypesDataSource} from './_data-sources/leave-type.datasource';
 export {StaffsDataSource} from './_data-sources/staff.datasource';
 export {StaffAttendancesDataSource} from './_data-sources/staff-attendance.datasource';
 export {StaffRatingsDataSource} from './_data-sources/staff-rating.datasource';
+export {StaffLeaveRequestsDataSource} from './_data-sources/staff-leave-request.datasource';
+export {StaffPayslipsDataSource} from './_data-sources/staff-payslip.datasource';
 
 
 
@@ -25,8 +29,8 @@ export { DepartmentEffects } from './_effects/department.effects';
 export { LeaveTypeEffects } from './_effects/leave-type.effects';
 export { StaffAttendanceEffects  } from './_effects/staff-attendance.effects';
 export { StaffRatingEffects  } from './_effects/staff-rating.effects';
-
-
+export { StaffLeaveRequestEffects  } from './_effects/staff-leave-request.effects';
+export { StaffPayslipEffects  } from './_effects/staff-payslip.effects';
 
 // Actions
 // Customer Actions =>
@@ -121,8 +125,36 @@ export {
     ManyStaffRatingsDeleted,
     OneStaffRatingDeleted
 } from './_actions/staff-rating.actions';
-
-
+export {
+    StaffLeaveRequestActionToggleLoading,
+    StaffLeaveRequestActionTypes,
+    StaffLeaveRequestActions,
+    StaffLeaveRequestCreated,
+    StaffLeaveRequestOnServerCreated,
+    StaffLeaveRequestUpdated,
+    StaffLeaveRequestsPageCancelled,
+    StaffLeaveRequestsPageLoaded,
+    StaffLeaveRequestsPageRequested,
+    StaffLeaveRequestsPageToggleLoading,
+    StaffLeaveRequestsStatusUpdated,
+    ManyStaffLeaveRequestsDeleted,
+    OneStaffLeaveRequestDeleted
+} from './_actions/staff-leave-request.actions';
+export {
+    StaffPayslipActionToggleLoading,
+    StaffPayslipActionTypes,
+    StaffPayslipActions,
+    StaffPayslipCreated,
+    StaffPayslipOnServerCreated,
+    StaffPayslipUpdated,
+    StaffPayslipsPageCancelled,
+    StaffPayslipsPageLoaded,
+    StaffPayslipsPageRequested,
+    StaffPayslipsPageToggleLoading,
+    StaffPayslipsStatusUpdated,
+    ManyStaffPayslipsDeleted,
+    OneStaffPayslipDeleted
+} from './_actions/staff-payslip.actions';
 
 // Reducers
 export { staffDesignationsReducer } from './_reducers/designation.reducers';
@@ -131,8 +163,8 @@ export { leaveTypesReducer } from './_reducers/leave-type.reducers';
 export { staffsReducer } from './_reducers/staff.reducers';
 export { staffAttendancesReducer } from './_reducers/staff-attendance.reducers';
 export { staffRatingsReducer } from './_reducers/staff-rating.reducers';
-
-
+export { staffLeaveRequestsReducer } from './_reducers/staff-leave-request.reducers';
+export { staffPayslipsReducer } from './_reducers/staff-payslip.reducers';
 
 // Selectors
 export {
@@ -189,7 +221,24 @@ export {
     selectStaffRatingsState,
     selectLastCreatedStaffRatingId
 } from './_selectors/staff-rating.selectors';
-
+export {
+    selectStaffLeaveRequestById,
+    selectStaffLeaveRequestsActionLoading,
+    selectStaffLeaveRequestsInStore,
+    selectStaffLeaveRequestsPageLoading,
+    selectStaffLeaveRequestsShowInitWaitingMessage,
+    selectStaffLeaveRequestsState,
+    selectLastCreatedStaffLeaveRequestId
+} from './_selectors/staff-leave-request.selectors';
+export {
+    selectStaffPayslipById,
+    selectStaffPayslipsActionLoading,
+    selectStaffPayslipsInStore,
+    selectStaffPayslipsPageLoading,
+    selectStaffPayslipsShowInitWaitingMessage,
+    selectStaffPayslipsState,
+    selectLastCreatedStaffPayslipId
+} from './_selectors/staff-payslip.selectors';
 
 
 
@@ -201,3 +250,5 @@ export { LeaveTypeService } from './_services/leave-type.service';
 export { StaffService } from './_services/staff.service';
 export { StaffAttendanceService } from './_services/staff-attendance.service';
 export { StaffRatingService } from './_services/staff-rating.service';
+export { StaffLeaveRequestService } from './_services/staff-leave-request.service';
+export { StaffPayslipService } from './_services/staff-payslip.service';
