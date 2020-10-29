@@ -5,7 +5,9 @@ export class Constants {
        sessionId:'1',
 
     }
-
+    public static DISPATCH: string = 'dispatch';
+    public static RECEIVE: string = 'receive';
+ 
     public static Front_Office: any = {
        Admission_Enquiry:'api/enquiry',
        Complain:'api/complaint',

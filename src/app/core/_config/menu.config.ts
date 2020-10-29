@@ -338,6 +338,20 @@ export class MenuConfig {
           ]
         },
         
+        {
+          title: 'Fees Collection',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+            
+            {
+              title: 'Fees Reminder',
+              page: '/fees-collection/fees-reminder'
+            },
+            
+          ]
+        },
+        
         // {section: 'Components'},
         // {
         //   title: 'Google Material',
