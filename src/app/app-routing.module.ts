@@ -68,6 +68,10 @@ const routes: Routes = [
           path: 'fees-collection',
           loadChildren: () => import('./views/pages/fees-collection/fees-collection.module').then(m => m.FeesCollectionModule),
         },
+        {
+          path: 'income',
+          loadChildren: () => import('./views/pages/income/income.module').then(m => m.IncomeModule),
+        },
       {
         path: 'user-management',
         loadChildren: () => import('./views/pages/user-management/user-management.module').then(m => m.UserManagementModule),

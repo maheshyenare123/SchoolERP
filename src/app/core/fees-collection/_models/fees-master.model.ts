@@ -1,4 +1,4 @@
-export class FeesMasterRequestModel {
+export class FeesMasterModel {
 
 
     amount: number;

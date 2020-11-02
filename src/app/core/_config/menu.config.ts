@@ -345,12 +345,54 @@ export class MenuConfig {
           submenu: [
             
             {
+              title: 'Fees Type',
+              page: '/fees-collection/fees-type'
+            },
+            {
+              title: 'Fees Group',
+              page: '/fees-collection/fees-group'
+            },
+            {
+              title: 'Fees Discount',
+              page: '/fees-collection/fees-discount'
+            },
+            {
+              title: 'Fees Master',
+              page: '/fees-collection/fees-master'
+            },
+            
+            {
               title: 'Fees Reminder',
               page: '/fees-collection/fees-reminder'
             },
             
           ]
         },
+        
+
+        {
+          title: 'Income',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+            
+            {
+              title: 'Add Income',
+              page: '/income/add-income'
+            },
+            {
+              title: 'Search Income',
+              page: '/income/search-income'
+            },
+            {
+              title: 'Income Head',
+              page: '/income/income-head'
+            },
+            
+          ]
+        },
+
+
         
         // {section: 'Components'},
         // {

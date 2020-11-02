@@ -172,12 +172,40 @@ export class PageConfig {
     },
 
     'fees-collection': {
+      
+      'fees-type': {
+        page: { title: 'Fees Type', desc: '' }
+      },
+      'fees-group': {
+        page: { title: 'Fees Group', desc: '' }
+      },
+      'fees-discount': {
+        page: { title: 'Fees Discount', desc: '' }
+      },
+      'fees-master': {
+        page: { title: 'Fees Master', desc: '' }
+      },
       'fees-reminder': {
         page: { title: 'Fees Reminder', desc: '' }
       },
       
     },
 
+    'income': {
+      'add-income': {
+        page: { title: 'Add Income', desc: '' }
+      },
+      'search-income': {
+        page: { title: 'Search Income', desc: '' }
+      },
+      'income-head': {
+        page: { title: 'Income Head', desc: '' }
+      },
+    },
+
+
+
+    
     ecommerce: {
       customers: {
         page: { title: 'Customers', desc: '' }

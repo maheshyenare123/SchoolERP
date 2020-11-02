@@ -24,6 +24,12 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { FeesCollectionComponent } from './fees-collection.component';
 import { FeesReminderComponent } from './fees-reminder/fees-reminder.component';
 import { FeesTypeComponent } from './fees-type/fees-type.component';
+import { FeesGroupComponent } from './fees-group/fees-group.component';
+import { FeesDiscountComponent } from './fees-discounts/fees-discount/fees-discount.component';
+import { FeesDiscountAssignStudentDialogComponent } from './fees-discounts/fees-discount-assign-student/fees-discount-assign-student.dialog.component';
+import { FeesMasterComponent } from './fees-masters/fees-master/fees-master.component';
+import { FeesMasterAssignStudentDialogComponent } from './fees-masters/fees-master-assign-student/fees-master-assign-student.dialog.component';
+import { FeesCarryForwordComponent } from './fees-carry-forword/fees-carry-forword.component';
 
 const routes: Routes = [
 	{
@@ -36,9 +42,27 @@ const routes: Routes = [
 				pathMatch: 'full'
       },
       {
+				path: 'fees-type',
+				component: FeesTypeComponent
+      },
+      {
+				path: 'fees-group',
+				component: FeesGroupComponent
+      },
+      {
+				path: 'fees-discount',
+				component: FeesDiscountComponent
+      },
+      {
+				path: 'fees-master',
+				component: FeesMasterComponent
+      },
+      {
 				path: 'fees-reminder',
 				component: FeesReminderComponent
       },
+
+      
     ] 
   }
 ]
@@ -48,7 +72,13 @@ const routes: Routes = [
   declarations: [
     FeesCollectionComponent,
     FeesReminderComponent,
-    FeesTypeComponent
+    FeesTypeComponent,
+    FeesGroupComponent,
+    FeesDiscountComponent,
+    FeesDiscountAssignStudentDialogComponent,
+    FeesMasterComponent,
+    FeesMasterAssignStudentDialogComponent,
+    FeesCarryForwordComponent
   ],
   imports: [
     CommonModule,
@@ -95,14 +125,14 @@ const routes: Routes = [
         hasBackdrop: true,
         panelClass: 'kt-mat-dialog-container__wrapper',
         height: 'auto',
-        width: '1200px'
+        width: '900px'
       }
     },
 
 //custom service
 
   ],
-    entryComponents: [],
+    entryComponents: [FeesDiscountAssignStudentDialogComponent,FeesMasterAssignStudentDialogComponent],
   exports: [RouterModule],
 })
 export class FeesCollectionModule { }

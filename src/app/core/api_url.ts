@@ -76,4 +76,16 @@ export class Constants {
       StaffRating: 'api/staffRating',
    }
 
+   public static Fees_Collection: any = {
+      FeesGroup: 'api/feesGroup',
+      FeesType: 'api/feesType',
+   }
+
+   public static Incomes: any = {
+      Income: 'api/income',
+      IncomeHead: 'api/incomeHead',
+   }
+
+   
+
 }
