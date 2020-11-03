@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { StudentsDataSource, StudentDtoModel, StudentsPageRequested, OneStudentDeleted, ManyStudentsDeleted } from 'src/app/core/student-information';
+import { StudentsDataSource, StudentDtoModel, StudentsPageRequested, OneStudentDeleted, ManyStudentsDeleted,StudentService } from 'src/app/core/student-information';
 import { QueryParamsModel, LayoutUtilsService, MessageType } from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -11,8 +11,12 @@ import { SubheaderService } from 'src/app/core/_base/layout';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
-//import { StudentEditDialogComponent } from '../admission-enquiry-edit/admission-enquiry-edit.dialog.component';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+//import { StudentEditDialogComponent } from '../admission-enquiry-edit/admission-enquiry-edit.dialog.component';
+import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from 'src/app/core/academics';
+import { StudentProfileViewDialogComponent } from '../student-profile-view/student-profile-view.dialog.component';
+import { StudentFeesCollectDialogComponent } from '../student-fees-collect/student-fees-collect.dialog.component';
 
 @Component({
   selector: 'kt-student-details-list',
@@ -36,6 +40,16 @@ selection = new SelectionModel<StudentDtoModel>(true, []);
 studentsResult: StudentDtoModel[] = [];
 private subscriptions: Subscription[] = [];
 
+  searchForm: FormGroup;
+	hasFormErrors = false;
+	viewLoading = false;
+
+  classId: number;
+	sectionId: number;
+	searchText: string;
+
+  classList: StudentClassModel[] = [];
+	sectionList: SectionDtoModel[] = [];
 
 constructor(
   public dialog: MatDialog,
@@ -43,7 +57,11 @@ constructor(
              private router: Router,
              private subheaderService: SubheaderService,
              private layoutUtilsService: LayoutUtilsService,
-             private store: Store<AppState>
+             private store: Store<AppState>,
+             private fb: FormBuilder,
+             private studentService: StudentService,
+             private studentClassService: StudentClassService,
+             private sectionService: SectionService,
              ) { }
 
 
@@ -51,6 +69,10 @@ constructor(
  * On init
  */
 ngOnInit() {
+
+  this.loadAllClasses();
+  this.loadAllSectionsByClassId(1);
+
  this.getAllStudentList()
  // If the user changes the sort order, reset back to the first page.
  const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
@@ -106,12 +128,93 @@ getAllStudentList() {
   // });
 }
 
+//get All Class List
+
+
+loadAllClasses() {
+	debugger
+	this.studentClassService.getAllStudentClasss().subscribe(res => {
+		const data = res['data'];
+		this.classList = data['content'];
+		console.log(this.classList)
+	}, err => {
+	});
+}
+onClassSelectChange(classObj:StudentClassModel){
+	// this.loadAllSectionsByClassId(classObj.id);
+}
+loadAllSectionsByClassId(id:number) {
+	debugger
+	this.sectionService.getAllSections().subscribe(res => {
+		const data = res['data'];
+		this.sectionList = data['content'];
+		console.log(this.sectionList)
+	}, err => {
+	});
+}
+	onSearch() {
+		debugger;
+		this.hasFormErrors = false;
+		const controls = this.searchForm.controls;
+		/** check form */
+		if (this.searchForm.invalid) {
+			Object.keys(controls).forEach(controlName =>
+				controls[controlName].markAsTouched()
+			);
+
+			this.hasFormErrors = true;
+			return;
+		}
+		//this.getAllStudentList(controls.classId.value, controls.sectionId.value,controls.searchText.value);
+
+
+	}
+
+
+// 	getAllStudentList(classId,sectionId,searchText){
+
+// 		const queryParams = new QueryParamsModel(
+// 			this.filterConfiguration(),
+// 			this.sort.direction,
+// 			this.sort.active,
+// 			this.paginator.pageIndex,
+// 			this.paginator.pageSize
+// 		);
+
+
+// //	this.studentService.findStudents(queryParams,classId,sectionId,searchText).subscribe(res=>{
+// 	//	console.log(res);
+// 		// studentAttendencesResult
+
+// 	//})
+
+// }
+
+
+
+
 /**
  * On Destroy
  */
 ngOnDestroy() {
   this.subscriptions.forEach(el => el.unsubscribe());
 }
+
+loadStudentList(classId, sectionId, searchText) {
+  debugger;
+  this.selection.clear();
+  const queryParams = new QueryParamsModel(
+    this.filterConfiguration(),
+    this.sort.direction,
+    this.sort.active,
+    this.paginator.pageIndex,
+    this.paginator.pageSize
+  );
+  // Call request from server
+ // this.store.dispatch(new StudentsPageRequested({ page: queryParams, classId: classId, sectionId: sectionId, searchText: searchText }));
+  this.selection.clear();
+}
+
 
 /**
  * Load Products List
@@ -130,6 +233,21 @@ loadStudentsList() {
  
   this.selection.clear();
 }
+
+
+
+createForm() {
+  debugger;
+  this.searchForm = this.fb.group({
+    classId: [this.classId, Validators.required],
+    sectionId: [this.sectionId, Validators.required],
+    searchText: [this.searchText, ],
+
+  })
+
+  
+}
+
 
 /**
  * Returns object for filter
@@ -314,6 +432,38 @@ deleteProducts() {
 		// 	this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
 		// 	this.loadStudentsList();
 		// });
+	}
+
+  onStudentProfileView(student: StudentDtoModel) {
+		let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
+    const _saveMessage = student.id > 0 ? 'Student Profile View' : 'Create product';
+    
+		const _messageType = student.id > 0 ? MessageType.Update : MessageType.Create;
+		const dialogRef = this.dialog.open(StudentProfileViewDialogComponent, { data: { student } });
+		dialogRef.afterClosed().subscribe(res => {
+			if (!res) {
+				return;
+			}
+
+			this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
+			this.loadStudentsList();
+		});
+	}
+
+  onStudentFeesCollect(student: StudentDtoModel) {
+		let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
+    const _saveMessage = student.id > 0 ? 'Student Fees Collect' : 'Create product';
+    
+		const _messageType = student.id > 0 ? MessageType.Update : MessageType.Create;
+		const dialogRef = this.dialog.open(StudentFeesCollectDialogComponent, { data: { student } });
+		dialogRef.afterClosed().subscribe(res => {
+			if (!res) {
+				return;
+			}
+
+			this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
+			this.loadStudentsList();
+		});
 	}
 
 /**

@@ -59,7 +59,7 @@ export class SearchIncomeComponent implements OnInit {
  private componentSubscriptions: Subscription;
 
  searchType: string;
-
+ searchText: string;
 
 
 
@@ -71,7 +71,7 @@ export class SearchIncomeComponent implements OnInit {
    private store: Store<AppState>,
    private fb: FormBuilder,
    private typesUtilsService: TypesUtilsService,
-   private attendanceService:IncomeService) { }
+   private incomeService:IncomeService) { }
 
  ngOnInit() {
 
@@ -97,14 +97,14 @@ export class SearchIncomeComponent implements OnInit {
      this.hasFormErrors = true;
      return;
    }
- const	date = this.typesUtilsService.dateFormat(controls.attendanceDate.value);
-   this.getAllStudentAttendanceList(controls.classId.value, controls.sectionId.value, date);
+ const	date = this.typesUtilsService.dateFormat(controls.incomeDate.value);
+   this.getAllIncomeList(controls.searchType.value, controls.searchText.value);
 
 
  }
 
 
- getAllStudentAttendanceList(classId,sectionId,date){
+ getAllIncomeList(searchType,searchText){
 
    const queryParams = new QueryParamsModel(
      this.filterConfiguration(),
@@ -115,7 +115,7 @@ export class SearchIncomeComponent implements OnInit {
    );
 
 
-//  this.attendanceService.findIncomes(queryParams,classId,sectionId,date).subscribe(res=>{
+//  this.incomeService.findIncomes(queryParams,searchType,searchText,).subscribe(res=>{
 //    console.log(res);
 //    // IncomesResult
 
@@ -134,7 +134,7 @@ export class SearchIncomeComponent implements OnInit {
  /**
   * Load Incomes List from service through data-source
   */
- loadIncomeList(classId, sectionId, date) {
+ loadIncomeList(searchType, searchText) {
    debugger;
    this.selection.clear();
    const queryParams = new QueryParamsModel(
@@ -145,7 +145,7 @@ export class SearchIncomeComponent implements OnInit {
      this.paginator.pageSize
    );
    // Call request from server
-  //  this.store.dispatch(new IncomesPageRequested({ page: queryParams, classId: classId, sectionId: sectionId, date: date }));
+  //  this.store.dispatch(new IncomesPageRequested({ page: queryParams, searchType: searchType, searchText: searchText, date: date }));
    this.selection.clear();
  }
 
@@ -221,8 +221,8 @@ export class SearchIncomeComponent implements OnInit {
  createForm() {
    debugger;
    this.searchForm = this.fb.group({
-     searchType: [this.searchType, Validators.required],
-     
+     searchType: [this.searchType, ],
+     searchText: [this.searchText, ],
    })
  }
 

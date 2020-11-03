@@ -392,7 +392,27 @@ export class MenuConfig {
           ]
         },
 
-
+        {
+          title: 'Expense',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+            
+            {
+              title: 'Add Expense',
+              page: '/expense/add-expense'
+            },
+            {
+              title: 'Search Expense',
+              page: '/expense/search-expense'
+            },
+            {
+              title: 'Expense Head',
+              page: '/expense/expense-head'
+            },
+            
+          ]
+        },
         
         // {section: 'Components'},
         // {

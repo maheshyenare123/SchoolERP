@@ -86,6 +86,10 @@ export class Constants {
       IncomeHead: 'api/incomeHead',
    }
 
-   
+   public static Expenses: any = {
+      Expense: 'api/expense',
+      ExpenseHead: 'api/expenseHead',
+   }
+  
 
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { IncomesDataSource, IncomeModel,selectIncomesActionLoading } from 'src/app/core/income';
+import { ExpensesDataSource, ExpenseModel,selectExpensesActionLoading } from 'src/app/core/expense';
 import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -19,20 +19,20 @@ import { Update } from '@ngrx/entity';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
-import { IncomesPageRequested, OneIncomeDeleted, ManyIncomesDeleted, IncomesStatusUpdated, IncomeUpdated, IncomeOnServerCreated, selectLastCreatedIncomeId } from '../../../../core/income';
+import { ExpensesPageRequested, OneExpenseDeleted, ManyExpensesDeleted, ExpensesStatusUpdated, ExpenseUpdated, ExpenseOnServerCreated, selectLastCreatedExpenseId } from '../../../../core/expense';
 
 
 @Component({
-  selector: 'kt-add-income',
-  templateUrl: './add-income.component.html',
-  styleUrls: ['./add-income.component.scss']
+  selector: 'kt-add-expense',
+  templateUrl: './add-expense.component.html',
+  styleUrls: ['./add-expense.component.scss']
 })
-export class AddIncomeComponent implements OnInit {
+export class AddExpenseComponent implements OnInit {
 
   // Table fields
-dataSource: IncomesDataSource;
+dataSource: ExpensesDataSource;
 //  dataSource = new MatTableDataSource(ELEMENT_DATA);
-displayedColumns = ['id', 'name', 'invoiceNo', 'date', 'incomeHead', 'amount', 'actions'];
+displayedColumns = ['id', 'name', 'invoiceNo', 'date', 'expenseHead', 'amount', 'actions'];
 @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 @ViewChild('sort1', {static: true}) sort: MatSort;
 // Filter fields
@@ -40,14 +40,14 @@ displayedColumns = ['id', 'name', 'invoiceNo', 'date', 'incomeHead', 'amount', '
 filterStatus = '';
 filterType = '';
 // Selection
-selection = new SelectionModel<IncomeModel>(true, []);
-incomesResult: IncomeModel[] = [];
+selection = new SelectionModel<ExpenseModel>(true, []);
+expensesResult: ExpenseModel[] = [];
 // Subscriptions
 private subscriptions: Subscription[] = [];
 
 // Public properties
-income: IncomeModel;
-incomeForm: FormGroup;
+expense: ExpenseModel;
+expenseForm: FormGroup;
 hasFormErrors = false;
 viewLoading = false;
 // Private properties
@@ -76,7 +76,7 @@ files: File[] = [];
 		- when a sort event occurs => this.sort.sortChange
 		**/
 		const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-			tap(() => this.loadIncomeList())
+			tap(() => this.loadExpenseList())
 		)
 		.subscribe();
 		this.subscriptions.push(paginatorSubscriptions);
@@ -88,14 +88,14 @@ files: File[] = [];
 			distinctUntilChanged(), // This operator will eliminate duplicate values
 			tap(() => {
 				this.paginator.pageIndex = 0;
-				this.loadIncomeList();
+				this.loadExpenseList();
 			})
 		)
 		.subscribe();
 		this.subscriptions.push(searchSubscription);
 
 		// Init DataSource
-		this.dataSource = new IncomesDataSource(this.store);
+		this.dataSource = new ExpensesDataSource(this.store);
 	
 		const entitiesSubscription = this.dataSource.entitySubject.pipe(
 			skip(1),
@@ -103,15 +103,15 @@ files: File[] = [];
 		).subscribe(res => {
 			debugger
 	console.log(res);
-			this.incomesResult = res;
+			this.expensesResult = res;
 		});
 		this.subscriptions.push(entitiesSubscription);
 		// First load
 		of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-			this.loadIncomeList();
+			this.loadExpenseList();
 		}); // Remove this line, just loading imitation
 
-this.addIncome();
+this.addExpense();
 		
   }
 /**
@@ -122,9 +122,9 @@ this.addIncome();
 	}
 
 	/**
-	 * Load Incomes List from service through data-source
+	 * Load Expenses List from service through data-source
 	 */
-	loadIncomeList() {
+	loadExpenseList() {
 		debugger;
 		this.selection.clear();
 		const queryParams = new QueryParamsModel(
@@ -135,7 +135,7 @@ this.addIncome();
 			this.paginator.pageSize
 		);
 		// Call request from server
-		this.store.dispatch(new IncomesPageRequested({ page: queryParams }));
+		this.store.dispatch(new ExpensesPageRequested({ page: queryParams }));
 		this.selection.clear();
 	}
 
@@ -146,7 +146,7 @@ this.addIncome();
 		const filter: any = {};
 		const searchText: string = this.searchInput.nativeElement.value;
 
-		filter.Income = searchText;
+		filter.Expense = searchText;
 		if (!searchText) {
 			return filter;
 		}
@@ -156,16 +156,16 @@ this.addIncome();
 
 	/** ACTIONS */
 	/**
-	 * Delete Income
+	 * Delete Expense
 	 *
-	 * @param _item: IncomeModel
+	 * @param _item: ExpenseModel
 	 */
-	deleteIncome(_item: IncomeModel) {
+	deleteExpense(_item: ExpenseModel) {
 
-		const _title = 'Income';
-		const _description = 'Are you sure to permanently delete selected Income?';
-		const _waitDesciption = 'Income is deleting...';
-		const _deleteMessage = ' Selected Income has been deleted';
+		const _title = 'Expense';
+		const _description = 'Are you sure to permanently delete selected Expense?';
+		const _waitDesciption = 'Expense is deleting...';
+		const _deleteMessage = ' Selected Expense has been deleted';
 
 
 
@@ -175,31 +175,31 @@ this.addIncome();
 				return;
 			}
 
-			this.store.dispatch(new OneIncomeDeleted({ id: _item.id }));
+			this.store.dispatch(new OneExpenseDeleted({ id: _item.id }));
 			this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
-			this.loadIncomeList();
+			this.loadExpenseList();
 		});
 		
 
 	}
 
 	/**
-	 * Show add Income dialog
+	 * Show add Expense dialog
 	 */
-	addIncome() {
-		this.income=new IncomeModel();
-		this.income.clear(); //
+	addExpense() {
+		this.expense=new ExpenseModel();
+		this.expense.clear(); //
 		this.createForm();
 
 	}
 
 	/**
-	 * Show Edit Income dialog and save after success close result
-	 * @param income: IncomeModel
+	 * Show Edit Expense dialog and save after success close result
+	 * @param expense: ExpenseModel
 	 */
-	editIncome(income: IncomeModel) {
+	editExpense(expense: ExpenseModel) {
 		
-		this.income=income;
+		this.expense=expense;
 		this.createForm();
 
 	}
@@ -208,7 +208,7 @@ this.addIncome();
 
 createForm() {
 	debugger;
-	this.incomeForm = this.fb.group({
+	this.expenseForm = this.fb.group({
     // amount: number;
     // date: string;
     // documents: string;
@@ -218,15 +218,15 @@ createForm() {
     // isActive: string;
     // name: string;
     // note: string;
-    amount: [this.income.amount, Validators.required],
-    date: [this.typesUtilsService.getDateFromString(this.income.date), Validators.compose([Validators.nullValidator])],
-    documents: [this.income.documents, ],
-    incHeadId: [this.income.incHeadId, Validators.required],
-    invoiceNo: [this.income.invoiceNo, ],
-    name: [this.income.name, Validators.required],
-    note: [this.income.note, ],
-    isActive: [this.income.isActive, ],
-		
+    amount: [this.expense.amount, Validators.required],
+    date: [this.typesUtilsService.getDateFromString(this.expense.date), Validators.compose([Validators.nullValidator])],
+    documents: [this.expense.documents, ],
+    expHeadId: [this.expense.expHeadId, Validators.required],
+    invoiceNo: [this.expense.invoiceNo, ],
+    name: [this.expense.name, Validators.required],
+    note: [this.expense.note, ],
+    isActive: [this.expense.isActive, ],
+		isDeleted: [this.expense.isDeleted, ],
 	});
 }
 
@@ -236,7 +236,7 @@ createForm() {
  * @param controlName: string
  */
 isControlInvalid(controlName: string): boolean {
-	const control = this.incomeForm.controls[controlName];
+	const control = this.expenseForm.controls[controlName];
 	const result = control.invalid && control.touched;
 	return result;
 }
@@ -244,12 +244,12 @@ isControlInvalid(controlName: string): boolean {
 /** ACTIONS */
 
 /**
- * Returns prepared income
+ * Returns prepared expense
  */
-prepareIncome(): IncomeModel {
-	const controls = this.incomeForm.controls;
-	const _income = new IncomeModel();
-  _income.id = this.income.id;
+prepareExpense(): ExpenseModel {
+	const controls = this.expenseForm.controls;
+	const _expense = new ExpenseModel();
+  _expense.id = this.expense.id;
   // amount: number;
     // date: string;
     // documents: string;
@@ -260,22 +260,23 @@ prepareIncome(): IncomeModel {
     // name: string;
     // : string;
 
-    _income.amount = controls.amount.value;
+    _expense.amount = controls.amount.value;
     const _date = controls.date.value;
     if (_date) {
-      _income.date = this.typesUtilsService.dateFormat(_date);
+      _expense.date = this.typesUtilsService.dateFormat(_date);
     } else {
-      _income.date = '';
+      _expense.date = '';
     }
-  _income.documents = controls.documents.value;
-  _income.incHeadId = controls.incHeadId.value;
-  _income.invoiceNo = controls.invoiceNo.value;
-  _income.isActive='yes';
-	_income.name = controls.name.value;
-  _income.note = controls.note.value;
+  _expense.documents = controls.documents.value;
+  _expense.expHeadId = controls.expHeadId.value;
+  _expense.invoiceNo = controls.invoiceNo.value;
+  _expense.isActive='yes';
+  _expense.isDeleted='yes';
+	_expense.name = controls.name.value;
+  _expense.note = controls.note.value;
 
 
-	return _income;
+	return _expense;
 }
 
 /**
@@ -283,9 +284,9 @@ prepareIncome(): IncomeModel {
  */
 onSubmit() {
 	this.hasFormErrors = false;
-	const controls = this.incomeForm.controls;
+	const controls = this.expenseForm.controls;
 	/** check form */
-	if (this.incomeForm.invalid) {
+	if (this.expenseForm.invalid) {
 		Object.keys(controls).forEach(controlName =>
 			controls[controlName].markAsTouched()
 		);
@@ -294,65 +295,65 @@ onSubmit() {
 		return;
 	}
 
-	const editedIncome = this.prepareIncome();
-	if (editedIncome.id > 0) {
-		this.updateIncome(editedIncome);
+	const editedExpense = this.prepareExpense();
+	if (editedExpense.id > 0) {
+		this.updateExpense(editedExpense);
 	} else {
-		this.createIncome(editedIncome);
+		this.createExpense(editedExpense);
 	}
 
-	const	_saveMessage= editedIncome.id > 0 ? 'Income  has been updated' : 'Income has been created';
+	const	_saveMessage= editedExpense.id > 0 ? 'Expense  has been updated' : 'Expense has been created';
 		
-	const _messageType = editedIncome.id > 0 ? MessageType.Update : MessageType.Create;
+	const _messageType = editedExpense.id > 0 ? MessageType.Update : MessageType.Create;
 	
 		this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-		this.loadIncomeList();
-		this.incomeForm.reset();
-		this.addIncome();
-		// this.income.clear();
+		this.loadExpenseList();
+		this.expenseForm.reset();
+		this.addExpense();
+		// this.expense.clear();
 		// this.createForm();
 
 }
 onCancel(){
-	this.incomeForm.reset();
-	this.addIncome();
-	// this.income.clear();
+	this.expenseForm.reset();
+	this.addExpense();
+	// this.expense.clear();
 	// this.createForm();
 }
 /**
- * Update Income
+ * Update Expense
  *
- * @param _income: IncomeModel
+ * @param _expense: ExpenseModel
  */
-updateIncome(_income: IncomeModel) {
-	const updateIncome: Update<IncomeModel> = {
-		id: _income.id,
-		changes: _income
+updateExpense(_expense: ExpenseModel) {
+	const updateExpense: Update<ExpenseModel> = {
+		id: _expense.id,
+		changes: _expense
 	};
-	this.store.dispatch(new IncomeUpdated({
-		partialIncome: updateIncome,
-		income: _income
+	this.store.dispatch(new ExpenseUpdated({
+		partialExpense: updateExpense,
+		expense: _expense
 	}));
 
 
 }
 
 /**
- * Create Income
+ * Create Expense
  *
- * @param _income: IncomeModel
+ * @param _expense: ExpenseModel
  */
-createIncome(_income:IncomeModel) {
-	this.store.dispatch(new IncomeOnServerCreated({ income: _income }));
+createExpense(_expense:ExpenseModel) {
+	this.store.dispatch(new ExpenseOnServerCreated({ expense: _expense }));
 	this.componentSubscriptions = this.store.pipe(
-		select(selectLastCreatedIncomeId),
+		select(selectLastCreatedExpenseId),
 		delay(1000), // Remove this line
 	).subscribe(res => {
 		if (!res) {
 			return;
 		}
 
-		// this.dialogRef.close({ _income, isEdit: false });
+		// this.dialogRef.close({ _expense, isEdit: false });
 	});
 }
 
@@ -370,14 +371,11 @@ onSelect(event) {
 	this.files.splice(this.files.indexOf(event), 1);
   }
   _keyPress(event: any) {
-	const pattern = /[0-9]/;
-	let inputChar = String.fromCharCode(event.charCode);
-	if (!pattern.test(inputChar)) {
-		event.preventDefault();
-
+		const pattern = /[0-9]/;
+		let inputChar = String.fromCharCode(event.charCode);
+		if (!pattern.test(inputChar)) {
+			event.preventDefault();
+	
+		}
 	}
 }
-}
-
-
-

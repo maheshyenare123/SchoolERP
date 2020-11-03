@@ -72,6 +72,10 @@ const routes: Routes = [
           path: 'income',
           loadChildren: () => import('./views/pages/income/income.module').then(m => m.IncomeModule),
         },
+        {
+          path: 'expense',
+          loadChildren: () => import('./views/pages/expense/expense.module').then(m => m.ExpenseModule),
+        },
       {
         path: 'user-management',
         loadChildren: () => import('./views/pages/user-management/user-management.module').then(m => m.UserManagementModule),

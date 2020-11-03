@@ -203,6 +203,17 @@ export class PageConfig {
       },
     },
 
+    'expense': {
+      'add-expense': {
+        page: { title: 'Add Expense', desc: '' }
+      },
+      'search-expense': {
+        page: { title: 'Search Expense', desc: '' }
+      },
+      'expense-head': {
+        page: { title: 'Expense Head', desc: '' }
+      },
+    },
 
 
     

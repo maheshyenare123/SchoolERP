@@ -1,7 +1,8 @@
+
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { IncomesDataSource, IncomeModel,selectIncomesActionLoading } from 'src/app/core/income';
+import { ExpenseHeadsDataSource, ExpenseHeadModel,selectExpenseHeadsActionLoading } from 'src/app/core/expense';
 import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -9,7 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ActivatedRoute, Router } from '@angular/router';
-import { SubheaderService  } from 'src/app/core/_base/layout';
+import { SubheaderService } from 'src/app/core/_base/layout';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
@@ -19,20 +20,21 @@ import { Update } from '@ngrx/entity';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
-import { IncomesPageRequested, OneIncomeDeleted, ManyIncomesDeleted, IncomesStatusUpdated, IncomeUpdated, IncomeOnServerCreated, selectLastCreatedIncomeId } from '../../../../core/income';
+import { ExpenseHeadsPageRequested, OneExpenseHeadDeleted, ManyExpenseHeadsDeleted, ExpenseHeadsStatusUpdated, ExpenseHeadUpdated, ExpenseHeadOnServerCreated, selectLastCreatedExpenseHeadId } from '../../../../core/expense';
+
 
 
 @Component({
-  selector: 'kt-add-income',
-  templateUrl: './add-income.component.html',
-  styleUrls: ['./add-income.component.scss']
+  selector: 'kt-expense-head',
+  templateUrl: './expense-head.component.html',
+  styleUrls: ['./expense-head.component.scss']
 })
-export class AddIncomeComponent implements OnInit {
+export class ExpenseHeadComponent implements OnInit {
 
-  // Table fields
-dataSource: IncomesDataSource;
+ // Table fields
+dataSource: ExpenseHeadsDataSource;
 //  dataSource = new MatTableDataSource(ELEMENT_DATA);
-displayedColumns = ['id', 'name', 'invoiceNo', 'date', 'incomeHead', 'amount', 'actions'];
+displayedColumns = ['id', 'expenseHead', 'description', 'actions'];
 @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 @ViewChild('sort1', {static: true}) sort: MatSort;
 // Filter fields
@@ -40,19 +42,19 @@ displayedColumns = ['id', 'name', 'invoiceNo', 'date', 'incomeHead', 'amount', '
 filterStatus = '';
 filterType = '';
 // Selection
-selection = new SelectionModel<IncomeModel>(true, []);
-incomesResult: IncomeModel[] = [];
+selection = new SelectionModel<ExpenseHeadModel>(true, []);
+expenseHeadsResult: ExpenseHeadModel[] = [];
 // Subscriptions
 private subscriptions: Subscription[] = [];
 
 // Public properties
-income: IncomeModel;
-incomeForm: FormGroup;
+expenseHead: ExpenseHeadModel;
+expenseHeadForm: FormGroup;
 hasFormErrors = false;
 viewLoading = false;
 // Private properties
 private componentSubscriptions: Subscription;
-files: File[] = [];
+
 
 
 
@@ -76,7 +78,7 @@ files: File[] = [];
 		- when a sort event occurs => this.sort.sortChange
 		**/
 		const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-			tap(() => this.loadIncomeList())
+			tap(() => this.loadExpenseHeadList())
 		)
 		.subscribe();
 		this.subscriptions.push(paginatorSubscriptions);
@@ -88,14 +90,14 @@ files: File[] = [];
 			distinctUntilChanged(), // This operator will eliminate duplicate values
 			tap(() => {
 				this.paginator.pageIndex = 0;
-				this.loadIncomeList();
+				this.loadExpenseHeadList();
 			})
 		)
 		.subscribe();
 		this.subscriptions.push(searchSubscription);
 
 		// Init DataSource
-		this.dataSource = new IncomesDataSource(this.store);
+		this.dataSource = new ExpenseHeadsDataSource(this.store);
 	
 		const entitiesSubscription = this.dataSource.entitySubject.pipe(
 			skip(1),
@@ -103,15 +105,15 @@ files: File[] = [];
 		).subscribe(res => {
 			debugger
 	console.log(res);
-			this.incomesResult = res;
+			this.expenseHeadsResult = res;
 		});
 		this.subscriptions.push(entitiesSubscription);
 		// First load
 		of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-			this.loadIncomeList();
+			this.loadExpenseHeadList();
 		}); // Remove this line, just loading imitation
 
-this.addIncome();
+this.addExpenseHead();
 		
   }
 /**
@@ -122,9 +124,9 @@ this.addIncome();
 	}
 
 	/**
-	 * Load Incomes List from service through data-source
+	 * Load ExpenseHeads List from service through data-source
 	 */
-	loadIncomeList() {
+	loadExpenseHeadList() {
 		debugger;
 		this.selection.clear();
 		const queryParams = new QueryParamsModel(
@@ -135,7 +137,7 @@ this.addIncome();
 			this.paginator.pageSize
 		);
 		// Call request from server
-		this.store.dispatch(new IncomesPageRequested({ page: queryParams }));
+		this.store.dispatch(new ExpenseHeadsPageRequested({ page: queryParams }));
 		this.selection.clear();
 	}
 
@@ -146,7 +148,7 @@ this.addIncome();
 		const filter: any = {};
 		const searchText: string = this.searchInput.nativeElement.value;
 
-		filter.Income = searchText;
+		filter.ExpenseHead = searchText;
 		if (!searchText) {
 			return filter;
 		}
@@ -156,16 +158,16 @@ this.addIncome();
 
 	/** ACTIONS */
 	/**
-	 * Delete Income
+	 * Delete ExpenseHead
 	 *
-	 * @param _item: IncomeModel
+	 * @param _item: ExpenseHeadModel
 	 */
-	deleteIncome(_item: IncomeModel) {
+	deleteExpenseHead(_item: ExpenseHeadModel) {
 
-		const _title = 'Income';
-		const _description = 'Are you sure to permanently delete selected Income?';
-		const _waitDesciption = 'Income is deleting...';
-		const _deleteMessage = ' Selected Income has been deleted';
+		const _title = 'ExpenseHead';
+		const _description = 'Are you sure to permanently delete selected ExpenseHead?';
+		const _waitDesciption = 'ExpenseHead is deleting...';
+		const _deleteMessage = ' Selected ExpenseHead has been deleted';
 
 
 
@@ -175,31 +177,31 @@ this.addIncome();
 				return;
 			}
 
-			this.store.dispatch(new OneIncomeDeleted({ id: _item.id }));
+			this.store.dispatch(new OneExpenseHeadDeleted({ id: _item.id }));
 			this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
-			this.loadIncomeList();
+			this.loadExpenseHeadList();
 		});
 		
 
 	}
 
 	/**
-	 * Show add Income dialog
+	 * Show add ExpenseHead dialog
 	 */
-	addIncome() {
-		this.income=new IncomeModel();
-		this.income.clear(); //
+	addExpenseHead() {
+		this.expenseHead=new ExpenseHeadModel();
+		this.expenseHead.clear(); //
 		this.createForm();
 
 	}
 
 	/**
-	 * Show Edit Income dialog and save after success close result
-	 * @param income: IncomeModel
+	 * Show Edit ExpenseHead dialog and save after success close result
+	 * @param expenseHead: ExpenseHeadModel
 	 */
-	editIncome(income: IncomeModel) {
+	editExpenseHead(expenseHead: ExpenseHeadModel) {
 		
-		this.income=income;
+		this.expenseHead=expenseHead;
 		this.createForm();
 
 	}
@@ -208,25 +210,12 @@ this.addIncome();
 
 createForm() {
 	debugger;
-	this.incomeForm = this.fb.group({
-    // amount: number;
-    // date: string;
-    // documents: string;
-    // id: number;
-    // incHeadId: string;
-    // invoiceNo: string;
-    // isActive: string;
-    // name: string;
-    // note: string;
-    amount: [this.income.amount, Validators.required],
-    date: [this.typesUtilsService.getDateFromString(this.income.date), Validators.compose([Validators.nullValidator])],
-    documents: [this.income.documents, ],
-    incHeadId: [this.income.incHeadId, Validators.required],
-    invoiceNo: [this.income.invoiceNo, ],
-    name: [this.income.name, Validators.required],
-    note: [this.income.note, ],
-    isActive: [this.income.isActive, ],
-		
+	this.expenseHeadForm = this.fb.group({
+   
+    expCategory: [this.expenseHead.expCategory, Validators.required],
+    description: [this.expenseHead.description, ],
+    isActive: [this.expenseHead.isActive, ],
+		isDeleted: [this.expenseHead.isDeleted, ],
 	});
 }
 
@@ -236,7 +225,7 @@ createForm() {
  * @param controlName: string
  */
 isControlInvalid(controlName: string): boolean {
-	const control = this.incomeForm.controls[controlName];
+	const control = this.expenseHeadForm.controls[controlName];
 	const result = control.invalid && control.touched;
 	return result;
 }
@@ -244,38 +233,17 @@ isControlInvalid(controlName: string): boolean {
 /** ACTIONS */
 
 /**
- * Returns prepared income
+ * Returns prepared expenseHead
  */
-prepareIncome(): IncomeModel {
-	const controls = this.incomeForm.controls;
-	const _income = new IncomeModel();
-  _income.id = this.income.id;
-  // amount: number;
-    // date: string;
-    // documents: string;
-    // id: number;
-    // incHeadId: string;
-    // invoiceNo: string;
-    // isActive: string;
-    // name: string;
-    // : string;
-
-    _income.amount = controls.amount.value;
-    const _date = controls.date.value;
-    if (_date) {
-      _income.date = this.typesUtilsService.dateFormat(_date);
-    } else {
-      _income.date = '';
-    }
-  _income.documents = controls.documents.value;
-  _income.incHeadId = controls.incHeadId.value;
-  _income.invoiceNo = controls.invoiceNo.value;
-  _income.isActive='yes';
-	_income.name = controls.name.value;
-  _income.note = controls.note.value;
-
-
-	return _income;
+prepareExpenseHead(): ExpenseHeadModel {
+	const controls = this.expenseHeadForm.controls;
+	const _expenseHead = new ExpenseHeadModel();
+	_expenseHead.id = this.expenseHead.id;
+  _expenseHead.expCategory = controls.incomeCategory.value;
+  _expenseHead.description = controls.description.value;
+  _expenseHead.isDeleted='no';
+	_expenseHead.isActive='yes';
+	return _expenseHead;
 }
 
 /**
@@ -283,9 +251,9 @@ prepareIncome(): IncomeModel {
  */
 onSubmit() {
 	this.hasFormErrors = false;
-	const controls = this.incomeForm.controls;
+	const controls = this.expenseHeadForm.controls;
 	/** check form */
-	if (this.incomeForm.invalid) {
+	if (this.expenseHeadForm.invalid) {
 		Object.keys(controls).forEach(controlName =>
 			controls[controlName].markAsTouched()
 		);
@@ -294,65 +262,65 @@ onSubmit() {
 		return;
 	}
 
-	const editedIncome = this.prepareIncome();
-	if (editedIncome.id > 0) {
-		this.updateIncome(editedIncome);
+	const editedExpenseHead = this.prepareExpenseHead();
+	if (editedExpenseHead.id > 0) {
+		this.updateExpenseHead(editedExpenseHead);
 	} else {
-		this.createIncome(editedIncome);
+		this.createExpenseHead(editedExpenseHead);
 	}
 
-	const	_saveMessage= editedIncome.id > 0 ? 'Income  has been updated' : 'Income has been created';
+	const	_saveMessage= editedExpenseHead.id > 0 ? 'ExpenseHead  has been updated' : 'ExpenseHead has been created';
 		
-	const _messageType = editedIncome.id > 0 ? MessageType.Update : MessageType.Create;
+	const _messageType = editedExpenseHead.id > 0 ? MessageType.Update : MessageType.Create;
 	
 		this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-		this.loadIncomeList();
-		this.incomeForm.reset();
-		this.addIncome();
-		// this.income.clear();
+		this.loadExpenseHeadList();
+		this.expenseHeadForm.reset();
+		this.addExpenseHead();
+		// this.expenseHead.clear();
 		// this.createForm();
 
 }
 onCancel(){
-	this.incomeForm.reset();
-	this.addIncome();
-	// this.income.clear();
+	this.expenseHeadForm.reset();
+	this.addExpenseHead();
+	// this.expenseHead.clear();
 	// this.createForm();
 }
 /**
- * Update Income
+ * Update ExpenseHead
  *
- * @param _income: IncomeModel
+ * @param _expenseHead: ExpenseHeadModel
  */
-updateIncome(_income: IncomeModel) {
-	const updateIncome: Update<IncomeModel> = {
-		id: _income.id,
-		changes: _income
+updateExpenseHead(_expenseHead: ExpenseHeadModel) {
+	const updateExpenseHead: Update<ExpenseHeadModel> = {
+		id: _expenseHead.id,
+		changes: _expenseHead
 	};
-	this.store.dispatch(new IncomeUpdated({
-		partialIncome: updateIncome,
-		income: _income
+	this.store.dispatch(new ExpenseHeadUpdated({
+		partialExpenseHead: updateExpenseHead,
+		expenseHead: _expenseHead
 	}));
 
 
 }
 
 /**
- * Create Income
+ * Create ExpenseHead
  *
- * @param _income: IncomeModel
+ * @param _expenseHead: ExpenseHeadModel
  */
-createIncome(_income:IncomeModel) {
-	this.store.dispatch(new IncomeOnServerCreated({ income: _income }));
+createExpenseHead(_expenseHead:ExpenseHeadModel) {
+	this.store.dispatch(new ExpenseHeadOnServerCreated({ expenseHead: _expenseHead }));
 	this.componentSubscriptions = this.store.pipe(
-		select(selectLastCreatedIncomeId),
+		select(selectLastCreatedExpenseHeadId),
 		delay(1000), // Remove this line
 	).subscribe(res => {
 		if (!res) {
 			return;
 		}
 
-		// this.dialogRef.close({ _income, isEdit: false });
+		// this.dialogRef.close({ _expenseHead, isEdit: false });
 	});
 }
 
@@ -360,24 +328,7 @@ createIncome(_income:IncomeModel) {
 onAlertClose($event) {
 	this.hasFormErrors = false;
 }
-onSelect(event) {
-	console.log(event);
-	this.files.push(...event.addedFiles);
-  }
-   
-  onRemove(event) {
-	console.log(event);
-	this.files.splice(this.files.indexOf(event), 1);
-  }
-  _keyPress(event: any) {
-	const pattern = /[0-9]/;
-	let inputChar = String.fromCharCode(event.charCode);
-	if (!pattern.test(inputChar)) {
-		event.preventDefault();
 
-	}
 }
-}
-
 
 
