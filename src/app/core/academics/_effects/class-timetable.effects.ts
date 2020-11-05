@@ -39,7 +39,7 @@ export class ClassTimetableEffects {
     ofType<ClassTimetablesPageRequested>(ClassTimetableActionTypes.ClassTimetablesPageRequested),
     mergeMap(({payload}) => {
       this.store.dispatch(this.showPageLoadingDistpatcher);
-      const requestToServer = this.classTimetablesService.findClassTimetables(payload.page);
+      const requestToServer = this.classTimetablesService.findClassTimetables(payload.page,payload.classId,payload.sectionId);
       const lastQuery = of(payload.page);
       return forkJoin(requestToServer, lastQuery);
     }),

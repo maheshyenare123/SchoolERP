@@ -30,18 +30,17 @@ export class Constants {
       Disable_Reason: 'api/disable-reason',
       Student_House: 'api/school-house',
       Disable_Student: 'api/student/api/disable-student',
-
+      Online_Addmission: 'api/',
    }
 
    public static Academics: any = {
-      Class_TimeTable: '/api/',
+      Class_TimeTable: 'api/subject-class-timetable',
       Teacher_TimeTable: 'api/',
       Assign_Class_Teacher: 'api/assign-class-teacher',
       Class: 'api/class',
       Section: 'api/section',
       Subject: 'api/subject',
       Subject_Group: 'api/subject-group',
-
 
    }
 

@@ -105,6 +105,7 @@ private componentSubscriptions: Subscription;
 			debugger
 	console.log(res);
 			this.referencesResult = res;
+			if(this.referencesResult.length==0)this.dataSource.hasItems=false;
 		});
 		this.subscriptions.push(entitiesSubscription);
 		// First load

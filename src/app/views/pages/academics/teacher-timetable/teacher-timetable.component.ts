@@ -147,7 +147,7 @@ private componentSubscriptions: Subscription;
 			this.paginator.pageSize
 		);
 		// Call request from server
-		this.store.dispatch(new ClassTimetablesPageRequested({ page: queryParams }));
+		// this.store.dispatch(new ClassTimetablesPageRequested({ page: queryParams }));
 		this.selection.clear();
 	}
 

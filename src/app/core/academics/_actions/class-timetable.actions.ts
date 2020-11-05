@@ -70,7 +70,7 @@ export class ManyClassTimetablesDeleted implements Action {
 export class ClassTimetablesPageRequested implements Action {
   readonly type = ClassTimetableActionTypes.ClassTimetablesPageRequested;
 
-  constructor(public payload: { page: QueryParamsModel }) {
+  constructor(public payload: { page: QueryParamsModel ,classId:number,sectionId:number}) {
   }
 }
 

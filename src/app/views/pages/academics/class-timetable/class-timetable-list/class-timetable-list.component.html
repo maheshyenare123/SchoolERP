@@ -1,18 +1,88 @@
 <kt-portlet>
 	<kt-portlet-header [sticky]="true" [title]="'Class Timetable List'" [class]="'card-head-lg'"
-		[viewLoading$]="dataSource.loading$">
+		>
 		<ng-container ktPortletTools>
 			<button (click)="addClassTimetable()" mat-raised-button color="primary" matTooltip="Create new ClassTimetable">New
 				ClassTimetable</button>
 		</ng-container>
 	</kt-portlet-header>
 	<!-- end::Header -->
-
 	<kt-portlet-body>
+		<div class="kt-form kt-margin-b-30">
+			<form class="form" [formGroup]="searchForm">
+				<div class="card-body">
+		
+					<div class="card-body-progress">
+						<mat-spinner [diameter]="20"></mat-spinner>
+					</div>
+		
+					<kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
+						Oh snap! Change a few things up and try submitting again.
+					</kt-alert>
+		
+					<div class="form-group row">
+						<div class="col-lg-4 kt-margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<mat-select placeholder="Select Class" formControlName="classId" (selectionChange)="onClassSelectChange($event.value)">
+
+									<mat-option *ngFor="let classData of classList" [value]="classData.id" >
+										{{classData.classses}}
+									</mat-option>
+								</mat-select>
+								<mat-error>Class
+									<strong>is required</strong>
+								</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-4 kt-margin-bottom-20-mobile">
+							<mat-form-field class="mat-form-field-fluid">
+								<mat-select placeholder="Section" formControlName="sectionId">
+									<mat-option *ngFor="let sectionData of sectionList" [value]="sectionData.id">
+										{{sectionData.section}}
+									</mat-option>
+								</mat-select>
+								<mat-error>Section
+									<strong>is required</strong>
+								</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col-lg-4 kt-margin-bottom-20-mobile">
+						<div class="d-flex justify-content-between">
+							<!-- <div class="mr-2"></div> -->
+							<div>
+								<button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
+									Search
+								</button>
+							</div>
+						</div>
+						</div>
+
+
+
+					</div>
+		
+				</div>
+				<!-- <div class="card-footer">
+					<div class="d-flex justify-content-between">
+						<div class="mr-2"></div>
+						<div>
+							<button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
+								Search
+							</button>
+						</div>
+					</div>
+				</div> -->
+			</form>
+		
+
+		</div>
+	<!-- </kt-portlet-body>
+
+	<kt-portlet-body> -->
 		<!-- start::FILTERS & GROUP ACTIONS -->
-		<div class="form mb-3">
+		<!-- <div class="form mb-3"> -->
 			<!-- start::FILTERS -->
-			<div class="form-filtration">
+			<!-- <div class="form-filtration"> -->
 				<!-- <div class="row align-items-center">
 					<div class="col-md-2 kt-margin-bottom-10-mobile">
 						<mat-form-field>
@@ -40,7 +110,7 @@
 							</mat-hint>
 						</mat-form-field>
 					</div> -->
-					<div class="col-md-4 kt-margin-bottom-10-mobile">
+					<!-- <div class="col-md-4 kt-margin-bottom-10-mobile">
 						<mat-form-field>
 							<input matInput placeholder="Search product" #searchInput placeholder="Search"
 								class="mat-form-field mat-form-field-fluid">
@@ -48,9 +118,9 @@
 								<strong>Search in all fields</strong>
 							</mat-hint>
 						</mat-form-field>
-					</div>
-				</div>
-			</div>
+					</div> -->
+				<!-- </div> -->
+			<!-- </div> -->
         
             <!-- <div class="row align-items-center collapse form-group-actions kt-margin-top-20 kt-margin-bottom-20"
 				[ngClass]="{'show' : selection.selected.length > 0}">

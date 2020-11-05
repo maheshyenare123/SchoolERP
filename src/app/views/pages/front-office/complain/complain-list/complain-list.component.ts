@@ -84,6 +84,7 @@ ngOnInit() {
  ).subscribe(res => {
    this.complainsResult = res;
    console.log(this.complainsResult);
+   if(this.complainsResult.length==0)this.dataSource.hasItems=false;
  });
  this.subscriptions.push(entitiesSubscription);
  // First load

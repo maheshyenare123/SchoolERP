@@ -14,7 +14,7 @@ import { AppState } from '../../../../core/reducers';
 // CRUD
 import { TypesUtilsService } from '../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { HomeworkDtoModel, selectHomeworksActionLoading, HomeworkUpdated, HomeworkOnServerCreated, selectLastCreatedHomeworkId,  HomeworkService } from '../../../../core/homework';
+import { HomeworkDtoModel, selectHomeworksActionLoading, HomeworkUpdated, HomeworkOnServerCreated, selectLastCreatedHomeworkId, HomeworkService } from '../../../../core/homework';
 import { SectionService, SubjectService, StudentClassService, StudentClassModel, SectionDtoModel, SubjectDtoModel, SubjectGroupDtoModel, SubjectGroupService } from 'src/app/core/academics';
 // Services and Models
 
@@ -36,11 +36,11 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 	// Private properties
 	private componentSubscriptions: Subscription;
 	files: File[] = [];
-	ckeConfig:any;
+	ckeConfig: any;
 
 
 
-    classList: StudentClassModel[] = [];
+	classList: StudentClassModel[] = [];
 	sectionList: SectionDtoModel[] = [];
 	subjectList: SubjectDtoModel[] = [];
 	subjectGroupList: SubjectGroupDtoModel[] = [];
@@ -52,7 +52,7 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 		private studentClassService: StudentClassService,
 		private subjectService: SubjectService,
 		private subjectGroupService: SubjectGroupService,
-		) {
+	) {
 	}
 
 	/**
@@ -66,7 +66,7 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 		this.loadAllSubjectGroup();
 
 		this.store.pipe(select(selectHomeworksActionLoading)).subscribe(res => this.viewLoading = res);
-		
+
 		this.homework = this.data.homework;
 		this.createForm();
 	}
@@ -82,13 +82,13 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 		}, err => {
 		});
 	}
-	loadAllSectionsByClassId(id:number) {
+	loadAllSectionsByClassId(id: number) {
 		debugger
 		this.studentClassService.getAllSectionByClasssId(id).subscribe(res => {
-		
+
 			this.sectionList = res['data'];
 			console.log(this.sectionList)
-			
+
 		}, err => {
 		});
 	}
@@ -99,8 +99,8 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 			const data = res['data'];
 			this.subjectList = data['content'];
 			console.log(this.subjectList)
-		
-		
+
+
 		}, err => {
 		});
 	}
@@ -114,23 +114,23 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	onClassSelectChange(classId){
+	onClassSelectChange(classId) {
 		this.loadAllSectionsByClassId(classId);
-		var classObj=this.classList.find(x => x.id === classId);
+		var classObj = this.classList.find(x => x.id === classId);
 		this.homeworkForm.controls.classes.setValue(classObj.classses);
-	
+
 	}
-	onSectionSelectChange(subjectId){
-		
-		var sectionObj=this.sectionList.find(x => x.id === subjectId);
+	onSectionSelectChange(subjectId) {
+
+		var sectionObj = this.sectionList.find(x => x.id === subjectId);
 		this.homeworkForm.controls.section.setValue(sectionObj.section);
-	
+
 	}
-	onSubjectSelectChange(subjectId){
-		
-		var subjectObj=this.subjectList.find(x => x.id === subjectId);
+	onSubjectSelectChange(subjectId) {
+
+		var subjectObj = this.subjectList.find(x => x.id === subjectId);
 		this.homeworkForm.controls.subjectName.setValue(subjectObj.name);
-	
+
 	}
 
 	/**
@@ -154,7 +154,11 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 			homeworkDate: [this.typesUtilsService.getDateFromString(this.homework.homeworkDate), Validators.compose([Validators.nullValidator])],
 			submitDate: [this.typesUtilsService.getDateFromString(this.homework.submitDate), Validators.compose([Validators.nullValidator])],
 			description: [this.homework.description, Validators.required],
-			assigned:['', Validators.required],
+			assigned: ['', Validators.required],
+			staffId: [this.homework.staffId, ''],
+			staffName: [this.homework.staffName, ''],
+
+
 			// isActive: string;
 
 		});
@@ -190,11 +194,11 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 		const controls = this.homeworkForm.controls;
 		const _homework = new HomeworkDtoModel();
 		_homework.id = this.homework.id;
-	
-		if(_homework.id >0){
-			_homework.isActive=	this.homework.isActive;
-		}else{
-			_homework.isActive='yes';
+
+		if (_homework.id > 0) {
+			_homework.isActive = this.homework.isActive;
+		} else {
+			_homework.isActive = 'yes';
 		}
 
 		_homework.classes = controls.classes.value;
@@ -205,7 +209,16 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 		_homework.subjectId = controls.subjectId.value;
 		_homework.subjectName = controls.subjectName.value;
 		_homework.description = controls.description.value;
+
+		_homework.staffId = 1;
+		_homework.evaluatedBy = 1;
+		_homework.document=" ";
+		_homework.staffName=controls.staffName.value;
 		
+		// 		"evaluatedBy": 0,
+		//   "evaluationDate":
+		// {"id":0,"isActive":"yes","classes":"First","classesId":8,"section":"A","sectionId":1,"subjectGroupSubjectId":4,"subjectId":1,"subjectName":"marathi","description":"not","staffId":1,"homeworkDate":"2020-11-5","submitDate":"2020-11-5"}
+		// _homework.staffName =
 
 		const _homeworkDate = controls.homeworkDate.value;
 		if (_homeworkDate) {
@@ -216,6 +229,7 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 		const _submitDate = controls.submitDate.value;
 		if (_submitDate) {
 			_homework.submitDate = this.typesUtilsService.dateFormat(_submitDate);
+			_homework.evaluationDate=this.typesUtilsService.dateFormat(_submitDate);
 		} else {
 			_homework.submitDate = '';
 		}
@@ -246,7 +260,7 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 		}
 
 
-		
+
 	}
 
 	/**
@@ -264,7 +278,7 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 			homework: _homework
 		}));
 
-		
+
 
 		// Remove this line
 		of(undefined).pipe(delay(1000)).subscribe(() => this.dialogRef.close({ _homework, isEdit: true }));
@@ -290,7 +304,7 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 			this.dialogRef.close({ _homework, isEdit: false });
 		});
 
-		
+
 	}
 
 	/** Alect Close event */
@@ -301,40 +315,40 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 	onSelect(event) {
 		console.log(event);
 		this.files.push(...event.addedFiles);
-	  }
-	   
-	  onRemove(event) {
+	}
+
+	onRemove(event) {
 		console.log(event);
 		this.files.splice(this.files.indexOf(event), 1);
-	  }
+	}
 
-	  onChangedescription($event: any): void {
-    
+	onChangedescription($event: any): void {
+
 		console.log("onChange");
-		
+
 		// this.adminChallangeForm.get('description').value
 		// console.log("CK Tag=" + this.adminChallangeForm.get('description').value);
 		// let a = this.adminChallangeForm.get('description').value;
-	
+
 		// let d = document.createElement('div');
 		// d.innerHTML = a;
 		// console.log(d.innerText);
 		// //set
 		// this.adminChallangeForm.get('sponserDescription').setValue(d.innerText);
-	
-	  }
-	
-	  onPastedescription($event: any): void {
-		
+
+	}
+
+	onPastedescription($event: any): void {
+
 		console.log("onPaste" + $event.data.dataValue);
 		//this.log += new Date() + "<br />";
-	  }
+	}
 	_keyPress(event: any) {
 		const pattern = /[0-9]/;
 		let inputChar = String.fromCharCode(event.charCode);
 		if (!pattern.test(inputChar)) {
 			event.preventDefault();
-	
+
 		}
 	}
 }

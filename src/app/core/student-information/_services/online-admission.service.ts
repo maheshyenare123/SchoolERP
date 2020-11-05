@@ -17,16 +17,16 @@ export class OnlineAdmissionService {
   createOnlineAdmission(onlineAdmission: StudentDtoModel): Observable<StudentDtoModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<StudentDtoModel>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason, onlineAdmission, {headers: httpHeaders});
+    return this.http.post<StudentDtoModel>(Constants.URL.HOST_URL+Constants.Student_Information.Online_Addmission, onlineAdmission, {headers: httpHeaders});
   }
 
   // READ
   getAllOnlineAdmissions(): Observable<StudentDtoModel[]> {
-    return this.http.get<StudentDtoModel[]>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason);
+    return this.http.get<StudentDtoModel[]>(Constants.URL.HOST_URL+Constants.Student_Information.Online_Addmission);
   }
 
   getOnlineAdmissionById(onlineAdmissionId: number): Observable<StudentDtoModel> {
-    return this.http.get<StudentDtoModel>(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason+ `/${onlineAdmissionId}`);
+    return this.http.get<StudentDtoModel>(Constants.URL.HOST_URL+Constants.Student_Information.Online_Addmission+ `/${onlineAdmissionId}`);
   }
 
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
@@ -37,7 +37,7 @@ export class OnlineAdmissionService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
-    const url =Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason ;
+    const url =Constants.URL.HOST_URL+Constants.Student_Information.Online_Addmission ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       params: httpParams
@@ -47,7 +47,7 @@ export class OnlineAdmissionService {
   // UPDATE => PUT: update the onlineAdmission on the server
   updateOnlineAdmission(onlineAdmission: StudentDtoModel): Observable<any> {
     const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason, onlineAdmission, {headers: httpHeader});
+    return this.http.put(Constants.URL.HOST_URL+Constants.Student_Information.Online_Addmission, onlineAdmission, {headers: httpHeader});
   }
 
   // UPDATE Status
@@ -57,18 +57,18 @@ export class OnlineAdmissionService {
       onlineAdmissionsForUpdate: onlineAdmissions,
       newStatus: status
     };
-    const url = Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason+ '/updateStatus';
+    const url = Constants.URL.HOST_URL+Constants.Student_Information.Online_Addmission+ '/updateStatus';
     return this.http.put(url, body, {headers: httpHeaders});
   }
 
   // DELETE => delete the onlineAdmission from the server
   deleteOnlineAdmission(onlineAdmissionId: number): Observable<StudentDtoModel> {
-    const url = `${Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason}/${onlineAdmissionId}`;
+    const url = `${Constants.URL.HOST_URL+Constants.Student_Information.Online_Addmission}/${onlineAdmissionId}`;
     return this.http.delete<StudentDtoModel>(url);
   }
 
   deleteOnlineAdmissions(ids: number[] = []): Observable<any> {
-    const url = Constants.URL.HOST_URL+Constants.Student_Information.Disable_Reason + '/deleteOnlineAdmissions';
+    const url = Constants.URL.HOST_URL+Constants.Student_Information.Online_Addmission + '/deleteOnlineAdmissions';
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const body = {onlineAdmissionIdsForDelete: ids};
     return this.http.put<QueryResultsModel>(url, body, {headers: httpHeaders});

@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { ClassTimetablesDataSource, ClassTimetableModel, ClassTimetablesPageRequested, OneClassTimetableDeleted, ManyClassTimetablesDeleted } from '../../../../../core/academics';
+import { ClassTimetablesDataSource, ClassTimetableModel, ClassTimetablesPageRequested, OneClassTimetableDeleted, ManyClassTimetablesDeleted, StudentClassService, StudentClassModel, SectionDtoModel } from '../../../../../core/academics';
 import { QueryParamsModel, LayoutUtilsService, MessageType } from '../../../../../core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -12,6 +12,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '../../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
 import { ClassTimetableEditDialogComponent } from '../class-timetable-edit/class-timetable-edit.dialog.component';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'kt-class-timetable-list',
@@ -35,21 +36,74 @@ selection = new SelectionModel<ClassTimetableModel>(true, []);
 classTimetablesResult: ClassTimetableModel[] = [];
 private subscriptions: Subscription[] = [];
 
+searchForm: FormGroup;
+  hasFormErrors = false;
+  
 
+  classList: StudentClassModel[] = [];
+	sectionList: SectionDtoModel[] = [];
 constructor(public dialog: MatDialog,
              private activatedRoute: ActivatedRoute,
              private router: Router,
+             private fb: FormBuilder,
              private subheaderService: SubheaderService,
              private layoutUtilsService: LayoutUtilsService,
-             private store: Store<AppState>) { }
+             private store: Store<AppState>,
+             private studentClassService: StudentClassService,
+             ) { }
 
 
 /**
  * On init
  */
 ngOnInit() {
- this.getAllClassTimetableList()
- // If the user changes the sort order, reset back to the first page.
+
+ this.createForm();
+     // Init DataSource
+     this.loadAllClasses();
+     this.dataSource = new ClassTimetablesDataSource(this.store);
+  
+}
+loadAllClasses() {
+	debugger
+	this.studentClassService.getAllStudentClasss().subscribe(res => {
+		const data = res['data'];
+		this.classList = data['content'];
+		console.log(this.classList)
+	}, err => {
+	});
+}
+onClassSelectChange(classId){
+	this.loadAllSectionsByClassId(classId);
+}
+loadAllSectionsByClassId(id:number) {
+	debugger
+	this.studentClassService.getAllSectionByClasssId(id).subscribe(res => {
+		this.sectionList = res['data'];
+		console.log(this.sectionList)
+	}, err => {
+	});
+}
+onSearch(){
+	debugger;
+		this.hasFormErrors = false;
+		const controls = this.searchForm.controls;
+		/** check form */
+		if (this.searchForm.invalid) {
+			Object.keys(controls).forEach(controlName =>
+				controls[controlName].markAsTouched()
+			);
+
+			this.hasFormErrors = true;
+			return;
+		}
+
+		this.getAllClassTimetableList(controls.classId.value, controls.sectionId.value);
+
+
+
+}
+getAllClassTimetableList(classId,sectionId) {
  const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
  this.subscriptions.push(sortSubscription);
 
@@ -58,23 +112,23 @@ ngOnInit() {
  - when a sort event occurs => this.sort.sortChange
  **/
  const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-   tap(() => this.loadClassTimetablesList())
+   tap(() => this.loadClassTimetablesList(classId,sectionId))
  )
  .subscribe();
  this.subscriptions.push(paginatorSubscriptions);
 
- // Filtration, bind to searchInput
- const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
-   // tslint:disable-next-line:max-line-length
-   debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
-   distinctUntilChanged(), // This operator will eliminate duplicate values
-   tap(() => {
-     this.paginator.pageIndex = 0;
-     this.loadClassTimetablesList();
-   })
- )
- .subscribe();
- this.subscriptions.push(searchSubscription);
+//  // Filtration, bind to searchInput
+//  const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
+//    // tslint:disable-next-line:max-line-length
+//    debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
+//    distinctUntilChanged(), // This operator will eliminate duplicate values
+//    tap(() => {
+//      this.paginator.pageIndex = 0;
+//      this.loadClassTimetablesList(classId,sectionId);
+//    })
+//  )
+//  .subscribe();
+//  this.subscriptions.push(searchSubscription);
 
  // Init DataSource
  this.dataSource = new ClassTimetablesDataSource(this.store);
@@ -84,23 +138,13 @@ ngOnInit() {
  ).subscribe(res => {
    this.classTimetablesResult = res;
    console.log(this.classTimetablesResult);
+   if(this.classTimetablesResult.length==0)this.dataSource.hasItems=false;
  });
  this.subscriptions.push(entitiesSubscription);
  // First load
  of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-   this.loadClassTimetablesList();
- }); // Remove this line, just loading imitation
-}
-getAllClassTimetableList() {
-  // this.enqService.getList().subscribe((res: any) => {
-  //   var data = res['data'];
-  //   var content = data['content'];
-  //   this.classTimetablesResult = content.map((key) => ({ ...key }));
-  
-  // }, (err) => {
-  //   console.log('Error while fetching data');
-  //   console.error(err);
-  // });
+   this.loadClassTimetablesList(classId,sectionId);
+ });
 }
 
 /**
@@ -113,7 +157,7 @@ ngOnDestroy() {
 /**
  * Load Products List
  */
-loadClassTimetablesList() {
+loadClassTimetablesList(classId,sectionId) {
   this.selection.clear();
   const queryParams = new QueryParamsModel(
     this.filterConfiguration(),
@@ -123,7 +167,7 @@ loadClassTimetablesList() {
     this.paginator.pageSize
   );
   // Call request from server
-  this.store.dispatch(new ClassTimetablesPageRequested({ page: queryParams }));
+  this.store.dispatch(new ClassTimetablesPageRequested({ page: queryParams,classId,sectionId }));
  
   this.selection.clear();
 }
@@ -133,8 +177,8 @@ loadClassTimetablesList() {
  */
 filterConfiguration(): any {
   const filter: any = {};
-  const searchText: string = this.searchInput.nativeElement.value;
-
+  // const searchText: string = this.searchInput.nativeElement.value;
+  const searchText: string ='';
   if (this.filterStatus && this.filterStatus.length > 0) {
     filter.status = +this.filterStatus;
   }
@@ -149,6 +193,15 @@ filterConfiguration(): any {
   filter.color = searchText;
   filter.VINCode = searchText;
   return filter;
+}
+createForm() {
+  debugger;
+  this.searchForm = this.fb.group({
+    classId: ['', Validators.required],
+    sectionId: ['', Validators.required],
+    // attendanceDate: [this.typesUtilsService.getDateFromString(this.attendanceDate), Validators.compose([Validators.nullValidator])],
+
+  })
 }
 
 /**
@@ -309,7 +362,7 @@ deleteProducts() {
 			}
 
 			this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-			this.loadClassTimetablesList();
+			// this.loadClassTimetablesList();
 		});
 	}
 

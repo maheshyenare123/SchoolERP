@@ -111,14 +111,13 @@ loadAllClasses() {
 	}, err => {
 	});
 }
-onClassSelectChange(classObj:StudentClassModel){
-	// this.loadAllSectionsByClassId(classObj.id);
+onClassSelectChange(classId){
+	this.loadAllSectionsByClassId(classId);
 }
 loadAllSectionsByClassId(id:number) {
 	debugger
-	this.sectionService.getAllSections().subscribe(res => {
-		const data = res['data'];
-		this.sectionList = data['content'];
+	this.studentClassService.getAllSectionByClasssId(id).subscribe(res => {
+		this.sectionList =  res['data'];
 		console.log(this.sectionList)
 	}, err => {
 	});
