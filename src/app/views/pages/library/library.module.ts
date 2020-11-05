@@ -27,11 +27,12 @@ import { LibraryStudentMemberComponent } from './library-student-member/library-
 import { LibraryStaffMemberComponent } from './library-staff-member/library-staff-member.component';
 import { LibraryStudentMemberEditDialogComponent } from './library-student-member-edit/library-student-member-edit.dialog.component';
 import { LibraryStaffMemberEditDialogComponent } from './library-staff-member-edit/library-staff-member-edit.dialog.component';
-import { IssueReturnBookComponent } from './issue-return-book/issue-return-book.component';
-import { LibraryMemberListComponent } from './library-member-list/library-member-list.component';
+
 import { BookService, LibraryStudentMemberService, LibraryStaffMemberService, booksReducer, BookEffects, LibraryStaffMemberEffects, LibraryStudentMemberEffects, libraryStudentMembersReducer, libraryStaffMembersReducer } from 'src/app/core/library';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { LibraryMemberListComponent } from './book-issue-return/library-member-list/library-member-list.component';
+import { BookIssueReturnDialogComponent } from './book-issue-return/book-issue-return/book-issue-return.dialog.component';
 const routes: Routes = [
 	{
 		path: '',
@@ -71,8 +72,8 @@ const routes: Routes = [
     LibraryStudentMemberComponent,
     LibraryStaffMemberEditDialogComponent,
     LibraryStaffMemberComponent,
-    IssueReturnBookComponent,
-    LibraryMemberListComponent
+    LibraryMemberListComponent,
+    BookIssueReturnDialogComponent
   ],
   imports: [
     CommonModule,
@@ -142,6 +143,7 @@ LibraryStudentMemberService
       BookEditDialogComponent,
       LibraryStudentMemberEditDialogComponent,
       LibraryStaffMemberEditDialogComponent,
+      BookIssueReturnDialogComponent
 	],
   exports: [RouterModule],
 

@@ -6,7 +6,7 @@ import { CoreModule } from '../../../core/core.module';
 import { CodePreviewModule } from '../../partials/content/general/code-preview/code-preview.module';
 import { Routes, RouterModule } from '@angular/router';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbModule, NgbAlertConfig } from '@ng-bootstrap/ng-bootstrap';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
@@ -30,7 +30,11 @@ import { BulkDeleteComponent } from './bulk-delete/bulk-delete.component';
 import { DisabledStudentComponent } from './disabled-student/disabled-student.component';
 
 import { disableReasonsReducer, DisableReasonEffects, studentDetailsReducer, studentsReducer, StudentEffects, CategoryEffects, studentHousesReducer, StudentHouseEffects, categorysReducer, DisableReasonService, StudentService, StudentHouseService, CategoryService, onlineAdmissionsReducer, OnlineAdmissionEffects,disabledStudentsReducer,DisabledStudentEffects,bulkDeletesReducer ,BulkDeleteEffects,BulkDeleteService,DisabledStudentService} from '../../../core/student-information';
-
+import { ModuleGuard } from 'src/app/core/auth';
+import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from 'src/app/core/_base/crud';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { StudentProfileViewDialogComponent } from './student-details/student-profile-view/student-profile-view.dialog.component';
+import { StudentFeesCollectDialogComponent } from './student-details/student-fees-collect/student-fees-collect.dialog.component';
 
 
 const routes: Routes = [
@@ -91,8 +95,8 @@ const routes: Routes = [
     DisableReasonComponent,
     BulkDeleteComponent,
     DisabledStudentComponent,
-
-
+    StudentProfileViewDialogComponent,
+    StudentFeesCollectDialogComponent
     ],
     imports: [
         CommonModule,
@@ -140,14 +144,34 @@ const routes: Routes = [
         CategoryService,
 		StudentHouseService,
 		BulkDeleteService,
-		DisabledStudentService
+		DisabledStudentService,
+   
+        ModuleGuard,
+        InterceptService,
+        TypesUtilsService,
+        HttpUtilsService,
+        LayoutUtilsService,
     
+        { provide: HTTP_INTERCEPTORS, useClass: InterceptService, multi: true },
     
+        {
+          provide: MAT_DIALOG_DEFAULT_OPTIONS,
+          useValue: {
+            hasBackdrop: true,
+            panelClass: 'kt-mat-dialog-container__wrapper',
+            height: 'auto',
+            width: '1050px'
+          }
+        },
     
+    //custom service
     
-    ],
-    entryComponents: [
+      ],
 
+
+    entryComponents: [
+        StudentProfileViewDialogComponent,
+        StudentFeesCollectDialogComponent
     ],
     exports: [RouterModule],
 })
