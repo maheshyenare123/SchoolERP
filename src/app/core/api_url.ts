@@ -36,7 +36,7 @@ export class Constants {
    public static Academics: any = {
       Class_TimeTable: '/api/',
       Teacher_TimeTable: 'api/',
-      Assign_Class_Teacher: 'api/',
+      Assign_Class_Teacher: 'api/assign-class-teacher',
       Class: 'api/class',
       Section: 'api/section',
       Subject: 'api/subject',
@@ -74,6 +74,10 @@ export class Constants {
       Department: 'api/department',
       StaffAttendance: 'api/staffAttendance',
       StaffRating: 'api/staffRating',
+
+      Leave_Type: 'api/leave-type',
+    
+
    }
 
 }

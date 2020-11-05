@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from "@angular/common/http";
+import { HttpClient,HttpHeaders, HttpParams } from "@angular/common/http";
 import { Constants } from '../../api_url';
 import { HttpUtilsService, QueryResultsModel, QueryParamsModel } from '../../_base/crud';
 import { AssignClassTeacherModel } from '../_models/assign-class-teacher.model';
@@ -18,7 +18,7 @@ export class AssignClassTeacherService {
   createAssignClassTeacher(assignClassTeacher: AssignClassTeacherModel): Observable<AssignClassTeacherModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<AssignClassTeacherModel>(Constants.URL.HOST_URL+Constants.Academics.Assign_Class_Teacher, assignClassTeacher, {headers: httpHeaders});
+    return this.http.post<AssignClassTeacherModel>(Constants.URL.HOST_URL+Constants.Academics.Assign_Class_Teacher, [assignClassTeacher], {headers: httpHeaders});
   }
 
   // READ
@@ -46,7 +46,14 @@ getAllStaffs(): Observable<StaffDtoModel[]> {
   findAssignClassTeachers(queryParams: QueryParamsModel): Observable<QueryResultsModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
+    // const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
+    const httpParams =new HttpParams()
+    .set('classesId','0')
+    .set('pageNo', queryParams.pageNumber.toString())
+    .set('pageSize', queryParams.pageSize.toString())
+    .set('sectionId', '0')
+    .set('sortBy', 'id');
+
 
     const url =Constants.URL.HOST_URL+Constants.Academics.Assign_Class_Teacher ;
     return this.http.get<QueryResultsModel>(url, {
@@ -58,7 +65,7 @@ getAllStaffs(): Observable<StaffDtoModel[]> {
   // UPDATE => PUT: update the AssignClassTeacher on the server
   updateAssignClassTeacher(assignClassTeacher: AssignClassTeacherModel): Observable<any> {
     const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Academics.Assign_Class_Teacher+'/'+assignClassTeacher.id, assignClassTeacher, {headers: httpHeader});
+    return this.http.put(Constants.URL.HOST_URL+Constants.Academics.Assign_Class_Teacher+'/'+assignClassTeacher.id, [assignClassTeacher], {headers: httpHeader});
   }
 
   // UPDATE Status

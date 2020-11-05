@@ -44,6 +44,11 @@ import { ProceedPayEditDialogComponent } from './staff-payroll/proceed-pay-edit/
 import { ViewPayslipEditDialogComponent } from './staff-payroll/view-payslip-edit/view-payslip-edit.dialog.component';
 import { ApproveLeaveRequestViewDialogComponent } from './staff-leave/approve-leave-request-view/approve-leave-request-view.dialog.component';
 import { ApproveLeaveRequestEditDialogComponent } from './staff-leave/approve-leave-request-edit/approve-leave-request-edit.dialog.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { staffsReducer, staffAttendancesReducer, StaffAttendanceEffects, leaveTypesReducer, LeaveTypeEffects, departmentsReducer, DepartmentEffects, staffDesignationsReducer, StaffDesignationEffects, staffRatingsReducer, staffLeaveRequestsReducer, staffPayslipsReducer, StaffRatingEffects, StaffLeaveRequestEffects, StaffPayslipEffects, StaffService, StaffAttendanceService, LeaveTypeService, DepartmentService, StaffDesignationService, StaffRatingService, StaffLeaveRequestService, StaffPayslipService } from 'src/app/core/human-resource';
+import { StaffEffects } from 'src/app/core/human-resource/_effects/staff.effects';
+import { approveLeavesReducer, ApproveLeaveEffects, ApproveLeaveService } from 'src/app/core/attendance';
 const routes: Routes = [
 	{
 		path: '',
@@ -142,10 +147,25 @@ const routes: Routes = [
    // CKEditorModule
 
     
-//state manage
-    // StoreModule.forFeature('admissionEnquirys', admissionEnquirysReducer),
-    // EffectsModule.forFeature([AdmissionEnquiryEffects]),
-   
+// state manage
+    StoreModule.forFeature('staffs', staffsReducer),
+    EffectsModule.forFeature([StaffEffects]),
+    StoreModule.forFeature('staffAttendances', staffAttendancesReducer),
+    EffectsModule.forFeature([StaffAttendanceEffects]),
+      StoreModule.forFeature('leaveTypes', leaveTypesReducer),
+    EffectsModule.forFeature([LeaveTypeEffects]),
+      StoreModule.forFeature('approveLeaves', approveLeavesReducer),
+    EffectsModule.forFeature([ApproveLeaveEffects]),
+      StoreModule.forFeature('departments', departmentsReducer),
+    EffectsModule.forFeature([DepartmentEffects]),
+    StoreModule.forFeature('staffDesignations', staffDesignationsReducer),
+    EffectsModule.forFeature([StaffDesignationEffects]),
+    StoreModule.forFeature('staffRatings',staffRatingsReducer),
+    EffectsModule.forFeature([StaffRatingEffects]),
+    StoreModule.forFeature('staffLeaveRequests', staffLeaveRequestsReducer),
+    EffectsModule.forFeature([StaffLeaveRequestEffects]),
+    StoreModule.forFeature('staffPayslips', staffPayslipsReducer),
+    EffectsModule.forFeature([StaffPayslipEffects]),
   ],
   providers: [
     NgbAlertConfig,
@@ -176,6 +196,17 @@ const routes: Routes = [
       }
     },
 //custom service
+StaffService,
+StaffAttendanceService,
+LeaveTypeService,
+ApproveLeaveService,
+DepartmentService,
+StaffDesignationService,
+StaffRatingService,
+StaffLeaveRequestService,
+StaffPayslipService,
+
+
 
   ],
     entryComponents: [

@@ -172,10 +172,10 @@ restoreState(queryParams: QueryParamsModel, id: number) {
  * @param _item: VisitorBookModel
  */
 deleteVisitorsBook(_item: VisitorBookModel) {
-  const _title = 'Product Delete';
-  const _description = 'Are you sure to permanently delete this product?';
-  const _waitDesciption = 'Product is deleting...';
-  const _deleteMessage = `Product has been deleted`;
+  const _title = 'Visitor Book Delete';
+  const _description = 'Are you sure to permanently delete this Visitor Book?';
+  const _waitDesciption = 'Visitor Book is deleting...';
+  const _deleteMessage = `Visitor Book has been deleted`;
 
   const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
   dialogRef.afterClosed().subscribe(res => {

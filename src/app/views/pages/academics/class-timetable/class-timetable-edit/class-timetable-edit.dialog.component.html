@@ -20,18 +20,20 @@
 			<div class="form-group row">
 				<div class="col-lg-3 kt-margin-bottom-20-mobile">
 					<mat-form-field class="mat-form-field-fluid">
-						<mat-select placeholder="Class" formControlName="classId">
-							<mat-option value="3">Business</mat-option>
-							<mat-option value="4">Individual</mat-option>
+						<mat-select placeholder="Class" formControlName="classId" (selectionChange)="onClassSelectChange($event.value)">
+							<mat-option *ngFor="let classData of classList" [value]="classData.id" >
+								{{classData.classses}}
+							</mat-option>
 						</mat-select>
 
 					</mat-form-field>
 				</div>
 				<div class="col-lg-3 kt-margin-bottom-20-mobile">
 					<mat-form-field class="mat-form-field-fluid">
-						<mat-select placeholder="Section" formControlName="sectionId">
-							<mat-option value="0">Business</mat-option>
-							<mat-option value="1">Individual</mat-option>
+						<mat-select placeholder="Section" formControlName="sectionId" (selectionChange)="onSectionSelectChange($event.value)">
+							<mat-option *ngFor="let section of sectionList" [value]="section.id" >
+								{{section.section}}
+							</mat-option>
 						</mat-select>
 
 					</mat-form-field>
@@ -40,8 +42,9 @@
 					<mat-form-field class="mat-form-field-fluid">
 				
 						<mat-select placeholder="Select Subject Group"   formControlName="subjectGroupId" >
-							<mat-option value="022">Business</mat-option>
-							<mat-option value="122">Individual</mat-option>
+							<mat-option *ngFor="let subjectGroup of subjectGroupList" [value]="subjectGroup.id" >
+								{{subjectGroup.name}}
+							</mat-option>
 						  </mat-select>
 					</mat-form-field>
 				</div>
@@ -96,17 +99,19 @@
 								   <ng-container [formGroupName]="i">
 									   <td class="form-group">
 										   <mat-form-field class="mat-form-field-fluid">
-											   <mat-select placeholder="Select Subject"   formControlName="subjectId" >
-												<mat-option value="02">Business</mat-option>
-												<mat-option value="12">Individual</mat-option>
+											   <mat-select placeholder="Select Subject"   formControlName="subjectId" (selectionChange)="onSubjectSelectChange($event.value)" >
+												<mat-option *ngFor="let subject of subjectList" [value]="subject.id" >
+													{{subject.name}}
+												</mat-option>
 												 </mat-select>
 										   </mat-form-field>
 									   </td>
 									   <td class="form-group">
 										   <mat-form-field class="mat-form-field-fluid">
 											   <mat-select placeholder="Select Teacher"   formControlName="staffId" >
-												<mat-option value="033">Business</mat-option>
-												<mat-option value="133">Individual</mat-option>
+												<mat-option *ngFor="let staff of staffList" [value]="staff.id">
+													{{staff.name}}   {{staff.surname}}
+												</mat-option>
 												 </mat-select>
 										   </mat-form-field>
 									   </td>

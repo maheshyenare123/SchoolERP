@@ -19,6 +19,7 @@ import { FormGroup, Validators, FormBuilder, FormArray, FormControl, ValidatorFn
 import { AssignClassTeachersPageRequested, OneAssignClassTeacherDeleted, ManyAssignClassTeachersDeleted, AssignClassTeachersStatusUpdated, AssignClassTeacherUpdated, AssignClassTeacherOnServerCreated, selectLastCreatedAssignClassTeacherId } from '../../../../core/academics';
 import { StaffDtoModel } from '../../../../core/academics/_models/staffDto.model';
 import { element } from 'protractor';
+import { ClassDtoModel } from 'src/app/core/academics/_models/classDto.model';
 
 @Component({
 	selector: 'kt-assign-class-teacher',
@@ -150,7 +151,7 @@ export class AssignClassTeacherComponent implements OnInit {
 			const data = res['data'];
 			this.staffList = data['content'];
 			console.log(this.staffList)
-			this.setDataInChecboxList();
+			// this.setDataInChecboxList();
 		
 		}, err => {
 		});
@@ -213,10 +214,10 @@ setDataInChecboxList(){
 	 */
 	deleteAssignClassTeacher(_item: AssignClassTeacherModel) {
 
-		const _title = 'Purpose';
-		const _description = 'Are you sure to permanently delete selected purpose?';
-		const _waitDesciption = 'Purpose is deleting...';
-		const _deleteMessage = ' Selected purpose has been deleted';
+		const _title = 'Assign Class Teacher';
+		const _description = 'Are you sure to permanently delete selected Assign Class Teacher?';
+		const _waitDesciption = 'Assign Class Teacher is deleting...';
+		const _deleteMessage = ' Selected Assign Class Teacher has been deleted';
 
 
 
@@ -255,15 +256,15 @@ setDataInChecboxList(){
 		this.createForm();
 		// this.setDataInChecboxList();
 
-		this.staffCheckBoxList.forEach(element => {
-			this.assignClassTeacher.staffs.forEach(innerElement => {
-				if (element.data.id == innerElement.id) {
-					element.isChecked = true;
-				}
-			})
+		// this.staffCheckBoxList.forEach(element => {
+		// 	this.assignClassTeacher.staffs.forEach(innerElement => {
+		// 		if (element.data.id == innerElement.id) {
+		// 			element.isChecked = true;
+		// 		}
+		// 	})
 
 
-		})
+		// })
 
 
 	}
@@ -276,11 +277,11 @@ setDataInChecboxList(){
 
 		this.assignClassTeacherForm = this.fb.group({
 			classId: [this.assignClassTeacher.classId, Validators.required],
-			sections: [this.assignClassTeacher.sections, Validators.required],
-			// staffs: [this.assignClassTeacher.staffs, Validators.required],
-			// staffs: this.fb.array([])
-			// favFruits: this.addFruitsControls(),
-			// staffArrays: this.fb.array([''], [Validators.required])
+			// classes: [this.assignClassTeacher.classes, ''],
+			sectionId: [this.assignClassTeacher.sectionId, Validators.required],
+			// section: [this.assignClassTeacher.section, ''],
+			staffId: [this.assignClassTeacher.staffId, Validators.required],
+			// staffName: [this.assignClassTeacher.staffName, ''],
 		});
 		// this.createStaffRow();
 
@@ -326,16 +327,32 @@ setDataInChecboxList(){
 		const controls = this.assignClassTeacherForm.controls;
 		const _assignClassTeacher = new AssignClassTeacherModel();
 		_assignClassTeacher.id = this.assignClassTeacher.id;
+
+
 		_assignClassTeacher.classId = controls.classId.value;
-		_assignClassTeacher.sections = controls.sections.value;
-		// _assignClassTeacher.staffs = controls.staffs.value;
-		const staffData: StaffDtoModel[] = [];
-		this.staffCheckBoxList.forEach(element => {
-			if (element.isChecked) {
-				staffData.push(element.data);
-			}
-		})
-		_assignClassTeacher.staffs = staffData;
+		_assignClassTeacher.sectionId = controls.sectionId.value;
+		_assignClassTeacher.staffId = controls.staffId.value;
+		 
+
+	  const classes=this.classList.find(_ => _.id === controls.classId.value);
+		_assignClassTeacher.classes=classes.classses;
+	var section	=this.sectionList.find(_ => _.id === controls.sectionId.value);
+
+		_assignClassTeacher.section =section.section;
+
+	var staff	=this.staffList.find(_ => _.id === controls.staffId.value);
+		_assignClassTeacher.staffName= staff.name+" "+staff.surname;
+	
+
+
+
+		// const staffData: StaffDtoModel[] = [];
+		// this.staffCheckBoxList.forEach(element => {
+		// 	if (element.isChecked) {
+		// 		staffData.push(element.data);
+		// 	}
+		// })
+		// _assignClassTeacher.staffs = staffData;
 		return _assignClassTeacher;
 
 	}
@@ -364,7 +381,7 @@ setDataInChecboxList(){
 			this.createAssignClassTeacher(editedAssignClassTeacher);
 		}
 		this.loadAssignClassTeacherList();
-		const _saveMessage = editedAssignClassTeacher.id > 0 ? 'Purpose  has been updated' : 'Purpose has been created';
+		const _saveMessage = editedAssignClassTeacher.id > 0 ? 'Assign Class Teacher has been updated' : 'Assign Class Teacher has been created';
 
 		const _messageType = editedAssignClassTeacher.id > 0 ? MessageType.Update : MessageType.Create;
 

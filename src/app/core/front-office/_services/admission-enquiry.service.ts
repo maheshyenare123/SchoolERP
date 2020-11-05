@@ -44,6 +44,10 @@ export class AdmissionEnquiryService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
+
+
+
+    
     const url =Constants.URL.HOST_URL+Constants.Front_Office.Admission_Enquiry ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,

@@ -46,7 +46,7 @@ export class StudentAttendenceService {
     .set('pageSize', queryParams.pageSize.toString())
     .set('sectionId', sectionId.toString())
     .set('sortBy', 'id');
-
+    
     const url =Constants.URL.HOST_URL+Constants.Attendance.Student_Attendance ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,

@@ -17,18 +17,18 @@ export class LeaveTypeService {
   createLeaveType(leaveType: LeaveTypeModel): Observable<LeaveTypeModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<LeaveTypeModel>(Constants.URL.HOST_URL+Constants.Human_Resource.LeaveType, leaveType, {headers: httpHeaders});
+    return this.http.post<LeaveTypeModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Leave_Type, leaveType, {headers: httpHeaders});
   }
 
   // READ
   getAllLeaveTypes(): Observable<LeaveTypeModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<LeaveTypeModel[]>(Constants.URL.HOST_URL+Constants.Human_Resource.LeaveType, {headers: httpHeaders});
+    return this.http.get<LeaveTypeModel[]>(Constants.URL.HOST_URL+Constants.Human_Resource.Leave_Type, {headers: httpHeaders});
   }
 
   getLeaveTypeById(leaveTypeId: number): Observable<LeaveTypeModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<LeaveTypeModel>(Constants.URL.HOST_URL+Constants.Human_Resource.LeaveType+ `/${leaveTypeId}`, {headers: httpHeaders});
+    return this.http.get<LeaveTypeModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Leave_Type+ `/${leaveTypeId}`, {headers: httpHeaders});
   }
 
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
@@ -39,7 +39,7 @@ export class LeaveTypeService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
-    const url =Constants.URL.HOST_URL+Constants.Human_Resource.LeaveType ;
+    const url =Constants.URL.HOST_URL+Constants.Human_Resource.Leave_Type ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       // params: httpParams
@@ -49,7 +49,7 @@ export class LeaveTypeService {
   // UPDATE => PUT: update the LeaveType on the server
   updateLeaveType(leaveType: LeaveTypeModel): Observable<any> {
     const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Human_Resource.LeaveType+'/'+leaveType.id, leaveType, {headers: httpHeader});
+    return this.http.put(Constants.URL.HOST_URL+Constants.Human_Resource.Leave_Type+'/'+leaveType.id, leaveType, {headers: httpHeader});
   }
 
   // UPDATE Status
@@ -59,19 +59,19 @@ export class LeaveTypeService {
       leaveTypesForUpdate: leaveTypes,
       newStatus: status
     };
-    const url = Constants.URL.HOST_URL+Constants.Human_Resource.LeaveType+ '/updateStatus';
+    const url = Constants.URL.HOST_URL+Constants.Human_Resource.Leave_Type+ '/updateStatus';
     return this.http.put(url, body, {headers: httpHeaders});
   }
 
   // DELETE => delete the LeaveType from the server
   deleteLeaveType(leaveTypeId: number): Observable<LeaveTypeModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const url = `${Constants.URL.HOST_URL+Constants.Human_Resource.LeaveType}/${leaveTypeId}`;
+    const url = `${Constants.URL.HOST_URL+Constants.Human_Resource.Leave_Type}/${leaveTypeId}`;
     return this.http.delete<LeaveTypeModel>(url,{headers: httpHeaders});
   }
 
   deleteLeaveTypes(ids: number[] = []): Observable<any> {
-    const url = Constants.URL.HOST_URL+Constants.Human_Resource.LeaveType + '/deleteLeaveTypes';
+    const url = Constants.URL.HOST_URL+Constants.Human_Resource.Leave_Type + '/deleteLeaveTypes';
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const body = {leaveTypeIdsForDelete: ids};
     return this.http.put<QueryResultsModel>(url, body, {headers: httpHeaders});

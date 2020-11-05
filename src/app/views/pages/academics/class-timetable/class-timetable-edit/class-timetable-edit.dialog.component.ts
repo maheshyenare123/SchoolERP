@@ -14,8 +14,9 @@ import { AppState } from '../../../../../core/reducers';
 // CRUD
 import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ClassTimetableModel, selectClassTimetablesActionLoading, ClassTimetableUpdated, ClassTimetableOnServerCreated, selectLastCreatedClassTimetableId, ClassTimetableService } from '../../../../../core/academics';
+import { ClassTimetableModel, selectClassTimetablesActionLoading, ClassTimetableUpdated, ClassTimetableOnServerCreated, selectLastCreatedClassTimetableId, ClassTimetableService, StudentClassService, SectionService, AssignClassTeacherService, StudentClassModel, SectionDtoModel, SubjectGroupService, SubjectDtoModel, SubjectGroupDtoModel, SubjectService } from '../../../../../core/academics';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
+import { StaffDtoModel } from 'src/app/core/academics/_models/staffDto.model';
 // // Services and Models
 // import { DeliveryPersonModel, DeliveryPersonUpdated, DeliveryPersonOnServerCreated, selectLastCreatedDeliveryPersonId, selectDeliveryPersonsActionLoading } from '../../../../../core/master-entry';
 // import { EmployeeModel } from '../../../../../core/payroll/_models/employee.model';
@@ -40,17 +41,23 @@ export class ClassTimetableEditDialogComponent implements OnInit, OnDestroy {
 	// Private properties
 	private componentSubscriptions: Subscription;
 
-classList=[]
+	classList: StudentClassModel[] = [];
+	sectionList: SectionDtoModel[] = [];
+	staffList: StaffDtoModel[] = [];
+	subjectList: SubjectDtoModel[] = [];
+	subjectGroupList: SubjectGroupDtoModel[] = [];
 	day: string = "Monday";
 	constructor(public dialogRef: MatDialogRef<ClassTimetableEditDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		private fb: FormBuilder,
 		private store: Store<AppState>,
 		private typesUtilsService: TypesUtilsService,
-		// private referenceService:ReferenceService,
-		// private sourceService:SourceService,
-		private classTimetableService:ClassTimetableService
-		) {
+		private classTimetableService:ClassTimetableService,
+		private studentClassService: StudentClassService,
+		private sectionService: SectionService,
+		private assignClassTeacherService: AssignClassTeacherService,
+		private subjectService: SubjectService,
+		private subjectGroupService: SubjectGroupService,) {
 	}
 
 	/**
@@ -59,9 +66,11 @@ classList=[]
 	ngOnInit() {
 
 		//All Get Call
-		// this.loadAllReferences();
-		// this.loadAllSources();
-		// this.loadAllClasses();
+		debugger;
+		this.loadAllStaff();
+		this.loadAllClasses();
+		this.loadAllSubject();
+		this.loadAllSubjectGroup();
 
 		this.store.pipe(select(selectClassTimetablesActionLoading)).subscribe(res => this.viewLoading = res);
 		
@@ -69,34 +78,80 @@ classList=[]
 		this.createForm();
 	}
 
-// 	//get All Complain Type List
-// loadAllReferences() {
-// 	debugger
-// 	this.referenceService.getAllReferences().subscribe(res => {
-// 		const data=res['data'];
-// 		this.referenceList=data['content'];
-// 	}, err => {
-// 	});
-// }
-// 	//get All Source List
-// loadAllSources() {
-// 	debugger
-// 	this.sourceService.getAllSources().subscribe(res => {
-// 		const data=res['data'];
-// 		this.sourceList=data['content'];
-// 	}, err => {
-// 	});
-// }
-// 	//get All Class List
-// 	loadAllClasses() {
-// 		debugger
-// 		this.classTimetableService.getAllClasses().subscribe(res => {
-// 			const data=res['data'];
-// 			this.classList=data['content'];
-// 			console.log(this.classList)
-// 		}, err => {
-// 		});
-// 	}
+//get All Class List
+loadAllClasses() {
+	debugger
+	this.studentClassService.getAllStudentClasss().subscribe(res => {
+		const data = res['data'];
+		this.classList = data['content'];
+		console.log(this.classList)
+	}, err => {
+	});
+}
+loadAllSectionsByClassId(id:number) {
+	debugger
+	this.studentClassService.getAllSectionByClasssId(id).subscribe(res => {
+	
+		this.sectionList = res['data'];
+		console.log(this.sectionList)
+		
+	}, err => {
+	});
+}
+
+loadAllSubject() {
+	debugger
+	this.subjectService.getAllSubjects().subscribe(res => {
+		const data = res['data'];
+		this.subjectList = data['content'];
+		console.log(this.subjectList)
+	
+	
+	}, err => {
+	});
+}
+loadAllSubjectGroup() {
+	debugger
+	this.subjectGroupService.getAllSubjectGroups().subscribe(res => {
+		const data = res['data'];
+		this.subjectGroupList = data['content'];
+		console.log(this.subjectList)
+	}, err => {
+	});
+}
+
+
+loadAllStaff() {
+	debugger
+	this.assignClassTeacherService.getAllStaffs().subscribe(res => {
+		console.log("response collage List")
+		console.log(res)
+		const data = res['data'];
+		this.staffList = data['content'];
+		console.log(this.staffList)
+		// this.setDataInChecboxList();
+	
+	}, err => {
+	});
+}
+
+onClassSelectChange(classId){
+	this.loadAllSectionsByClassId(classId);
+	var classObj=this.classList.find(x => x.id === classId);
+	this.searchForm.controls.classes.setValue(classObj.classses);
+
+}
+onSectionSelectChange(subjectId){		
+	var sectionObj=this.sectionList.find(x => x.id === subjectId);
+	this.searchForm.controls.section.setValue(sectionObj.section);
+
+}
+onSubjectSelectChange(subjectId){	
+	var subjectObj=this.subjectList.find(x => x.id === subjectId);
+	// this.homeworkForm.controls.subjectName.setValue(subjectObj.name);
+	
+}
+
 	/**
 	 * On destroy
 	 */
@@ -110,8 +165,11 @@ classList=[]
 	createForm() {
 		this.searchForm = this.fb.group({
 			classId: [this.classTimetable.classId, Validators.required],
+			classes:[''],
 			sectionId: [this.classTimetable.sectionId, Validators.required],
+			section:['',],
 			subjectGroupId: [this.classTimetable.subjectGroupId, Validators.required],
+
 
 		})
 		this.classTimetableForm = this.fb.group({
@@ -124,12 +182,13 @@ classList=[]
 
 	createItemRow() {
 		return this.fb.group({
-		
-			subjectId: [this.classTimetable.timeTable.subjectId, Validators.required],
-			staffId: [this.classTimetable.timeTable.staffId,  Validators.required],
-			timeFrom: [this.classTimetable.timeTable.timeFrom,  Validators.required],
-			timeTo: [this.classTimetable.timeTable.timeTo,  Validators.required],
-			roomNo: [this.classTimetable.timeTable.roomNo,  Validators.required],
+			subjectId: ['', Validators.required],
+			subjectName: ['', ],
+			staffId: ['',  Validators.required],
+			timeFrom: ['',  Validators.required],
+			timeTo: ['',  Validators.required],
+			roomNo: ['',  Validators.required],
+
 			
 		});
 	  }
@@ -187,10 +246,16 @@ classList=[]
 		_classTimetable.id = this.classTimetable.id;
 
 		_classTimetable.classId = controls1.classId.value;
+		_classTimetable.classes=controls1.classes.value;
 		_classTimetable.sectionId = controls1.sectionId.value;
+		_classTimetable.section=controls1.section.value;
 		_classTimetable.subjectGroupId = controls1.subjectGroupId.value;
 		_classTimetable.day =  this.day// controls.day.value;
-		_classTimetable.timeTable = controls.items.value;
+
+
+
+
+		// _classTimetable.timeTable = controls.items.value;
 	
 		return _classTimetable;
 	}
