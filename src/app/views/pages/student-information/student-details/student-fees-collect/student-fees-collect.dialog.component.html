@@ -18,697 +18,261 @@
 
 
 		<div class="form-group kt-form__group row">
-			<div class="col-lg-3 kt-margin-bottom-20-mobile">
-
-				<table style="width: 100%;text-align: center;">
+			<div class="col-lg-12 kt-margin-bottom-20-mobile">
+				<table style="width: 100%;">
 					<tr>
-						<td colspan="2">
+						<td rowspan="4">
 							<img src="../../../../../../assets/media/no_image.png" height="100" width="100"
 								style="border-radius: 50%;">
 						</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>
-							<h4>Mahesh Yenare</h4>
+						<td style="text-align: left;">
+							<label>Name</label>
+						</td>
+						<td style="text-align: left;">
+							Mahesh Yenare
+						</td>
+						<td style="text-align: left;">
+							<label>Class Section</label>
+						</td>
+						<td style="text-align: left;">
+							<!-- {{student.class}} {{student.section}} -->First A
 						</td>
 					</tr>
-				</table>
-				<hr>
-				<table style="width: 100%;border-bottom: 1px lightgray;">
 					<tr>
+						<td style="text-align: left;">
+							<label>Father Name</label>
+						</td>
+						<td style="text-align: left;">
+							<!-- {{student.fatherName}} -->Father Name
+						</td>
 						<td style="text-align: left;">
 							<label>Admission No</label>
 						</td>
-						<td style="text-align: right;">
+						<td style="text-align: left;">
 							<!-- {{student.admissionNo}} -->1001
 						</td>
-
 					</tr>
 					<tr>
 						<td style="text-align: left;">
+							<label>Mobile Number</label>
+						</td>
+						<td style="text-align: left;">
+							<!-- {{student.mobileno}} -->36300000
+						</td>
+						<td style="text-align: left;">
 							<label>Roll Number</label>
 						</td>
-						<td style="text-align: right;">
+						<td style="text-align: left;">
 							<!-- {{student.rollNo}} -->18132149
 						</td>
 					</tr>
 					<tr>
 						<td style="text-align: left;">
-							<label>Class</label>
+							<label>Category</label>
 						</td>
-						<td style="text-align: right;">
-							<!-- {{student.class}} -->First (2019-20)
-						</td>
-					</tr>
-					<tr>
 						<td style="text-align: left;">
-							<label>Section</label>
+							<!-- {{student.category}} -->General
 						</td>
-						<td style="text-align: right;">
-							<!-- {{student.section}} -->A
-						</td>
-					</tr>
-					<tr>
 						<td style="text-align: left;">
 							<label>RTE</label>
 						</td>
-						<td style="text-align: right;">
+						<td style="text-align: left;">
 							<!-- {{student.rte}} -->Yes
 						</td>
 					</tr>
-					<tr>
-						<td style="text-align: left;">
-							<label>Gender</label>
-						</td>
-						<td style="text-align: right;">
-							<!-- {{student.gender}} -->Male
-						</td>
-					</tr>
 				</table>
-				<hr>
-				<h5>Sibling</h5>
-				<table style="width: 100%;text-align: center;">
-					<tr>
-						<td colspan="2">
-							<img src="../../../../../../assets/media/no_image.png" height="100" width="100"
-								style="border-radius: 50%;">
-						</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>
-							<h4>Mahesh Yenare</h4>
-						</td>
-					</tr>
-				</table>
-				<hr>
-				<table style="width: 100%;border-bottom: 1px lightgray;">
-					<tr>
-						<td style="text-align: left;">
-							<label>Admission No</label>
-						</td>
-						<td style="text-align: right;">
-							<!-- {{student.admissionNo}} -->1001
-						</td>
-
-					</tr>
-					<tr>
-						<td style="text-align: left;">
-							<label>Class</label>
-						</td>
-						<td style="text-align: right;">
-							<!-- {{student.class}} -->First (2019-20)
-						</td>
-					</tr>
-					<tr>
-						<td style="text-align: left;">
-							<label>Section</label>
-						</td>
-						<td style="text-align: right;">
-							<!-- {{student.section}} -->A
-						</td>
-					</tr>
-
-				</table>
-
 			</div>
-
-			<div class="col-lg-9 kt-margin-bottom-20-mobile">
-				<mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)">
-					<mat-tab label="Profile">
-						<table style="width: 100%;border-bottom: 1px lightgray;">
-							<tr>
-								<td style="text-align: left;">
-									<label>Admission Date</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.admissionDate}} -->01/10/2019
-								</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Date of Birth</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.dob}} -->01/01/2004
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Category</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.category}} -->General
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Mobile Number</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.mobileno}} -->36300000
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Caste</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.caste}} -->Maratha
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Religion</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.religion}} -->Hindu
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Email</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.email}} -->n@gmail.com
-								</td>
-							</tr>
-						</table>
-						<hr>
-						<h5>Address</h5>
-						<hr>
-						<table style="width: 100%;border-bottom: 1px lightgray;">
-							<tr>
-								<td style="text-align: left;">
-									<label>Current Address</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.currentAddress}} -->Current Address
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Permanent Address</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.permanentAddress}} -->Permanent Address
-								</td>
-							</tr>
-						</table>
-						<hr>
-						<h5>Parent / Guardian Details</h5>
-						<hr>
-
-						<table style="width: 100%;border-bottom: 1px lightgray;">
-							<tr>
-								<td style="text-align: left;">
-									<label>Father Name</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.fatherName}} -->Father Name
-								</td>
-								<td rowspan="3"><img src="../../../../../../assets/media/no_image.png" height="100"
-										width="100" style="border-radius: 50%;"></td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Father Phone</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.fatherPhone}} -->Father Phone
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Father Occupation</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.fatherOccupation}} -->Father Occupation
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Mother Name</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.motherName}} -->Mother Name
-								</td>
-								<td rowspan="3"><img src="../../../../../../assets/media/no_image.png" height="100"
-										width="100" style="border-radius: 50%;"></td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Mother Phone</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.motherPhone}} -->Mother Phone
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Mother Occupation</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.motherOccupation}} -->Mother Occupation
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Guardian Name</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.guardianName}} -->Suresh
-								</td>
-								<td rowspan="3"><img src="../../../../../../assets/media/no_image.png" height="100"
-										width="100" style="border-radius: 50%;"></td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Guardian Email</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.guardianEmail}} -->n@gmail.com
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Guardian Relation</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.guardianRelation}} -->Father
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Guardian Phone</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.guardianPhone}} -->08999480827
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Guardian Occupation</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.guardianOccupation}} -->
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Guardian Address</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.guardianAddress}} -->
-								</td>
-							</tr>
-						</table>
-						<hr>
-						<h5>Miscellaneous Details</h5>
-						<hr>
-						<table style="width: 100%;border-bottom: 1px lightgray;">
-							<tr>
-								<td style="text-align: left;">
-									<label>Blood Group</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.bloodGroup}} -->O+
-								</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Student House</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.rollNo}} -->Green
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Height</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.height}} -->1,40
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Weight</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.weight}} -->40
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>As on Date</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.measurementDate}} -->01/10/2019
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Previous School Details</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.previousSchool}} -->
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>National Identification Number</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.rollNo}} -->7895862201as
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Local Identification Number</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.height}} -->18132149
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Bank Account Number</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.bankAccountNo}} -->40
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>Bank Name</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.bankName}} -->
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									<label>IFSC Code</label>
-								</td>
-								<td style="text-align: left;">
-									<!-- {{student.ifscCode}} -->
-								</td>
-							</tr>
-						</table>
-					</mat-tab>
-					<mat-tab label="Fees">
-
-						<table style="width: 100%;border: 1px solid black;">
-							<thead style="border: 1px solid black;">
-								<th>Fees Group</th>
-								<th>Fees Code</th>
-								<th>Due Date</th>
-								<th>Status</th>
-								<th>Amount (₹)</th>
-								<th>Payment Id</th>
-								<th>Mode</th>
-								<th>Date</th>
-								<th>Discount (₹)</th>
-								<th>Fine (₹)</th>
-								<th>Paid (₹)</th>
-								<th>Balance</th>
-							</thead>
-							<tbody style="border: 1px solid black;">
-								<tr>
-									<td>General</td>
-									<td>admission-fees</td>
-									<td>30/08/2020</td>
-									<td>Paid</td>
-									<td>5000.00</td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>0.00</td>
-									<td>0.00</td>
-									<td>5000.00</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>3/1</td>
-									<td>Cash</td>
-									<td>07/08/2020</td>
-									<td>0.00</td>
-									<td>0.00</td>
-									<td>2000.00</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>3/2</td>
-									<td>Cheque</td>
-									<td>07/08/2020</td>
-									<td>0.00</td>
-									<td>0.00</td>
-									<td>1000.00</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>3/3</td>
-									<td>Cash</td>
-									<td>03/10/2020</td>
-									<td>0.00</td>
-									<td>0.00</td>
-									<td>2000.00</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>General</td>
-									<td>Bus-fees</td>
-									<td>31/08/2020</td>
-									<td>Paid</td>
-									<td>999.00</td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>99.00</td>
-									<td>0.00</td>
-									<td>900.00</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>4/1</td>
-									<td>Cash</td>
-									<td>07/08/2020</td>
-									<td>99.00</td>
-									<td>0.00</td>
-									<td>400.00</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>4/2</td>
-									<td>Cash</td>
-									<td>03/10/2020</td>
-									<td>0.00</td>
-									<td>0.00</td>
-									<td>500.00</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>General</td>
-									<td>exam-fees</td>
-									<td>31/12/2020</td>
-									<td>Unpaid</td>
-									<td>5000.00</td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>0.00</td>
-									<td>0.00</td>
-									<td>0.00</td>
-									<td>5000.00</td>
-								</tr>
-								<tr>
-									<td>School Sport Event</td>
-									<td>G-SPORT</td>
-									<td>10/10/2020</td>
-									<td>Paid</td>
-									<td>450.00</td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>0.00</td>
-									<td>0.00</td>
-									<td>450.00</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>6/1</td>
-									<td>Cash</td>
-									<td>16/10/2020</td>
-									<td>0.00</td>
-									<td>0.00</td>
-									<td>450.00</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>Discount</td>
-									<td>Scholar</td>
-									<td></td>
-									<td>Discount of ₹2000.00 Assigned</td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
-							</tbody>
-							<tfoot style="border: 1px solid black;">
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>Grand Total</td>
-									<td>₹11449.00</td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>₹99.00</td>
-									<td>₹0.00</td>
-									<td>₹6350.00</td>
-									<td>₹5000.00</td>
-								</tr>
-							</tfoot>
-						</table>
-					</mat-tab>
-					<mat-tab label="Documents">
-					<ng-container *ngIf="formShow == false;else elseform">
-						<button type="button" (click)="uploadDoc()" mat-icon-button color="primary"
-												matTooltip="Upload Document">
-												<mat-icon>cloud_upload</mat-icon>
-											</button>&nbsp;
-											<table style="width: 100%;">
-												<thead>
-													<th>Title</th>
-													<th>Name</th>
-													<th>Action</th>
-												</thead>
-												<tbody>
-													<tr>
-														<td>Title 1</td>
-														<td>name.jsp</td>
-														<td>
-															<button type="button" (click)="downloadDoc()" mat-icon-button color="primary"
-																matTooltip="Download Document">
-																<mat-icon>cloud_download</mat-icon>
-															</button>&nbsp;
-
-															<button type="button" (click)="deleteDoc()" mat-icon-button color="warn"
-																matTooltip="Delete Document">
-																<mat-icon>delete</mat-icon>
-															</button>
-														</td>
-													</tr>
-												</tbody>
-											</table>
-					</ng-container>
-					<ng-template #elseform>
-						<kt-portlet-body >
-							<div class="kt-form kt-margin-b-30">
-								<form class="form" [formGroup]="documentForm">
-									<div class="card-body">
-							
-										<div class="card-body-progress">
-											<mat-spinner [diameter]="20"></mat-spinner>
-										</div>
-							
-										<kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
-											Oh snap! Change a few things up and try submitting again.
-										</kt-alert>
-							
-										<div class="form-group row">
-										
-											<div class="col-lg-3 kt-margin-bottom-20-mobile">
-												<mat-form-field class="mat-form-field-fluid">
-													<input matInput placeholder="Enter Title" formControlName="title" />
-													<mat-error>Title is
-														<strong>required</strong>
-													</mat-error>
-													
-												</mat-form-field>
-											</div>
-											<div class="col-lg-12 kt-margin-bottom-20-mobile">
-												<!-- <ngx-dropzone (change)="onSelect($event)">
-													<ngx-dropzone-label>Drop file here!</ngx-dropzone-label>
-													<ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
-														<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
-													</ngx-dropzone-preview>
-												  
-												</ngx-dropzone> -->
-												<ngx-dropzone (change)="onSelect($event)">
-													<ngx-dropzone-label>Drop file here!</ngx-dropzone-label>
-											
-													<ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
-														<!-- <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label> -->
-													  </ngx-dropzone-image-preview>
-												</ngx-dropzone>
-											</div>
-										</div>
-							
-									</div>
-									<div class="card-footer">
-										<div class="d-flex justify-content-between">
-											<div class="mr-2"></div>
-											<div>
-												<button type="button" mat-raised-button color="primary" (click)="onSubmit()" [disabled]="viewLoading" matTooltip="Save changes">
-													Save
-												</button>
-											</div>
-										</div>
-									</div>
-								</form>
-							
-					
-							</div>
-						</kt-portlet-body>
-					</ng-template>
-				
-					</mat-tab>
-				</mat-tab-group>
+			<div class="col-lg-12 kt-margin-bottom-20-mobile">
+				<table style="width: 100%;border: 1px solid black;">
+					<thead style="border: 1px solid black;">
+						<th>Fees Group</th>
+						<th>Fees Code</th>
+						<th>Due Date</th>
+						<th>Status</th>
+						<th>Amount (₹)</th>
+						<th>Payment Id</th>
+						<th>Mode</th>
+						<th>Date</th>
+						<th>Discount (₹)</th>
+						<th>Fine (₹)</th>
+						<th>Paid (₹)</th>
+						<th>Balance</th>
+					</thead>
+					<tbody style="border: 1px solid black;">
+						<tr>
+							<td>General</td>
+							<td>admission-fees</td>
+							<td>30/08/2020</td>
+							<td>Paid</td>
+							<td>5000.00</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>5000.00</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>3/1</td>
+							<td>Cash</td>
+							<td>07/08/2020</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>2000.00</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>3/2</td>
+							<td>Cheque</td>
+							<td>07/08/2020</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>1000.00</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>3/3</td>
+							<td>Cash</td>
+							<td>03/10/2020</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>2000.00</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>General</td>
+							<td>Bus-fees</td>
+							<td>31/08/2020</td>
+							<td>Paid</td>
+							<td>999.00</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>99.00</td>
+							<td>0.00</td>
+							<td>900.00</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>4/1</td>
+							<td>Cash</td>
+							<td>07/08/2020</td>
+							<td>99.00</td>
+							<td>0.00</td>
+							<td>400.00</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>4/2</td>
+							<td>Cash</td>
+							<td>03/10/2020</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>500.00</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>General</td>
+							<td>exam-fees</td>
+							<td>31/12/2020</td>
+							<td>Unpaid</td>
+							<td>5000.00</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>5000.00</td>
+						</tr>
+						<tr>
+							<td>School Sport Event</td>
+							<td>G-SPORT</td>
+							<td>10/10/2020</td>
+							<td>Paid</td>
+							<td>450.00</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>450.00</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>6/1</td>
+							<td>Cash</td>
+							<td>16/10/2020</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td>450.00</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Discount</td>
+							<td>Scholar</td>
+							<td></td>
+							<td>Discount of ₹2000.00 Assigned</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+					<tfoot style="border: 1px solid black;">
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>Grand Total</td>
+							<td>₹11449.00</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>₹99.00</td>
+							<td>₹0.00</td>
+							<td>₹6350.00</td>
+							<td>₹5000.00</td>
+						</tr>
+					</tfoot>
+				</table>
 			</div>
-		</div>
-
-
+		</div>	
 	</div>
 	<!-- <div class="card-footer">
 			<div class="d-flex justify-content-between">

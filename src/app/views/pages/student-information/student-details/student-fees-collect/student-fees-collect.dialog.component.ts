@@ -38,7 +38,7 @@ hasFormErrors = false;
 viewLoading = false;
 // Private properties
 private componentSubscriptions: Subscription;
-files: File[] = [];
+
 	title: any;
 	document: any;
 	formShow: boolean= false;
@@ -90,35 +90,6 @@ getTitle(): string {
 
 	return 'Student Fees Collect';
 }
-onSelect(event) {
-	console.log(event);
-	this.files.push(...event.addedFiles);
-  }
-   
-  onRemove(event) {
-	console.log(event);
-	this.files.splice(this.files.indexOf(event), 1);
-  }
-uploadDoc(){
-this.formShow = true;
-}
-downloadDoc(){
 
-}
-deleteDoc(){
-
-}
-
-onSubmit(){
-
-	this.formShow = false
-}
-
-tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
-	console.log('tabChangeEvent => ', tabChangeEvent); 
-	if(tabChangeEvent.tab.textLabel === 'Documents'){
-		this.formShow = false
-	}
-}
 }
 
