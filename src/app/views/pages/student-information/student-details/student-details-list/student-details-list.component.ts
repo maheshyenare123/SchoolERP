@@ -71,62 +71,11 @@ constructor(
 ngOnInit() {
 
   this.loadAllClasses();
-  this.loadAllSectionsByClassId(1);
-
- this.getAllStudentList()
- // If the user changes the sort order, reset back to the first page.
- const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
- this.subscriptions.push(sortSubscription);
-
- /* Data load will be triggered in two cases:
- - when a pagination event occurs => this.paginator.page
- - when a sort event occurs => this.sort.sortChange
- **/
- const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-   tap(() => this.loadStudentsList())
- )
- .subscribe();
- this.subscriptions.push(paginatorSubscriptions);
-
- // Filtration, bind to searchInput
- const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
-   // tslint:disable-next-line:max-line-length
-   debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
-   distinctUntilChanged(), // This operator will eliminate duplicate values
-   tap(() => {
-     this.paginator.pageIndex = 0;
-     this.loadStudentsList();
-   })
- )
- .subscribe();
- this.subscriptions.push(searchSubscription);
-
- // Init DataSource
- this.dataSource = new StudentsDataSource(this.store);
- const entitiesSubscription = this.dataSource.entitySubject.pipe(
-   skip(1),
-   distinctUntilChanged()
- ).subscribe(res => {
-   this.studentsResult = res;
-   console.log(this.studentsResult);
- });
- this.subscriptions.push(entitiesSubscription);
- // First load
- of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-   this.loadStudentsList();
- }); // Remove this line, just loading imitation
+  // this.loadAllSectionsByClassId(1);
+  this.dataSource = new StudentsDataSource(this.store);
+  this.createForm();
 }
-getAllStudentList() {
-  // this.admissionenqService.getList().subscribe((res: any) => {
-  //   var data = res['data'];
-  //   var content = data['content'];
-  //   this.studentsResult = content.map((key) => ({ ...key }));
-  
-  // }, (err) => {
-  //   console.log('Error while fetching data');
-  //   console.error(err);
-  // });
-}
+
 
 //get All Class List
 
@@ -140,14 +89,15 @@ loadAllClasses() {
 	}, err => {
 	});
 }
-onClassSelectChange(classObj:StudentClassModel){
-	// this.loadAllSectionsByClassId(classObj.id);
+onClassSelectChange(classId){
+  this.loadAllSectionsByClassId(classId);
+ 
 }
 loadAllSectionsByClassId(id:number) {
 	debugger
-	this.sectionService.getAllSections().subscribe(res => {
-		const data = res['data'];
-		this.sectionList = data['content'];
+	this.studentClassService.getAllSectionByClasssId(id).subscribe(res => {
+
+		this.sectionList = res['data'];
 		console.log(this.sectionList)
 	}, err => {
 	});
@@ -165,33 +115,58 @@ loadAllSectionsByClassId(id:number) {
 			this.hasFormErrors = true;
 			return;
 		}
-		//this.getAllStudentList(controls.classId.value, controls.sectionId.value,controls.searchText.value);
+		this.getAllStudentList(controls.classId.value, controls.sectionId.value);
 
 
 	}
 
 
-// 	getAllStudentList(classId,sectionId,searchText){
-
-// 		const queryParams = new QueryParamsModel(
-// 			this.filterConfiguration(),
-// 			this.sort.direction,
-// 			this.sort.active,
-// 			this.paginator.pageIndex,
-// 			this.paginator.pageSize
-// 		);
+	getAllStudentList(classId,sectionId){
 
 
-// //	this.studentService.findStudents(queryParams,classId,sectionId,searchText).subscribe(res=>{
-// 	//	console.log(res);
-// 		// studentAttendencesResult
-
-// 	//})
-
-// }
-
-
-
+    // If the user changes the sort order, reset back to the first page.
+    const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    this.subscriptions.push(sortSubscription);
+   
+    /* Data load will be triggered in two cases:
+    - when a pagination event occurs => this.paginator.page
+    - when a sort event occurs => this.sort.sortChange
+    **/
+    const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
+      tap(() => this.loadStudentsList(classId,sectionId))
+    )
+    .subscribe();
+    this.subscriptions.push(paginatorSubscriptions);
+   
+    // // Filtration, bind to searchInput
+    // const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
+    //   // tslint:disable-next-line:max-line-length
+    //   debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
+    //   distinctUntilChanged(), // This operator will eliminate duplicate values
+    //   tap(() => {
+    //     this.paginator.pageIndex = 0;
+    //     this.loadStudentsList(classId,sectionId);
+    //   })
+    // )
+    // .subscribe();
+    // this.subscriptions.push(searchSubscription);
+   
+    // Init DataSource
+    this.dataSource = new StudentsDataSource(this.store);
+    const entitiesSubscription = this.dataSource.entitySubject.pipe(
+      skip(1),
+      distinctUntilChanged()
+    ).subscribe(res => {
+      this.studentsResult = res;
+      console.log(this.studentsResult);
+    });
+    this.subscriptions.push(entitiesSubscription);
+    // First load
+    of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
+      this.loadStudentsList(classId,sectionId);
+    }); // Remove this line, just loading imitation
+   
+  }
 
 /**
  * On Destroy
@@ -200,26 +175,10 @@ ngOnDestroy() {
   this.subscriptions.forEach(el => el.unsubscribe());
 }
 
-loadStudentList(classId, sectionId, searchText) {
-  debugger;
-  this.selection.clear();
-  const queryParams = new QueryParamsModel(
-    this.filterConfiguration(),
-    this.sort.direction,
-    this.sort.active,
-    this.paginator.pageIndex,
-    this.paginator.pageSize
-  );
-  // Call request from server
- // this.store.dispatch(new StudentsPageRequested({ page: queryParams, classId: classId, sectionId: sectionId, searchText: searchText }));
-  this.selection.clear();
-}
-
-
 /**
  * Load Products List
  */
-loadStudentsList() {
+loadStudentsList(classId,sectionId) {
   this.selection.clear();
   const queryParams = new QueryParamsModel(
     this.filterConfiguration(),
@@ -229,7 +188,7 @@ loadStudentsList() {
     this.paginator.pageSize
   );
   // Call request from server
-  this.store.dispatch(new StudentsPageRequested({ page: queryParams }));
+  this.store.dispatch(new StudentsPageRequested({ page: queryParams ,classId,sectionId}));
  
   this.selection.clear();
 }
@@ -241,7 +200,7 @@ createForm() {
   this.searchForm = this.fb.group({
     classId: [this.classId, Validators.required],
     sectionId: [this.sectionId, Validators.required],
-    searchText: [this.searchText, ],
+    // searchText: [this.searchText, ],21
 
   })
 
@@ -254,8 +213,9 @@ createForm() {
  */
 filterConfiguration(): any {
   const filter: any = {};
-  const searchText: string = this.searchInput.nativeElement.value;
-
+  // const searchText: string = this.searchInput.nativeElement.value;
+  const searchText: string ='';
+  
   if (this.filterStatus && this.filterStatus.length > 0) {
     filter.status = +this.filterStatus;
   }
@@ -446,7 +406,7 @@ deleteProducts() {
 			}
 
 			this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-			this.loadStudentsList();
+			// this.loadStudentsList(classId,sectionId);
 		});
 	}
 
@@ -462,7 +422,7 @@ deleteProducts() {
 			}
 
 			this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-			this.loadStudentsList();
+			// this.loadStudentsList();
 		});
 	}
 

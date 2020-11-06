@@ -101,17 +101,22 @@
 									
 										<div class="col-lg-3 kt-margin-bottom-20-mobile">
 											<mat-form-field class="mat-form-field-fluid">
-												<mat-select placeholder="Book" formControlName="bookId">
-													<mat-option value="0">Business</mat-option>
-													<mat-option value="1">Individual</mat-option>
-												</mat-select>
-		
+			
+                                                <mat-select placeholder="Select Book" formControlName="bookId">
+
+                                                    <mat-option *ngFor="let book of bookList" [value]="book.id" >
+                                                        {{book.bookTitle}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error>Book
+                                                    <strong>is required</strong>
+                                                </mat-error>
 											</mat-form-field>
 										</div>
 									<div class="col-lg-3 kt-margin-bottom-20-mobile">
 										<mat-form-field class="mat-form-field-fluid">
 											<input matInput [matDatepicker]="picker"
-												placeholder="Choose a Date "
+												placeholder="Choose a Due Return Date "
 												formControlName="duereturnDate" />
 											<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 											<mat-datepicker #picker></mat-datepicker>
@@ -195,10 +200,10 @@
                 <div class="mat-table__wrapper">
                     <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource" matSort #sort1="matSort"
                         matSortActive="id" matSortDirection="asc" matSortDisableClear>
-                        <ng-container matColumnDef="id">
+                        <!-- <ng-container matColumnDef="id">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
                             <mat-cell *matCellDef="let bookIssueReturn">{{bookIssueReturn.id}}</mat-cell>
-                        </ng-container>
+                        </ng-container> -->
 						
                         <ng-container matColumnDef="bookTitle">
                             <!-- ATTRIBUTE mat-sort-header  for sorting | https://material.angular.io/components/sort/overview -->
@@ -206,8 +211,8 @@
                             <mat-cell *matCellDef="let bookIssueReturn">{{bookIssueReturn.bookTitle}}</mat-cell>
                         </ng-container>
 
-                        <ng-container matColumnDef="bookName">
-                            <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Book Name
+                        <ng-container matColumnDef="bookNumber">
+                            <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Book Number
                             </mat-header-cell>
                             <mat-cell *matCellDef="let bookIssueReturn">{{bookIssueReturn.bookName}}</mat-cell>
 						</ng-container>
@@ -220,7 +225,7 @@
 						<ng-container matColumnDef="dueReturnDate">
                             <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Due Return Date
                             </mat-header-cell>
-                            <mat-cell *matCellDef="let bookIssueReturn">{{bookIssueReturn.dueReturnDate}}</mat-cell>
+                            <mat-cell *matCellDef="let bookIssueReturn">{{bookIssueReturn.duereturnDate}}</mat-cell>
                         </ng-container>
 						<ng-container matColumnDef="returnDate">
                             <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Return Date
@@ -243,11 +248,13 @@
                                         type="button" (click)="deleteBookIssueReturn(bookIssueReturn)">
                                         <mat-icon>delete</mat-icon>
                                     </button>&nbsp; -->
-                                
-									<button mat-icon-button color="primary" matTooltip="Edit Visitor Purpose"
-									(click)="returnBook(bookIssueReturn)">
+                                    <ng-container *ngIf="bookIssueReturn.isReturned==0">
+                                    
+									<button mat-icon-button color="primary" matTooltip="Return Book"
+									(click)="editBookIssueReturn(bookIssueReturn)">
 									<mat-icon>book</mat-icon>
-								</button>&nbsp;
+                                </button>&nbsp;
+                            </ng-container>
 
                             </mat-cell>
                         </ng-container>

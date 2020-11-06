@@ -28,38 +28,38 @@ import { LibraryStaffMemberComponent } from './library-staff-member/library-staf
 import { LibraryStudentMemberEditDialogComponent } from './library-student-member-edit/library-student-member-edit.dialog.component';
 import { LibraryStaffMemberEditDialogComponent } from './library-staff-member-edit/library-staff-member-edit.dialog.component';
 
-import { BookService, LibraryStudentMemberService, LibraryStaffMemberService, booksReducer, BookEffects, LibraryStaffMemberEffects, LibraryStudentMemberEffects, libraryStudentMembersReducer, libraryStaffMembersReducer } from 'src/app/core/library';
+import { BookService, LibraryStudentMemberService, LibraryStaffMemberService, booksReducer, BookEffects, LibraryStaffMemberEffects, LibraryStudentMemberEffects, libraryStudentMembersReducer, libraryStaffMembersReducer, LibraryMemberListService, BookIssueReturnService, libraryMemberListsReducer, LibraryMemberListEffects, bookIssueReturnsReducer, BookIssueReturnEffects } from 'src/app/core/library';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { LibraryMemberListComponent } from './book-issue-return/library-member-list/library-member-list.component';
 import { BookIssueReturnDialogComponent } from './book-issue-return/book-issue-return/book-issue-return.dialog.component';
 const routes: Routes = [
-	{
-		path: '',
-		component: LibraryComponent,
-		children: [
+  {
+    path: '',
+    component: LibraryComponent,
+    children: [
       {
-				path: '',
-				redirectTo: 'roles',
-				pathMatch: 'full'
-			},
-			{
-				path: 'book-list',
-				component: BookListComponent
+        path: '',
+        redirectTo: 'roles',
+        pathMatch: 'full'
       },
       {
-				path: 'library-student-member',
-				component: LibraryStudentMemberComponent
+        path: 'book-list',
+        component: BookListComponent
       },
       {
-				path: 'library-staff-member',
-				component: LibraryStaffMemberComponent
+        path: 'library-student-member',
+        component: LibraryStudentMemberComponent
       },
-       {
-				path: 'library-member-list',
-				component: LibraryMemberListComponent
+      {
+        path: 'library-staff-member',
+        component: LibraryStaffMemberComponent
       },
-    ] 
+      {
+        path: 'library-member-list',
+        component: LibraryMemberListComponent
+      },
+    ]
   }
 ]
 
@@ -78,28 +78,31 @@ const routes: Routes = [
   imports: [
     CommonModule,
     PartialsModule,
-		NgbModule,
-		CoreModule,
-		CodePreviewModule,
-		RouterModule.forChild(routes),
-		FormsModule,
-		ReactiveFormsModule,
-		HttpClientModule,
+    NgbModule,
+    CoreModule,
+    CodePreviewModule,
+    RouterModule.forChild(routes),
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
     PerfectScrollbarModule,
     MaterialModule,
     TranslateModule.forChild(),
     NgxPermissionsModule.forChild(),
-   // CKEditorModule
+    // CKEditorModule
 
-    
-//state manage
+
+    //state manage
     StoreModule.forFeature('books', booksReducer),
     EffectsModule.forFeature([BookEffects]),
     StoreModule.forFeature('libraryStaffMembers', libraryStaffMembersReducer),
     EffectsModule.forFeature([LibraryStaffMemberEffects]),
     StoreModule.forFeature('libraryStudentMembers', libraryStudentMembersReducer),
     EffectsModule.forFeature([LibraryStudentMemberEffects]),
-   
+    StoreModule.forFeature('libraryMemberLists', libraryMemberListsReducer),
+    EffectsModule.forFeature([LibraryMemberListEffects]),
+    StoreModule.forFeature('bookIssueReturns', bookIssueReturnsReducer),
+    EffectsModule.forFeature([BookIssueReturnEffects]),
   ],
   providers: [
     NgbAlertConfig,
@@ -109,9 +112,9 @@ const routes: Routes = [
     TypesUtilsService,
     HttpUtilsService,
     LayoutUtilsService,
-		{ provide: MatBottomSheetRef, useValue: {} },
-		{ provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
-		{ provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
+    { provide: MatBottomSheetRef, useValue: {} },
+    { provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
 
     {
@@ -132,19 +135,22 @@ const routes: Routes = [
 
 
 
-//custom service
+    //custom service
 
-BookService,
-LibraryStaffMemberService,
-LibraryStudentMemberService
+    BookService,
+    LibraryStaffMemberService,
+    LibraryStudentMemberService,
+    LibraryMemberListService,
+    BookIssueReturnService,
+
   ],
-   
-    entryComponents: [
-      BookEditDialogComponent,
-      LibraryStudentMemberEditDialogComponent,
-      LibraryStaffMemberEditDialogComponent,
-      BookIssueReturnDialogComponent
-	],
+
+  entryComponents: [
+    BookEditDialogComponent,
+    LibraryStudentMemberEditDialogComponent,
+    LibraryStaffMemberEditDialogComponent,
+    BookIssueReturnDialogComponent
+  ],
   exports: [RouterModule],
 
 })

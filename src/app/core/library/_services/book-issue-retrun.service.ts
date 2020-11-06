@@ -17,19 +17,19 @@ export class BookIssueReturnService {
   createBookIssueReturn(bookIssueReturn: BookIssueReturnModel): Observable<BookIssueReturnModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<BookIssueReturnModel>(Constants.URL.HOST_URL+Constants.Library.Book_Issue_Return, bookIssueReturn, {headers: httpHeaders});
+    return this.http.post<BookIssueReturnModel>(Constants.URL.HOST_URL+Constants.Library.Book_Issue_Return+"/book", bookIssueReturn, {headers: httpHeaders});
   }
 
+  updateBookIssueReturn(bookIssueReturn: BookIssueReturnModel): Observable<any> {
+    const httpHeader = this.httpUtils.getHTTPHeaders();
+    return this.http.post(Constants.URL.HOST_URL+Constants.Library.Book_Issue_Return+'/book/return', bookIssueReturn, {headers: httpHeader});
+  }
   // READ
   getAllBookIssueReturns(): Observable<BookIssueReturnModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     return this.http.get<BookIssueReturnModel[]>(Constants.URL.HOST_URL+Constants.Library.Book_Issue_Return, {headers: httpHeaders});
   }
-  // READ
-  getAllClasses(): Observable<BookIssueReturnModel[]> {
-    const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<BookIssueReturnModel[]>(Constants.URL.HOST_URL+'class', {headers: httpHeaders});
-  }
+
 
   getBookIssueReturnById(bookIssueReturnId: number): Observable<BookIssueReturnModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
@@ -39,12 +39,12 @@ export class BookIssueReturnService {
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
   // items => filtered/sorted result
   // Server should return filtered/sorted result
-  findBookIssueReturns(queryParams: QueryParamsModel): Observable<QueryResultsModel> {
+  findBookIssueReturns(queryParams: QueryParamsModel,id): Observable<QueryResultsModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
-    const url =Constants.URL.HOST_URL+Constants.Library.Book_Issue_Return ;
+    const url =Constants.URL.HOST_URL+Constants.Library.Book_Issue_Return+"/"+id ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       // params: httpParams
@@ -52,10 +52,10 @@ export class BookIssueReturnService {
   }
 
   // UPDATE => PUT: update the BookIssueReturn on the server
-  updateBookIssueReturn(bookIssueReturn: BookIssueReturnModel): Observable<any> {
-    const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Library.Book_Issue_Return+'/'+bookIssueReturn.memberId, bookIssueReturn, {headers: httpHeader});
-  }
+  // updateBookIssueReturn(bookIssueReturn: BookIssueReturnModel): Observable<any> {
+  //   const httpHeader = this.httpUtils.getHTTPHeaders();
+  //   return this.http.put(Constants.URL.HOST_URL+Constants.Library.Book_Issue_Return+'/'+bookIssueReturn.memberId, bookIssueReturn, {headers: httpHeader});
+  // }
 
   // UPDATE Status
   updateStatusForBookIssueReturn(bookIssueReturns: BookIssueReturnModel[], status: number): Observable<any> {

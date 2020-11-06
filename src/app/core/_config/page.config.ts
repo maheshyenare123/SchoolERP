@@ -121,15 +121,16 @@ export class PageConfig {
       'book-list': {
         page: { title: 'Book List', desc: '' }
       },
+      'library-member-list': {
+        page: { title: 'Issue Return', desc: '' }
+      },
       'library-student-member': {
         page: { title: 'Library Student Member', desc: '' }
       },
       'library-staff-member': {
         page: { title: 'Library Staff Member', desc: '' }
       },
-      'library-member-list': {
-        page: { title: 'Library Member List', desc: '' }
-      },
+    
       
     },
 

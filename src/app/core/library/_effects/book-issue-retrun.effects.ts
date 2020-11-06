@@ -39,14 +39,17 @@ export class BookIssueReturnEffects {
     ofType<BookIssueReturnsPageRequested>(BookIssueReturnActionTypes.BookIssueReturnsPageRequested),
     mergeMap(({payload}) => {
       this.store.dispatch(this.showPageLoadingDistpatcher);
-      const requestToServer = this.bookIssueReturnsService.findBookIssueReturns(payload.page);
+      const requestToServer = this.bookIssueReturnsService.findBookIssueReturns(payload.page,payload.id);
       const lastQuery = of(payload.page);
       return forkJoin(requestToServer, lastQuery);
     }),
     map(response => {
       const result: QueryResultsModel = response[0];
       const lastQuery: QueryParamsModel = response[1];
-      const data : FindResultsModel= result['data'];
+      const data1=result['data'];
+      const data : FindResultsModel= data1['issuedBook'];
+      
+      
       return new BookIssueReturnsPageLoaded({
         bookIssueReturns: data.content,
         totalCount: data.totalPages,

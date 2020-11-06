@@ -71,7 +71,7 @@ export class ManyStudentsDeleted implements Action {
 export class StudentsPageRequested implements Action {
   readonly type = StudentActionTypes.StudentsPageRequested;
 
-  constructor(public payload: { page: QueryParamsModel }) {
+  constructor(public payload: { page: QueryParamsModel,classId:number,sectionId:number  }) {
   }
 }
 export class DisableStudentsPageRequested implements Action {

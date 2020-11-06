@@ -63,7 +63,8 @@ export class Constants {
       Book: 'api/book',
       Library_Member: 'api/library-member',
       Library_student_Member: 'api/library-member/student',
-      Library_Staff_Member: 'api/library-member/staff'
+      Library_Staff_Member: 'api/library-member/staff',
+      Book_Issue_Return:'api/library-member/issue'
    }
 
 

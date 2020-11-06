@@ -2,8 +2,8 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { BookIssueReturnsDataSource, BookIssueReturnModel,selectBookIssueReturnsActionLoading } from 'src/app/core/library';
-import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from 'src/app/core/_base/crud';
+import { BookIssueReturnsDataSource, BookIssueReturnModel, selectBookIssueReturnsActionLoading, BookService, BookModel } from 'src/app/core/library';
+import { QueryParamsModel, LayoutUtilsService, MessageType, TypesUtilsService } from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -33,36 +33,36 @@ import { BookIssueReturnsPageRequested, OneBookIssueReturnDeleted, ManyBookIssue
 })
 export class BookIssueReturnDialogComponent implements OnInit {
 
-// Table fields
-dataSource: BookIssueReturnsDataSource;
-//  dataSource = new MatTableDataSource(ELEMENT_DATA);
-displayedColumns = ['id', 'bookTitle', 'bookName', 'issueDate', 'dueReturnDate', 'returnDate', 'actions'];
-@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-@ViewChild('sort1', {static: true}) sort: MatSort;
-// Filter fields
-@ViewChild('searchInput', {static: true}) searchInput: ElementRef;
-filterStatus = '';
-filterType = '';
-// Selection
-selection = new SelectionModel<BookIssueReturnModel>(true, []);
-bookIssueReturnsResult: BookIssueReturnModel[] = [];
-// Subscriptions
-private subscriptions: Subscription[] = [];
+	// Table fields
+	dataSource: BookIssueReturnsDataSource;
+	//  dataSource = new MatTableDataSource(ELEMENT_DATA);
+	displayedColumns = ['bookTitle', 'bookNumber', 'issueDate', 'dueReturnDate', 'returnDate', 'actions'];
+	@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+	@ViewChild('sort1', { static: true }) sort: MatSort;
+	// Filter fields
+	@ViewChild('searchInput', { static: true }) searchInput: ElementRef;
+	filterStatus = '';
+	filterType = '';
+	// Selection
+	selection = new SelectionModel<BookIssueReturnModel>(true, []);
+	bookIssueReturnsResult: BookIssueReturnModel[] = [];
+	// Subscriptions
+	private subscriptions: Subscription[] = [];
 
-// Public properties
-bookIssueReturn: BookIssueReturnModel;
-bookIssueReturnForm: FormGroup;
-hasFormErrors = false;
-viewLoading = false;
-// Private properties
-private componentSubscriptions: Subscription;
-	libraryMember: any;
+	// Public properties
+	bookIssueReturn: BookIssueReturnModel;
+	bookIssueReturnForm: FormGroup;
+	hasFormErrors = false;
+	viewLoading = false;
+	// Private properties
+	private componentSubscriptions: Subscription;
+	libraryMember: BookIssueReturnModel;
 	showReturnDate: boolean = false;
 
 
+	bookList: BookModel[] = [];
 
-
-  constructor(public dialog: MatDialog,
+	constructor(public dialog: MatDialog,
 		public snackBar: MatSnackBar,
 		private layoutUtilsService: LayoutUtilsService,
 		private translate: TranslateService,
@@ -71,13 +71,13 @@ private componentSubscriptions: Subscription;
 		private typesUtilsService: TypesUtilsService,
 		public dialogRef: MatDialogRef<BookIssueReturnDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
-		) { }
+		public bookService: BookService) { }
 
-  ngOnInit() {
+	ngOnInit() {
 
-	debugger;
-	
-    const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+		debugger;
+		this.loadAllBookList();
+		const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 		this.subscriptions.push(sortSubscription);
 
 		/* Data load will be triggered in two cases:
@@ -85,9 +85,9 @@ private componentSubscriptions: Subscription;
 		- when a sort event occurs => this.sort.sortChange
 		**/
 		const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-			tap(() => this.loadBookIssueReturnList())
+			tap(() => this.loadBookIssueReturnList(this.libraryMember.memberId))
 		)
-		.subscribe();
+			.subscribe();
 		this.subscriptions.push(paginatorSubscriptions);
 
 		// Filtration, bind to searchInput
@@ -97,39 +97,49 @@ private componentSubscriptions: Subscription;
 			distinctUntilChanged(), // This operator will eliminate duplicate values
 			tap(() => {
 				this.paginator.pageIndex = 0;
-				this.loadBookIssueReturnList();
+				this.loadBookIssueReturnList(this.libraryMember.memberId);
 			})
 		)
-		.subscribe();
+			.subscribe();
 		this.subscriptions.push(searchSubscription);
 
 		// Init DataSource
 		this.dataSource = new BookIssueReturnsDataSource(this.store);
-	
+
 		const entitiesSubscription = this.dataSource.entitySubject.pipe(
 			skip(1),
 			distinctUntilChanged()
 		).subscribe(res => {
 			debugger
-	console.log(res);
+			console.log(res);
 			this.bookIssueReturnsResult = res;
 		});
 		this.subscriptions.push(entitiesSubscription);
 		// First load
 		of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-			this.loadBookIssueReturnList();
+			this.loadBookIssueReturnList(this.libraryMember.memberId);
 		}); // Remove this line, just loading imitation
+	
+		this.libraryMember = this.data.librarymember;
+		console.log(	this.libraryMember );
+		this.addBookIssueReturn();
 
-this.addBookIssueReturn();
-		
+	
+		// this.createForm();
 
-this.libraryMember = this.data.librarymember;
-this.createForm();
-
-  }
-/**
-	 * On Destroy
-	 */
+	}
+	loadAllBookList() {
+		debugger
+		this.bookService.getAllBooks().subscribe(res => {
+			const data = res['data'];
+			this.bookList = data['content'];
+			console.log(this.bookList)
+		}, err => {
+		});
+	}
+	/**
+		 * On Destroy
+		 */
 	ngOnDestroy() {
 		this.subscriptions.forEach(el => el.unsubscribe());
 	}
@@ -137,7 +147,7 @@ this.createForm();
 	/**
 	 * Load BookIssueReturns List from service through data-source
 	 */
-	loadBookIssueReturnList() {
+	loadBookIssueReturnList(id) {
 		debugger;
 		this.selection.clear();
 		const queryParams = new QueryParamsModel(
@@ -148,7 +158,7 @@ this.createForm();
 			this.paginator.pageSize
 		);
 		// Call request from server
-		this.store.dispatch(new BookIssueReturnsPageRequested({ page: queryParams }));
+		this.store.dispatch(new BookIssueReturnsPageRequested({ page: queryParams, id: id }));
 		this.selection.clear();
 	}
 
@@ -190,9 +200,9 @@ this.createForm();
 
 			this.store.dispatch(new OneBookIssueReturnDeleted({ id: _item.id }));
 			this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
-			this.loadBookIssueReturnList();
+			this.loadBookIssueReturnList(this.libraryMember.memberId);
 		});
-		
+
 
 	}
 
@@ -200,7 +210,7 @@ this.createForm();
 	 * Show add BookIssueReturn dialog
 	 */
 	addBookIssueReturn() {
-		this.bookIssueReturn=new BookIssueReturnModel();
+		this.bookIssueReturn = new BookIssueReturnModel();
 		this.bookIssueReturn.clear(); //
 		this.createForm();
 
@@ -211,155 +221,158 @@ this.createForm();
 	 * @param bookIssueReturn: BookIssueReturnModel
 	 */
 	editBookIssueReturn(bookIssueReturn: BookIssueReturnModel) {
-		
-		this.bookIssueReturn=bookIssueReturn;
+		this.showReturnDate = true;
+		this.bookIssueReturn = bookIssueReturn;
+		console.log(this.bookIssueReturn);
 		this.createForm();
 
 	}
 
 
 
-createForm() {
-	debugger;
-	this.bookIssueReturnForm = this.fb.group({
-		bookId: [this.bookIssueReturn.bookId, Validators.required],
-		duereturnDate: [this.typesUtilsService.getDateFromString(this.bookIssueReturn.duereturnDate), Validators.compose([Validators.nullValidator])],
-		issueDate: [this.typesUtilsService.getDateFromString(this.bookIssueReturn.issueDate), Validators.compose([Validators.nullValidator])],
-		returnDate: [this.typesUtilsService.getDateFromString(this.bookIssueReturn.returnDate), Validators.compose([Validators.nullValidator])],
-	});
-}
-
-
-/**
- * Check control is invalid
- * @param controlName: string
- */
-isControlInvalid(controlName: string): boolean {
-	const control = this.bookIssueReturnForm.controls[controlName];
-	const result = control.invalid && control.touched;
-	return result;
-}
-
-/** ACTIONS */
-
-/**
- * Returns prepared bookIssueReturn
- */
-prepareBookIssueReturn(): BookIssueReturnModel {
-	const controls = this.bookIssueReturnForm.controls;
-	const _bookIssueReturn = new BookIssueReturnModel();
-	_bookIssueReturn.id = this.bookIssueReturn.id;
-	_bookIssueReturn.bookId = controls.bookId.value;
-	const _duereturnDate = controls.duereturnDate.value;
-	if (_duereturnDate) {
-		_bookIssueReturn.duereturnDate = this.typesUtilsService.dateFormat(_duereturnDate);
-	} else {
-		_bookIssueReturn.duereturnDate = '';
-	}
-	const _issueDate = controls.issueDate.value;
-	if (_issueDate) {
-		_bookIssueReturn.issueDate = this.typesUtilsService.dateFormat(_issueDate);
-	} else {
-		_bookIssueReturn.issueDate = '';
-	}
-	
-	const _returnDate = controls.returnDate.value;
-	if (_returnDate) {
-		_bookIssueReturn.returnDate = this.typesUtilsService.dateFormat(_returnDate);
-	} else {
-		_bookIssueReturn.returnDate = '';
-	}
-	return _bookIssueReturn;
-}
-
-/**
- * On Submit
- */
-onSubmit() {
-	this.hasFormErrors = false;
-	const controls = this.bookIssueReturnForm.controls;
-	/** check form */
-	if (this.bookIssueReturnForm.invalid) {
-		Object.keys(controls).forEach(controlName =>
-			controls[controlName].markAsTouched()
-		);
-
-		this.hasFormErrors = true;
-		return;
+	createForm() {
+		debugger;
+		this.bookIssueReturnForm = this.fb.group({
+			bookId: [this.bookIssueReturn.bookId, Validators.required],
+			duereturnDate: [this.typesUtilsService.getDateFromString(this.bookIssueReturn.duereturnDate), Validators.compose([Validators.nullValidator])],
+			memberId: [this.libraryMember.memberId, Validators.required],
+			// issueDate: [this.typesUtilsService.getDateFromString(this.bookIssueReturn.issueDate), Validators.compose([Validators.nullValidator])],
+			returnDate: [this.typesUtilsService.getDateFromString(this.bookIssueReturn.returnDate), Validators.compose([Validators.nullValidator])],
+		});
 	}
 
-	const editedBookIssueReturn = this.prepareBookIssueReturn();
-	if (editedBookIssueReturn.id > 0) {
-		this.updateBookIssueReturn(editedBookIssueReturn);
-	} else {
+
+	/**
+	 * Check control is invalid
+	 * @param controlName: string
+	 */
+	isControlInvalid(controlName: string): boolean {
+		const control = this.bookIssueReturnForm.controls[controlName];
+		const result = control.invalid && control.touched;
+		return result;
+	}
+
+	/** ACTIONS */
+
+	/**
+	 * Returns prepared bookIssueReturn
+	 */
+	prepareBookIssueReturn(): BookIssueReturnModel {
+		const controls = this.bookIssueReturnForm.controls;
+		const _bookIssueReturn = new BookIssueReturnModel();
+		_bookIssueReturn.id = this.bookIssueReturn.id;
+		_bookIssueReturn.bookId = controls.bookId.value;
+		_bookIssueReturn.memberId = controls.memberId.value;
+		const _duereturnDate = controls.duereturnDate.value;
+		if (_duereturnDate) {
+			_bookIssueReturn.duereturnDate = this.typesUtilsService.dateFormat(_duereturnDate);
+		} else {
+			_bookIssueReturn.duereturnDate = '';
+		}
+
+		// const _issueDate = controls.issueDate.value;
+
+		const issueDate = new Date();
+		_bookIssueReturn.issueDate = this.typesUtilsService.dateFormat(issueDate);
+		if(_bookIssueReturn.id>0){
+			_bookIssueReturn.isActive=this.bookIssueReturn.isActive;
+		const _returnDate = controls.returnDate.value;
+		if (_returnDate) {
+			_bookIssueReturn.returnDate = this.typesUtilsService.dateFormat(_returnDate);
+		} else {
+			_bookIssueReturn.returnDate = '';
+		}
+	}
+	_bookIssueReturn.isActive='yes';
+		return _bookIssueReturn;
+	}
+
+	/**
+	 * On Submit
+	 */
+	onSubmit() {
+		this.hasFormErrors = false;
+		const controls = this.bookIssueReturnForm.controls;
+		/** check form */
+		if (this.bookIssueReturnForm.invalid) {
+			Object.keys(controls).forEach(controlName =>
+				controls[controlName].markAsTouched()
+			);
+
+			this.hasFormErrors = true;
+			return;
+		}
+
+		const editedBookIssueReturn = this.prepareBookIssueReturn();
+		if (editedBookIssueReturn.id > 0) {
+			this.updateBookIssueReturn(editedBookIssueReturn);
+		} else {
 		this.createBookIssueReturn(editedBookIssueReturn);
-	}
-	this.loadBookIssueReturnList();
-	const	_saveMessage= editedBookIssueReturn.id > 0 ? 'Purpose  has been updated' : 'Purpose has been created';
-		
-	const _messageType = editedBookIssueReturn.id > 0 ? MessageType.Update : MessageType.Create;
-	
+		}
+		this.loadBookIssueReturnList(this.libraryMember.memberId);
+		const _saveMessage = editedBookIssueReturn.id > 0 ? 'Issue Book has been updated' : 'Issue Book has been created';
+
+		const _messageType = editedBookIssueReturn.id > 0 ? MessageType.Update : MessageType.Create;
+
 		this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-		
+
 		this.bookIssueReturnForm.reset();
 
 		this.addBookIssueReturn();
 		// this.bookIssueReturn.clear();
 		// this.createForm();
 		this.showReturnDate = false;
-}
-onCancel(){
-	this.bookIssueReturnForm.reset();
-	this.addBookIssueReturn();
-	// this.bookIssueReturn.clear();
-	// this.createForm();
-}
-/**
- * Update bookIssueReturn
- *
- * @param _bookIssueReturn: BookIssueReturnModel
- */
-updateBookIssueReturn(_bookIssueReturn: BookIssueReturnModel) {
-	const updateBookIssueReturn: Update<BookIssueReturnModel> = {
-		id: _bookIssueReturn.id,
-		changes: _bookIssueReturn
-	};
-	this.store.dispatch(new BookIssueReturnUpdated({
-		partialBookIssueReturn: updateBookIssueReturn,
-		bookIssueReturn: _bookIssueReturn
-	}));
+	}
+	onCancel() {
+		this.bookIssueReturnForm.reset();
+		this.addBookIssueReturn();
+		// this.bookIssueReturn.clear();
+		// this.createForm();
+	}
 
-	this.showReturnDate = false;
-}
 
-returnBook(_bookIssueReturn: BookIssueReturnModel) {
-this.showReturnDate = true;
+	/**
+	 * Create bookIssueReturn
+	 *
+	 * @param _bookIssueReturn: BookIssueReturnModel
+	 */
+	createBookIssueReturn(_bookIssueReturn: BookIssueReturnModel) {
+		this.store.dispatch(new BookIssueReturnOnServerCreated({ bookIssueReturn: _bookIssueReturn }));
+		this.componentSubscriptions = this.store.pipe(
+			select(selectLastCreatedBookIssueReturnId),
+			// delay(1000), // Remove this line
+		).subscribe(res => {
+			if (!res) {
+				return;
+			}
+			// this.dialogRef.close({ _bookIssueReturn, isEdit: false });
+		});
+	}
+	/**
+	 * Update bookIssueReturn
+	 *
+	 * @param _bookIssueReturn: BookIssueReturnModel
+	 */
+	updateBookIssueReturn(_bookIssueReturn: BookIssueReturnModel) {
+		const updateBookIssueReturn: Update<BookIssueReturnModel> = {
+			id: _bookIssueReturn.id,
+			changes: _bookIssueReturn
+		};
+		this.store.dispatch(new BookIssueReturnUpdated({
+			partialBookIssueReturn: updateBookIssueReturn,
+			bookIssueReturn: _bookIssueReturn
+		}));
 
-}
+		this.showReturnDate = false;
+	}
+	   
 
-/**
- * Create bookIssueReturn
- *
- * @param _bookIssueReturn: BookIssueReturnModel
- */
-createBookIssueReturn(_bookIssueReturn:BookIssueReturnModel) {
-	this.store.dispatch(new BookIssueReturnOnServerCreated({ bookIssueReturn: _bookIssueReturn }));
-	this.componentSubscriptions = this.store.pipe(
-		select(selectLastCreatedBookIssueReturnId),
-		// delay(1000), // Remove this line
-	).subscribe(res => {
-		if (!res) {
-			return;
-		}
 
-		// this.dialogRef.close({ _bookIssueReturn, isEdit: false });
-	});
-}
 
-/** Alect Close event */
-onAlertClose($event) {
-	this.hasFormErrors = false;
-}
+	/** Alect Close event */
+	onAlertClose($event) {
+		this.hasFormErrors = false;
+	}
 
 }
 // export class NgbdTimepickerSteps {
@@ -368,5 +381,5 @@ onAlertClose($event) {
 //     minuteStep = 15;
 //     secondStep = 30;
 // }
-  
+
 

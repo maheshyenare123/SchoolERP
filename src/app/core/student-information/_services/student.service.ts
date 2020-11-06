@@ -34,18 +34,18 @@ export class StudentService {
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
   // items => filtered/sorted result
   // Server should return filtered/sorted result
-  findStudents(queryParams: QueryParamsModel): Observable<QueryResultsModel> {
+  findStudents(queryParams: QueryParamsModel,classId,sectionId): Observable<QueryResultsModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     // const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
     // httpParams.set('isActive', 'active')
 
     const httpParams =new HttpParams()
-      // .set('classId', '')
+      .set('classId', classId)
       .set('isActive', 'yes')
       .set('pageNo', queryParams.pageNumber.toString())
       .set('pageSize', queryParams.pageSize.toString())
-      // .set('sectionId', '')
+      .set('sectionId', sectionId)
       .set('sortBy', 'id');
 
       // http://yamistha.cloudjiffy.net/api/student?isActive=yes&pageNo=0&pageSize=10&sortBy=id

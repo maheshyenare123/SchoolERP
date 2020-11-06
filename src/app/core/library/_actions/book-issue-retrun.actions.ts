@@ -70,7 +70,7 @@ export class ManyBookIssueReturnsDeleted implements Action {
 export class BookIssueReturnsPageRequested implements Action {
   readonly type = BookIssueReturnActionTypes.BookIssueReturnsPageRequested;
 
-  constructor(public payload: { page: QueryParamsModel }) {
+  constructor(public payload: { page: QueryParamsModel ,id:number}) {
   }
 }
 

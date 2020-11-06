@@ -40,7 +40,7 @@ export class StudentEffects {
     ofType<StudentsPageRequested>(StudentActionTypes.StudentsPageRequested),
     mergeMap(({payload}) => {
       this.store.dispatch(this.showPageLoadingDistpatcher);
-      const requestToServer = this.studentsService.findStudents(payload.page);
+      const requestToServer = this.studentsService.findStudents(payload.page,payload.classId,payload.sectionId);
       const lastQuery = of(payload.page);
       return forkJoin(requestToServer, lastQuery);
     }),

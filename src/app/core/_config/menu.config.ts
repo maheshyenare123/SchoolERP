@@ -263,6 +263,10 @@ export class MenuConfig {
               page: '/library/book-list'
             },
             {
+              title: 'Issue Return',
+              page: '/library/library-member-list'
+            },
+            {
               title: 'Library Student Member',
               page: '/library/library-student-member'
             },
@@ -270,10 +274,7 @@ export class MenuConfig {
               title: 'Library Staff Member',
               page: '/library/library-staff-member'
             },
-            {
-              title: 'Library Member List',
-              page: '/library/library-member-list'
-            },
+            
 
             
           ]

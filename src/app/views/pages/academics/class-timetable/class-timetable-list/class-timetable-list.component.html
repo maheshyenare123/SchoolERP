@@ -1,6 +1,5 @@
 <kt-portlet>
-	<kt-portlet-header [sticky]="true" [title]="'Class Timetable List'" [class]="'card-head-lg'"
-		>
+	<kt-portlet-header [sticky]="true" [title]="'Class Timetable List'" [class]="'card-head-lg'">
 		<ng-container ktPortletTools>
 			<button (click)="addClassTimetable()" mat-raised-button color="primary" matTooltip="Create new ClassTimetable">New
 				ClassTimetable</button>
@@ -50,7 +49,7 @@
 						<div class="d-flex justify-content-between">
 							<!-- <div class="mr-2"></div> -->
 							<div>
-								<button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
+								<button type="button" mat-raised-button color="primary" (click)="onSearch()"  matTooltip="Save changes">
 									Search
 								</button>
 							</div>

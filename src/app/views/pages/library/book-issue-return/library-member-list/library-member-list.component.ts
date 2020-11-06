@@ -83,6 +83,7 @@ ngOnInit() {
    distinctUntilChanged()
  ).subscribe(res => {
    this.librarymemberlistsResult = res;
+   console.log("libaray member")
    console.log(this.librarymemberlistsResult);
  });
  this.subscriptions.push(entitiesSubscription);
@@ -314,7 +315,7 @@ deleteProducts() {
 	}
 
   issueBook(librarymember: LibraryMemberListModel) {
-		let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
+		// let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
    // const _saveMessage = librarymember.id > 0 ? 'Issue Book' : '';
     
 	//	const _messageType = librarymember.id > 0 ? MessageType.Update : MessageType.Create;
