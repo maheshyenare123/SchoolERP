@@ -17,6 +17,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ClassTimetableModel, selectClassTimetablesActionLoading, ClassTimetableUpdated, ClassTimetableOnServerCreated, selectLastCreatedClassTimetableId, ClassTimetableService, StudentClassService, SectionService, AssignClassTeacherService, StudentClassModel, SectionDtoModel, SubjectGroupService, SubjectDtoModel, SubjectGroupDtoModel, SubjectService } from '../../../../../core/academics';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
 import { StaffDtoModel } from 'src/app/core/academics/_models/staffDto.model';
+import { selectAdmissionEnquirysActionLoading } from 'src/app/core/front-office';
 // // Services and Models
 // import { DeliveryPersonModel, DeliveryPersonUpdated, DeliveryPersonOnServerCreated, selectLastCreatedDeliveryPersonId, selectDeliveryPersonsActionLoading } from '../../../../../core/master-entry';
 // import { EmployeeModel } from '../../../../../core/payroll/_models/employee.model';
@@ -47,6 +48,9 @@ export class ClassTimetableEditDialogComponent implements OnInit, OnDestroy {
 	subjectList: SubjectDtoModel[] = [];
 	subjectGroupList: SubjectGroupDtoModel[] = [];
 	day: string = "Monday";
+
+
+	tabsForTabs=['Monday','Tuesday','Wednusday','Thusday','Friday','Saturday','Sunday'];
 	constructor(public dialogRef: MatDialogRef<ClassTimetableEditDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		private fb: FormBuilder,
@@ -173,38 +177,48 @@ onSubjectSelectChange(subjectId){
 
 		})
 		this.classTimetableForm = this.fb.group({
-			day: [this.classTimetable.day, Validators.required],
-			items: this.fb.array([
-				this.createItemRow()
-			  ]),
+			// day: [this.classTimetable.day, Validators.required],
+			// days:this.fb.array([this.createDaysRow()]),
+			days: this.fb.array(this.tabsForTabs.map(tab => this.createDaysRow(tab))),
+			
 		});
-	}
 
+	
+	}
+	
+createDaysRow(tab){
+	return this.fb.group({
+		dayName: [tab,],
+		items: this.fb.array([
+			this.createItemRow()
+		  ]),
+	});	
+}
 	createItemRow() {
 		return this.fb.group({
-			subjectId: ['', Validators.required],
+			subjectId: ['', ],
 			subjectName: ['', ],
-			staffId: ['',  Validators.required],
-			timeFrom: ['',  Validators.required],
-			timeTo: ['',  Validators.required],
-			roomNo: ['',  Validators.required],
+			staffId: ['',  ],
+			timeFrom: ['', ],
+			timeTo: ['',  ],
+			roomNo: ['',  ],
 
-			
 		});
 	  }
 
 
 	
 	
-	  addItemRow() {
-		let itemArray = this.classTimetableForm.get('items') as FormArray;
+	  addItemRow(index) {
+		let daysArray =this.classTimetableForm.get('days')as FormArray;
+		let itemArray =	daysArray.controls[index].get('items')as FormArray;
 		itemArray.push(this.createItemRow());
 	  }
 	
-	  removeItemRow(index) {
-		let itemArray = this.classTimetableForm.get('items') as FormArray;
-		
-		itemArray.removeAt(index);
+	  removeItemRow(indexi,indexj) {
+		let daysArray =this.classTimetableForm.get('days')as FormArray;
+		let itemArray =	daysArray.controls[indexi].get('items')as FormArray;
+		itemArray.removeAt(indexj);
 	  }
 
 	  tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
@@ -250,8 +264,15 @@ onSubjectSelectChange(subjectId){
 		_classTimetable.sectionId = controls1.sectionId.value;
 		_classTimetable.section=controls1.section.value;
 		_classTimetable.subjectGroupId = controls1.subjectGroupId.value;
-		_classTimetable.day =  this.day// controls.day.value;
+		// _classTimetable.day =  this.day// controls.day.value;
 
+		const days = controls.days.value;
+console.log(days);
+		if(days){
+
+
+
+		}
 
 
 
@@ -286,6 +307,8 @@ onSubjectSelectChange(subjectId){
 
 		
 	}
+
+	// this.updateClassTimetable(editedclassTimetable);
 
 	/**
 	 * On Search

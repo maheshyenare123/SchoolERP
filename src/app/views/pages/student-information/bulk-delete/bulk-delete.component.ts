@@ -125,7 +125,9 @@ loadStudentsList() {
     this.paginator.pageSize
   );
   // Call request from server
-  this.store.dispatch(new StudentsPageRequested({ page: queryParams }));
+  const classId=1;
+  const sectionId=1;
+  this.store.dispatch(new StudentsPageRequested({ page: queryParams,classId, sectionId}));
  
   this.selection.clear();
 }

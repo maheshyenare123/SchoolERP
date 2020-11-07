@@ -260,7 +260,7 @@ export class BookIssueReturnDialogComponent implements OnInit {
 	prepareBookIssueReturn(): BookIssueReturnModel {
 		const controls = this.bookIssueReturnForm.controls;
 		const _bookIssueReturn = new BookIssueReturnModel();
-		_bookIssueReturn.id = this.bookIssueReturn.id;
+		// _bookIssueReturn.id = this.bookIssueReturn.id;
 		_bookIssueReturn.bookId = controls.bookId.value;
 		_bookIssueReturn.memberId = controls.memberId.value;
 		const _duereturnDate = controls.duereturnDate.value;
@@ -274,8 +274,9 @@ export class BookIssueReturnDialogComponent implements OnInit {
 
 		const issueDate = new Date();
 		_bookIssueReturn.issueDate = this.typesUtilsService.dateFormat(issueDate);
-		if(_bookIssueReturn.id>0){
+		if(this.bookIssueReturn.id>0){
 			_bookIssueReturn.isActive=this.bookIssueReturn.isActive;
+			_bookIssueReturn.isReturned= this.bookIssueReturn.isReturned;
 		const _returnDate = controls.returnDate.value;
 		if (_returnDate) {
 			_bookIssueReturn.returnDate = this.typesUtilsService.dateFormat(_returnDate);
@@ -284,6 +285,7 @@ export class BookIssueReturnDialogComponent implements OnInit {
 		}
 	}
 	_bookIssueReturn.isActive='yes';
+	_bookIssueReturn.isReturned= 0;
 		return _bookIssueReturn;
 	}
 
@@ -302,15 +304,15 @@ export class BookIssueReturnDialogComponent implements OnInit {
 			this.hasFormErrors = true;
 			return;
 		}
-
+		console.log(this.bookIssueReturn)
 		const editedBookIssueReturn = this.prepareBookIssueReturn();
-		if (editedBookIssueReturn.id > 0) {
+		if (this.bookIssueReturn.id > 0) {
 			this.updateBookIssueReturn(editedBookIssueReturn);
 		} else {
 		this.createBookIssueReturn(editedBookIssueReturn);
 		}
 		this.loadBookIssueReturnList(this.libraryMember.memberId);
-		const _saveMessage = editedBookIssueReturn.id > 0 ? 'Issue Book has been updated' : 'Issue Book has been created';
+		const _saveMessage = editedBookIssueReturn.id > 0 ? 'Issue Book has been returned' : 'Issue Book has been created';
 
 		const _messageType = editedBookIssueReturn.id > 0 ? MessageType.Update : MessageType.Create;
 

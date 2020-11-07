@@ -85,6 +85,9 @@ export class Constants {
       FeesType: 'api/feesType',
    }
 
+
+
+   
    public static Incomes: any = {
       Income: 'api/income',
       IncomeHead: 'api/incomeHead',
