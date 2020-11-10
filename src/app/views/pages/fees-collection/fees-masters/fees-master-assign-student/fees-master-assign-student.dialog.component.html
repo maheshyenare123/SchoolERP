@@ -54,8 +54,9 @@
 								   <div class="col-lg-3 kt-margin-bottom-20-mobile">
 									   <mat-form-field class="mat-form-field-fluid">
 										   <mat-select placeholder="Category" formControlName="category">
-											   <mat-option value="c1">Category 1</mat-option>
-											   <mat-option value="c2">Category 2</mat-option>
+											<mat-option *ngFor="let category of categoryList" [value]="category.id">
+												{{category.category}}
+											  </mat-option>
 										   </mat-select>
 	   
 									   </mat-form-field>
@@ -122,17 +123,16 @@
 	<div class="card-body">
 		<table style="width: 100%;">
 			<tr>
-				<td colspan="2">Fees Master</td>
+				<td colspan="2">{{feesMaster.feeGroupName}}</td>
 				<td></td>
 			</tr>
-			<tr>
+			<tr *ngFor="let data of feesMaster.feeMasters">
 				<td>
-					Scholar
-					<!-- {{feesMaster.code}} -->
+					{{data.feetypeName}}
 				</td>
 				<td>
-					₹ 2000.00 
-					<!-- ₹ {{feesMaster.amount}}.00 -->
+					
+					₹ {{data.amount}}.00
 				</td>
 			</tr>
 		</table>

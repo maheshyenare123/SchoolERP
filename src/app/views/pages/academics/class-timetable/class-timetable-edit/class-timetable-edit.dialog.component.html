@@ -165,7 +165,7 @@
 
 
 				<mat-tab formArrayName="days" #pft
-					*ngFor="let day of classTimetableForm.get('days').controls; let i = index">
+					*ngFor="let day of classTimetableForm.get('days')?.controls; let i = index">
 					<div [formGroupName]="i">
 						<ng-template mat-tab-label>
 							{{day.controls.dayName.value}} <a>

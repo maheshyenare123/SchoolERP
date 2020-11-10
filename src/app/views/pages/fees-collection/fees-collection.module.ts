@@ -30,6 +30,10 @@ import { FeesDiscountAssignStudentDialogComponent } from './fees-discounts/fees-
 import { FeesMasterComponent } from './fees-masters/fees-master/fees-master.component';
 import { FeesMasterAssignStudentDialogComponent } from './fees-masters/fees-master-assign-student/fees-master-assign-student.dialog.component';
 import { FeesCarryForwordComponent } from './fees-carry-forword/fees-carry-forword.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { AdmissionEnquiryEffects } from 'src/app/core/front-office';
+import { feesTypesReducer, FeesTypeEffects, FeesTypeService, feesGroupsReducer, FeesGroupEffects, FeesGroupService, feesDiscountsReducer, FeesDiscountService, feesMastersReducer, FeesMasterEffects, FeesMasterService, FeesDiscountEffects } from 'src/app/core/fees-collection';
 
 const routes: Routes = [
 	{
@@ -96,9 +100,18 @@ const routes: Routes = [
     NgxPermissionsModule.forChild(),
    // CKEditorModule
     
-//state manage
-    // StoreModule.forFeature('admissionEnquirys', admissionEnquirysReducer),
-    // EffectsModule.forFeature([AdmissionEnquiryEffects]),
+// state manage
+    StoreModule.forFeature('feesTypes', feesTypesReducer),
+    EffectsModule.forFeature([FeesTypeEffects]),
+
+    StoreModule.forFeature('feesGroups', feesGroupsReducer),
+    EffectsModule.forFeature([FeesGroupEffects]),
+
+    StoreModule.forFeature('feesDiscounts', feesDiscountsReducer),
+    EffectsModule.forFeature([FeesDiscountEffects]),
+
+    StoreModule.forFeature('feesMasters', feesMastersReducer),
+    EffectsModule.forFeature([FeesMasterEffects]),
   ],
   providers: [
     NgbAlertConfig,
@@ -130,7 +143,10 @@ const routes: Routes = [
     },
 
 //custom service
-
+FeesTypeService,
+FeesGroupService,
+FeesDiscountService,
+FeesMasterService
   ],
     entryComponents: [FeesDiscountAssignStudentDialogComponent,FeesMasterAssignStudentDialogComponent],
   exports: [RouterModule],

@@ -70,7 +70,7 @@ export class ManyAssignFeesStudentsDeleted implements Action {
 export class AssignFeesStudentsPageRequested implements Action {
   readonly type = AssignFeesStudentActionTypes.AssignFeesStudentsPageRequested;
 
-  constructor(public payload: { page: QueryParamsModel }) {
+  constructor(public payload: { page: QueryParamsModel ,classId:number,sectionId:number,category:number,gender:string,rte:string}) {
   }
 }
 

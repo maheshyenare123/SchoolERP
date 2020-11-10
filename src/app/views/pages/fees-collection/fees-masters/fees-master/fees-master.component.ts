@@ -2,7 +2,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { FeesMastersDataSource, FeesMasterModel,selectFeesMastersActionLoading, AssignFeesStudentModel } from 'src/app/core/fees-collection';
+import { FeesMastersDataSource, FeesMasterModel,selectFeesMastersActionLoading, AssignFeesStudentModel, FeesGroupService, FeesTypeService, FeesGroupModel, FeesTypeModel } from 'src/app/core/fees-collection';
 import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -57,7 +57,8 @@ private componentSubscriptions: Subscription;
   percentageFieldDisable: boolean = false;
   fixAmountFieldDisable: boolean = false;
   
-
+  feesGroupList:FeesGroupModel[] = [];
+  feesTypeList:FeesTypeModel[]=[];
 
 
   constructor(public dialog: MatDialog,
@@ -66,7 +67,10 @@ private componentSubscriptions: Subscription;
 		private translate: TranslateService,
 		private store: Store<AppState>,
 		private fb: FormBuilder,
-		private typesUtilsService: TypesUtilsService) { }
+		private typesUtilsService: TypesUtilsService,
+		private feesGroupService:FeesGroupService,
+		private feesTypeService:FeesTypeService
+		) { }
 
   ngOnInit() {
 
@@ -109,6 +113,7 @@ private componentSubscriptions: Subscription;
 			debugger
 	console.log(res);
 			this.feesMastersResult = res;
+			console.log(this.feesMastersResult)
 		});
 		this.subscriptions.push(entitiesSubscription);
 		// First load
@@ -116,8 +121,10 @@ private componentSubscriptions: Subscription;
 			this.loadFeesMasterList();
 		}); // Remove this line, just loading imitation
 
-this.addFeesMaster();
+		this.addFeesMaster();
 		
+	  	this.loadAllFeesGroup();
+		this.loadAllFeesType();
   }
 /**
 	 * On Destroy
@@ -157,6 +164,29 @@ this.addFeesMaster();
 		}
 		filter.description = searchText;
 		return filter;
+	}
+
+
+
+		//get All Source List
+loadAllFeesGroup() {
+	debugger
+	this.feesGroupService.getAllFeesGroups().subscribe(res => {
+		const data=res['data'];
+		this.feesGroupList=data['content'];
+		console.log(this.feesGroupList)
+	}, err => {
+	});
+}
+	//get All Class List
+	loadAllFeesType() {
+		debugger
+		this.feesTypeService.getAllFeesTypes().subscribe(res => {
+			const data=res['data'];
+			this.feesTypeList=data['content'];
+			console.log(this.feesTypeList)
+		}, err => {
+		});
 	}
 
 	/** ACTIONS */
@@ -218,11 +248,13 @@ createForm() {
 	this.feesMasterForm = this.fb.group({
     amount: [this.feesMaster.amount, Validators.required],
     dueDate: [this.typesUtilsService.getDateFromString(this.feesMaster.dueDate), Validators.compose([Validators.nullValidator])],
-    feeGroupId: [this.feesMaster.feeGroupId, Validators.required],
-    feetypeId: [this.feesMaster.feetypeId, ],
+	feeGroupId: [this.feesMaster.feeGroupId, Validators.required],
+	feeGroupName: [this.feesMaster.feeGroupName, Validators.required],
+	feetypeId: [this.feesMaster.feetypeId,  Validators.required],
+	feetypeName: [this.feesMaster.feetypeName, Validators.required],
     fineAmount: [this.feesMaster.fineAmount,  ],
     finePercentage: [this.feesMaster.finePercentage, ],
-    fineType: [this.feesMaster.fineType, 'None' ],
+    fineType: [this.feesMaster.fineType, ],
     isActive: [this.feesMaster.isActive, ],
     sessionID: [this.feesMaster.sessionID, ],
 
@@ -263,13 +295,36 @@ prepareFeesMaster(): FeesMasterModel {
     _feesMaster.dueDate = '';
   }
   _feesMaster.feeGroupId = controls.feeGroupId.value;
+  _feesMaster.feeGroupName = controls.feeGroupName.value;
   _feesMaster.feetypeId = controls.feetypeId.value;
+  _feesMaster.feetypeName = controls.feetypeName.value;
   _feesMaster.fineAmount = controls.fineAmount.value;
   _feesMaster.finePercentage = controls.finePercentage.value;
   _feesMaster.fineType = controls.fineType.value;
   _feesMaster.sessionID = controls.sessionID.value;
 	_feesMaster.isActive='yes';
 	return _feesMaster;
+}
+
+getNameByGroupId(id){
+	debugger
+	// var classObj=this.classList.find(x => x.id === classId);
+	// this.searchForm.controls.classes.setValue(classObj.classses);
+
+
+	this.feesGroupList.forEach((element,i) => {
+		if(element.id === id){
+			this.feesMasterForm.get("feeGroupName").setValue(element.name) 
+		}	
+	});	
+}
+
+getNameByTypeId(id){
+	this.feesTypeList.forEach((element,i) => {
+		if(element.id === id){
+			this.feesMasterForm.get("feetypeName").setValue(element.type) 
+		}	
+	});
 }
 
 /**
@@ -313,7 +368,9 @@ onFineTypeChange($event){
   debugger
   if($event.value === 'None'){
     this.percentageFieldDisable = true;
-    this.fixAmountFieldDisable = true;
+	this.fixAmountFieldDisable = true;
+	this.feesMasterForm.get("finePercentage").setValue(0) 
+	this.feesMasterForm.get("fineAmount").setValue(0) 
   }
 
   if($event.value === 'Percentage'){
@@ -323,7 +380,9 @@ onFineTypeChange($event){
 
   if($event.value === 'Fix Amount'){
     this.percentageFieldDisable = true;
-    this.fixAmountFieldDisable = false;
+	this.fixAmountFieldDisable = false;
+	this.feesMasterForm.get("finePercentage").setValue(0) 
+	this.feesMasterForm.get("fineAmount").setValue(0) 
   }
 }
 
@@ -397,4 +456,19 @@ _keyPress(event: any) {
 
 	}
 }
+
+calculateFineAmountFromFinePercentage($event){
+
+	let percentage = parseInt($event.target.value);
+	let amount = this.feesMasterForm.get('amount').value;
+	let fineAmount = amount * (percentage/100);
+	if($event.target.value == null || $event.target.value == ''){
+		this.feesMasterForm.get('fineAmount').setValue(0);
+	}else{
+		this.feesMasterForm.get('fineAmount').setValue(fineAmount);
+	}
+	
+}
+
+
 }

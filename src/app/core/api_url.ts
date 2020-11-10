@@ -81,8 +81,11 @@ export class Constants {
    }
 
    public static Fees_Collection: any = {
-      FeesGroup: 'api/feesGroup',
-      FeesType: 'api/feesType',
+      Fees_Group: 'api/fee-group',
+      Fees_Type: 'api/fee-type',
+      Fees_Discount: 'api/fee-discount',
+      Fees_Master: 'api/feemaster',
+      AssignFeesStudent: 'api/feemaster/assign/student'
    }
 
 
