@@ -35,9 +35,10 @@
                                     </div>
                                     <div class="col-lg-3 kt-margin-bottom-20-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
-                                            <mat-select placeholder="Class" formControlName="classId">
-                                                <mat-option value="3">Business</mat-option>
-                                                <mat-option value="4">Individual</mat-option>
+                                            <mat-select placeholder="Class" formControlName="classId" (selectionChange)="onClassSelectChange($event.value)">
+                                                <mat-option *ngFor="let classData of classList" [value]="classData.id" >
+                                                    {{classData.classses}}
+                                                </mat-option>
                                             </mat-select>
 
                                         </mat-form-field>
@@ -45,8 +46,9 @@
                                     <div class="col-lg-3 kt-margin-bottom-20-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
                                             <mat-select placeholder="Section" formControlName="sectionId">
-                                                <mat-option value="0">Business</mat-option>
-                                                <mat-option value="1">Individual</mat-option>
+                                                <mat-option *ngFor="let sectionData of sectionList" [value]="sectionData.id">
+                                                    {{sectionData.section}}
+                                                </mat-option>
                                             </mat-select>
 
                                         </mat-form-field>
@@ -96,8 +98,9 @@
                                     <div class="col-lg-3 kt-margin-bottom-20-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
                                             <mat-select placeholder="Category" formControlName="categoryId">
-                                                <mat-option value="c1">Category 1</mat-option>
-                                                <mat-option value="c2">Category 2</mat-option>
+                                                <mat-option *ngFor="let category of categoryList" [value]="category.id">
+                                                    {{category.category}}
+                                                  </mat-option>
                                             </mat-select>
 
                                         </mat-form-field>
@@ -171,9 +174,9 @@
                                     <div class="col-lg-3 kt-margin-bottom-20-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
                                             <mat-select placeholder="Student House" formControlName="schoolHouseId">
-                                                <mat-option value="sh1">Student House 1</mat-option>
-                                                <mat-option value="sh2">Student House 2</mat-option>
-                                                <mat-option value="sh3">Student House 3</mat-option>
+                                                <mat-option *ngFor="let studentHouse of studentHouseList" [value]="studentHouse.id">
+                                                    {{studentHouse.houseName}}
+                                                  </mat-option>
                                             </mat-select>
 
                                         </mat-form-field>
@@ -240,18 +243,19 @@
 
                                                 <div class="col-lg-12 kt-margin-bottom-20-mobile">
                                                     <mat-form-field class="mat-form-field-fluid">
-                                                        <mat-select placeholder="Class" formControlName="classId">
-                                                            <mat-option value="3">Business</mat-option>
-                                                            <mat-option value="4">Individual</mat-option>
+                                                        <mat-select placeholder="Class" formControlName="classId"(selectionChange)="onClassSelectChange($event.value)">
+                                                            <mat-option *ngFor="let classData of classList" [value]="classData.id" >
+                                                                {{classData.classses}}
+                                                            </mat-option>
                                                         </mat-select>
-
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-lg-12 kt-margin-bottom-20-mobile">
                                                     <mat-form-field class="mat-form-field-fluid">
                                                         <mat-select placeholder="Section" formControlName="sectionId">
-                                                            <mat-option value="0">Business</mat-option>
-                                                            <mat-option value="1">Individual</mat-option>
+                                                            <mat-option *ngFor="let sectionData of sectionList" [value]="sectionData.id">
+                                                                {{sectionData.section}}
+                                                            </mat-option>
                                                         </mat-select>
 
                                                     </mat-form-field>
@@ -383,7 +387,7 @@
                                 <div class="form-group kt-form__group row">
                                     <div class="col-lg-3 kt-margin-bottom-20-mobile">
                                         <label>If Guardian Is</label><br>
-                                        <mat-radio-group aria-label="Select an option" formControlName="guardianIs" (onChange)="onChangeGuardianIs($event)">
+                                        <mat-radio-group aria-label="Select an option" formControlName="guardianIs" (change)="onChangeGuardianIs($event)">
                                             <mat-radio-button value="Father">Father</mat-radio-button>
                                             <mat-radio-button value="Mother">Mother</mat-radio-button>
                                             <mat-radio-button value="Other">Other</mat-radio-button>

@@ -14,7 +14,8 @@ import { AppState } from '../../../../../core/reducers';
 // CRUD
 import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { StudentDtoModel, selectStudentsActionLoading, StudentUpdated, StudentOnServerCreated, selectLastCreatedStudentId, } from '../../../../../core/student-information';
+import { StudentDtoModel, selectStudentsActionLoading, StudentUpdated, StudentOnServerCreated, selectLastCreatedStudentId, StudentService, CategoryService, CategoryDtoModel, SchoolHousModel, StudentHouseService, } from '../../../../../core/student-information';
+import { StudentClassService, SectionService, StudentClassModel, SectionDtoModel } from 'src/app/core/academics';
 
 
 @Component({
@@ -51,13 +52,22 @@ export class StudentDetailsEditComponent implements OnInit {
   filesTitle2: File[] = [];
   filesTitle3: File[] = [];
 
-
+  classList: StudentClassModel[] = [];
+  sectionList: SectionDtoModel[] = [];
+  categoryList:CategoryDtoModel[]=[];
+  studentHouseList:SchoolHousModel[]=[];
   constructor(
     //public dialogRef: MatDialogRef<StudentDetailsEditDialogComponent>,
     //  @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private store: Store<AppState>,
-    private typesUtilsService: TypesUtilsService) {
+    private typesUtilsService: TypesUtilsService,
+    private studentService: StudentService,
+    private studentClassService: StudentClassService,
+    private sectionService: SectionService,
+    private categoryService:CategoryService,
+    private studentHouseService:StudentHouseService,
+    ) {
   }
 
   /**
@@ -66,7 +76,9 @@ export class StudentDetailsEditComponent implements OnInit {
   ngOnInit() {
     debugger
     this.store.pipe(select(selectStudentsActionLoading)).subscribe(res => this.viewLoading = res);
-
+this.loadAllClasses();
+this.loadAllStudentCategory();
+this.loadAllStudentHouse()
     //this.studentDetail = this.data.studentDetail;
     const newStudent = new StudentDtoModel();
 		newStudent.clear(); // Set all defaults fields
@@ -76,6 +88,51 @@ export class StudentDetailsEditComponent implements OnInit {
     this.isLinear = true;
   }
 
+  
+loadAllClasses() {
+	debugger
+	this.studentClassService.getAllStudentClasss().subscribe(res => {
+		const data = res['data'];
+		this.classList = data['content'];
+		console.log(this.classList)
+	}, err => {
+	});
+}
+onClassSelectChange(classId){
+  this.loadAllSectionsByClassId(classId);
+ 
+}
+loadAllSectionsByClassId(id:number) {
+	debugger
+	this.studentClassService.getAllSectionByClasssId(id).subscribe(res => {
+
+		this.sectionList = res['data'];
+		console.log(this.sectionList)
+	}, err => {
+	});
+}
+	//get All Source List
+	loadAllStudentCategory() {
+		debugger
+		this.categoryService.getAllCategorys().subscribe(res => {
+			const data=res['data'];
+			this.categoryList=data['content'];
+			console.log(this.categoryList)
+		}, err => {
+		});
+  }
+  
+
+  	//get All Source List
+	loadAllStudentHouse() {
+		debugger
+		this.studentHouseService.getAllStudentHouses().subscribe(res => {
+			const data=res['data'];
+			this.studentHouseList=data['content'];
+			console.log(this.studentHouseList)
+		}, err => {
+		});
+	}
   /**
    * On destroy
    */
@@ -525,15 +582,30 @@ export class StudentDetailsEditComponent implements OnInit {
   }
 
   onChangeGuardianIs($event) {
-    if($event.target.value == "Father"){
+    debugger
+    if($event.value == "Father"){
+
+      this.parentGuardianFormGroup.get("guardianName").setValue(this.parentGuardianFormGroup.get("fatherName").value) 
+      this.parentGuardianFormGroup.get("guardianPhone").setValue(this.parentGuardianFormGroup.get("fatherPhone").value)  
+      this.parentGuardianFormGroup.get("guardianOccupation").setValue(this.parentGuardianFormGroup.get("fatherOccupation").value)  
+      this.parentGuardianFormGroup.get("guardianRelation").setValue(this.parentGuardianFormGroup.get("guardianIs").value)  
 
     }
-    if($event.target.value == "Mother"){
+    if($event.value == "Mother"){
+      this.parentGuardianFormGroup.get("guardianName").setValue(this.parentGuardianFormGroup.get("motherName").value) 
+      this.parentGuardianFormGroup.get("guardianPhone").setValue(this.parentGuardianFormGroup.get("motherPhone").value)  
+      this.parentGuardianFormGroup.get("guardianOccupation").setValue(this.parentGuardianFormGroup.get("motherOccupation").value)  
+      this.parentGuardianFormGroup.get("guardianRelation").setValue(this.parentGuardianFormGroup.get("guardianIs").value)  
+    }
+    if($event.value == "Other"){
+      this.parentGuardianFormGroup.get("guardianName").setValue('') 
+      this.parentGuardianFormGroup.get("guardianPhone").setValue('')  
+      this.parentGuardianFormGroup.get("guardianOccupation").setValue('')  
+      this.parentGuardianFormGroup.get("guardianRelation").setValue('')  
 
     }
 
   }
 
 }
-
 

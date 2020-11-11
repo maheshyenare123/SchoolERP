@@ -71,7 +71,7 @@ export class FeesMasterAssignStudentDialogComponent implements OnInit {
 	classList: StudentClassModel[] = [];
 	sectionList: SectionDtoModel[] = [];
 	categoryList:CategoryDtoModel[]=[];
-	feesMaster: FeesMasterModel;
+	feesMaster: any;
 	
 	constructor(public dialogRef: MatDialogRef<FeesMasterAssignStudentDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
@@ -100,22 +100,7 @@ debugger
 
 		this.feesMaster = this.data.assignFeesStudent;
 
-		
-feeGroupId: 2
-feeGroupName: "General"
-feeMasters: Array(2)
 
-amount: 5000
-dueDate: "2020-11-10"
-feeGroupId: 2
-feeGroupName: "General"
-feetypeId: 1
-feetypeName: "installment"
-fineAmount: 0
-finePercentage: 0
-fineType: "None"
-id: 10
-isActive: "yes"
 	}
 	/**
 	 * On destroy
