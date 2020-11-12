@@ -186,6 +186,17 @@ export class PageConfig {
       'fees-master': {
         page: { title: 'Fees Master', desc: '' }
       },
+      'fees-collect': {
+        page: { title: 'Fees Collect', desc: '' }
+      },
+      'search-fees-payment': {
+        page: { title: 'Search Fees Payment', desc: '' }
+      },
+      'search-due-fees': {
+        page: { title: 'Search Due Fees', desc: '' }
+      },
+      
+      
       'fees-reminder': {
         page: { title: 'Fees Reminder', desc: '' }
       },

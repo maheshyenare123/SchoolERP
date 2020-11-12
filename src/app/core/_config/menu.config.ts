@@ -363,6 +363,20 @@ export class MenuConfig {
             },
             
             {
+              title: 'Fees Collect',
+              page: '/fees-collection/fees-collect'
+            },
+
+            {
+              title: 'Search Fees Payment',
+              page: '/fees-collection/search-fees-payment'
+            },
+
+            {
+              title: 'Search Due Fees',
+              page: '/fees-collection/search-due-fees'
+            },
+            {
               title: 'Fees Reminder',
               page: '/fees-collection/fees-reminder'
             },
