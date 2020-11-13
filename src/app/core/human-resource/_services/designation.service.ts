@@ -17,18 +17,18 @@ export class StaffDesignationService {
   createStaffDesignation(staffDesignation: StaffDesignationModel): Observable<StaffDesignationModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<StaffDesignationModel>(Constants.URL.HOST_URL+Constants.Human_Resource.staffDesignation, staffDesignation, {headers: httpHeaders});
+    return this.http.post<StaffDesignationModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Designation, staffDesignation, {headers: httpHeaders});
   }
 
   // READ
   getAllStaffDesignations(): Observable<StaffDesignationModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<StaffDesignationModel[]>(Constants.URL.HOST_URL+Constants.Human_Resource.StaffDesignation, {headers: httpHeaders});
+    return this.http.get<StaffDesignationModel[]>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Designation, {headers: httpHeaders});
   }
 
   getStaffDesignationById(staffDesignationId: number): Observable<StaffDesignationModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<StaffDesignationModel>(Constants.URL.HOST_URL+Constants.Human_Resource.StaffDesignation+ `/${staffDesignationId}`, {headers: httpHeaders});
+    return this.http.get<StaffDesignationModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Designation+ `/${staffDesignationId}`, {headers: httpHeaders});
   }
 
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
@@ -39,7 +39,7 @@ export class StaffDesignationService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
-    const url =Constants.URL.HOST_URL+Constants.Human_Resource.StaffDesignation ;
+    const url =Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Designation ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       // params: httpParams
@@ -49,7 +49,7 @@ export class StaffDesignationService {
   // UPDATE => PUT: update the StaffDesignation on the server
   updateStaffDesignation(staffDesignation: StaffDesignationModel): Observable<any> {
     const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Human_Resource.StaffDesignation+'/'+staffDesignation.id, staffDesignation, {headers: httpHeader});
+    return this.http.put(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Designation+'/'+staffDesignation.id, staffDesignation, {headers: httpHeader});
   }
 
   // UPDATE Status
@@ -59,19 +59,19 @@ export class StaffDesignationService {
       staffDesignationsForUpdate: staffDesignations,
       newStatus: status
     };
-    const url = Constants.URL.HOST_URL+Constants.Human_Resource.StaffDesignation+ '/updateStatus';
+    const url = Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Designation+ '/updateStatus';
     return this.http.put(url, body, {headers: httpHeaders});
   }
 
   // DELETE => delete the StaffDesignation from the server
   deleteStaffDesignation(staffDesignationId: number): Observable<StaffDesignationModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const url = `${Constants.URL.HOST_URL+Constants.Human_Resource.StaffDesignation}/${staffDesignationId}`;
+    const url = `${Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Designation}/${staffDesignationId}`;
     return this.http.delete<StaffDesignationModel>(url,{headers: httpHeaders});
   }
 
   deleteStaffDesignations(ids: number[] = []): Observable<any> {
-    const url = Constants.URL.HOST_URL+Constants.Human_Resource.StaffDesignation + '/deleteStaffDesignations';
+    const url = Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Designation + '/deleteStaffDesignations';
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const body = {staffDesignationIdsForDelete: ids};
     return this.http.put<QueryResultsModel>(url, body, {headers: httpHeaders});

@@ -17,18 +17,18 @@ export class StaffAttendanceService {
   createStaffAttendance(staffAttendance: StaffAttendanceModel): Observable<StaffAttendanceModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<StaffAttendanceModel>(Constants.URL.HOST_URL+Constants.Human_Resource.StaffAttendance, staffAttendance, {headers: httpHeaders});
+    return this.http.post<StaffAttendanceModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Attendance, staffAttendance, {headers: httpHeaders});
   }
 
   // READ
   getAllStaffAttendances(): Observable<StaffAttendanceModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<StaffAttendanceModel[]>(Constants.URL.HOST_URL+Constants.Human_Resource.StaffAttendance, {headers: httpHeaders});
+    return this.http.get<StaffAttendanceModel[]>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Attendance, {headers: httpHeaders});
   }
 
   getStaffAttendanceById(staffAttendanceId: number): Observable<StaffAttendanceModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<StaffAttendanceModel>(Constants.URL.HOST_URL+Constants.Human_Resource.StaffAttendance+ `/${staffAttendanceId}`, {headers: httpHeaders});
+    return this.http.get<StaffAttendanceModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Attendance+ `/${staffAttendanceId}`, {headers: httpHeaders});
   }
 
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
@@ -39,7 +39,7 @@ export class StaffAttendanceService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
-    const url =Constants.URL.HOST_URL+Constants.Human_Resource.StaffAttendance ;
+    const url =Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Attendance ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       // params: httpParams
@@ -49,7 +49,7 @@ export class StaffAttendanceService {
   // UPDATE => PUT: update the StaffAttendance on the server
   updateStaffAttendance(staffAttendance: StaffAttendanceModel): Observable<any> {
     const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Human_Resource.StaffAttendance+'/'+staffAttendance.id, staffAttendance, {headers: httpHeader});
+    return this.http.put(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Attendance+'/'+staffAttendance.id, staffAttendance, {headers: httpHeader});
   }
 
   // UPDATE Status
@@ -59,19 +59,19 @@ export class StaffAttendanceService {
       staffAttendancesForUpdate: staffAttendances,
       newStatus: status
     };
-    const url = Constants.URL.HOST_URL+Constants.Human_Resource.StaffAttendance+ '/updateStatus';
+    const url = Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Attendance+ '/updateStatus';
     return this.http.put(url, body, {headers: httpHeaders});
   }
 
   // DELETE => delete the StaffAttendance from the server
   deleteStaffAttendance(staffAttendanceId: number): Observable<StaffAttendanceModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const url = `${Constants.URL.HOST_URL+Constants.Human_Resource.StaffAttendance}/${staffAttendanceId}`;
+    const url = `${Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Attendance}/${staffAttendanceId}`;
     return this.http.delete<StaffAttendanceModel>(url,{headers: httpHeaders});
   }
 
   deleteStaffAttendances(ids: number[] = []): Observable<any> {
-    const url = Constants.URL.HOST_URL+Constants.Human_Resource.StaffAttendance + '/deleteStaffAttendances';
+    const url = Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Attendance + '/deleteStaffAttendances';
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const body = {staffAttendanceIdsForDelete: ids};
     return this.http.put<QueryResultsModel>(url, body, {headers: httpHeaders});

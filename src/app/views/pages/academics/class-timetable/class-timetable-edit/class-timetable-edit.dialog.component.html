@@ -165,7 +165,7 @@
 
 
 				<mat-tab formArrayName="days" #pft
-					*ngFor="let day of classTimetableForm.get('days').controls; let i = index">
+					*ngFor="let day of classTimetableForm.get('days')?.controls; let i = index">
 					<div [formGroupName]="i">
 						<ng-template mat-tab-label>
 							{{day.controls.dayName.value}} <a>
@@ -175,7 +175,7 @@
 
 
 						<button type="button" mat-raised-button color="primary" class="col-md-1 pull-right"
-							(click)="addItemRow(i)">
+							(click)="addItemRow(i,day.controls.dayName.value)">
 							<i class="material-icons">add</i>
 						</button>
 
@@ -199,7 +199,7 @@
 											<td class="form-group">
 												<mat-form-field class="mat-form-field-fluid">
 													<mat-select placeholder="Select Subject" formControlName="subjectId"
-														(selectionChange)="onSubjectSelectChange($event.value)">
+														(selectionChange)="onSubjectSelectChange($event.value,i,j)">
 														<mat-option *ngFor="let subject of subjectList"
 															[value]="subject.id">
 															{{subject.name}}
@@ -209,7 +209,7 @@
 											</td>
 											<td class="form-group">
 												<mat-form-field class="mat-form-field-fluid">
-													<mat-select placeholder="Select Teacher" formControlName="staffId">
+													<mat-select placeholder="Select Teacher" formControlName="staffId" (selectionChange)="onStaffSelectChange($event.value,i,j)" >
 														<mat-option *ngFor="let staff of staffList" [value]="staff.id">
 															{{staff.name}} {{staff.surname}}
 														</mat-option>
@@ -218,7 +218,7 @@
 											</td>
 											<td class="form-group">
 												<div class="ngx-timepicker-field-example">
-													<label>From Time</label>
+													<!-- <label>From Time</label> -->
 													<ngx-timepicker-field [controlOnly]="true"
 														placeholder="Choose a Time " formControlName="timeFrom">
 													</ngx-timepicker-field>
@@ -227,7 +227,7 @@
 											</td>
 											<td class="form-group">
 												<div class="ngx-timepicker-field-example">
-													<label>To Time</label>
+													<!-- <label>To Time</label> -->
 													<ngx-timepicker-field [controlOnly]="true"
 														placeholder="Choose a Time " formControlName="timeTo">
 													</ngx-timepicker-field>
@@ -246,9 +246,15 @@
 											</td>
 
 											<td>
-												<button type="button" mat-raised-button color="warm"
+												<!-- <button type="button" mat-raised-button color="warm"
 													class="col-md-1 mr-2" (click)="removeItemRow(i,j)">
 													<i class="material-icons">clear</i>
+												</button>\ -->
+
+
+												<button mat-icon-button color="warn" type="button"
+													(click)="removeItemRow(i,j)">
+													<mat-icon>delete</mat-icon>
 												</button>
 
 											</td>

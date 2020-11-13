@@ -64,19 +64,21 @@ export class Constants {
       Library_Member: 'api/library-member',
       Library_student_Member: 'api/library-member/student',
       Library_Staff_Member: 'api/library-member/staff',
-      Book_Issue_Return:'api/library-member/issue'
+      Book_Issue_Return: 'api/library-member/issue'
    }
 
 
    public static Human_Resource: any = {
       Staff: 'api/staff',
-      StaffDesignation: 'api/staffDesignation',
+      Staff_Designation: 'api/staffdesignation',
       Department: 'api/department',
-      StaffAttendance: 'api/staffAttendance',
-      StaffRating: 'api/staffRating',
-
       Leave_Type: 'api/leave-type',
-    
+      Staff_Leave:'api/staff-leave',
+      Staff_Leave_Details:'api/staff-leave-details',
+      Staff_Payroll: 'api/staff-payroll',
+      Staff_Rating: 'api/staff-rating',
+      Staff_Attendance: 'api/staff-attendance',
+      Roles:'api/role',
 
    }
 
@@ -87,7 +89,7 @@ export class Constants {
 
 
 
-   
+
    public static Incomes: any = {
       Income: 'api/income',
       IncomeHead: 'api/incomeHead',
@@ -97,6 +99,6 @@ export class Constants {
       Expense: 'api/expense',
       ExpenseHead: 'api/expenseHead',
    }
-  
+
 
 }

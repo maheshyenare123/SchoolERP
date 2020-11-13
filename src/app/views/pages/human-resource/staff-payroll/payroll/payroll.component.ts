@@ -2,7 +2,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { StaffsDataSource, StaffModel,selectStaffsActionLoading } from '../../../../../core/human-resource';
+import { StaffsDataSource, StaffModel,selectStaffsActionLoading, RoleService } from '../../../../../core/human-resource';
 import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from '../../../../../core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -24,6 +24,7 @@ import { StaffsPageRequested, OneStaffDeleted, ManyStaffsDeleted, StaffsStatusUp
 import { GeneratePayrollEditDialogComponent } from '../generate-payroll-edit/generate-payroll-edit.dialog.component';
 import { ProceedPayEditDialogComponent } from '../proceed-pay-edit/proceed-pay-edit.dialog.component';
 import { ViewPayslipEditDialogComponent } from '../view-payslip-edit/view-payslip-edit.dialog.component';
+import { RolesDtoModel } from 'src/app/core/Models/rolesDto.model';
 
 
 
@@ -66,20 +67,20 @@ roleId : number;
 month : string;
 year : string;
 
-
-
+rolesList: RolesDtoModel[] = [];
   constructor(public dialog: MatDialog,
 		public snackBar: MatSnackBar,
 		private layoutUtilsService: LayoutUtilsService,
 		private translate: TranslateService,
 		private store: Store<AppState>,
 		private fb: FormBuilder,
-		private typesUtilsService: TypesUtilsService) { }
+		private typesUtilsService: TypesUtilsService,
+		private roleService:RoleService) { }
 
   ngOnInit() {
 
 	debugger;
-	
+	this.loadAllRoles();
     const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 		this.subscriptions.push(sortSubscription);
 
@@ -126,6 +127,16 @@ year : string;
     this.createForm();
 		
   }
+  	//get All Class List
+	loadAllRoles() {
+		debugger
+		this.roleService.getAllRoles().subscribe(res => {
+			const data = res['data'];
+			this.rolesList = data['content'];
+			console.log(this.rolesList)
+		}, err => {
+		});
+	}
 /**
 	 * On Destroy
 	 */

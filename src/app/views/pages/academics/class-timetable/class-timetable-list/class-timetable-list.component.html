@@ -1,7 +1,8 @@
 <kt-portlet>
 	<kt-portlet-header [sticky]="true" [title]="'Class Timetable List'" [class]="'card-head-lg'">
 		<ng-container ktPortletTools>
-			<button (click)="addClassTimetable()" mat-raised-button color="primary" matTooltip="Create new ClassTimetable">New
+			<button (click)="addClassTimetable()" mat-raised-button color="primary"
+				matTooltip="Create new ClassTimetable">New
 				ClassTimetable</button>
 		</ng-container>
 	</kt-portlet-header>
@@ -10,21 +11,23 @@
 		<div class="kt-form kt-margin-b-30">
 			<form class="form" [formGroup]="searchForm">
 				<div class="card-body">
-		
+
 					<div class="card-body-progress">
 						<mat-spinner [diameter]="20"></mat-spinner>
 					</div>
-		
-					<kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
+
+					<kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true"
+						(close)="onAlertClose($event)">
 						Oh snap! Change a few things up and try submitting again.
 					</kt-alert>
-		
+
 					<div class="form-group row">
 						<div class="col-lg-4 kt-margin-bottom-20-mobile">
 							<mat-form-field class="mat-form-field-fluid">
-								<mat-select placeholder="Select Class" formControlName="classId" (selectionChange)="onClassSelectChange($event.value)">
+								<mat-select placeholder="Select Class" formControlName="classId"
+									(selectionChange)="onClassSelectChange($event.value)">
 
-									<mat-option *ngFor="let classData of classList" [value]="classData.id" >
+									<mat-option *ngFor="let classData of classList" [value]="classData.id">
 										{{classData.classses}}
 									</mat-option>
 								</mat-select>
@@ -46,20 +49,21 @@
 							</mat-form-field>
 						</div>
 						<div class="col-lg-4 kt-margin-bottom-20-mobile">
-						<div class="d-flex justify-content-between">
-							<!-- <div class="mr-2"></div> -->
-							<div>
-								<button type="button" mat-raised-button color="primary" (click)="onSearch()"  matTooltip="Save changes">
-									Search
-								</button>
+							<div class="d-flex justify-content-between">
+								<!-- <div class="mr-2"></div> -->
+								<div>
+									<button type="button" mat-raised-button color="primary" (click)="onSearch()"
+										matTooltip="Save changes">
+										Search
+									</button>
+								</div>
 							</div>
-						</div>
 						</div>
 
 
 
 					</div>
-		
+
 				</div>
 				<!-- <div class="card-footer">
 					<div class="d-flex justify-content-between">
@@ -72,17 +76,17 @@
 					</div>
 				</div> -->
 			</form>
-		
+
 
 		</div>
-	<!-- </kt-portlet-body>
+		<!-- </kt-portlet-body>
 
 	<kt-portlet-body> -->
 		<!-- start::FILTERS & GROUP ACTIONS -->
 		<!-- <div class="form mb-3"> -->
-			<!-- start::FILTERS -->
-			<!-- <div class="form-filtration"> -->
-				<!-- <div class="row align-items-center">
+		<!-- start::FILTERS -->
+		<!-- <div class="form-filtration"> -->
+		<!-- <div class="row align-items-center">
 					<div class="col-md-2 kt-margin-bottom-10-mobile">
 						<mat-form-field>
 							<mat-select [(value)]="filterStatus" (selectionChange)="loadProductsList()"
@@ -109,7 +113,7 @@
 							</mat-hint>
 						</mat-form-field>
 					</div> -->
-					<!-- <div class="col-md-4 kt-margin-bottom-10-mobile">
+		<!-- <div class="col-md-4 kt-margin-bottom-10-mobile">
 						<mat-form-field>
 							<input matInput placeholder="Search product" #searchInput placeholder="Search"
 								class="mat-form-field mat-form-field-fluid">
@@ -118,10 +122,10 @@
 							</mat-hint>
 						</mat-form-field>
 					</div> -->
-				<!-- </div> -->
-			<!-- </div> -->
-        
-            <!-- <div class="row align-items-center collapse form-group-actions kt-margin-top-20 kt-margin-bottom-20"
+		<!-- </div> -->
+		<!-- </div> -->
+
+		<!-- <div class="row align-items-center collapse form-group-actions kt-margin-top-20 kt-margin-bottom-20"
 				[ngClass]="{'show' : selection.selected.length > 0}">
 				<div class="col-xl-12">
 					<div class="form-group form-group-inline">
@@ -151,28 +155,13 @@
 					</div>
 				</div>
 			</div> -->
-			
+
 		<!-- </div> -->
 		<!-- end::FILTERS & GROUP ACTIONS -->
 
-	<div class="mat-table-wrapper">
+		<!-- <div class="mat-table-wrapper">
 			<mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource" matSort #sort1="matSort"
 				matSortActive="id" matSortDirection="asc" matSortDisableClear>
-				<!-- Checkbox Column -->
-				<!-- <ng-container matColumnDef="select">
-					<mat-header-cell *matHeaderCellDef class="mat-column-checkbox">
-						<mat-checkbox (change)="$event ? masterToggle() : null"
-							[checked]="selection.hasValue() && isAllSelected()"
-							[indeterminate]="selection.hasValue() && !isAllSelected()" [color]="'primary'">
-						</mat-checkbox>
-					</mat-header-cell>
-					<mat-cell *matCellDef="let row" class="mat-column-checkbox">
-						<mat-checkbox (click)="$event.stopPropagation()"
-							(change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
-							[color]="'primary'">
-						</mat-checkbox>
-					</mat-cell>
-				</ng-container> -->
 
 				<ng-container matColumnDef="mon">
 					<mat-header-cell *matHeaderCellDef mat-sort-header >Monday
@@ -227,19 +216,7 @@
 							matTooltip="Delete Class Timetable">
 							<mat-icon>delete</mat-icon>
 						</button>&nbsp;
-						<!-- <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="More actions">
-							<mat-icon>more_vert</mat-icon>
-						</button>
-						<mat-menu #menu="matMenu">
-							<button mat-menu-item type="button">
-								<mat-icon>subject</mat-icon>
-								<span>Remarks</span>
-							</button>
-							<button mat-menu-item type="button">
-								<mat-icon>assignment</mat-icon>
-								<span>Specifications</span>
-							</button>
-						</mat-menu> -->
+						
 					</mat-cell>
 				</ng-container>
 
@@ -249,14 +226,135 @@
 			<div class="mat-table-message" *ngIf="!dataSource.hasItems">No records found</div>
 			<div class="mat-table-message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
 		</div>
-
-		<!-- start: BOTTOM -->
 		<div class="mat-table-bottom">
 			<mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner>
 			<mat-paginator [pageSize]="10" [pageSizeOptions]="[3, 5, 10]" [length]="dataSource.paginatorTotal$ | async"
 				[showFirstLastButtons]="true"></mat-paginator>
-		</div>
+		</div> -->
 		<!-- end: BOTTOM -->
+		<hr>
+		<table>
+
+			<thead>
+				<tr>
+					<th>Monday</th>
+					<th>Tuesday</th>
+					<th>Wednesday</th>
+					<th>Thursday</th>
+					<th>Friday</th>
+					<th>Saturday</th>
+					<th>Sunday</th>
+
+				</tr>
+
+			</thead>
+			
+			<tbody>
+				<!-- <tr>
+					<td colspan="6">
+						<hr>
+					</td>
+					
+				</tr> -->
+				<tr>
+					<td>
+						<!-- <span *ngFor="let data of classTimetablesData?.timeTable?.monday">  -->
+						<span>
+							<mat-card>Simple card</mat-card>
+						</span>
+					
+					</td>
+					<td>
+						<span>
+							<mat-card>Simple card</mat-card>
+						</span>
+						
+					</td>
+					<td>
+						
+						<span>
+							<mat-card>Simple card</mat-card>
+						</span>
+					</td>
+					<td>
+						<span>
+							<mat-card>Simple card</mat-card>
+						</span>
+						
+					</td>
+					<td>
+						<span>
+							<mat-card>Simple card</mat-card>
+						</span>
+					
+					</td>
+					<td>
+						<span>
+							<mat-card>Simple card</mat-card>
+						</span>
+					
+					</td>
+					<td>
+						<span>
+							<mat-card>Simple card</mat-card>
+						</span>
+
+					</td>
+
+				</tr>
+			</tbody>
+			<!-- <ng-container *ngIf="classTimetablesResult.timetable.monday=='monday'"></ng-container> -->
+			<!-- <tbody>
+	
+<tr>
+			<th>Monday</th>
+			<td><mat-card>Simple card</mat-card> </td>
+			<div *ngFor="let data of classTimetablesData?.timeTable?.monday"><td> <mat-card>Simple card</mat-card></td> </div>
+			
+		</tr>
+	
+		<tr>
+			<th>Tuesday</th>
+			<td><mat-card>Simple card</mat-card> </td>
+			<div *ngFor="let data of classTimetablesData?.timeTable?.tuesday"> <td> <mat-card>Simple card</mat-card> </td></div>
+			
+		</tr>
+		<tr>
+			<th>Wednesday</th>
+			<td><mat-card>Simple card</mat-card> </td>
+			<div *ngFor="let data of classTimetablesData?.timeTable?.wednesday"> <td> <mat-card>Simple card</mat-card> </td></div>
+			
+		</tr>
+		<tr>
+			<th>Thursday</th>
+			<td><mat-card>Simple card</mat-card> </td>
+			<div *ngFor="let data of classTimetablesData?.timeTable?.thursday"><td>  <mat-card>Simple card</mat-card> </td></div>
+			
+		</tr>
+		<tr>
+			<th>Friday</th>
+			<td><mat-card>Simple card</mat-card> </td>
+			<div *ngFor="let data of classTimetablesData?.timeTable?.friday"><td>  <mat-card>Simple card</mat-card> </td></div>
+			
+		</tr>
+		<tr>
+			<th>Saturday</th>
+			<td><mat-card>Simple card</mat-card> </td>
+			<div *ngFor="let data of classTimetablesData?.timeTable?.saturday"><td>  <mat-card>Simple card</mat-card> </td></div>
+			
+		</tr>
+		<tr>
+			<th>Sunday</th>
+			<td><mat-card>Simple card</mat-card> </td>
+			<div *ngFor="let data of classTimetablesData?.timeTable?.sunday"> <td><mat-card>Simple card</mat-card> </td></div>
+			
+		</tr>
+
+	</tbody> -->
+		</table>
+
+
+
 	</kt-portlet-body>
 	<!-- end::Body -->
 </kt-portlet>

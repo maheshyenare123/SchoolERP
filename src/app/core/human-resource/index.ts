@@ -252,3 +252,4 @@ export { StaffAttendanceService } from './_services/staff-attendance.service';
 export { StaffRatingService } from './_services/staff-rating.service';
 export { StaffLeaveRequestService } from './_services/staff-leave-request.service';
 export { StaffPayslipService } from './_services/staff-payslip.service';
+export { RoleService } from './_services/role.service';

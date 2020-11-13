@@ -142,75 +142,75 @@ loadAllSectionsByClassId(id:number) {
 	}
 
 
-	getAllStudentAttendanceList(classId,sectionId,date){
+// 	getAllStudentAttendanceList(classId,sectionId,date){
 
-		const queryParams = new QueryParamsModel(
-			this.filterConfiguration(),
-			this.sort.direction,
-			this.sort.active,
-			this.paginator.pageIndex,
-			this.paginator.pageSize
-		);
-
-
-	this.attendanceService.findStudentAttendences(queryParams,classId,sectionId,date).subscribe(res=>{
-		console.log(res);
-		// studentAttendencesResult
-
-	})
-
-}
+// 		const queryParams = new QueryParamsModel(
+// 			this.filterConfiguration(),
+// 			this.sort.direction,
+// 			this.sort.active,
+// 			this.paginator.pageIndex,
+// 			this.paginator.pageSize
+// 		);
 
 
-	// getAllStudentAttendanceList(classId, sectionId, date) {
+// 	this.attendanceService.findStudentAttendences(queryParams,classId,sectionId,date).subscribe(res=>{
+// 		console.log(res);
+// 		// studentAttendencesResult
 
-	// 	const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-	// 	this.subscriptions.push(sortSubscription);
+// 	})
 
-	// 	const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-	// 		tap(() => this.loadStudentAttendenceList(classId, sectionId, date))
-	// 	)
-	// 		.subscribe();
-	// 	this.subscriptions.push(paginatorSubscriptions);
+// }
 
-	// 	// // Filtration, bind to searchInput
-	// 	// const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
-	// 	// 	// tslint:disable-next-line:max-line-length
-	// 	// 	debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
-	// 	// 	distinctUntilChanged(), // This operator will eliminate duplicate values
-	// 	// 	tap(() => {
-	// 	// 		this.paginator.pageIndex = 0;
-	// 	// 		this.loadStudentAttendenceList();
-	// 	// 	})
-	// 	// )
-	// 	// .subscribe();
-	// 	// this.subscriptions.push(searchSubscription);
 
-	// 	// Init DataSource
-	// 	this.dataSource = new StudentAttendencesDataSource(this.store);
+	getAllStudentAttendanceList(classId, sectionId, date) {
 
-	// 	const entitiesSubscription = this.dataSource.entitySubject.pipe(
-	// 		skip(1),
-	// 		distinctUntilChanged()
-	// 	).subscribe(res => {
-	// 		// debugger
-	// 		console.log(res);
-	// 		this.studentAttendencesResult = res;
-	// 		console.log(this.studentAttendencesResult);
-	// 		if(this.studentAttendencesResult){
-	// 			this.studentAttendenceForFill=this.studentAttendencesResult;
-	// 		}
+		const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+		this.subscriptions.push(sortSubscription);
+
+		const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
+			tap(() => this.loadStudentAttendenceList(classId, sectionId, date))
+		)
+			.subscribe();
+		this.subscriptions.push(paginatorSubscriptions);
+
+		// // Filtration, bind to searchInput
+		// const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
+		// 	// tslint:disable-next-line:max-line-length
+		// 	debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
+		// 	distinctUntilChanged(), // This operator will eliminate duplicate values
+		// 	tap(() => {
+		// 		this.paginator.pageIndex = 0;
+		// 		this.loadStudentAttendenceList();
+		// 	})
+		// )
+		// .subscribe();
+		// this.subscriptions.push(searchSubscription);
+
+		// Init DataSource
+		this.dataSource = new StudentAttendencesDataSource(this.store);
+
+		const entitiesSubscription = this.dataSource.entitySubject.pipe(
+			skip(1),
+			distinctUntilChanged()
+		).subscribe(res => {
+			// debugger
+			console.log(res);
+			this.studentAttendencesResult = res;
+			console.log(this.studentAttendencesResult);
+			if(this.studentAttendencesResult){
+				this.studentAttendenceForFill=this.studentAttendencesResult;
+			}
 		
-	// 	});
-	// 	this.subscriptions.push(entitiesSubscription);
-	// 	// First load
-	// 	of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-	// 		this.loadStudentAttendenceList(classId, sectionId, date);
-	// 	}); // Remove this line, just loading imitation
+		});
+		this.subscriptions.push(entitiesSubscription);
+		// First load
+		of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
+			this.loadStudentAttendenceList(classId, sectionId, date);
+		}); // Remove this line, just loading imitation
 
 
 
-	// }
+	}
 
 
 	/**

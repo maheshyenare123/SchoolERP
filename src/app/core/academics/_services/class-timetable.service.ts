@@ -21,9 +21,14 @@ export class ClassTimetableService {
   }
 
   // READ
-  getAllClassTimetables(): Observable<ClassTimetableModel[]> {
+  getAllClassTimetables(classId,sectionId): Observable<ClassTimetableModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<ClassTimetableModel[]>(Constants.URL.HOST_URL+Constants.Academics.Class_TimeTable, {headers: httpHeaders});
+    const httpParams =new HttpParams()
+    .set('classId', classId)
+    .set('sectionId', sectionId)
+    
+
+    return this.http.get<ClassTimetableModel[]>(Constants.URL.HOST_URL+Constants.Academics.Class_TimeTable, {headers: httpHeaders,params: httpParams});
   }
 
   getClassTimetableById(classTimetableId: number): Observable<ClassTimetableModel> {

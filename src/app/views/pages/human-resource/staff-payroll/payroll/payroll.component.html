@@ -20,10 +20,13 @@
                 
                             <div class="form-group row">
                                 <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                               
+
                                     <mat-form-field class="mat-form-field-fluid">
-                                        <mat-select placeholder="Role" formControlName="roleId">
-                                            <mat-option value="3">Role 1</mat-option>
-                                            <mat-option value="4">Role 2</mat-option>
+                                        <mat-select placeholder="Select Role" formControlName="roleId"  >
+                                            <mat-option *ngFor="let role of rolesList" [value]="role.id" >
+                                                {{role.name}}
+                                            </mat-option>
                                         </mat-select>
                 
                                     </mat-form-field>

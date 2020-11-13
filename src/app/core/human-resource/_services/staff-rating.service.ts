@@ -17,18 +17,18 @@ export class StaffRatingService {
   createStaffRating(staffRating: StaffRatingModel): Observable<StaffRatingModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<StaffRatingModel>(Constants.URL.HOST_URL+Constants.Human_Resource.StaffRating, staffRating, {headers: httpHeaders});
+    return this.http.post<StaffRatingModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Rating, staffRating, {headers: httpHeaders});
   }
 
   // READ
   getAllStaffRatings(): Observable<StaffRatingModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<StaffRatingModel[]>(Constants.URL.HOST_URL+Constants.Human_Resource.StaffRating, {headers: httpHeaders});
+    return this.http.get<StaffRatingModel[]>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Rating, {headers: httpHeaders});
   }
 
   getStaffRatingById(staffRatingId: number): Observable<StaffRatingModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<StaffRatingModel>(Constants.URL.HOST_URL+Constants.Human_Resource.StaffRating+ `/${staffRatingId}`, {headers: httpHeaders});
+    return this.http.get<StaffRatingModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Rating+ `/${staffRatingId}`, {headers: httpHeaders});
   }
 
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
@@ -39,7 +39,7 @@ export class StaffRatingService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
-    const url =Constants.URL.HOST_URL+Constants.Human_Resource.StaffRating ;
+    const url =Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Rating ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       // params: httpParams
@@ -49,7 +49,7 @@ export class StaffRatingService {
   // UPDATE => PUT: update the StaffRating on the server
   updateStaffRating(staffRating: StaffRatingModel): Observable<any> {
     const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Human_Resource.StaffRating+'/'+staffRating.id, staffRating, {headers: httpHeader});
+    return this.http.put(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Rating+'/'+staffRating.id, staffRating, {headers: httpHeader});
   }
 
   // UPDATE Status
@@ -59,19 +59,19 @@ export class StaffRatingService {
       staffRatingsForUpdate: staffRatings,
       newStatus: status
     };
-    const url = Constants.URL.HOST_URL+Constants.Human_Resource.StaffRating+ '/updateStatus';
+    const url = Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Rating+ '/updateStatus';
     return this.http.put(url, body, {headers: httpHeaders});
   }
 
   // DELETE => delete the StaffRating from the server
   deleteStaffRating(staffRatingId: number): Observable<StaffRatingModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const url = `${Constants.URL.HOST_URL+Constants.Human_Resource.StaffRating}/${staffRatingId}`;
+    const url = `${Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Rating}/${staffRatingId}`;
     return this.http.delete<StaffRatingModel>(url,{headers: httpHeaders});
   }
 
   deleteStaffRatings(ids: number[] = []): Observable<any> {
-    const url = Constants.URL.HOST_URL+Constants.Human_Resource.StaffRating + '/deleteStaffRatings';
+    const url = Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Rating + '/deleteStaffRatings';
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const body = {staffRatingIdsForDelete: ids};
     return this.http.put<QueryResultsModel>(url, body, {headers: httpHeaders});

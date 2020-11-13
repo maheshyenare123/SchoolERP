@@ -17,18 +17,18 @@ export class StaffPayslipService {
   createStaffPayslip(staffPayslip: StaffPayslipModel): Observable<StaffPayslipModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<StaffPayslipModel>(Constants.URL.HOST_URL+Constants.Human_Resource.StaffPayslip, staffPayslip, {headers: httpHeaders});
+    return this.http.post<StaffPayslipModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Payroll, staffPayslip, {headers: httpHeaders});
   }
 
   // READ
   getAllStaffPayslips(): Observable<StaffPayslipModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<StaffPayslipModel[]>(Constants.URL.HOST_URL+Constants.Human_Resource.StaffPayslip, {headers: httpHeaders});
+    return this.http.get<StaffPayslipModel[]>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Payroll, {headers: httpHeaders});
   }
 
   getStaffPayslipById(staffPayslipId: number): Observable<StaffPayslipModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<StaffPayslipModel>(Constants.URL.HOST_URL+Constants.Human_Resource.StaffPayslip+ `/${staffPayslipId}`, {headers: httpHeaders});
+    return this.http.get<StaffPayslipModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Payroll+ `/${staffPayslipId}`, {headers: httpHeaders});
   }
 
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
@@ -39,7 +39,7 @@ export class StaffPayslipService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
-    const url =Constants.URL.HOST_URL+Constants.Human_Resource.StaffPayslip ;
+    const url =Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Payroll ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       // params: httpParams
@@ -49,7 +49,7 @@ export class StaffPayslipService {
   // UPDATE => PUT: update the StaffPayslip on the server
   updateStaffPayslip(staffPayslip: StaffPayslipModel): Observable<any> {
     const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Human_Resource.StaffPayslip+'/'+staffPayslip.id, staffPayslip, {headers: httpHeader});
+    return this.http.put(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Payroll+'/'+staffPayslip.id, staffPayslip, {headers: httpHeader});
   }
 
   // UPDATE Status
@@ -59,19 +59,19 @@ export class StaffPayslipService {
       staffPayslipsForUpdate: staffPayslips,
       newStatus: status
     };
-    const url = Constants.URL.HOST_URL+Constants.Human_Resource.StaffPayslip+ '/updateStatus';
+    const url = Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Payroll+ '/updateStatus';
     return this.http.put(url, body, {headers: httpHeaders});
   }
 
   // DELETE => delete the StaffPayslip from the server
   deleteStaffPayslip(staffPayslipId: number): Observable<StaffPayslipModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const url = `${Constants.URL.HOST_URL+Constants.Human_Resource.StaffPayslip}/${staffPayslipId}`;
+    const url = `${Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Payroll}/${staffPayslipId}`;
     return this.http.delete<StaffPayslipModel>(url,{headers: httpHeaders});
   }
 
   deleteStaffPayslips(ids: number[] = []): Observable<any> {
-    const url = Constants.URL.HOST_URL+Constants.Human_Resource.StaffPayslip + '/deleteStaffPayslips';
+    const url = Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Payroll + '/deleteStaffPayslips';
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const body = {staffPayslipIdsForDelete: ids};
     return this.http.put<QueryResultsModel>(url, body, {headers: httpHeaders});

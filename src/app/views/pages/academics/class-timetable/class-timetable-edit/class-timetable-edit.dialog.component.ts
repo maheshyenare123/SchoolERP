@@ -1,10 +1,10 @@
 // Angular
 import { Component, OnInit, Inject, ChangeDetectionStrategy, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators,FormArray} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 // Material
 // import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 // RxJS
-import { Subscription, of } from 'rxjs';
+import { Subscription, of, Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
 // NGRX
 import { Update } from '@ngrx/entity';
@@ -14,7 +14,7 @@ import { AppState } from '../../../../../core/reducers';
 // CRUD
 import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ClassTimetableModel, selectClassTimetablesActionLoading, ClassTimetableUpdated, ClassTimetableOnServerCreated, selectLastCreatedClassTimetableId, ClassTimetableService, StudentClassService, SectionService, AssignClassTeacherService, StudentClassModel, SectionDtoModel, SubjectGroupService, SubjectDtoModel, SubjectGroupDtoModel, SubjectService } from '../../../../../core/academics';
+import { ClassTimetableModel, selectClassTimetablesActionLoading, ClassTimetableUpdated, ClassTimetableOnServerCreated, selectLastCreatedClassTimetableId, ClassTimetableService, StudentClassService, SectionService, AssignClassTeacherService, StudentClassModel, SectionDtoModel, SubjectGroupService, SubjectDtoModel, SubjectGroupDtoModel, SubjectService, TimetableDayModel } from '../../../../../core/academics';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
 import { StaffDtoModel } from 'src/app/core/academics/_models/staffDto.model';
 import { selectAdmissionEnquirysActionLoading } from 'src/app/core/front-office';
@@ -50,18 +50,19 @@ export class ClassTimetableEditDialogComponent implements OnInit, OnDestroy {
 	day: string = "Monday";
 
 
-	tabsForTabs=['Monday','Tuesday','Wednusday','Thusday','Friday','Saturday','Sunday'];
+	tabsForTabs = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 	constructor(public dialogRef: MatDialogRef<ClassTimetableEditDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		private fb: FormBuilder,
 		private store: Store<AppState>,
 		private typesUtilsService: TypesUtilsService,
-		private classTimetableService:ClassTimetableService,
+		private classTimetableService: ClassTimetableService,
 		private studentClassService: StudentClassService,
 		private sectionService: SectionService,
 		private assignClassTeacherService: AssignClassTeacherService,
 		private subjectService: SubjectService,
-		private subjectGroupService: SubjectGroupService,) {
+		private subjectGroupService: SubjectGroupService,
+	) {
 	}
 
 	/**
@@ -77,85 +78,94 @@ export class ClassTimetableEditDialogComponent implements OnInit, OnDestroy {
 		this.loadAllSubjectGroup();
 
 		this.store.pipe(select(selectClassTimetablesActionLoading)).subscribe(res => this.viewLoading = res);
-		
+
 		this.classTimetable = this.data.classTimetable;
 		this.createForm();
 	}
 
-//get All Class List
-loadAllClasses() {
-	debugger
-	this.studentClassService.getAllStudentClasss().subscribe(res => {
-		const data = res['data'];
-		this.classList = data['content'];
-		console.log(this.classList)
-	}, err => {
-	});
-}
-loadAllSectionsByClassId(id:number) {
-	debugger
-	this.studentClassService.getAllSectionByClasssId(id).subscribe(res => {
-	
-		this.sectionList = res['data'];
-		console.log(this.sectionList)
-		
-	}, err => {
-	});
-}
+	//get All Class List
+	loadAllClasses() {
+		debugger
+		this.studentClassService.getAllStudentClasss().subscribe(res => {
+			const data = res['data'];
+			this.classList = data['content'];
+			console.log(this.classList)
+		}, err => {
+		});
+	}
+	loadAllSectionsByClassId(id: number) {
+		debugger
+		this.studentClassService.getAllSectionByClasssId(id).subscribe(res => {
 
-loadAllSubject() {
-	debugger
-	this.subjectService.getAllSubjects().subscribe(res => {
-		const data = res['data'];
-		this.subjectList = data['content'];
-		console.log(this.subjectList)
-	
-	
-	}, err => {
-	});
-}
-loadAllSubjectGroup() {
-	debugger
-	this.subjectGroupService.getAllSubjectGroups().subscribe(res => {
-		const data = res['data'];
-		this.subjectGroupList = data['content'];
-		console.log(this.subjectList)
-	}, err => {
-	});
-}
+			this.sectionList = res['data'];
+			console.log(this.sectionList)
+
+		}, err => {
+		});
+	}
+
+	loadAllSubject() {
+		debugger
+		this.subjectService.getAllSubjects().subscribe(res => {
+			const data = res['data'];
+			this.subjectList = data['content'];
+			console.log(this.subjectList)
 
 
-loadAllStaff() {
-	debugger
-	this.assignClassTeacherService.getAllStaffs().subscribe(res => {
-		console.log("response collage List")
-		console.log(res)
-		const data = res['data'];
-		this.staffList = data['content'];
-		console.log(this.staffList)
-		// this.setDataInChecboxList();
-	
-	}, err => {
-	});
-}
+		}, err => {
+		});
+	}
+	loadAllSubjectGroup() {
+		debugger
+		this.subjectGroupService.getAllSubjectGroups().subscribe(res => {
+			const data = res['data'];
+			this.subjectGroupList = data['content'];
+			console.log(this.subjectList)
+		}, err => {
+		});
+	}
 
-onClassSelectChange(classId){
-	this.loadAllSectionsByClassId(classId);
-	var classObj=this.classList.find(x => x.id === classId);
-	this.searchForm.controls.classes.setValue(classObj.classses);
 
-}
-onSectionSelectChange(subjectId){		
-	var sectionObj=this.sectionList.find(x => x.id === subjectId);
-	this.searchForm.controls.section.setValue(sectionObj.section);
+	loadAllStaff() {
+		debugger
+		this.assignClassTeacherService.getAllStaffs().subscribe(res => {
+			console.log("response collage List")
+			console.log(res)
+			const data = res['data'];
+			this.staffList = data['content'];
+			console.log(this.staffList)
+			// this.setDataInChecboxList();
 
-}
-onSubjectSelectChange(subjectId){	
-	var subjectObj=this.subjectList.find(x => x.id === subjectId);
-	// this.homeworkForm.controls.subjectName.setValue(subjectObj.name);
-	
-}
+		}, err => {
+		});
+	}
 
+	onClassSelectChange(classId) {
+		this.loadAllSectionsByClassId(classId);
+		var classObj = this.classList.find(x => x.id === classId);
+		// this.searchForm.controls.classes.setValue(classObj.classses);
+
+	}
+	onSectionSelectChange(subjectId) {
+		var sectionObj = this.sectionList.find(x => x.id === subjectId);
+		// this.searchForm.controls.section.setValue(sectionObj.section);
+
+	}
+	onSubjectSelectChange(subjectId,indexi,indexj) {
+		var subjectObj = this.subjectList.find(x => x.id === subjectId);
+		let daysArray = this.classTimetableForm.get('days') as FormArray;
+		let itemArray = daysArray.controls[indexi].get('items') as FormArray;
+itemArray.controls[indexj].get('subjectName').setValue(subjectObj.name);
+
+	}
+	onStaffSelectChange(staffId,indexi,indexj) {
+		var staffObj = this.staffList.find(x => x.id === staffId);
+		let daysArray = this.classTimetableForm.get('days') as FormArray;
+		let itemArray = daysArray.controls[indexi].get('items') as FormArray;
+itemArray.controls[indexj].get('staffName').setValue(staffObj.name);
+
+	}
+	staffName
 	/**
 	 * On destroy
 	 */
@@ -169,9 +179,9 @@ onSubjectSelectChange(subjectId){
 	createForm() {
 		this.searchForm = this.fb.group({
 			classId: [this.classTimetable.classId, Validators.required],
-			classes:[''],
+			// classes: [''],
 			sectionId: [this.classTimetable.sectionId, Validators.required],
-			section:['',],
+			// section: ['',],
 			subjectGroupId: [this.classTimetable.subjectGroupId, Validators.required],
 
 
@@ -180,53 +190,69 @@ onSubjectSelectChange(subjectId){
 			// day: [this.classTimetable.day, Validators.required],
 			// days:this.fb.array([this.createDaysRow()]),
 			days: this.fb.array(this.tabsForTabs.map(tab => this.createDaysRow(tab))),
-			
+
 		});
 
-	
+
 	}
-	
-createDaysRow(tab){
-	return this.fb.group({
-		dayName: [tab,],
-		items: this.fb.array([
-			this.createItemRow()
-		  ]),
-	});	
-}
-	createItemRow() {
+
+	createDaysRow(tab) {
 		return this.fb.group({
-			subjectId: ['', ],
-			subjectName: ['', ],
-			staffId: ['',  ],
-			timeFrom: ['', ],
-			timeTo: ['',  ],
-			roomNo: ['',  ],
+			dayName: [tab,],
+			items: this.fb.array([
+				this.createItemRow(tab)
+			]),
+		});
+	}
+	createItemRow(dayName) {
+		return this.fb.group({
+			day:[dayName,],
+			subjectId: ['',],
+			subjectName: ['',],
+			staffId: ['',],
+			staffName:['',],
+			timeFrom: ['',],
+			timeTo: ['',],
+			roomNo: ['',],
+			isActive:['yes',]
 
 		});
-	  }
-
-
-	
-	
-	  addItemRow(index) {
-		let daysArray =this.classTimetableForm.get('days')as FormArray;
-		let itemArray =	daysArray.controls[index].get('items')as FormArray;
-		itemArray.push(this.createItemRow());
-	  }
-	
-	  removeItemRow(indexi,indexj) {
-		let daysArray =this.classTimetableForm.get('days')as FormArray;
-		let itemArray =	daysArray.controls[indexi].get('items')as FormArray;
-		itemArray.removeAt(indexj);
-	  }
-
-	  tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
-		console.log('tabChangeEvent => ', tabChangeEvent); 
-		this.day =  tabChangeEvent.tab.textLabel
-		console.log('index => ', tabChangeEvent.index); 
 	}
 
+
+
+
+	addItemRow(index,tab) {
+		let daysArray = this.classTimetableForm.get('days') as FormArray;
+		let itemArray = daysArray.controls[index].get('items') as FormArray;
+		itemArray.push(this.createItemRow(tab));
+	}
+
+	removeItemRow(indexi, indexj,id) {
+
+		//delete api
+	var flag=this.deleteTimetableRow(id);
+	if(flag){
+		let daysArray = this.classTimetableForm.get('days') as FormArray;
+		let itemArray = daysArray.controls[indexi].get('items') as FormArray;
+		itemArray.removeAt(indexj);
+	}
+	}
+
+	tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
+		console.log('tabChangeEvent => ', tabChangeEvent);
+		this.day = tabChangeEvent.tab.textLabel
+		console.log('index => ', tabChangeEvent.index);
+	}
+	deleteTimetableRow(id): Observable<Boolean> {
+		var flag;
+		this.classTimetableService.deleteClassTimetable(id).subscribe(res => {
+			flag=1;
+		}, er => {
+			flag=0;
+		})
+		return flag;
+	}
 	/**
 	 * Returns page title
 	 */
@@ -260,26 +286,97 @@ createDaysRow(tab){
 		_classTimetable.id = this.classTimetable.id;
 
 		_classTimetable.classId = controls1.classId.value;
-		_classTimetable.classes=controls1.classes.value;
+		// _classTimetable.classes = controls1.classes.value;
 		_classTimetable.sectionId = controls1.sectionId.value;
-		_classTimetable.section=controls1.section.value;
+		// _classTimetable.section = controls1.section.value;
 		_classTimetable.subjectGroupId = controls1.subjectGroupId.value;
 		// _classTimetable.day =  this.day// controls.day.value;
 
 		const days = controls.days.value;
-console.log(days);
-		if(days){
+		console.log(days);
 
+		// var timeTableArr = [];
+		const _dayTimetable = new TimetableDayModel();
+		for (var i = 0; i < days.length; i++) {
+		// var day=days[i].dayName;
+		// if(days[i].items[0].subjectId>0){
+		// 	// timeTableArr.push({[day]:days[i].items});
+		// }else{
+		// 	// timeTableArr.push({[day]:[]});
+		// }
+	
+		if(days[i].dayName=="Monday"){
+			if(days[i].items[0].subjectId>0){
+				_dayTimetable.monday=days[i].items;
+			}else{
+				_dayTimetable.monday=[];
+			}
+			
+		}else if(days[i].dayName=="Tuesday"){
+			if(days[i].items[0].subjectId>0){
+				_dayTimetable.tuesday=days[i].items;
+			}else{
+				_dayTimetable.tuesday=[];
+			}
+			
 
-
+		}else if(days[i].dayName=="Wednesday"){
+			if(days[i].items[0].subjectId>0){
+				_dayTimetable.wednesday=days[i].items;
+			}else{
+				_dayTimetable.wednesday=[];
+			}
+			
+		}
+		else if(days[i].dayName=="Thursday"){
+			if(days[i].items[0].subjectId>0){
+				_dayTimetable.thursday=days[i].items;
+			}else{
+				_dayTimetable.thursday=[];
+			}
+			
+		}
+		else if(days[i].dayName=="Friday"){
+			if(days[i].items[0].subjectId>0){
+				_dayTimetable.friday=days[i].items;
+			}else{
+				_dayTimetable.friday=[];
+			}
+			
+		}
+		else if(days[i].dayName=="Saturday"){
+			if(days[i].items[0].subjectId>0){
+				_dayTimetable.saturday=days[i].items;
+			}else{
+				_dayTimetable.saturday=[];
+			}
+			
+		}
+		else {
+			if(days[i].items[0].subjectId>0){
+				_dayTimetable.sunday=days[i].items;
+			}else{
+				_dayTimetable.sunday=[];
+			}
 		}
 
+		}
+  _classTimetable.timeTable =_dayTimetable;
+// console.log(timeTableArr)
+		// _classTimetable.timeTable =timeTableArr.toString;
 
-
-		// _classTimetable.timeTable = controls.items.value;
-	
 		return _classTimetable;
 	}
+
+	setTimetableData(data) {
+		// roomNo: "1001"
+		// staffId: 1
+		// subjectId: 1
+		// subjectName: ""
+		// timeFrom: "11:30 AM"
+		// timeTo: "12:00 PM"
+	}
+
 
 	/**
 	 * On Submit
@@ -305,7 +402,7 @@ console.log(days);
 		}
 
 
-		
+
 	}
 
 	// this.updateClassTimetable(editedclassTimetable);
@@ -327,8 +424,8 @@ console.log(days);
 		}
 
 		//search api
+//set data on table
 
-		
 	}
 
 	/**
@@ -346,7 +443,7 @@ console.log(days);
 			classTimetable: _classTimetable
 		}));
 
-		
+
 
 		// Remove this line
 		of(undefined).pipe(delay(1000)).subscribe(() => this.dialogRef.close({ _classTimetable, isEdit: true }));
@@ -372,7 +469,7 @@ console.log(days);
 			this.dialogRef.close({ _classTimetable, isEdit: false });
 		});
 
-		
+
 	}
 
 	/** Alect Close event */
@@ -385,7 +482,7 @@ console.log(days);
 		let inputChar = String.fromCharCode(event.charCode);
 		if (!pattern.test(inputChar)) {
 			event.preventDefault();
-	
+
 		}
 	}
 }

@@ -85,7 +85,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    PerfectScrollbarModule,
+    // PerfectScrollbarModule,
     MaterialModule,
     TranslateModule.forChild(),
     NgxPermissionsModule.forChild(),

@@ -46,65 +46,65 @@ import { ApproveLeaveRequestViewDialogComponent } from './staff-leave/approve-le
 import { ApproveLeaveRequestEditDialogComponent } from './staff-leave/approve-leave-request-edit/approve-leave-request-edit.dialog.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { staffsReducer, staffAttendancesReducer, StaffAttendanceEffects, leaveTypesReducer, LeaveTypeEffects, departmentsReducer, DepartmentEffects, staffDesignationsReducer, StaffDesignationEffects, staffRatingsReducer, staffLeaveRequestsReducer, staffPayslipsReducer, StaffRatingEffects, StaffLeaveRequestEffects, StaffPayslipEffects, StaffService, StaffAttendanceService, LeaveTypeService, DepartmentService, StaffDesignationService, StaffRatingService, StaffLeaveRequestService, StaffPayslipService } from 'src/app/core/human-resource';
+import { staffsReducer, staffAttendancesReducer, StaffAttendanceEffects, leaveTypesReducer, LeaveTypeEffects, departmentsReducer, DepartmentEffects, staffDesignationsReducer, StaffDesignationEffects, staffRatingsReducer, staffLeaveRequestsReducer, staffPayslipsReducer, StaffRatingEffects, StaffLeaveRequestEffects, StaffPayslipEffects, StaffService, StaffAttendanceService, LeaveTypeService, DepartmentService, StaffDesignationService, StaffRatingService, StaffLeaveRequestService, StaffPayslipService, RoleService } from 'src/app/core/human-resource';
 import { StaffEffects } from 'src/app/core/human-resource/_effects/staff.effects';
 import { approveLeavesReducer, ApproveLeaveEffects, ApproveLeaveService } from 'src/app/core/attendance';
 const routes: Routes = [
-	{
-		path: '',
-		component: HumanResourceComponent,
-		children: [
+  {
+    path: '',
+    component: HumanResourceComponent,
+    children: [
       {
-				path: '',
-				redirectTo: 'roles',
-				pathMatch: 'full'
-      },
-      {
-				path: 'add-staff',
-				component: AddStaffComponent
+        path: '',
+        redirectTo: 'roles',
+        pathMatch: 'full'
       },
       {
-				path: 'staff-directory',
-				component: StaffDirectoryComponent
+        path: 'add-staff',
+        component: AddStaffComponent
       },
       {
-				path: 'staff-attendance',
-				component: StaffAttendanceComponent
-      },
-			{
-				path: 'apply-leave',
-				component: ApplyLeaveComponent
+        path: 'staff-directory',
+        component: StaffDirectoryComponent
       },
       {
-				path: 'approve-leave-request',
-				component: ApproveLeaveRequestComponent
+        path: 'staff-attendance',
+        component: StaffAttendanceComponent
       },
       {
-				path: 'leave-type',
-				component: LeaveTypeComponent
+        path: 'apply-leave',
+        component: ApplyLeaveComponent
       },
       {
-				path: 'department',
-				component: DepartmentComponent
-      },
-       {
-				path: 'designation',
-				component: DesignationComponent
+        path: 'approve-leave-request',
+        component: ApproveLeaveRequestComponent
       },
       {
-				path: 'payroll',
-				component: PayrollComponent
+        path: 'leave-type',
+        component: LeaveTypeComponent
       },
       {
-				path: 'disabled-staff',
-				component: DisabledStaffComponent
+        path: 'department',
+        component: DepartmentComponent
       },
       {
-				path: 'staff-rating',
-				component: StaffRatingComponent
+        path: 'designation',
+        component: DesignationComponent
+      },
+      {
+        path: 'payroll',
+        component: PayrollComponent
+      },
+      {
+        path: 'disabled-staff',
+        component: DisabledStaffComponent
+      },
+      {
+        path: 'staff-rating',
+        component: StaffRatingComponent
       },
 
-    ] 
+    ]
   }
 ]
 
@@ -133,34 +133,34 @@ const routes: Routes = [
   imports: [
     CommonModule,
     PartialsModule,
-		NgbModule,
-		CoreModule,
-		CodePreviewModule,
-		RouterModule.forChild(routes),
-		FormsModule,
-		ReactiveFormsModule,
-		HttpClientModule,
+    NgbModule,
+    CoreModule,
+    CodePreviewModule,
+    RouterModule.forChild(routes),
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
     PerfectScrollbarModule,
     MaterialModule,
     TranslateModule.forChild(),
     NgxPermissionsModule.forChild(),
-   // CKEditorModule
+    // CKEditorModule
 
-    
-// state manage
+
+    // state manage
     StoreModule.forFeature('staffs', staffsReducer),
     EffectsModule.forFeature([StaffEffects]),
     StoreModule.forFeature('staffAttendances', staffAttendancesReducer),
     EffectsModule.forFeature([StaffAttendanceEffects]),
-      StoreModule.forFeature('leaveTypes', leaveTypesReducer),
+    StoreModule.forFeature('leaveTypes', leaveTypesReducer),
     EffectsModule.forFeature([LeaveTypeEffects]),
-      StoreModule.forFeature('approveLeaves', approveLeavesReducer),
+    StoreModule.forFeature('approveLeaves', approveLeavesReducer),
     EffectsModule.forFeature([ApproveLeaveEffects]),
-      StoreModule.forFeature('departments', departmentsReducer),
+    StoreModule.forFeature('departments', departmentsReducer),
     EffectsModule.forFeature([DepartmentEffects]),
     StoreModule.forFeature('staffDesignations', staffDesignationsReducer),
     EffectsModule.forFeature([StaffDesignationEffects]),
-    StoreModule.forFeature('staffRatings',staffRatingsReducer),
+    StoreModule.forFeature('staffRatings', staffRatingsReducer),
     EffectsModule.forFeature([StaffRatingEffects]),
     StoreModule.forFeature('staffLeaveRequests', staffLeaveRequestsReducer),
     EffectsModule.forFeature([StaffLeaveRequestEffects]),
@@ -175,9 +175,9 @@ const routes: Routes = [
     TypesUtilsService,
     HttpUtilsService,
     LayoutUtilsService,
-		{ provide: MatBottomSheetRef, useValue: {} },
-		{ provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
-		{ provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
+    { provide: MatBottomSheetRef, useValue: {} },
+    { provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
 
     {
@@ -195,29 +195,29 @@ const routes: Routes = [
         width: '1200px'
       }
     },
-//custom service
-StaffService,
-StaffAttendanceService,
-LeaveTypeService,
-ApproveLeaveService,
-DepartmentService,
-StaffDesignationService,
-StaffRatingService,
-StaffLeaveRequestService,
-StaffPayslipService,
-
+    //custom service
+    StaffService,
+    StaffAttendanceService,
+    LeaveTypeService,
+    ApproveLeaveService,
+    DepartmentService,
+    StaffDesignationService,
+    StaffRatingService,
+    StaffLeaveRequestService,
+    StaffPayslipService,
+    RoleService
 
 
   ],
-    entryComponents: [
-      ApplyLeaveEditDialogComponent,
-      GeneratePayrollEditDialogComponent,
-      ProceedPayEditDialogComponent,
-      ViewPayslipEditDialogComponent,
-      ApplyLeaveViewDialogComponent,
-      ApproveLeaveRequestViewDialogComponent,
-      ApproveLeaveRequestEditDialogComponent
-	],
+  entryComponents: [
+    ApplyLeaveEditDialogComponent,
+    GeneratePayrollEditDialogComponent,
+    ProceedPayEditDialogComponent,
+    ViewPayslipEditDialogComponent,
+    ApplyLeaveViewDialogComponent,
+    ApproveLeaveRequestViewDialogComponent,
+    ApproveLeaveRequestEditDialogComponent
+  ],
   exports: [RouterModule],
 
 })

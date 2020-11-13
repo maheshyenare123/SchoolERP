@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { ClassTimetablesDataSource, ClassTimetableModel, ClassTimetablesPageRequested, OneClassTimetableDeleted, ManyClassTimetablesDeleted, StudentClassService, StudentClassModel, SectionDtoModel } from '../../../../../core/academics';
+import { ClassTimetablesDataSource, ClassTimetableModel, ClassTimetablesPageRequested, OneClassTimetableDeleted, ManyClassTimetablesDeleted, StudentClassService, StudentClassModel, SectionDtoModel, ClassTimetableService, TimetableDayModel } from '../../../../../core/academics';
 import { QueryParamsModel, LayoutUtilsService, MessageType } from '../../../../../core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -41,7 +41,10 @@ searchForm: FormGroup;
   
 
   classList: StudentClassModel[] = [];
-	sectionList: SectionDtoModel[] = [];
+  sectionList: SectionDtoModel[] = [];
+  classTimetablesData:ClassTimetableModel;
+  timeTableData:TimetableDayModel;
+  
 constructor(public dialog: MatDialog,
              private activatedRoute: ActivatedRoute,
              private router: Router,
@@ -50,6 +53,7 @@ constructor(public dialog: MatDialog,
              private layoutUtilsService: LayoutUtilsService,
              private store: Store<AppState>,
              private studentClassService: StudentClassService,
+             private classTimetableService:ClassTimetableService
              ) { }
 
 
@@ -103,6 +107,21 @@ onSearch(){
 
 
 }
+getAllClassTimetableListByservice(classId, sectionId){
+
+this.classTimetableService.getAllClassTimetables(classId,sectionId).subscribe(res=>{
+  this.classTimetablesData=res['data'];
+  // this.timeTableData= this.classTimetablesResult.
+  console.log(  this.classTimetablesResult);
+
+},eror=>{
+
+
+})
+
+}
+
+
 getAllClassTimetableList(classId,sectionId) {
  const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
  this.subscriptions.push(sortSubscription);

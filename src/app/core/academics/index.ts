@@ -9,6 +9,7 @@ export {SubjectDtoModel} from './_models/subjectDto.model';
 export {SubjectGroupDtoModel} from './_models/subjectGroupDto.model';
 export {ClassTimetableModel} from './_models/class-timetable.model';
 export {AssignClassTeacherModel} from './_models/assign-class-teacher.model';
+export {TimetableDayModel,TimetableModel} from './_models/timetable.model';
 
 //datasource
 export {StudentClasssDataSource} from './_data-sources/student-class.datasource';
