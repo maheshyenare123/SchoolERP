@@ -40,8 +40,8 @@ private subscriptions: Subscription[] = [];
 
 searchForm: FormGroup;
   hasFormErrors = false;
-  
-
+  data
+studentfeedeposite
   classList: StudentClassModel[] = [];
 	sectionList: SectionDtoModel[] = [];
 constructor(public dialog: MatDialog,
