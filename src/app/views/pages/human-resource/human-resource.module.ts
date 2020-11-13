@@ -60,9 +60,18 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'add-staff',
+        path: 'staff',
         component: AddStaffComponent
       },
+			{
+				path: 'staff/edit',
+				component: AddStaffComponent
+			},
+			{
+				path: 'staff/edit/:id',
+				component: AddStaffComponent
+			},
+
       {
         path: 'staff-directory',
         component: StaffDirectoryComponent

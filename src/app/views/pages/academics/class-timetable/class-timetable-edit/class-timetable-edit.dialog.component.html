@@ -50,10 +50,23 @@
 						</mat-select>
 					</mat-form-field>
 				</div>
+				<div class="col-lg-2 kt-margin-bottom-20-mobile">
+				<div class="d-flex justify-content-between">
+					<div></div>
+					<div>
+						<button type="button" mat-raised-button color="primary" (click)="onSearch()"
+							[disabled]="viewLoading" matTooltip="Save changes">
+							Search
+						</button>
+					</div>
+				</div>
+				</div>
+
+
 			</div>
 
 		</div>
-		<div class="card-footer">
+		<!-- <div class="card-footer">
 			<div class="d-flex justify-content-between">
 				<div class="mr-2"></div>
 				<div>
@@ -63,7 +76,7 @@
 					</button>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</form>
 
 	<form class="form" [formGroup]="classTimetableForm">

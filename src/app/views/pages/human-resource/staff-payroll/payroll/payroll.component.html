@@ -1,10 +1,10 @@
 <div class="form-group kt-form__group row">
-    <div class="col-lg-12 kt-margin-bottom-20-mobile">
+    <!-- <div class="col-lg-12 kt-margin-bottom-20-mobile">
         <kt-portlet>
-            <!-- See prop => '../../_core/models/data-sources/_base.datasource.ts' (loading$) -->
+          
             <kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Staff'">
             </kt-portlet-header>
-            <!-- end::Header -->
+           
             <kt-portlet-body>
                 <div class="kt-form kt-margin-b-30">
                     <form class="form" [formGroup]="searchForm">
@@ -19,7 +19,7 @@
                             </kt-alert>
                 
                             <div class="form-group row">
-                                <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                <div class="col-lg-3 kt-margin-bottom-20-mobile">
                                
 
                                     <mat-form-field class="mat-form-field-fluid">
@@ -31,7 +31,7 @@
                 
                                     </mat-form-field>
                                 </div>
-                                <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                <div class="col-lg-3 kt-margin-bottom-20-mobile">
                                     <mat-form-field class="mat-form-field-fluid">
                                         <mat-select placeholder="Month" formControlName="month">
                                             <mat-option value="January">January</mat-option>
@@ -50,7 +50,7 @@
                 
                                     </mat-form-field>
                                 </div>
-                                <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                <div class="col-lg-3 kt-margin-bottom-20-mobile">
                                     <mat-form-field class="mat-form-field-fluid">
                                         <mat-select placeholder="Year" formControlName="year">
                                             <mat-option value="2020">2020</mat-option>
@@ -59,6 +59,7 @@
                 
                                     </mat-form-field>
                                 </div>
+                               
                             </div>
                 
                         </div>
@@ -74,23 +75,11 @@
                         </div>
                     </form>
                     <div class="kt-separator kt-separator--dashed"></div>
-
-                    <!-- <button type="button" mat-raised-button color="primary" (click)="onGeneratePaySlip(staff)" [disabled]="viewLoading" matTooltip=" Generate PaySlip">
-                        Generate PaySlip
-                    </button>
-                    <button type="button" mat-raised-button color="primary" (click)="onProceedPay(staff)" [disabled]="viewLoading" matTooltip="Proceed Pay">
-                        Proceed Pay
-                    </button>
-                    <button type="button" mat-raised-button color="primary" (click)="onViewPaySlip(staff)" [disabled]="viewLoading" matTooltip="View PaySlip">
-                        View PaySlip
-                    </button> -->
-
-
                 </div>
             </kt-portlet-body>
-            <!-- end::Body -->
+          
         </kt-portlet>
-    </div>
+    </div> -->
     <div class="col-lg-12 kt-margin-bottom-20-mobile">
         <kt-portlet>
             <!-- See prop => '../../_core/models/data-sources/_base.datasource.ts' (loading$) -->
@@ -99,6 +88,98 @@
             </kt-portlet-header>
             <!-- end::Header -->
             <kt-portlet-body>
+
+                    <div class="kt-form kt-margin-b-30">
+                            <form class="form" [formGroup]="searchForm">
+                                <div class="card-body">
+                        
+                                    <div class="card-body-progress">
+                                        <mat-spinner [diameter]="20"></mat-spinner>
+                                    </div>
+                        
+                                    <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
+                                        Oh snap! Change a few things up and try submitting again.
+                                    </kt-alert>
+                        
+                                    <div class="form-group row">
+                                        <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                       
+        
+                                            <mat-form-field class="mat-form-field-fluid">
+                                                <mat-select placeholder="Select Role" formControlName="roleId"  >
+                                                        <ng-container *ngFor="let role of rolesList">
+                                                                <ng-container *ngIf="role.name!='Student' && role.name!='Parent'">
+                                                                    <mat-option [value]="role.id">
+                                                                        {{role.name}}
+                                                                    </mat-option>
+                                                                </ng-container>
+                                                            </ng-container>
+                                                </mat-select>
+                        
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                            <mat-form-field class="mat-form-field-fluid">
+                                                <mat-select placeholder="Month" formControlName="month">
+                                                    <mat-option value="January">January</mat-option>
+                                                    <mat-option value="February">February</mat-option>
+                                                    <mat-option value="March">March</mat-option>
+                                                    <mat-option value="April">April</mat-option>
+                                                    <mat-option value="May">May</mat-option>
+                                                    <mat-option value="June">June</mat-option>
+                                                    <mat-option value="July">July</mat-option>
+                                                    <mat-option value="August">August</mat-option>
+                                                    <mat-option value="September">September</mat-option>
+                                                    <mat-option value="October">October</mat-option>
+                                                    <mat-option value="November">November</mat-option>
+                                                    <mat-option value="December">December</mat-option>
+                                                </mat-select>
+                        
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                            <mat-form-field class="mat-form-field-fluid">
+                                                <mat-select placeholder="Year" formControlName="year">
+                                                    <mat-option value="2020">2020</mat-option>
+                                                    <mat-option value="2021">2021</mat-option>
+                                                </mat-select>
+                        
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-lg-2 kt-margin-bottom-20-mobile">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="mr-2"></div>
+                                            <div>
+                                                <button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
+                                                    Search
+                                                </button>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                        
+                                </div>
+                                <!-- <div class="card-footer">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="mr-2"></div>
+                                        <div>
+                                            <button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
+                                                Search
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </form>
+                            <div class="kt-separator kt-separator--dashed"></div>
+
+</div>
+
+
+
+
+
+
+
                 <!-- start::FILTERS -->
                 <div class="kt-form__filtration">
                     <div class="row align-items-center">

@@ -39,7 +39,7 @@ export class StaffEffects {
     ofType<StaffsPageRequested>(StaffActionTypes.StaffsPageRequested),
     mergeMap(({payload}) => {
       this.store.dispatch(this.showPageLoadingDistpatcher);
-      const requestToServer = this.staffsService.findStaffs(payload.page);
+      const requestToServer = this.staffsService.findStaffs(payload.page,payload.roleId);
       const lastQuery = of(payload.page);
       return forkJoin(requestToServer, lastQuery);
     }),

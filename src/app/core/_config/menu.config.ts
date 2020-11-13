@@ -289,7 +289,7 @@ export class MenuConfig {
            
             {
               title: 'Add Staff',
-              page: '/human-resource/add-staff'
+              page: '/human-resource/staff'
             },
             {
               title: 'Staff Directory',

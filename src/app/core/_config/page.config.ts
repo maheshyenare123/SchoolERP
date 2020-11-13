@@ -135,10 +135,18 @@ export class PageConfig {
     },
 
     'human-resource': {
-      
-      'add-staff': {
-        page: { title: 'Add Staff', desc: '' }
+      staff: {
+        edit: {
+          page: { title: 'Edit Staff', desc: '' }
+        },
+        add: {
+          page: { title: 'Add Staff', desc: '' }
+        }
       },
+      
+      // 'staff': {
+      //   page: { title: 'Add Staff', desc: '' }
+      // },
       'staff-directory': {
         page: { title: 'Staff Directory', desc: '' }
       },

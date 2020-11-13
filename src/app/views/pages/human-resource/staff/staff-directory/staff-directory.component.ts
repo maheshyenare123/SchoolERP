@@ -2,7 +2,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { StaffsDataSource, StaffModel,selectStaffsActionLoading } from '../../../../../core/human-resource';
+import { StaffsDataSource, StaffModel,selectStaffsActionLoading, RoleService } from '../../../../../core/human-resource';
 import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from '../../../../../core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -21,6 +21,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { StaffsPageRequested, OneStaffDeleted, ManyStaffsDeleted, StaffsStatusUpdated, StaffUpdated, StaffOnServerCreated, selectLastCreatedStaffId } from '../../../../../core/human-resource';
+import { RolesDtoModel } from '../../../../../core/Models/rolesDto.model';
 
 @Component({
   selector: 'kt-staff-directory',
@@ -59,7 +60,7 @@ private componentSubscriptions: Subscription;
 searchText : number;
 roleId : number;
 
-
+rolesList: RolesDtoModel[] = [];
 
   constructor(public dialog: MatDialog,
 		public snackBar: MatSnackBar,
@@ -67,57 +68,26 @@ roleId : number;
 		private translate: TranslateService,
 		private store: Store<AppState>,
 		private fb: FormBuilder,
-		private typesUtilsService: TypesUtilsService) { }
+		private typesUtilsService: TypesUtilsService,
+		private roleService:RoleService,) { }
 
   ngOnInit() {
 
 	debugger;
-	
-    const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-		this.subscriptions.push(sortSubscription);
-
-		/* Data load will be triggered in two cases:
-		- when a pagination event occurs => this.paginator.page
-		- when a sort event occurs => this.sort.sortChange
-		**/
-		const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-			tap(() => this.loadStaffList())
-		)
-		.subscribe();
-		this.subscriptions.push(paginatorSubscriptions);
-
-		// Filtration, bind to searchInput
-		const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
-			// tslint:disable-next-line:max-line-length
-			debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
-			distinctUntilChanged(), // This operator will eliminate duplicate values
-			tap(() => {
-				this.paginator.pageIndex = 0;
-				this.loadStaffList();
-			})
-		)
-		.subscribe();
-		this.subscriptions.push(searchSubscription);
-
-		// Init DataSource
-		this.dataSource = new StaffsDataSource(this.store);
-	
-		const entitiesSubscription = this.dataSource.entitySubject.pipe(
-			skip(1),
-			distinctUntilChanged()
-		).subscribe(res => {
-			debugger
-	console.log(res);
-			this.staffsResult = res;
-		});
-		this.subscriptions.push(entitiesSubscription);
-		// First load
-		of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-			this.loadStaffList();
-		}); // Remove this line, just loading imitation
-
+	this.loadAllRoles();
     this.createForm();
-		
+	this.dataSource = new StaffsDataSource(this.store);
+  }
+
+  //get All Class List
+loadAllRoles() {
+	debugger
+	this.roleService.getAllRoles().subscribe(res => {
+	  const data = res['data'];
+	  this.rolesList = data['content'];
+	  console.log(this.rolesList)
+	}, err => {
+	});
   }
 /**
 	 * On Destroy
@@ -129,7 +99,7 @@ roleId : number;
 	/**
 	 * Load Staffs List from service through data-source
 	 */
-	loadStaffList() {
+	loadStaffList(roleId) {
 		debugger;
 		this.selection.clear();
 		const queryParams = new QueryParamsModel(
@@ -140,7 +110,7 @@ roleId : number;
 			this.paginator.pageSize
 		);
 		// Call request from server
-		// this.store.dispatch(new StaffsPageRequested({ page: queryParams }));
+		this.store.dispatch(new StaffsPageRequested({ page: queryParams,roleId }));
 		this.selection.clear();
 	}
 
@@ -192,10 +162,55 @@ createForm() {
 		}
 
 		//search api
+		this.getAllStaff(controls.roleId.value);
 
 		
 	}
+getAllStaff(roleId){
+	const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+	this.subscriptions.push(sortSubscription);
 
+	/* Data load will be triggered in two cases:
+	- when a pagination event occurs => this.paginator.page
+	- when a sort event occurs => this.sort.sortChange
+	**/
+	const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
+		tap(() => this.loadStaffList(roleId))
+	)
+	.subscribe();
+	this.subscriptions.push(paginatorSubscriptions);
+
+	// Filtration, bind to searchInput
+	const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
+		// tslint:disable-next-line:max-line-length
+		debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
+		distinctUntilChanged(), // This operator will eliminate duplicate values
+		tap(() => {
+			this.paginator.pageIndex = 0;
+			this.loadStaffList(roleId);
+		})
+	)
+	.subscribe();
+	this.subscriptions.push(searchSubscription);
+
+	// Init DataSource
+	this.dataSource = new StaffsDataSource(this.store);
+
+	const entitiesSubscription = this.dataSource.entitySubject.pipe(
+		skip(1),
+		distinctUntilChanged()
+	).subscribe(res => {
+		debugger
+console.log(res);
+		this.staffsResult = res;
+	});
+	this.subscriptions.push(entitiesSubscription);
+	// First load
+	of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
+		this.loadStaffList(roleId);
+	}); // Remove this line, just loading imitation
+
+}
 
   
 /** ACTIONS */

@@ -1,10 +1,10 @@
 // Angular
-import { Component, OnInit, Inject, ChangeDetectionStrategy, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectionStrategy, ViewEncapsulation, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // Material
 // import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 // RxJS
-import { Subscription, of } from 'rxjs';
+import { Subscription, of, Observable, BehaviorSubject } from 'rxjs';
 import { delay } from 'rxjs/operators';
 // NGRX
 import { Update } from '@ngrx/entity';
@@ -14,7 +14,11 @@ import { AppState } from '../../../../../core/reducers';
 // CRUD
 import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { StaffModel, selectStaffsActionLoading, StaffUpdated, StaffOnServerCreated, selectLastCreatedStaffId, } from '../../../../../core/human-resource';
+import { StaffModel, selectStaffsActionLoading, StaffUpdated, StaffOnServerCreated, selectLastCreatedStaffId, RoleService, DepartmentService, StaffDesignationService, DepartmentModel, LeaveTypeService, LeaveTypeModel, StaffService, selectStaffById, } from '../../../../../core/human-resource';
+import { RolesDtoModel } from '../../../../../core/Models/rolesDto.model';
+import { StaffDesignationModel } from '../../../../../core/Models/staffDesignation.model';
+import { ActivatedRoute } from '@angular/router';
+
 
 
 
@@ -28,6 +32,12 @@ import { StaffModel, selectStaffsActionLoading, StaffUpdated, StaffOnServerCreat
 export class AddStaffComponent implements OnInit {
 
   // Public properties
+  loadingSubject = new BehaviorSubject<boolean>(true);
+	loading$: Observable<boolean>;
+
+
+
+
   staff: StaffModel;
   hasFormErrors = false;
   viewLoading = false;
@@ -47,13 +57,25 @@ export class AddStaffComponent implements OnInit {
   filesOther: File[] = [];
   filesTitle3: File[] = [];
 
-
+  rolesList: RolesDtoModel[] = [];
+designationList:StaffDesignationModel[] = [];
+departmentList:DepartmentModel[]=[];
+leaveTypeList:LeaveTypeModel[]=[];
   constructor(
     //public dialogRef: MatDialogRef<StaffsEditDialogComponent>,
     //  @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
+    private activatedRoute: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
     private store: Store<AppState>,
-    private typesUtilsService: TypesUtilsService) {
+    private typesUtilsService: TypesUtilsService,
+    private roleService:RoleService,
+    private designationService:StaffDesignationService,
+    private departmentService:DepartmentService,
+    private leaveTypeService:LeaveTypeService,
+    private staffService: StaffService
+
+  ) {
   }
 
   /**
@@ -61,8 +83,44 @@ export class AddStaffComponent implements OnInit {
    */
   ngOnInit() {
     debugger
-    this.store.pipe(select(selectStaffsActionLoading)).subscribe(res => this.viewLoading = res);
 
+    this.loadAllRoles();
+    this.loadAllDesignation();
+    this.loadAllDepartment();
+    this.loadAllLeaveType();
+
+
+    // this.loading$ = this.loadingSubject.asObservable();
+		// this.loadingSubject.next(true);
+		// this.activatedRoute.params.subscribe(params => {
+		// 	const id = params.id;
+		// 	if (id && id > 0) {
+
+		// 		this.store.pipe(
+		// 			select(selectStaffById(id))
+		// 		).subscribe(result => {
+		// 			if (!result) {
+		// 				this.loadStaffFromService(id);
+		// 				return;
+		// 			}
+
+		// 			this.loadStaff(result);
+		// 		});
+		// 	} else {
+		// 		const newStaff = new StaffModel();
+		// 		newStaff.clear();
+		// 		this.loadStaff(newStaff);
+		// 	}
+		// });
+
+
+
+
+
+
+
+
+    this.store.pipe(select(selectStaffsActionLoading)).subscribe(res => this.viewLoading = res);
     //this.staff = this.data.staff;
     const newStaff = new StaffModel();
 		newStaff.clear(); // Set all defaults fields
@@ -70,6 +128,59 @@ export class AddStaffComponent implements OnInit {
     this.staff = newStaff
     this.createForm();
   }
+
+//get All  List
+loadAllRoles() {
+  debugger
+  this.roleService.getAllRoles().subscribe(res => {
+    const data = res['data'];
+    this.rolesList = data['content'];
+    console.log(this.rolesList)
+  }, err => {
+  });
+}
+loadAllDesignation() {
+  debugger
+  this.designationService.getAllStaffDesignations().subscribe(res => {
+    const data = res['data'];
+    this.designationList = data['content'];
+    console.log(this.designationList)
+  }, err => {
+  });
+}
+
+loadAllDepartment() {
+  debugger
+  this.departmentService.getAllDepartments().subscribe(res => {
+    const data = res['data'];
+    this.departmentList = data['content'];
+    console.log(this.departmentList)
+  }, err => {
+  });
+}
+loadAllLeaveType() {
+  debugger
+  this.leaveTypeService.getAllLeaveTypes().subscribe(res => {
+    const data = res['data'];
+    this.leaveTypeList = data['content'];
+    console.log(this.leaveTypeList)
+  }, err => {
+  });
+}
+
+onRoleSelectChange(roleId){
+  var roleObj = this.rolesList.find(x => x.id === roleId);
+  this.staffInformationFormGroup.controls.roleName.setValue(roleObj.roleName);
+}
+onDesignationSelectChange(designationId){
+  var designationObj = this.designationList.find(x => x.id === designationId);
+  this.staffInformationFormGroup.controls.classes.setValue(designationObj.designation);
+}
+onDepartmentSelectChange(departmentId){
+  var departmentObj = this.departmentList.find(x => x.id === departmentId);
+  this.staffInformationFormGroup.controls.classes.setValue(departmentObj.departmentName);
+}
+
 
   /**
    * On destroy
@@ -79,6 +190,53 @@ export class AddStaffComponent implements OnInit {
       this.componentSubscriptions.unsubscribe();
     }
   }
+	// If product didn't find in store
+	loadStaffFromService(staffId) {
+		this.staffService.getStaffById(staffId).subscribe(res => {
+			this.loadStaff(res, true);
+		});
+	}
+  loadStaff(_staff, fromService: boolean = false) {
+		if (!_staff) {
+			// this.goBack('');
+		}
+		this.staff = _staff;
+		// this.productId$ = of(_staff.id);
+		// this.oldstaff = Object.assign({}, _staff);
+		// this.initProduct();
+		if (fromService) {
+			this.cdr.detectChanges();
+		}
+  }
+  // initProduct() {
+	// 	this.createForm();
+	// 	this.loadingSubject.next(false);
+	// 	if (!this.product.id) {
+	// 		this.subheaderService.setBreadcrumbs([
+	// 			{ title: 'eCommerce', page: `/ecommerce` },
+	// 			{ title: 'Products', page: `/ecommerce/products` },
+	// 			{ title: 'Create product', page: `/ecommerce/products/add` }
+	// 		]);
+	// 		return;
+	// 	}
+	// 	this.subheaderService.setTitle('Edit product');
+	// 	this.subheaderService.setBreadcrumbs([
+	// 		{ title: 'eCommerce', page: `/ecommerce` },
+	// 		{ title: 'Products', page: `/ecommerce/products` },
+	// 		{ title: 'Edit product', page: `/ecommerce/products/edit`, queryParams: { id: this.product.id } }
+	// 	]);
+	// }
+  // goBack(id) {
+	// 	this.loadingSubject.next(false);
+	// 	const url = `/ecommerce/products?id=${id}`;
+	// 	this.router.navigateByUrl(url, { relativeTo: this.activatedRoute });
+	// }
+
+	// goBackWithoutId() {
+	// 	this.router.navigateByUrl('/ecommerce/products', { relativeTo: this.activatedRoute });
+	// }
+
+
 
 
   createForm() {
@@ -118,13 +276,13 @@ export class AddStaffComponent implements OnInit {
       shift: [this.staff.shift, ''],
       location: [this.staff.location, ''],
 
-      items: this.fb.array([
-        this.createItemRow()
-			  ]),
+      // leaveType: this.fb.array([
+      //   this.createItemRow()
+			//   ]),
       
       numberOfLeaves: [this.staff.numberOfLeaves, ],
-     
-      
+
+
       accountTitle: [this.staff.accountTitle, ''],
       bankAccountNo: [this.staff.bankAccountNo, ''],
       bankName: [this.staff.bankName, ''],
@@ -140,11 +298,16 @@ export class AddStaffComponent implements OnInit {
 
   
   }
-	createItemRow() {
-		return this.fb.group({
-      numberOfLeaves: [this.staff.numberOfLeaves, ],
-		});
-	  }
+	// createItemRow() {
+	// 	return this.fb.group({
+  //     numberOfLeaves: [this.staff.numberOfLeaves, ],
+	// 	});
+  //   }
+    
+
+
+
+
   /**
    * Returns page title
    */
