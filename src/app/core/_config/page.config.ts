@@ -50,18 +50,18 @@ export class PageConfig {
       'student-details': {
         page: { title: 'Student Details', desc: '' }
       },
-      'student-details-edit': {
+      'student-details-edit/:id': {
         page: { title: 'Student Admission', desc: '' }
       },
-      'online-admission': {
-        page: { title: 'Online Admission', desc: '' }
-      },
-      'disabled-student': {
-        page: { title: 'Disabled Student', desc: '' }
-      },
-      'bulk-delete': {
-        page: { title: 'Bulk Delete', desc: '' }
-      },
+      // 'online-admission': {
+      //   page: { title: 'Online Admission', desc: '' }
+      // },
+      // 'disabled-student': {
+      //   page: { title: 'Disabled Student', desc: '' }
+      // },
+      // 'bulk-delete': {
+      //   page: { title: 'Bulk Delete', desc: '' }
+      // },
       'student-categories': {
         page: { title: 'Student Categories', desc: '' }
       },
