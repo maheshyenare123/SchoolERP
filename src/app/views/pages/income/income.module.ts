@@ -25,6 +25,9 @@ import { IncomeComponent } from './income.component';
 import { AddIncomeComponent } from './add-income/add-income.component';
 import { SearchIncomeComponent } from './search-income/search-income.component';
 import { IncomeHeadComponent } from './income-head/income-head.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { incomesReducer, IncomeEffects, IncomeService, incomeHeadsReducer, IncomeHeadEffects, IncomeHeadService } from 'src/app/core/income';
 
 const routes: Routes = [
 	{
@@ -72,8 +75,11 @@ const routes: Routes = [
    // CKEditorModule
     
 //state manage
-    // StoreModule.forFeature('admissionEnquirys', admissionEnquirysReducer),
-    // EffectsModule.forFeature([AdmissionEnquiryEffects]),
+    StoreModule.forFeature('incomes', incomesReducer),
+    EffectsModule.forFeature([IncomeEffects]),
+    StoreModule.forFeature('incomeHeads', incomeHeadsReducer),
+    EffectsModule.forFeature([IncomeHeadEffects]),
+    
   ],
   providers: [
     NgbAlertConfig,
@@ -105,7 +111,8 @@ const routes: Routes = [
     },
 
 //custom service
-
+IncomeService,
+IncomeHeadService
   ],
     entryComponents: [],
   exports: [RouterModule],

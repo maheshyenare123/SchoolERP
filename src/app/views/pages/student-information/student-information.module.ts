@@ -52,7 +52,7 @@ const routes: Routes = [
                 component: StudentDetailsListComponent
             },
             {
-                path: 'student-details-edit',
+                path: 'student-details-edit/:id',
                 component: StudentDetailsEditComponent
             },
 
@@ -165,7 +165,7 @@ const routes: Routes = [
         },
     
     //custom service
-    
+    StudentService
       ],
 
 

@@ -16,6 +16,7 @@ import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { StudentDtoModel, selectStudentsActionLoading, StudentUpdated, StudentOnServerCreated, selectLastCreatedStudentId, StudentService, CategoryService, CategoryDtoModel, SchoolHousModel, StudentHouseService, } from '../../../../../core/student-information';
 import { StudentClassService, SectionService, StudentClassModel, SectionDtoModel } from 'src/app/core/academics';
+import { Router, ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -56,6 +57,7 @@ export class StudentDetailsEditComponent implements OnInit {
   sectionList: SectionDtoModel[] = [];
   categoryList:CategoryDtoModel[]=[];
   studentHouseList:SchoolHousModel[]=[];
+  studentId: any;
   constructor(
     //public dialogRef: MatDialogRef<StudentDetailsEditDialogComponent>,
     //  @Inject(MAT_DIALOG_DATA) public data: any,
@@ -67,6 +69,9 @@ export class StudentDetailsEditComponent implements OnInit {
     private sectionService: SectionService,
     private categoryService:CategoryService,
     private studentHouseService:StudentHouseService,
+    private router: Router,
+    private route:ActivatedRoute,
+  
     ) {
   }
 
@@ -75,6 +80,17 @@ export class StudentDetailsEditComponent implements OnInit {
    */
   ngOnInit() {
     debugger
+
+    this.route.params.subscribe(params => {
+      console.log(params); 
+      this.studentId=params.id;
+      this.loadStudentById(this.studentId)
+      
+    })
+
+
+
+
     this.store.pipe(select(selectStudentsActionLoading)).subscribe(res => this.viewLoading = res);
 this.loadAllClasses();
 this.loadAllStudentCategory();
@@ -86,6 +102,17 @@ this.loadAllStudentHouse()
     this.studentDetail = newStudent
     this.createForm();
     this.isLinear = true;
+  }
+
+  loadStudentById(studentId) {
+    debugger
+    
+    this.studentService.getStudentById(studentId).subscribe(res => {
+      const data = res['data'];
+      this.studentDetail = data;
+      this.createForm();
+    }, err => {
+    });
   }
 
   
@@ -150,7 +177,7 @@ loadAllSectionsByClassId(id:number) {
       sectionId: [this.studentDetail.sectionId, Validators.required],
       firstname: [this.studentDetail.firstname, Validators.required],
       lastname: [this.studentDetail.lastname, ''],
-      gender: [this.studentDetail.lastname, ''],
+      gender: [this.studentDetail.gender, ''],
       dob: [this.typesUtilsService.getDateFromString(this.studentDetail.dob), Validators.compose([Validators.nullValidator])],
       categoryId: [this.studentDetail.categoryId, 0],
       religion: [this.studentDetail.religion, ''],
@@ -279,6 +306,7 @@ loadAllSectionsByClassId(id:number) {
     _studentDetail.cast = controls1.cast.value;
     _studentDetail.mobileno = controls1.mobileno.value;
     _studentDetail.email = controls1.email.value;
+    _studentDetail.gender = controls1.gender.value;
     const _admissionDate = controls1.admissionDate.value;
     if (_admissionDate) {
       _studentDetail.admissionDate = this.typesUtilsService.dateFormat(_admissionDate);
@@ -343,7 +371,7 @@ loadAllSectionsByClassId(id:number) {
     _studentDetail.disableAt = controls.disableAt.value;
     _studentDetail.feesDiscount = controls.feesDiscount.value;
     _studentDetail.isActive = controls.isActive.value;
-    _studentDetail.measurementDate = controls.measurementDate.value;
+    // _studentDetail.measurementDate = controls.measurementDate.value;
     _studentDetail.parentId = controls.parentId.value;
     _studentDetail.pincode = controls.pincode.value;
     _studentDetail.samagraId = controls.samagraId.value;
@@ -449,7 +477,7 @@ loadAllSectionsByClassId(id:number) {
       student: _studentDetail
     }));
 
-
+    this.router.navigate(["/student-information/student-details"])
 
     // Remove this line
     //of(undefined).pipe(delay(1000)).subscribe(() => this.dialogRef.close({ _studentDetail, isEdit: true }));
@@ -472,6 +500,7 @@ loadAllSectionsByClassId(id:number) {
         return;
       }
 
+      this.router.navigate(["/student-information/student-details"])
       // this.dialogRef.close({ _studentDetail, isEdit: false });
     });
 

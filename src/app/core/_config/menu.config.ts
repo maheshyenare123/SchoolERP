@@ -147,20 +147,20 @@ export class MenuConfig {
             },
             {
               title: 'Student Admission',
-              page: '/student-information/student-details-edit'
+              page: '/student-information/student-details-edit/:id'
             },
-            {
-              title: 'Online Admission',
-              page: '/student-information/online-admission'
-            },
-            {
-              title: 'Disabled Student',
-              page: '/student-information/disabled-student'
-            },
-            {
-              title: 'Bulk Delete',
-              page: '/student-information/bulk-delete'
-            },
+            // {
+            //   title: 'Online Admission',
+            //   page: '/student-information/online-admission'
+            // },
+            // {
+            //   title: 'Disabled Student',
+            //   page: '/student-information/disabled-student'
+            // },
+            // {
+            //   title: 'Bulk Delete',
+            //   page: '/student-information/bulk-delete'
+            // },
             {
               title: 'Student Categories',
               page: '/student-information/student-categories'
