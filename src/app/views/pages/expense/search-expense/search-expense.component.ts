@@ -97,31 +97,58 @@ export class SearchExpenseComponent implements OnInit {
       this.hasFormErrors = true;
       return;
     }
-  const	date = this.typesUtilsService.dateFormat(controls.expenseDate.value);
-    this.getAllExpenseList(controls.searchType.value, controls.searchText.value);
+    this.getAllExpenseList(controls.searchType.value);
  
  
   }
  
  
-  getAllExpenseList(searchType,searchText){
- 
-    const queryParams = new QueryParamsModel(
-      this.filterConfiguration(),
-      this.sort.direction,
-      this.sort.active,
-      this.paginator.pageIndex,
-      this.paginator.pageSize
-    );
- 
- 
- //  this.expenseService.findExpenses(queryParams,searchType,searchText).subscribe(res=>{
- //    console.log(res);
- //    // ExpensesResult
- 
- //  })
- 
- }
+  getAllExpenseList(searchType){
+
+
+    // If the user changes the sort order, reset back to the first page.
+    const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    this.subscriptions.push(sortSubscription);
+   
+    /* Data load will be triggered in two cases:
+    - when a pagination event occurs => this.paginator.page
+    - when a sort event occurs => this.sort.sortChange
+    **/
+    const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
+      tap(() => this.loadExpenseList(searchType))
+    )
+    .subscribe();
+    this.subscriptions.push(paginatorSubscriptions);
+   
+    // // Filtration, bind to searchInput
+    // const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
+    //   // tslint:disable-next-line:max-line-length
+    //   debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
+    //   distinctUntilChanged(), // This operator will eliminate duplicate values
+    //   tap(() => {
+    //     this.paginator.pageIndex = 0;
+    //     this.loadStudentsList(classId,sectionId);
+    //   })
+    // )
+    // .subscribe();
+    // this.subscriptions.push(searchSubscription);
+   
+    // Init DataSource
+    this.dataSource = new ExpensesDataSource(this.store);
+    const entitiesSubscription = this.dataSource.entitySubject.pipe(
+      skip(1),
+      distinctUntilChanged()
+    ).subscribe(res => {
+      this.expensesResult = res;
+      console.log(this.expensesResult);
+    });
+    this.subscriptions.push(entitiesSubscription);
+    // First load
+    of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
+      this.loadExpenseList(searchType);
+    }); // Remove this line, just loading imitation
+   
+  }
  
  
   /**
@@ -134,7 +161,7 @@ export class SearchExpenseComponent implements OnInit {
   /**
    * Load Expenses List from service through data-source
    */
-  loadExpenseList(searchType, searchText, ) {
+  loadExpenseList(searchType) {
     debugger;
     this.selection.clear();
     const queryParams = new QueryParamsModel(
@@ -145,7 +172,7 @@ export class SearchExpenseComponent implements OnInit {
       this.paginator.pageSize
     );
     // Call request from server
-   //  this.store.dispatch(new ExpensesPageRequested({ page: queryParams, searchType: searchType, searchText: searchText }));
+    this.store.dispatch(new ExpensesPageRequested({ page: queryParams, searchTerm: searchType }));
     this.selection.clear();
   }
  

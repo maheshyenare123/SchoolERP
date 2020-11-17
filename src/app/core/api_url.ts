@@ -102,5 +102,12 @@ export class Constants {
       ExpenseHead: 'api/expense-head',
    }
   
+   public static Transports: any = {
+      Route: 'api/transport-route',
+      Vehicle: 'api/vehicle',
+      AssignVehicle: 'api/vehicle-route',
+   }
+
+   
 
 }

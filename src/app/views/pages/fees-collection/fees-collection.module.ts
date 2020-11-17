@@ -33,7 +33,7 @@ import { FeesCarryForwordComponent } from './fees-carry-forword/fees-carry-forwo
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { AdmissionEnquiryEffects } from 'src/app/core/front-office';
-import { feesTypesReducer, FeesTypeEffects, FeesTypeService, feesGroupsReducer, FeesGroupEffects, FeesGroupService, feesDiscountsReducer, FeesDiscountService, feesMastersReducer, FeesMasterEffects, FeesMasterService, FeesDiscountEffects } from 'src/app/core/fees-collection';
+import { feesTypesReducer, FeesTypeEffects, FeesTypeService, feesGroupsReducer, FeesGroupEffects, FeesGroupService, feesDiscountsReducer, FeesDiscountService, feesMastersReducer, FeesMasterEffects, FeesMasterService, FeesDiscountEffects, assignFeesStudentsReducer, AssignFeesStudentEffects, AssignFeesStudentService } from 'src/app/core/fees-collection';
 import { FeesCollectComponent } from './fees-collect/fees-collect.component';
 import { FeeCollectEditDialogComponent } from './fee-collect-edit/fee-collect-edit.dialog.component';
 import { SearchFeesPaymentComponent } from './search-fees-payment/search-fees-payment.component';
@@ -132,6 +132,10 @@ const routes: Routes = [
 
     StoreModule.forFeature('feesMasters', feesMastersReducer),
     EffectsModule.forFeature([FeesMasterEffects]),
+
+
+    StoreModule.forFeature('assignFeesStudents', assignFeesStudentsReducer),
+    EffectsModule.forFeature([AssignFeesStudentEffects]),
   ],
   providers: [
     NgbAlertConfig,
@@ -166,7 +170,8 @@ const routes: Routes = [
 FeesTypeService,
 FeesGroupService,
 FeesDiscountService,
-FeesMasterService
+FeesMasterService,
+AssignFeesStudentService
   ],
     entryComponents: [
       FeesDiscountAssignStudentDialogComponent,

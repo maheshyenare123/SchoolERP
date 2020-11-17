@@ -227,8 +227,20 @@ export class PageConfig {
       },
     },
 
+    'transport': {
+      'routes': {
+        page: { title: 'Routes', desc: '' }
+      },
+      'vehicles': {
+        page: { title: 'Vehicles', desc: '' }
+      },
+      'assign-vehicle': {
+        page: { title: 'Assign Vehicle', desc: '' }
+      },
+    },
 
-    
+
+
     ecommerce: {
       customers: {
         page: { title: 'Customers', desc: '' }

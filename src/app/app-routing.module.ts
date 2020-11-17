@@ -76,6 +76,13 @@ const routes: Routes = [
           path: 'expense',
           loadChildren: () => import('./views/pages/expense/expense.module').then(m => m.ExpenseModule),
         },
+
+        {
+          path: 'transport',
+          loadChildren: () => import('./views/pages/transport/transport.module').then(m => m.TransportModule),
+        },
+
+        
       {
         path: 'user-management',
         loadChildren: () => import('./views/pages/user-management/user-management.module').then(m => m.UserManagementModule),

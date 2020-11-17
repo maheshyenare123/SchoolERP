@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { IncomesDataSource, IncomeModel,selectIncomesActionLoading, IncomeService, IncomeHeadService, IncomeHeadModel } from 'src/app/core/income';
+import { RoutesDataSource, RouteModel,selectRoutesActionLoading, RouteService } from 'src/app/core/transport';
 import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -19,20 +19,20 @@ import { Update } from '@ngrx/entity';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
-import { IncomesPageRequested, OneIncomeDeleted, ManyIncomesDeleted, IncomesStatusUpdated, IncomeUpdated, IncomeOnServerCreated, selectLastCreatedIncomeId } from '../../../../core/income';
+import { RoutesPageRequested, OneRouteDeleted, ManyRoutesDeleted, RoutesStatusUpdated, RouteUpdated, RouteOnServerCreated, selectLastCreatedRouteId } from '../../../../core/transport';
 
 
 @Component({
-  selector: 'kt-add-income',
-  templateUrl: './add-income.component.html',
-  styleUrls: ['./add-income.component.scss']
+  selector: 'kt-routes',
+  templateUrl: './routes.component.html',
+  styleUrls: ['./routes.component.scss']
 })
-export class AddIncomeComponent implements OnInit {
+export class RoutesComponent implements OnInit {
 
   // Table fields
-dataSource: IncomesDataSource;
+dataSource: RoutesDataSource;
 //  dataSource = new MatTableDataSource(ELEMENT_DATA);
-displayedColumns = ['id', 'name', 'invoiceNo', 'date', 'incomeHead', 'amount', 'actions'];
+displayedColumns = ['id', 'title', 'fare', 'actions'];
 @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 @ViewChild('sort1', {static: true}) sort: MatSort;
 // Filter fields
@@ -40,20 +40,20 @@ displayedColumns = ['id', 'name', 'invoiceNo', 'date', 'incomeHead', 'amount', '
 filterStatus = '';
 filterType = '';
 // Selection
-selection = new SelectionModel<IncomeModel>(true, []);
-incomesResult: IncomeModel[] = [];
+selection = new SelectionModel<RouteModel>(true, []);
+routesResult: RouteModel[] = [];
 // Subscriptions
 private subscriptions: Subscription[] = [];
 
 // Public properties
-income: IncomeModel;
-incomeForm: FormGroup;
+route: RouteModel;
+routeForm: FormGroup;
 hasFormErrors = false;
 viewLoading = false;
 // Private properties
 private componentSubscriptions: Subscription;
 files: File[] = [];
-incomeHeadList: IncomeHeadModel[] = [];
+
 searchType:any
 
   constructor(public dialog: MatDialog,
@@ -63,7 +63,7 @@ searchType:any
 		private store: Store<AppState>,
 		private fb: FormBuilder,
 		private typesUtilsService: TypesUtilsService,
-		private incomeHeadService:IncomeHeadService) { }
+		) { }
 
   ngOnInit() {
 
@@ -77,7 +77,7 @@ searchType:any
 		- when a sort event occurs => this.sort.sortChange
 		**/
 		const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-			tap(() => this.loadIncomeList())
+			tap(() => this.loadRouteList())
 		)
 		.subscribe();
 		this.subscriptions.push(paginatorSubscriptions);
@@ -89,14 +89,14 @@ searchType:any
 			distinctUntilChanged(), // This operator will eliminate duplicate values
 			tap(() => {
 				this.paginator.pageIndex = 0;
-				this.loadIncomeList();
+				this.loadRouteList();
 			})
 		)
 		.subscribe();
 		this.subscriptions.push(searchSubscription);
 
 		// Init DataSource
-		this.dataSource = new IncomesDataSource(this.store);
+		this.dataSource = new RoutesDataSource(this.store);
 	
 		const entitiesSubscription = this.dataSource.entitySubject.pipe(
 			skip(1),
@@ -104,17 +104,16 @@ searchType:any
 		).subscribe(res => {
 			debugger
 	console.log(res);
-			this.incomesResult = res;
+			this.routesResult = res;
 			console.log()
 		});
 		this.subscriptions.push(entitiesSubscription);
 		// First load
 		of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-			this.loadIncomeList();
+			this.loadRouteList();
 		}); // Remove this line, just loading imitation
 
-this.addIncome();
-this.loadAllIncomeHead();
+this.addRoute();
   }
 /**
 	 * On Destroy
@@ -122,19 +121,11 @@ this.loadAllIncomeHead();
 	ngOnDestroy() {
 		this.subscriptions.forEach(el => el.unsubscribe());
 	}
-	loadAllIncomeHead() {
-		debugger
-		this.incomeHeadService.getAllIncomeHeads().subscribe(res => {
-			const data = res['data'];
-			this.incomeHeadList = data['content'];
-			console.log(this.incomeHeadList)
-		}, err => {
-		});
-	}
+
 	/**
-	 * Load Incomes List from service through data-source
+	 * Load Routes List from service through data-source
 	 */
-	loadIncomeList() {
+	loadRouteList() {
 		debugger;
 		this.selection.clear();
 		const queryParams = new QueryParamsModel(
@@ -145,7 +136,7 @@ this.loadAllIncomeHead();
 			this.paginator.pageSize
 		);
 		// Call request from server
-		this.store.dispatch(new IncomesPageRequested({ page: queryParams,searchTerm:this.searchType }));
+		this.store.dispatch(new RoutesPageRequested({ page: queryParams,searchTerm:this.searchType }));
 		this.selection.clear();
 	}
 
@@ -156,7 +147,7 @@ this.loadAllIncomeHead();
 		const filter: any = {};
 		const searchText: string = this.searchInput.nativeElement.value;
 
-		filter.Income = searchText;
+		filter.Route = searchText;
 		if (!searchText) {
 			return filter;
 		}
@@ -166,16 +157,16 @@ this.loadAllIncomeHead();
 
 	/** ACTIONS */
 	/**
-	 * Delete Income
+	 * Delete Route
 	 *
-	 * @param _item: IncomeModel
+	 * @param _item: RouteModel
 	 */
-	deleteIncome(_item: IncomeModel) {
+	deleteRoute(_item: RouteModel) {
 
-		const _title = 'Income';
-		const _description = 'Are you sure to permanently delete selected Income?';
-		const _waitDesciption = 'Income is deleting...';
-		const _deleteMessage = ' Selected Income has been deleted';
+		const _title = 'Route';
+		const _description = 'Are you sure to permanently delete selected Route?';
+		const _waitDesciption = 'Route is deleting...';
+		const _deleteMessage = ' Selected Route has been deleted';
 
 
 
@@ -185,31 +176,31 @@ this.loadAllIncomeHead();
 				return;
 			}
 
-			this.store.dispatch(new OneIncomeDeleted({ id: _item.id }));
+			this.store.dispatch(new OneRouteDeleted({ id: _item.id }));
 			this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
-			this.loadIncomeList();
+			this.loadRouteList();
 		});
 		
 
 	}
 
 	/**
-	 * Show add Income dialog
+	 * Show add Route dialog
 	 */
-	addIncome() {
-		this.income=new IncomeModel();
-		this.income.clear(); //
+	addRoute() {
+		this.route=new RouteModel();
+		this.route.clear(); //
 		this.createForm();
 
 	}
 
 	/**
-	 * Show Edit Income dialog and save after success close result
-	 * @param income: IncomeModel
+	 * Show Edit Route dialog and save after success close result
+	 * @param route: RouteModel
 	 */
-	editIncome(income: IncomeModel) {
+	editRoute(route: RouteModel) {
 		
-		this.income=income;
+		this.route=route;
 		this.createForm();
 
 	}
@@ -218,24 +209,18 @@ this.loadAllIncomeHead();
 
 createForm() {
 	debugger;
-	this.incomeForm = this.fb.group({
-    // amount: number;
-    // date: string;
-    // documents: string;
+	this.routeForm = this.fb.group({
+    // fare: number;
     // id: number;
-    // incHeadId: string;
-    // invoiceNo: string;
     // isActive: string;
-    // name: string;
+    // noOfVehicle: number;
     // note: string;
-    amount: [this.income.amount, Validators.required],
-    date: [this.typesUtilsService.getDateFromString(this.income.date), Validators.compose([Validators.nullValidator])],
-    documents: [this.income.documents, ],
-    incHeadId: [this.income.incHeadId, Validators.required],
-    invoiceNo: [this.income.invoiceNo, ],
-    name: [this.income.name, Validators.required],
-    note: [this.income.note, ],
-    isActive: [this.income.isActive, ],
+    // routeTitle: string; 
+    fare: [this.route.fare, Validators.required],
+    noOfVehicle: [this.route.noOfVehicle, ],
+    routeTitle: [this.route.routeTitle, Validators.required],
+    note: [this.route.note, ],
+    isActive: [this.route.isActive, ],
 		
 	});
 }
@@ -246,7 +231,7 @@ createForm() {
  * @param controlName: string
  */
 isControlInvalid(controlName: string): boolean {
-	const control = this.incomeForm.controls[controlName];
+	const control = this.routeForm.controls[controlName];
 	const result = control.invalid && control.touched;
 	return result;
 }
@@ -254,48 +239,39 @@ isControlInvalid(controlName: string): boolean {
 /** ACTIONS */
 
 /**
- * Returns prepared income
+ * Returns prepared route
  */
-prepareIncome(): IncomeModel {
-	const controls = this.incomeForm.controls;
-	const _income = new IncomeModel();
-  _income.id = this.income.id;
-  // amount: number;
-    // date: string;
-    // documents: string;
+prepareRoute(): RouteModel {
+	const controls = this.routeForm.controls;
+	const _route = new RouteModel();
+  _route.id = this.route.id;
+   // fare: number;
     // id: number;
-    // incHeadId: string;
-    // invoiceNo: string;
     // isActive: string;
-    // name: string;
-    // : string;
+    // noOfVehicle: number;
+    // note: string;
+    // routeTitle: string;
 
-    _income.amount = controls.amount.value;
-    const _date = controls.date.value;
-    if (_date) {
-      _income.date = this.typesUtilsService.dateFormat(_date);
-    } else {
-      _income.date = '';
-    }
-  _income.documents = controls.documents.value;
-  _income.incHeadId = controls.incHeadId.value;
-  _income.invoiceNo = controls.invoiceNo.value;
-  _income.isActive='yes';
-	_income.name = controls.name.value;
-  _income.note = controls.note.value;
+    _route.fare = controls.fare.value;
+   
+  _route.noOfVehicle = controls.noOfVehicle.value;
+  _route.isActive='yes';
+	_route.routeTitle = controls.routeTitle.value;
+  _route.note = controls.note.value;
 
 
-	return _income;
+	return _route;
 }
 
 /**
  * On Submit
  */
 onSubmit() {
+  debugger
 	this.hasFormErrors = false;
-	const controls = this.incomeForm.controls;
+	const controls = this.routeForm.controls;
 	/** check form */
-	if (this.incomeForm.invalid) {
+	if (this.routeForm.invalid) {
 		Object.keys(controls).forEach(controlName =>
 			controls[controlName].markAsTouched()
 		);
@@ -304,65 +280,65 @@ onSubmit() {
 		return;
 	}
 
-	const editedIncome = this.prepareIncome();
-	if (editedIncome.id > 0) {
-		this.updateIncome(editedIncome);
+	const editedRoute = this.prepareRoute();
+	if (editedRoute.id > 0) {
+		this.updateRoute(editedRoute);
 	} else {
-		this.createIncome(editedIncome);
+		this.createRoute(editedRoute);
 	}
 
-	const	_saveMessage= editedIncome.id > 0 ? 'Income  has been updated' : 'Income has been created';
+	const	_saveMessage= editedRoute.id > 0 ? 'Route  has been updated' : 'Route has been created';
 		
-	const _messageType = editedIncome.id > 0 ? MessageType.Update : MessageType.Create;
+	const _messageType = editedRoute.id > 0 ? MessageType.Update : MessageType.Create;
 	
 		this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-		this.loadIncomeList();
-		this.incomeForm.reset();
-		this.addIncome();
-		// this.income.clear();
+		this.loadRouteList();
+		this.routeForm.reset();
+		this.addRoute();
+		// this.route.clear();
 		// this.createForm();
 
 }
 onCancel(){
-	this.incomeForm.reset();
-	this.addIncome();
-	// this.income.clear();
+	this.routeForm.reset();
+	this.addRoute();
+	// this.route.clear();
 	// this.createForm();
 }
 /**
- * Update Income
+ * Update Route
  *
- * @param _income: IncomeModel
+ * @param _route: RouteModel
  */
-updateIncome(_income: IncomeModel) {
-	const updateIncome: Update<IncomeModel> = {
-		id: _income.id,
-		changes: _income
+updateRoute(_route: RouteModel) {
+	const updateRoute: Update<RouteModel> = {
+		id: _route.id,
+		changes: _route
 	};
-	this.store.dispatch(new IncomeUpdated({
-		partialIncome: updateIncome,
-		income: _income
+	this.store.dispatch(new RouteUpdated({
+		partialRoute: updateRoute,
+		route: _route
 	}));
 
 
 }
 
 /**
- * Create Income
+ * Create Route
  *
- * @param _income: IncomeModel
+ * @param _route: RouteModel
  */
-createIncome(_income:IncomeModel) {
-	this.store.dispatch(new IncomeOnServerCreated({ income: _income }));
+createRoute(_route:RouteModel) {
+	this.store.dispatch(new RouteOnServerCreated({ route: _route }));
 	this.componentSubscriptions = this.store.pipe(
-		select(selectLastCreatedIncomeId),
+		select(selectLastCreatedRouteId),
 		delay(1000), // Remove this line
 	).subscribe(res => {
 		if (!res) {
 			return;
 		}
 
-		// this.dialogRef.close({ _income, isEdit: false });
+		// this.dialogRef.close({ _route, isEdit: false });
 	});
 }
 
@@ -388,6 +364,7 @@ onSelect(event) {
 	}
 }
 }
+
 
 
 

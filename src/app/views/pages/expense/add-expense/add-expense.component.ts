@@ -54,6 +54,7 @@ viewLoading = false;
 private componentSubscriptions: Subscription;
 files: File[] = [];
 expenseHeadList: ExpenseHeadModel[] = [];
+	searchType: any;
 
 
   constructor(public dialog: MatDialog,
@@ -145,7 +146,7 @@ this.loadAllExpenseHead()
 			this.paginator.pageSize
 		);
 		// Call request from server
-		this.store.dispatch(new ExpensesPageRequested({ page: queryParams }));
+		this.store.dispatch(new ExpensesPageRequested({ page: queryParams,searchTerm:this.searchType }));
 		this.selection.clear();
 	}
 

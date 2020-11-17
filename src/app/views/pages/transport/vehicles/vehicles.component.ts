@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { IncomesDataSource, IncomeModel,selectIncomesActionLoading, IncomeService, IncomeHeadService, IncomeHeadModel } from 'src/app/core/income';
+import { VehiclesDataSource, VehicleModel,selectVehiclesActionLoading, VehicleService, } from 'src/app/core/transport';
 import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -19,20 +19,21 @@ import { Update } from '@ngrx/entity';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
-import { IncomesPageRequested, OneIncomeDeleted, ManyIncomesDeleted, IncomesStatusUpdated, IncomeUpdated, IncomeOnServerCreated, selectLastCreatedIncomeId } from '../../../../core/income';
+import { VehiclesPageRequested, OneVehicleDeleted, ManyVehiclesDeleted, VehiclesStatusUpdated, VehicleUpdated, VehicleOnServerCreated, selectLastCreatedVehicleId } from '../../../../core/transport';
 
 
 @Component({
-  selector: 'kt-add-income',
-  templateUrl: './add-income.component.html',
-  styleUrls: ['./add-income.component.scss']
+  selector: 'kt-vehicles',
+  templateUrl: './vehicles.component.html',
+  styleUrls: ['./vehicles.component.scss']
 })
-export class AddIncomeComponent implements OnInit {
+export class VehiclesComponent implements OnInit {
 
   // Table fields
-dataSource: IncomesDataSource;
+dataSource: VehiclesDataSource;
 //  dataSource = new MatTableDataSource(ELEMENT_DATA);
-displayedColumns = ['id', 'name', 'invoiceNo', 'date', 'incomeHead', 'amount', 'actions'];
+
+displayedColumns = ['id', 'vehicleNo', 'vehicleModel', 'manufactureYear', 'driverName', 'driverLicence', 'driverContact', 'actions'];
 @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 @ViewChild('sort1', {static: true}) sort: MatSort;
 // Filter fields
@@ -40,20 +41,19 @@ displayedColumns = ['id', 'name', 'invoiceNo', 'date', 'incomeHead', 'amount', '
 filterStatus = '';
 filterType = '';
 // Selection
-selection = new SelectionModel<IncomeModel>(true, []);
-incomesResult: IncomeModel[] = [];
+selection = new SelectionModel<VehicleModel>(true, []);
+vehiclesResult: VehicleModel[] = [];
 // Subscriptions
 private subscriptions: Subscription[] = [];
 
 // Public properties
-income: IncomeModel;
-incomeForm: FormGroup;
+vehicle: VehicleModel;
+vehicleForm: FormGroup;
 hasFormErrors = false;
 viewLoading = false;
 // Private properties
 private componentSubscriptions: Subscription;
 files: File[] = [];
-incomeHeadList: IncomeHeadModel[] = [];
 searchType:any
 
   constructor(public dialog: MatDialog,
@@ -63,7 +63,7 @@ searchType:any
 		private store: Store<AppState>,
 		private fb: FormBuilder,
 		private typesUtilsService: TypesUtilsService,
-		private incomeHeadService:IncomeHeadService) { }
+	) { }
 
   ngOnInit() {
 
@@ -77,7 +77,7 @@ searchType:any
 		- when a sort event occurs => this.sort.sortChange
 		**/
 		const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-			tap(() => this.loadIncomeList())
+			tap(() => this.loadVehicleList())
 		)
 		.subscribe();
 		this.subscriptions.push(paginatorSubscriptions);
@@ -89,14 +89,14 @@ searchType:any
 			distinctUntilChanged(), // This operator will eliminate duplicate values
 			tap(() => {
 				this.paginator.pageIndex = 0;
-				this.loadIncomeList();
+				this.loadVehicleList();
 			})
 		)
 		.subscribe();
 		this.subscriptions.push(searchSubscription);
 
 		// Init DataSource
-		this.dataSource = new IncomesDataSource(this.store);
+		this.dataSource = new VehiclesDataSource(this.store);
 	
 		const entitiesSubscription = this.dataSource.entitySubject.pipe(
 			skip(1),
@@ -104,17 +104,17 @@ searchType:any
 		).subscribe(res => {
 			debugger
 	console.log(res);
-			this.incomesResult = res;
+			this.vehiclesResult = res;
 			console.log()
 		});
 		this.subscriptions.push(entitiesSubscription);
 		// First load
 		of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-			this.loadIncomeList();
+			this.loadVehicleList();
 		}); // Remove this line, just loading imitation
 
-this.addIncome();
-this.loadAllIncomeHead();
+this.addVehicle();
+
   }
 /**
 	 * On Destroy
@@ -122,19 +122,11 @@ this.loadAllIncomeHead();
 	ngOnDestroy() {
 		this.subscriptions.forEach(el => el.unsubscribe());
 	}
-	loadAllIncomeHead() {
-		debugger
-		this.incomeHeadService.getAllIncomeHeads().subscribe(res => {
-			const data = res['data'];
-			this.incomeHeadList = data['content'];
-			console.log(this.incomeHeadList)
-		}, err => {
-		});
-	}
+
 	/**
-	 * Load Incomes List from service through data-source
+	 * Load Vehicles List from service through data-source
 	 */
-	loadIncomeList() {
+	loadVehicleList() {
 		debugger;
 		this.selection.clear();
 		const queryParams = new QueryParamsModel(
@@ -145,7 +137,7 @@ this.loadAllIncomeHead();
 			this.paginator.pageSize
 		);
 		// Call request from server
-		this.store.dispatch(new IncomesPageRequested({ page: queryParams,searchTerm:this.searchType }));
+		this.store.dispatch(new VehiclesPageRequested({ page: queryParams }));
 		this.selection.clear();
 	}
 
@@ -156,7 +148,7 @@ this.loadAllIncomeHead();
 		const filter: any = {};
 		const searchText: string = this.searchInput.nativeElement.value;
 
-		filter.Income = searchText;
+		filter.Vehicle = searchText;
 		if (!searchText) {
 			return filter;
 		}
@@ -166,16 +158,16 @@ this.loadAllIncomeHead();
 
 	/** ACTIONS */
 	/**
-	 * Delete Income
+	 * Delete Vehicle
 	 *
-	 * @param _item: IncomeModel
+	 * @param _item: VehicleModel
 	 */
-	deleteIncome(_item: IncomeModel) {
+	deleteVehicle(_item: VehicleModel) {
 
-		const _title = 'Income';
-		const _description = 'Are you sure to permanently delete selected Income?';
-		const _waitDesciption = 'Income is deleting...';
-		const _deleteMessage = ' Selected Income has been deleted';
+		const _title = 'Vehicle';
+		const _description = 'Are you sure to permanently delete selected Vehicle?';
+		const _waitDesciption = 'Vehicle is deleting...';
+		const _deleteMessage = ' Selected Vehicle has been deleted';
 
 
 
@@ -185,31 +177,31 @@ this.loadAllIncomeHead();
 				return;
 			}
 
-			this.store.dispatch(new OneIncomeDeleted({ id: _item.id }));
+			this.store.dispatch(new OneVehicleDeleted({ id: _item.id }));
 			this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
-			this.loadIncomeList();
+			this.loadVehicleList();
 		});
 		
 
 	}
 
 	/**
-	 * Show add Income dialog
+	 * Show add Vehicle dialog
 	 */
-	addIncome() {
-		this.income=new IncomeModel();
-		this.income.clear(); //
+	addVehicle() {
+		this.vehicle=new VehicleModel();
+		this.vehicle.clear(); //
 		this.createForm();
 
 	}
 
 	/**
-	 * Show Edit Income dialog and save after success close result
-	 * @param income: IncomeModel
+	 * Show Edit Vehicle dialog and save after success close result
+	 * @param vehicle: VehicleModel
 	 */
-	editIncome(income: IncomeModel) {
+	editVehicle(vehicle: VehicleModel) {
 		
-		this.income=income;
+		this.vehicle=vehicle;
 		this.createForm();
 
 	}
@@ -218,24 +210,26 @@ this.loadAllIncomeHead();
 
 createForm() {
 	debugger;
-	this.incomeForm = this.fb.group({
-    // amount: number;
-    // date: string;
-    // documents: string;
+	this.vehicleForm = this.fb.group({
+    // driverContact: string;
+    // driverLicence: string;
+    // driverName: string;
     // id: number;
-    // incHeadId: string;
-    // invoiceNo: string;
     // isActive: string;
-    // name: string;
+    // manufactureYear: string;
     // note: string;
-    amount: [this.income.amount, Validators.required],
-    date: [this.typesUtilsService.getDateFromString(this.income.date), Validators.compose([Validators.nullValidator])],
-    documents: [this.income.documents, ],
-    incHeadId: [this.income.incHeadId, Validators.required],
-    invoiceNo: [this.income.invoiceNo, ],
-    name: [this.income.name, Validators.required],
-    note: [this.income.note, ],
-    isActive: [this.income.isActive, ],
+    // vehicleModel: string;
+    // vehicleNo: string;
+    driverContact: [this.vehicle.driverContact, [Validators.required,
+      Validators.pattern("^[0-9]*$"),
+      Validators.maxLength(10)]],
+    driverName: [this.vehicle.driverName, Validators.required],
+    driverLicence: [this.vehicle.driverLicence, ],
+    manufactureYear: [this.vehicle.manufactureYear,],
+    vehicleNo: [this.vehicle.vehicleNo, ],
+    vehicleModel: [this.vehicle.vehicleModel,],
+    note: [this.vehicle.note, ],
+    isActive: [this.vehicle.isActive, ],
 		
 	});
 }
@@ -246,7 +240,7 @@ createForm() {
  * @param controlName: string
  */
 isControlInvalid(controlName: string): boolean {
-	const control = this.incomeForm.controls[controlName];
+	const control = this.vehicleForm.controls[controlName];
 	const result = control.invalid && control.touched;
 	return result;
 }
@@ -254,38 +248,33 @@ isControlInvalid(controlName: string): boolean {
 /** ACTIONS */
 
 /**
- * Returns prepared income
+ * Returns prepared vehicle
  */
-prepareIncome(): IncomeModel {
-	const controls = this.incomeForm.controls;
-	const _income = new IncomeModel();
-  _income.id = this.income.id;
-  // amount: number;
-    // date: string;
-    // documents: string;
+prepareVehicle(): VehicleModel {
+	const controls = this.vehicleForm.controls;
+	const _vehicle = new VehicleModel();
+  _vehicle.id = this.vehicle.id;
+  // driverContact: string;
+    // driverLicence: string;
+    // driverName: string;
     // id: number;
-    // incHeadId: string;
-    // invoiceNo: string;
     // isActive: string;
-    // name: string;
-    // : string;
+    // manufactureYear: string;
+    // note: string;
+    // vehicleModel: string;
+    // vehicleNo: string;
 
-    _income.amount = controls.amount.value;
-    const _date = controls.date.value;
-    if (_date) {
-      _income.date = this.typesUtilsService.dateFormat(_date);
-    } else {
-      _income.date = '';
-    }
-  _income.documents = controls.documents.value;
-  _income.incHeadId = controls.incHeadId.value;
-  _income.invoiceNo = controls.invoiceNo.value;
-  _income.isActive='yes';
-	_income.name = controls.name.value;
-  _income.note = controls.note.value;
+  _vehicle.driverContact = controls.driverContact.value;
+  _vehicle.driverLicence = controls.driverLicence.value;
+  _vehicle.driverName = controls.driverName.value;
+  _vehicle.manufactureYear = controls.manufactureYear.value;
+  _vehicle.vehicleNo = controls.vehicleNo.value;
+  _vehicle.isActive='yes';
+	_vehicle.vehicleModel = controls.vehicleModel.value;
+  _vehicle.note = controls.note.value;
 
 
-	return _income;
+	return _vehicle;
 }
 
 /**
@@ -293,9 +282,9 @@ prepareIncome(): IncomeModel {
  */
 onSubmit() {
 	this.hasFormErrors = false;
-	const controls = this.incomeForm.controls;
+	const controls = this.vehicleForm.controls;
 	/** check form */
-	if (this.incomeForm.invalid) {
+	if (this.vehicleForm.invalid) {
 		Object.keys(controls).forEach(controlName =>
 			controls[controlName].markAsTouched()
 		);
@@ -304,65 +293,65 @@ onSubmit() {
 		return;
 	}
 
-	const editedIncome = this.prepareIncome();
-	if (editedIncome.id > 0) {
-		this.updateIncome(editedIncome);
+	const editedVehicle = this.prepareVehicle();
+	if (editedVehicle.id > 0) {
+		this.updateVehicle(editedVehicle);
 	} else {
-		this.createIncome(editedIncome);
+		this.createVehicle(editedVehicle);
 	}
 
-	const	_saveMessage= editedIncome.id > 0 ? 'Income  has been updated' : 'Income has been created';
+	const	_saveMessage= editedVehicle.id > 0 ? 'Vehicle  has been updated' : 'Vehicle has been created';
 		
-	const _messageType = editedIncome.id > 0 ? MessageType.Update : MessageType.Create;
+	const _messageType = editedVehicle.id > 0 ? MessageType.Update : MessageType.Create;
 	
 		this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-		this.loadIncomeList();
-		this.incomeForm.reset();
-		this.addIncome();
-		// this.income.clear();
+		this.loadVehicleList();
+		this.vehicleForm.reset();
+		this.addVehicle();
+		// this.vehicle.clear();
 		// this.createForm();
 
 }
 onCancel(){
-	this.incomeForm.reset();
-	this.addIncome();
-	// this.income.clear();
+	this.vehicleForm.reset();
+	this.addVehicle();
+	// this.vehicle.clear();
 	// this.createForm();
 }
 /**
- * Update Income
+ * Update Vehicle
  *
- * @param _income: IncomeModel
+ * @param _vehicle: VehicleModel
  */
-updateIncome(_income: IncomeModel) {
-	const updateIncome: Update<IncomeModel> = {
-		id: _income.id,
-		changes: _income
+updateVehicle(_vehicle: VehicleModel) {
+	const updateVehicle: Update<VehicleModel> = {
+		id: _vehicle.id,
+		changes: _vehicle
 	};
-	this.store.dispatch(new IncomeUpdated({
-		partialIncome: updateIncome,
-		income: _income
+	this.store.dispatch(new VehicleUpdated({
+		partialVehicle: updateVehicle,
+		vehicle: _vehicle
 	}));
 
 
 }
 
 /**
- * Create Income
+ * Create Vehicle
  *
- * @param _income: IncomeModel
+ * @param _vehicle: VehicleModel
  */
-createIncome(_income:IncomeModel) {
-	this.store.dispatch(new IncomeOnServerCreated({ income: _income }));
+createVehicle(_vehicle:VehicleModel) {
+	this.store.dispatch(new VehicleOnServerCreated({ vehicle: _vehicle }));
 	this.componentSubscriptions = this.store.pipe(
-		select(selectLastCreatedIncomeId),
+		select(selectLastCreatedVehicleId),
 		delay(1000), // Remove this line
 	).subscribe(res => {
 		if (!res) {
 			return;
 		}
 
-		// this.dialogRef.close({ _income, isEdit: false });
+		// this.dialogRef.close({ _vehicle, isEdit: false });
 	});
 }
 
@@ -388,6 +377,7 @@ onSelect(event) {
 	}
 }
 }
+
 
 
 
