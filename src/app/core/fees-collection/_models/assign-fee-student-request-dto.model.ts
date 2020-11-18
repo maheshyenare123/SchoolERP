@@ -4,13 +4,13 @@ export class AssignFeeStudentRequestDtoModel {
 
     feeGroupId: number;
     feeGroupName: string;
-    studentDtos: AssignFeesStudentModel;
+    studentDtos: AssignFeesStudentModel[];
 
-    clear() {
+    // clear() {
         
-        this.feeGroupId= 0;
-        this.feeGroupName= '';
-        this.studentDtos = new AssignFeesStudentModel;
+    //     this.feeGroupId= 0;
+    //     this.feeGroupName= '';
+    //     this.studentDtos = [];
 
-    }
+    // }
 }

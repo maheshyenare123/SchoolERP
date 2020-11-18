@@ -9,7 +9,7 @@ export class VehicleModel {
     note: string;
     vehicleModel: string;
     vehicleNo: string;
-
+    isSaved: number;
     clear() {
         this.driverContact= '';
         this.driverLicence= '';
@@ -20,8 +20,13 @@ export class VehicleModel {
         this.note= '';
         this.vehicleModel= '';
         this.vehicleNo= '';
+        this.isSaved = 0;
     }
-   
+    constructor(id:number,vehicleNo:string,isSaved:number){
+        this.id=id;
+        this.vehicleNo=vehicleNo;
+        this.isSaved = isSaved;
+    }
 }
 
 export class VehiclesModel {
@@ -35,7 +40,7 @@ export class VehiclesModel {
     note: string;
     vehicleModel: string;
     vehicleNo: string;
-
+    isSaved: number;
     clear() {
         this.driverContact= '';
         this.driverLicence= '';
@@ -46,9 +51,11 @@ export class VehiclesModel {
         this.note= '';
         this.vehicleModel= '';
         this.vehicleNo= '';
+        this.isSaved = 0;
     }
-    constructor(id:number,vehicleNo:string){
+    constructor(id:number,vehicleNo:string,isSaved:number){
         this.id=id;
         this.vehicleNo=vehicleNo;
+        this.isSaved = isSaved;
     }
 }

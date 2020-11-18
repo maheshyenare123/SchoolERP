@@ -15,7 +15,7 @@ export class AssignFeesStudentModel {
     studentFeeMasterId: number;
     studentId: number;
     studentSessionId: number;
-
+    isSaved:number;
     clear() {
         this.admissionNo= '';
         this.amount= 0;
@@ -32,5 +32,6 @@ export class AssignFeesStudentModel {
         this.studentFeeMasterId= 0;
         this.studentId= 0;
         this.studentSessionId= 0;
+        this.isSaved = 1
     }
 }

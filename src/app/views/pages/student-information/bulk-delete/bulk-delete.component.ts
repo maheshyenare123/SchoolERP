@@ -324,6 +324,7 @@ isAllSelected() {
   const numSelected = this.selection.selected.length;
   const numRows = this.studentsResult.length;
   return numSelected === numRows;
+  console.log("selection: "+this.selection)
 }
 
 /**
@@ -335,6 +336,7 @@ masterToggle() {
   } else {
     this.studentsResult.forEach(row => this.selection.select(row));
   }
+  console.log("selection: "+this.selection)
 }
 
 /* UI */

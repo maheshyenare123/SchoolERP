@@ -35,6 +35,7 @@ export class AssignVehicleService {
   // items => filtered/sorted result
   // Server should return filtered/sorted result
   findAssignVehicles(queryParams: QueryParamsModel): Observable<QueryResultsModel> {
+    debugger
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);

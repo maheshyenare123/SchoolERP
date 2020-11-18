@@ -113,8 +113,9 @@ vehicleCheckBoxList: VehicleCheckBox[] = [];
 			distinctUntilChanged()
 		).subscribe(res => {
 			debugger
-	console.log(res);
+	       console.log(res);
 			this.assignVehiclesResult = res;
+			console.log("res"+this.assignVehiclesResult);
 		});
 		this.subscriptions.push(entitiesSubscription);
 		// First load
@@ -151,7 +152,7 @@ this.addAssignVehicle();
 	}
   setVehicleDataInChecboxList(){
 	this.vehicleList.forEach(element => {
-		this.vehicleCheckBoxList.push({ 'data':	new VehiclesModel(element.id,element.vehicleNo), 'isChecked': false })
+		this.vehicleCheckBoxList.push({ 'data':	new VehiclesModel(element.id,element.vehicleNo,element.isSaved), 'isChecked': false })
 	})
 }
 
@@ -209,10 +210,10 @@ this.addAssignVehicle();
 	 */
 	deleteAssignVehicle(_item: AssignVehicleModel) {
 
-		const _title = 'Subject Group';
-		const _description = 'Are you sure to permanently delete selected Subject Group?';
-		const _waitDesciption = 'Subject Group is deleting...';
-		const _deleteMessage = ' Selected Subject Group has been deleted';
+		const _title = 'Assign Vehicle';
+		const _description = 'Are you sure to permanently delete selected Assign Vehicle?';
+		const _waitDesciption = 'Assign Vehicle is deleting...';
+		const _deleteMessage = ' Selected Assign Vehicle has been deleted';
 
 
 
@@ -280,8 +281,10 @@ onVehicleCheckBoxChanges(_isChecked: boolean, id: number) {
 	// const isChecked = this.checkBoxes[index].isChecked;
 	if (_isChecked) {
 		this.vehicleCheckBoxList[index].isChecked = _isChecked;
+		this.vehicleCheckBoxList[index].data.isSaved = 1
 	}else{
 		this.vehicleCheckBoxList[index].isChecked = _isChecked;
+		this.vehicleCheckBoxList[index].data.isSaved = 0
 	}
 }
 
@@ -331,6 +334,7 @@ const vehicleData: VehicleModel[] = [];
  * On Submit
  */
 onSubmit() {
+	debugger
 	this.hasFormErrors = false;
 	const controls = this.assignVehicleForm.controls;
 	/** check form */
@@ -351,7 +355,7 @@ onSubmit() {
 		this.createAssignVehicle(editedAssignVehicle);
 	}
 	this.loadAssignVehicleList();
-	const	_saveMessage= editedAssignVehicle.id > 0 ? 'Subject Group  has been updated' : 'Subject Group has been created';
+	const	_saveMessage= editedAssignVehicle.id > 0 ? 'Assign Vehicle  has been updated' : 'Assign Vehicle has been created';
 		
 	const _messageType = editedAssignVehicle.id > 0 ? MessageType.Update : MessageType.Create;
 	

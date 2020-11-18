@@ -55,6 +55,9 @@ viewLoading = false;
 private componentSubscriptions: Subscription;
 files: File[] = [];
 searchType:any
+	id: number;
+	vehicleNo: string;
+	isSaved: number;
 
   constructor(public dialog: MatDialog,
 		public snackBar: MatSnackBar,
@@ -189,7 +192,7 @@ this.addVehicle();
 	 * Show add Vehicle dialog
 	 */
 	addVehicle() {
-		this.vehicle=new VehicleModel();
+		this.vehicle=new VehicleModel(this.id,this.vehicleNo,this.isSaved);
 		this.vehicle.clear(); //
 		this.createForm();
 
@@ -252,7 +255,7 @@ isControlInvalid(controlName: string): boolean {
  */
 prepareVehicle(): VehicleModel {
 	const controls = this.vehicleForm.controls;
-	const _vehicle = new VehicleModel();
+	const _vehicle = new VehicleModel(this.id,this.vehicleNo,this.isSaved);
   _vehicle.id = this.vehicle.id;
   // driverContact: string;
     // driverLicence: string;
@@ -269,7 +272,8 @@ prepareVehicle(): VehicleModel {
   _vehicle.driverName = controls.driverName.value;
   _vehicle.manufactureYear = controls.manufactureYear.value;
   _vehicle.vehicleNo = controls.vehicleNo.value;
-  _vehicle.isActive='yes';
+  _vehicle.isActive= controls.isActive.value;
+  _vehicle.isSaved = controls.isSaved.value;
 	_vehicle.vehicleModel = controls.vehicleModel.value;
   _vehicle.note = controls.note.value;
 

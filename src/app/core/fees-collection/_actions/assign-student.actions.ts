@@ -5,6 +5,7 @@ import { Update } from '@ngrx/entity';
 import { QueryParamsModel } from '../../_base/crud';
 // Models
 import { AssignFeesStudentModel } from '../_models/assign-fees-student.model';
+import { AssignFeeStudentRequestDtoModel } from '../_models/assign-fee-student-request-dto.model';
 
 export enum AssignFeesStudentActionTypes {
   AssignFeesStudentOnServerCreated = '[Edit AssignFeesStudent Dialog] AssignFeesStudent On Server Created',
@@ -22,9 +23,9 @@ export enum AssignFeesStudentActionTypes {
 
 export class AssignFeesStudentOnServerCreated implements Action {
   readonly type = AssignFeesStudentActionTypes.AssignFeesStudentOnServerCreated;
-  constructor(public payload: { assignFeesStudent: AssignFeesStudentModel }) {
+  constructor(public payload: { assignFeesStudent: AssignFeeStudentRequestDtoModel }) {
   }
-}
+}// AssignFeesStudentModel
 
 export class AssignFeesStudentCreated implements Action {
   readonly type = AssignFeesStudentActionTypes.AssignFeesStudentCreated;
@@ -70,7 +71,7 @@ export class ManyAssignFeesStudentsDeleted implements Action {
 export class AssignFeesStudentsPageRequested implements Action {
   readonly type = AssignFeesStudentActionTypes.AssignFeesStudentsPageRequested;
 
-  constructor(public payload: { page: QueryParamsModel ,classId:number,sectionId:number,category:number,gender:string,rte:string}) {
+  constructor(public payload: { page: QueryParamsModel ,classId:number,sectionId:number,category:number,gender:string,rte:string,feeGroupId:number}) {
   }
 }
 

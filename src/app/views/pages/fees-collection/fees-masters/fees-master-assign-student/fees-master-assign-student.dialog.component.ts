@@ -23,6 +23,7 @@ import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AssignFeesStudentsPageRequested, OneAssignFeesStudentDeleted, ManyAssignFeesStudentsDeleted, AssignFeesStudentsStatusUpdated, AssignFeesStudentUpdated, AssignFeesStudentOnServerCreated, selectLastCreatedAssignFeesStudentId } from '../../../../../core/fees-collection';
 import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from 'src/app/core/academics';
 import { CategoryService, CategoryDtoModel } from 'src/app/core/student-information';
+import { selectLastCreatedAssignVehicleId } from 'src/app/core/transport';
 
 
 
@@ -62,8 +63,8 @@ export class FeesMasterAssignStudentDialogComponent implements OnInit {
 	// Private properties
 	private componentSubscriptions: Subscription;
 
-	classId: number;
-	sectionId: number;
+	classId: number  = 0;
+	sectionId: number = 0;
 	category: string;
 	gender: string;
 	rte: string;
@@ -100,7 +101,21 @@ debugger
 
 		this.feesMaster = this.data.assignFeesStudent;
 
-
+		// feeGroupId: 1
+		// feeGroupName: "General"
+		// feeMasters: Array(1)
+		// 0:
+		// amount: 5000
+		// dueDate: "2020-11-11"
+		// feeGroupId: 1
+		// feeGroupName: "General"
+		// feetypeId: 1
+		// feetypeName: "Admission Fees"
+		// fineAmount: 0
+		// finePercentage: 0
+		// fineType: "None"
+		// id: 4
+		// isActive: "yes"
 	}
 	/**
 	 * On destroy
@@ -161,14 +176,17 @@ loadAllSectionsByClassId(id:number) {
 			controls.sectionId.value,
 			controls.category.value,
 			controls.gender.value,
-			controls.rte.value
+			controls.rte.value,
+			this.feesMaster.feeGroupId
 			);
 
 
 	}
 
 
-	getAllAssignFeesStudentList(classId,sectionId,category,gender,rte){
+	getAllAssignFeesStudentList(classId,sectionId,category,gender,rte,feeGroupId){
+	
+		
 
 		const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
  this.subscriptions.push(sortSubscription);
@@ -178,7 +196,7 @@ loadAllSectionsByClassId(id:number) {
  - when a sort event occurs => this.sort.sortChange
  **/
  const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-   tap(() => this.loadAssignFeesStudentList(classId,sectionId,category,gender,rte))
+   tap(() => this.loadAssignFeesStudentList(classId,sectionId,category,gender,rte,feeGroupId))
  )
  .subscribe();
  this.subscriptions.push(paginatorSubscriptions);
@@ -209,7 +227,7 @@ loadAllSectionsByClassId(id:number) {
  this.subscriptions.push(entitiesSubscription);
  // First load
  of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-    this.loadAssignFeesStudentList(classId,sectionId,category,gender,rte);
+    this.loadAssignFeesStudentList(classId,sectionId,category,gender,rte,feeGroupId);
  });
 
 }
@@ -276,7 +294,7 @@ loadAllSectionsByClassId(id:number) {
 	/**
 	 * Load AssignFeesStudents List from service through data-source
 	 */
-	loadAssignFeesStudentList(classId, sectionId, category, gender, rte) {
+	loadAssignFeesStudentList(classId, sectionId, category, gender, rte,feeGroupId) {
 		debugger;
 		this.selection.clear();
 		const queryParams = new QueryParamsModel(
@@ -287,7 +305,7 @@ loadAllSectionsByClassId(id:number) {
 			this.paginator.pageSize
 		);
 		// Call request from server
-		 this.store.dispatch(new AssignFeesStudentsPageRequested({ page: queryParams, classId: classId, sectionId: sectionId, category: category, gender: gender, rte:rte }));
+		 this.store.dispatch(new AssignFeesStudentsPageRequested({ page: queryParams, classId: classId, sectionId: sectionId, category: category, gender: gender, rte:rte,feeGroupId:feeGroupId }));
 		this.selection.clear();
 	}
 
@@ -361,7 +379,27 @@ console.log(this.assignFeesStudentForFill);
 	 * On Submit
 	 */
 	onSubmit() {
-	
+		debugger
+		this.selection.selected.forEach((element, i)=> {
+			element.isSaved = 1;
+		  });
+	let entity = {
+		"feeGroupId": this.feesMaster.feeGroupId,
+		"feeGroupName": this.feesMaster.feeGroupName,
+		"studentDtos": this.selection.selected
+	}
+		
+	this.store.dispatch(new AssignFeesStudentOnServerCreated({ assignFeesStudent: entity }));
+
+	this.componentSubscriptions = this.store.pipe(
+		select(selectLastCreatedAssignFeesStudentId),
+		delay(1000), // Remove this line
+	).subscribe(res => {
+		if (!res) {
+			return;
+		}
+	});
+
 
 	}
 	onCancel() {
@@ -370,12 +408,57 @@ console.log(this.assignFeesStudentForFill);
 
 
 
+/**
+ * Check all rows are selected
+ */
+isAllSelected() {
+	const numSelected = this.selection.selected.length;
+	const numRows = this.assignFeesStudentsResult.length;
+	console.log("selection: "+this.selection)
+	console.log("selectionobj: "+this.selection.selected)
+	return numSelected === numRows;
+	
+  }
+  
+  /**
+   * Selects all rows if they are not all selected; otherwise clear selection
+   */
+  masterToggle() {
+	  debugger
+	if (this.isAllSelected()) {
+	  this.selection.clear();
+	} else {
+	  this.assignFeesStudentsResult.forEach(row => this.selection.select(row));
+	}
+	console.log("selection: "+this.selection)
+  }
 
 
 	/** Alect Close event */
 	onAlertClose($event) {
 		this.hasFormErrors = false;
 	}
+
+
+// 	_selection: Set(1)
+// [[Entries]]
+// 0:
+// value:
+// admissionNo: ""
+// amount: 0
+// category: "Physically Challenged"
+// className: "First"
+// fatherName: "Balasaheb  Yenare"
+// firstname: "Mahesh"
+// gender: "male"
+// isActive: "yes"
+// isSaved: 0
+// lastname: "Yenare"
+// rollNo: "1001"
+// sectionName: "A"
+// studentFeeMasterId: 0
+// studentId: 4
+// studentSessionId: 1
 
 }
 

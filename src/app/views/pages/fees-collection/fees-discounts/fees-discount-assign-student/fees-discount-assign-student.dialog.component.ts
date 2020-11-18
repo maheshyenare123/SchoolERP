@@ -62,12 +62,12 @@ export class FeesDiscountAssignStudentDialogComponent implements OnInit {
 	// Private properties
 	private componentSubscriptions: Subscription;
 
-	classId: number;
-	sectionId: number;
+	classId: number=0;
+	sectionId: number=0;
 	category: string;
 	gender: string;
 	rte: string;
-
+	id:number;
 	classList: StudentClassModel[] = [];
 	sectionList: SectionDtoModel[] = [];
 	categoryList:CategoryDtoModel[]=[];
@@ -285,7 +285,7 @@ loadAllSectionsByClassId(id:number) {
 			this.paginator.pageSize
 		);
 		// Call request from server
-		 this.store.dispatch(new AssignFeesStudentsPageRequested({ page: queryParams, classId: classId, sectionId: sectionId, category: category, gender: gender, rte:rte }));
+		 this.store.dispatch(new AssignFeesStudentsPageRequested({ page: queryParams, classId: classId, sectionId: sectionId, category: category, gender: gender, rte:rte,feeGroupId:this.id }));
 		this.selection.clear();
 	}
 
