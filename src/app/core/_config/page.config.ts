@@ -50,18 +50,18 @@ export class PageConfig {
       'student-details': {
         page: { title: 'Student Details', desc: '' }
       },
-      'student-details-edit': {
+      'student-details-edit/:id': {
         page: { title: 'Student Admission', desc: '' }
       },
-      'online-admission': {
-        page: { title: 'Online Admission', desc: '' }
-      },
-      'disabled-student': {
-        page: { title: 'Disabled Student', desc: '' }
-      },
-      'bulk-delete': {
-        page: { title: 'Bulk Delete', desc: '' }
-      },
+      // 'online-admission': {
+      //   page: { title: 'Online Admission', desc: '' }
+      // },
+      // 'disabled-student': {
+      //   page: { title: 'Disabled Student', desc: '' }
+      // },
+      // 'bulk-delete': {
+      //   page: { title: 'Bulk Delete', desc: '' }
+      // },
       'student-categories': {
         page: { title: 'Student Categories', desc: '' }
       },
@@ -194,6 +194,17 @@ export class PageConfig {
       'fees-master': {
         page: { title: 'Fees Master', desc: '' }
       },
+      'fees-collect': {
+        page: { title: 'Fees Collect', desc: '' }
+      },
+      'search-fees-payment': {
+        page: { title: 'Search Fees Payment', desc: '' }
+      },
+      'search-due-fees': {
+        page: { title: 'Search Due Fees', desc: '' }
+      },
+      
+      
       'fees-reminder': {
         page: { title: 'Fees Reminder', desc: '' }
       },
@@ -224,8 +235,20 @@ export class PageConfig {
       },
     },
 
+    'transport': {
+      'routes': {
+        page: { title: 'Routes', desc: '' }
+      },
+      'vehicles': {
+        page: { title: 'Vehicles', desc: '' }
+      },
+      'assign-vehicle': {
+        page: { title: 'Assign Vehicle', desc: '' }
+      },
+    },
 
-    
+
+
     ecommerce: {
       customers: {
         page: { title: 'Customers', desc: '' }

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { IncomesDataSource, IncomeModel,selectIncomesActionLoading } from 'src/app/core/income';
+import { IncomesDataSource, IncomeModel,selectIncomesActionLoading, IncomeService, IncomeHeadService, IncomeHeadModel } from 'src/app/core/income';
 import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -53,8 +53,8 @@ viewLoading = false;
 // Private properties
 private componentSubscriptions: Subscription;
 files: File[] = [];
-
-
+incomeHeadList: IncomeHeadModel[] = [];
+searchType:any
 
   constructor(public dialog: MatDialog,
 		public snackBar: MatSnackBar,
@@ -62,7 +62,8 @@ files: File[] = [];
 		private translate: TranslateService,
 		private store: Store<AppState>,
 		private fb: FormBuilder,
-		private typesUtilsService: TypesUtilsService) { }
+		private typesUtilsService: TypesUtilsService,
+		private incomeHeadService:IncomeHeadService) { }
 
   ngOnInit() {
 
@@ -104,6 +105,7 @@ files: File[] = [];
 			debugger
 	console.log(res);
 			this.incomesResult = res;
+			console.log()
 		});
 		this.subscriptions.push(entitiesSubscription);
 		// First load
@@ -112,7 +114,7 @@ files: File[] = [];
 		}); // Remove this line, just loading imitation
 
 this.addIncome();
-		
+this.loadAllIncomeHead();
   }
 /**
 	 * On Destroy
@@ -120,7 +122,15 @@ this.addIncome();
 	ngOnDestroy() {
 		this.subscriptions.forEach(el => el.unsubscribe());
 	}
-
+	loadAllIncomeHead() {
+		debugger
+		this.incomeHeadService.getAllIncomeHeads().subscribe(res => {
+			const data = res['data'];
+			this.incomeHeadList = data['content'];
+			console.log(this.incomeHeadList)
+		}, err => {
+		});
+	}
 	/**
 	 * Load Incomes List from service through data-source
 	 */
@@ -135,7 +145,7 @@ this.addIncome();
 			this.paginator.pageSize
 		);
 		// Call request from server
-		this.store.dispatch(new IncomesPageRequested({ page: queryParams }));
+		this.store.dispatch(new IncomesPageRequested({ page: queryParams,searchTerm:this.searchType }));
 		this.selection.clear();
 	}
 

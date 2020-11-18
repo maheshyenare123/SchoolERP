@@ -25,6 +25,9 @@ import { ExpenseComponent } from './expense.component';
 import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { SearchExpenseComponent } from './search-expense/search-expense.component';
 import { ExpenseHeadComponent } from './expense-head/expense-head.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { expensesReducer, ExpenseEffects, ExpenseHeadEffects, expenseHeadsReducer, ExpenseService, ExpenseHeadService } from 'src/app/core/expense';
 
 const routes: Routes = [
 	{
@@ -72,8 +75,10 @@ const routes: Routes = [
    // CKEditorModule
     
 //state manage
-    // StoreModule.forFeature('admissionEnquirys', admissionEnquirysReducer),
-    // EffectsModule.forFeature([AdmissionEnquiryEffects]),
+    StoreModule.forFeature('expenses', expensesReducer),
+    EffectsModule.forFeature([ExpenseEffects]),
+    StoreModule.forFeature('expenseHeads', expenseHeadsReducer),
+    EffectsModule.forFeature([ExpenseHeadEffects]),
   ],
   providers: [
     NgbAlertConfig,
@@ -105,7 +110,8 @@ const routes: Routes = [
     },
 
 //custom service
-
+ExpenseService,
+ExpenseHeadService,
   ],
     entryComponents: [],
   exports: [RouterModule],

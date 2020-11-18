@@ -389,6 +389,7 @@ const subjectData: SubjectModel[] = [];
  * On Submit
  */
 onSubmit() {
+	debugger
 	this.hasFormErrors = false;
 	const controls = this.subjectGroupForm.controls;
 	/** check form */

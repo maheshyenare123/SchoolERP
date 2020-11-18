@@ -22,6 +22,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { StudentAttendencesPageRequested, OneStudentAttendenceDeleted, ManyStudentAttendencesDeleted, StudentAttendencesStatusUpdated, StudentAttendenceUpdated, StudentAttendenceOnServerCreated, selectLastCreatedStudentAttendenceId } from '../../../../core/attendance';
 import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from 'src/app/core/academics';
+import { StudentModel } from 'src/app/core/Models/student.model';
 
 @Component({
 	selector: 'kt-student-attendance',
@@ -68,6 +69,7 @@ export class StudentAttendanceComponent implements OnInit {
 	attendanceTypeList:AttendenceTypeModel[]=[];
 
 	markAsHoliday:boolean=false;
+	studentList: StudentModel[] = [];
 	constructor(public dialog: MatDialog,
 		public snackBar: MatSnackBar,
 		private layoutUtilsService: LayoutUtilsService,

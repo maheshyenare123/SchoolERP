@@ -1,7 +1,7 @@
 export class Constants {
    public static URL: any = {
       HOST_URL: 'http://yamistha.cloudjiffy.net/',
-      accessToken: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdXBlcmFkbWluQGdtYWlsLmNvbSIsIlNlc3Npb25JRCI6MSwiaWF0IjoxNjAyOTIxMjk1LCJleHAiOjE2MDMwMDc2OTV9.9yG8Kaw2H3rW_x36syT2HZbznn8KbjjrNNkiw29WpJ3TA_HFnixPRJuFcRZfN9DL_83rCV7ZXtvK7wzLwcu1RA',
+      accessToken: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdXBlcmFkbWluQGdtYWlsLmNvbSIsIlNlc3Npb25JRCI6MSwiaWF0IjoxNjA1NjgwNTE4LCJleHAiOjE2MDU3NjY5MTh9.ylU_vhIgkXCnK_JPjpzUB2o-if_vtSf0eSTu4t-XQnk-MuolPdbe1W7rQvYagANBzlU3efKk8U57FqfMqiIFOg',
       sessionId: '1',
 
    }
@@ -83,8 +83,12 @@ export class Constants {
    }
 
    public static Fees_Collection: any = {
-      FeesGroup: 'api/feesGroup',
-      FeesType: 'api/feesType',
+      Fees_Group: 'api/fee-group',
+      Fees_Type: 'api/fee-type',
+      Fees_Discount: 'api/fee-discount',
+      Fees_Master: 'api/feemaster',
+      AssignFeesStudent: 'api/feemaster/assign/student',
+      Student_Fee_Deposite: 'api/student-fee-deposite'
    }
 
 
@@ -92,13 +96,20 @@ export class Constants {
 
    public static Incomes: any = {
       Income: 'api/income',
-      IncomeHead: 'api/incomeHead',
+      IncomeHead: 'api/income-head',
    }
 
    public static Expenses: any = {
       Expense: 'api/expense',
-      ExpenseHead: 'api/expenseHead',
+      ExpenseHead: 'api/expense-head',
+   }
+  
+   public static Transports: any = {
+      Route: 'api/transport-route',
+      Vehicle: 'api/vehicle',
+      AssignVehicle: 'api/vehicle-route',
    }
 
+   
 
 }

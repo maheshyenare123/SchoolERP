@@ -70,7 +70,7 @@ export class ManyExpensesDeleted implements Action {
 export class ExpensesPageRequested implements Action {
   readonly type = ExpenseActionTypes.ExpensesPageRequested;
 
-  constructor(public payload: { page: QueryParamsModel }) {
+  constructor(public payload: { page: QueryParamsModel,searchTerm:any }) {
   }
 }
 

@@ -54,6 +54,7 @@ constructor(public dialogRef: MatDialogRef<StudentProfileViewDialogComponent>,
  * On init
  */
 ngOnInit() {
+	debugger
 	this.store.pipe(select(selectStudentsActionLoading)).subscribe(res => this.viewLoading = res);
 	// loadding
 	debugger

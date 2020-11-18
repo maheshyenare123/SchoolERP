@@ -23,16 +23,23 @@
                                     <div class="col-lg-4 kt-margin-bottom-20-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
                                             <mat-select placeholder="Select Search Type" formControlName="searchType" >
-                                                <mat-option value="0">Business</mat-option>
-                                                <mat-option value="1">Individual</mat-option>
-                                                
+                                                <mat-option value="Today">Today</mat-option>
+                                                <mat-option value="This Week">This Week</mat-option>
+                                                <mat-option value="Last Week">Last Week</mat-option>
+                                                <mat-option value="This Month">This Month</mat-option>
+                                                <mat-option value="Last Month">Last Month</mat-option>
+                                                <mat-option value="Last 3 Months">Last 3 Months</mat-option>
+                                                <mat-option value="Last 6 Months">Last 6 Months</mat-option>
+                                                <mat-option value="Last 12 Months">Last 12 Months</mat-option>
+                                                <mat-option value="This Year">This Year</mat-option>
+                                                <mat-option value="Last Year">Last Year</mat-option>
                                             </mat-select>
                                             <mat-error>Search Type
                                                 <strong>is required</strong>
                                             </mat-error>
                                         </mat-form-field>
                                     </div>
-                                    OR
+                                    <!-- OR
                                     <div class="col-lg-4 kt-margin-bottom-20-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
                                             <input matInput placeholder="Enter Search Text" formControlName="searchText" />
@@ -41,7 +48,7 @@
                                             </mat-error>
                                             
                                         </mat-form-field>
-                                    </div>
+                                    </div> -->
                                 </div>
                     
                             </div>

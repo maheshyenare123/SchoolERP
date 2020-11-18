@@ -17,18 +17,18 @@ export class FeesDiscountService {
   createFeesDiscount(feesDiscount: FeesDiscountModel): Observable<FeesDiscountModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<FeesDiscountModel>(Constants.URL.HOST_URL+Constants.Fees_Collection.FeesDiscount, feesDiscount, {headers: httpHeaders});
+    return this.http.post<FeesDiscountModel>(Constants.URL.HOST_URL+Constants.Fees_Collection.Fees_Discount, feesDiscount, {headers: httpHeaders});
   }
 
   // READ
   getAllFeesDiscounts(): Observable<FeesDiscountModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<FeesDiscountModel[]>(Constants.URL.HOST_URL+Constants.Fees_Collection.FeesDiscount, {headers: httpHeaders});
+    return this.http.get<FeesDiscountModel[]>(Constants.URL.HOST_URL+Constants.Fees_Collection.Fees_Discount, {headers: httpHeaders});
   }
 
   getFeesDiscountById(feesDiscountId: number): Observable<FeesDiscountModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<FeesDiscountModel>(Constants.URL.HOST_URL+Constants.Fees_Collection.FeesDiscount+ `/${feesDiscountId}`, {headers: httpHeaders});
+    return this.http.get<FeesDiscountModel>(Constants.URL.HOST_URL+Constants.Fees_Collection.Fees_Discount+ `/${feesDiscountId}`, {headers: httpHeaders});
   }
 
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
@@ -39,7 +39,7 @@ export class FeesDiscountService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
-    const url =Constants.URL.HOST_URL+Constants.Fees_Collection.FeesDiscount ;
+    const url =Constants.URL.HOST_URL+Constants.Fees_Collection.Fees_Discount ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       // params: httpParams
@@ -49,7 +49,7 @@ export class FeesDiscountService {
   // UPDATE => PUT: update the FeesDiscount on the server
   updateFeesDiscount(feesDiscount: FeesDiscountModel): Observable<any> {
     const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Fees_Collection.FeesDiscount+'/'+feesDiscount.id, feesDiscount, {headers: httpHeader});
+    return this.http.put(Constants.URL.HOST_URL+Constants.Fees_Collection.Fees_Discount+'/'+feesDiscount.id, feesDiscount, {headers: httpHeader});
   }
 
   // UPDATE Status
@@ -59,19 +59,19 @@ export class FeesDiscountService {
       feesDiscountsForUpdate: feesDiscounts,
       newStatus: status
     };
-    const url = Constants.URL.HOST_URL+Constants.Fees_Collection.FeesDiscount+ '/updateStatus';
+    const url = Constants.URL.HOST_URL+Constants.Fees_Collection.Fees_Discount+ '/updateStatus';
     return this.http.put(url, body, {headers: httpHeaders});
   }
 
   // DELETE => delete the FeesDiscount from the server
   deleteFeesDiscount(feesDiscountId: number): Observable<FeesDiscountModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const url = `${Constants.URL.HOST_URL+Constants.Fees_Collection.FeesDiscount}/${feesDiscountId}`;
+    const url = `${Constants.URL.HOST_URL+Constants.Fees_Collection.Fees_Discount}/${feesDiscountId}`;
     return this.http.delete<FeesDiscountModel>(url, {headers: httpHeaders});
   }
 
   deleteFeesDiscounts(ids: number[] = []): Observable<any> {
-    const url = Constants.URL.HOST_URL+Constants.Fees_Collection.FeesDiscount + '/deleteFeesDiscounts';
+    const url = Constants.URL.HOST_URL+Constants.Fees_Collection.Fees_Discount + '/deleteFeesDiscounts';
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const body = {feesDiscountIdsForDelete: ids};
     return this.http.put<QueryResultsModel>(url, body, {headers: httpHeaders});

@@ -68,7 +68,7 @@ private componentSubscriptions: Subscription;
 
   ngOnInit() {
 
-	debugger;
+	// debugger;
 	
     const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 		this.subscriptions.push(sortSubscription);
@@ -103,7 +103,7 @@ private componentSubscriptions: Subscription;
 			skip(1),
 			distinctUntilChanged()
 		).subscribe(res => {
-			debugger
+			// debugger
 	console.log(res);
 			this.feesDiscountsResult = res;
 		});
@@ -127,7 +127,7 @@ this.addFeesDiscount();
 	 * Load FeesDiscounts List from service through data-source
 	 */
 	loadFeesDiscountList() {
-		debugger;
+		// debugger;
 		this.selection.clear();
 		const queryParams = new QueryParamsModel(
 			this.filterConfiguration(),
@@ -148,11 +148,11 @@ this.addFeesDiscount();
 		const filter: any = {};
 		const searchText: string = this.searchInput.nativeElement.value;
 
-		filter.FeesDiscount = searchText;
+		filter.name = searchText;
 		if (!searchText) {
 			return filter;
 		}
-		filter.description = searchText;
+		filter.code = searchText;
 		return filter;
 	}
 
@@ -209,11 +209,11 @@ this.addFeesDiscount();
 
 
 createForm() {
-	debugger;
+	// debugger;
 	this.feesDiscountForm = this.fb.group({
-    type: [this.feesDiscount.name, Validators.required],
-    code: [this.feesDiscount.code, Validators.required],
-    amount: [this.feesDiscount.amount, Validators.required],
+		name: [this.feesDiscount.name, Validators.required],
+		code: [this.feesDiscount.code, Validators.required],
+		amount: [this.feesDiscount.amount, Validators.required],
 		description: [this.feesDiscount.description, ],
 		
 	});

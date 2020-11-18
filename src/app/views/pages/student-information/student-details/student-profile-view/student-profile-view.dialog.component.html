@@ -17,6 +17,9 @@
 		</kt-alert>
 
 
+	
+
+
 		<div class="form-group kt-form__group row">
 			<div class="col-lg-3 kt-margin-bottom-20-mobile">
 
@@ -30,7 +33,7 @@
 					</tr>
 					<tr>
 						<td>
-							<h4>Mahesh Yenare</h4>
+							<h4>{{student.firstname}} {{student.lastname}}</h4>
 						</td>
 					</tr>
 				</table>
@@ -41,7 +44,7 @@
 							<label>Admission No</label>
 						</td>
 						<td style="text-align: right;">
-							<!-- {{student.admissionNo}} -->1001
+							{{student.admissionNo}}
 						</td>
 
 					</tr>
@@ -50,7 +53,7 @@
 							<label>Roll Number</label>
 						</td>
 						<td style="text-align: right;">
-							<!-- {{student.rollNo}} -->18132149
+							{{student.rollNo}}
 						</td>
 					</tr>
 					<tr>
@@ -58,7 +61,7 @@
 							<label>Class</label>
 						</td>
 						<td style="text-align: right;">
-							<!-- {{student.class}} -->First (2019-20)
+							{{student.classId}} (2019-20)
 						</td>
 					</tr>
 					<tr>
@@ -66,7 +69,7 @@
 							<label>Section</label>
 						</td>
 						<td style="text-align: right;">
-							<!-- {{student.section}} -->A
+							{{student.sectionId}}
 						</td>
 					</tr>
 					<tr>
@@ -74,7 +77,7 @@
 							<label>RTE</label>
 						</td>
 						<td style="text-align: right;">
-							<!-- {{student.rte}} -->Yes
+							{{student.rte}}
 						</td>
 					</tr>
 					<tr>
@@ -82,7 +85,7 @@
 							<label>Gender</label>
 						</td>
 						<td style="text-align: right;">
-							<!-- {{student.gender}} -->Male
+							{{student.gender}}
 						</td>
 					</tr>
 				</table>
@@ -109,7 +112,7 @@
 							<label>Admission No</label>
 						</td>
 						<td style="text-align: right;">
-							<!-- {{student.admissionNo}} -->1001
+							{{student.admissionNo}}
 						</td>
 
 					</tr>
@@ -118,7 +121,7 @@
 							<label>Class</label>
 						</td>
 						<td style="text-align: right;">
-							<!-- {{student.class}} -->First (2019-20)
+							{{student.classId}} (2019-20)
 						</td>
 					</tr>
 					<tr>
@@ -126,7 +129,7 @@
 							<label>Section</label>
 						</td>
 						<td style="text-align: right;">
-							<!-- {{student.section}} -->A
+							{{student.sectionId}}A
 						</td>
 					</tr>
 
@@ -143,7 +146,7 @@
 									<label>Admission Date</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.admissionDate}} -->01/10/2019
+									{{student.admissionDate}}
 								</td>
 
 							</tr>
@@ -152,7 +155,7 @@
 									<label>Date of Birth</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.dob}} -->01/01/2004
+									{{student.dob}}
 								</td>
 							</tr>
 							<tr>
@@ -160,7 +163,7 @@
 									<label>Category</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.category}} -->General
+									{{student.categoryId}}
 								</td>
 							</tr>
 							<tr>
@@ -168,15 +171,15 @@
 									<label>Mobile Number</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.mobileno}} -->36300000
+									{{student.mobileno}}
 								</td>
 							</tr>
 							<tr>
 								<td style="text-align: left;">
-									<label>Caste</label>
+									<label>Cast</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.caste}} -->Maratha
+									{{student.cast}}
 								</td>
 							</tr>
 							<tr>
@@ -184,7 +187,7 @@
 									<label>Religion</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.religion}} -->Hindu
+									{{student.religion}}
 								</td>
 							</tr>
 							<tr>
@@ -192,7 +195,7 @@
 									<label>Email</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.email}} -->n@gmail.com
+									{{student.email}}
 								</td>
 							</tr>
 						</table>
@@ -205,7 +208,7 @@
 									<label>Current Address</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.currentAddress}} -->Current Address
+									{{student.currentAddress}}
 								</td>
 							</tr>
 							<tr>
@@ -213,7 +216,7 @@
 									<label>Permanent Address</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.permanentAddress}} -->Permanent Address
+									{{student.permanentAddress}}
 								</td>
 							</tr>
 						</table>
@@ -227,7 +230,7 @@
 									<label>Father Name</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.fatherName}} -->Father Name
+									{{student.fatherName}}
 								</td>
 								<td rowspan="3"><img src="../../../../../../assets/media/no_image.png" height="100"
 										width="100" style="border-radius: 50%;"></td>
@@ -237,7 +240,7 @@
 									<label>Father Phone</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.fatherPhone}} -->Father Phone
+									{{student.fatherPhone}}
 								</td>
 							</tr>
 							<tr>
@@ -245,7 +248,7 @@
 									<label>Father Occupation</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.fatherOccupation}} -->Father Occupation
+									{{student.fatherOccupation}}
 								</td>
 							</tr>
 							<tr>
@@ -253,7 +256,7 @@
 									<label>Mother Name</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.motherName}} -->Mother Name
+									{{student.motherName}}
 								</td>
 								<td rowspan="3"><img src="../../../../../../assets/media/no_image.png" height="100"
 										width="100" style="border-radius: 50%;"></td>
@@ -263,7 +266,7 @@
 									<label>Mother Phone</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.motherPhone}} -->Mother Phone
+									{{student.motherPhone}}
 								</td>
 							</tr>
 							<tr>
@@ -271,7 +274,7 @@
 									<label>Mother Occupation</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.motherOccupation}} -->Mother Occupation
+									{{student.motherOccupation}}
 								</td>
 							</tr>
 							<tr>
@@ -279,7 +282,7 @@
 									<label>Guardian Name</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.guardianName}} -->Suresh
+									{{student.guardianName}}
 								</td>
 								<td rowspan="3"><img src="../../../../../../assets/media/no_image.png" height="100"
 										width="100" style="border-radius: 50%;"></td>
@@ -289,7 +292,7 @@
 									<label>Guardian Email</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.guardianEmail}} -->n@gmail.com
+									{{student.guardianEmail}}
 								</td>
 							</tr>
 							<tr>
@@ -297,7 +300,7 @@
 									<label>Guardian Relation</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.guardianRelation}} -->Father
+									{{student.guardianRelation}}
 								</td>
 							</tr>
 							<tr>
@@ -305,7 +308,7 @@
 									<label>Guardian Phone</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.guardianPhone}} -->08999480827
+									{{student.guardianPhone}}
 								</td>
 							</tr>
 							<tr>
@@ -313,7 +316,7 @@
 									<label>Guardian Occupation</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.guardianOccupation}} -->
+									{{student.guardianOccupation}}
 								</td>
 							</tr>
 							<tr>
@@ -321,7 +324,7 @@
 									<label>Guardian Address</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.guardianAddress}} -->
+									{{student.guardianAddress}}
 								</td>
 							</tr>
 						</table>
@@ -334,7 +337,7 @@
 									<label>Blood Group</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.bloodGroup}} -->O+
+									{{student.bloodGroup}}
 								</td>
 
 							</tr>
@@ -343,7 +346,7 @@
 									<label>Student House</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.rollNo}} -->Green
+									{{student.schoolHouseId}}
 								</td>
 							</tr>
 							<tr>
@@ -351,7 +354,7 @@
 									<label>Height</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.height}} -->1,40
+									{{student.height}}
 								</td>
 							</tr>
 							<tr>
@@ -359,7 +362,7 @@
 									<label>Weight</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.weight}} -->40
+									{{student.weight}}
 								</td>
 							</tr>
 							<tr>
@@ -367,7 +370,7 @@
 									<label>As on Date</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.measurementDate}} -->01/10/2019
+									{{student.measurementDate}}
 								</td>
 							</tr>
 							<tr>
@@ -375,7 +378,7 @@
 									<label>Previous School Details</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.previousSchool}} -->
+									{{student.previousSchool}}
 								</td>
 							</tr>
 							<tr>
@@ -399,7 +402,7 @@
 									<label>Bank Account Number</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.bankAccountNo}} -->40
+									{{student.bankAccountNo}}
 								</td>
 							</tr>
 							<tr>
@@ -407,7 +410,7 @@
 									<label>Bank Name</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.bankName}} -->
+									{{student.bankName}}
 								</td>
 							</tr>
 							<tr>
@@ -415,7 +418,7 @@
 									<label>IFSC Code</label>
 								</td>
 								<td style="text-align: left;">
-									<!-- {{student.ifscCode}} -->
+									{{student.ifscCode}}
 								</td>
 							</tr>
 						</table>

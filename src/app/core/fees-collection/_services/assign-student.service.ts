@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from "@angular/common/http";
+import { HttpClient,HttpHeaders, HttpParams } from "@angular/common/http";
 import { Constants } from '../../api_url';
 import { HttpUtilsService, QueryResultsModel, QueryParamsModel } from '../../_base/crud';
 import { AssignFeesStudentModel } from '../_models/assign-fees-student.model';
 import { Observable } from 'rxjs';
+import { AssignFeeStudentRequestDtoModel } from '../_models/assign-fee-student-request-dto.model';
 
 
 @Injectable({
@@ -14,10 +15,10 @@ export class AssignFeesStudentService {
   constructor(private http: HttpClient, private httpUtils: HttpUtilsService) { }
 
   // CREATE =>  POST: add a new AssignFeesStudent to the server
-  createAssignFeesStudent(assignFeesStudent: AssignFeesStudentModel): Observable<AssignFeesStudentModel> {
+  createAssignFeesStudent(assignFeesStudent: AssignFeeStudentRequestDtoModel): Observable<AssignFeeStudentRequestDtoModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<AssignFeesStudentModel>(Constants.URL.HOST_URL+Constants.Fees_Collection.AssignFeesStudent, assignFeesStudent, {headers: httpHeaders});
+    return this.http.post<AssignFeeStudentRequestDtoModel>(Constants.URL.HOST_URL+Constants.Fees_Collection.AssignFeesStudent, assignFeesStudent, {headers: httpHeaders});
   }
 
   // READ
@@ -34,16 +35,62 @@ export class AssignFeesStudentService {
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
   // items => filtered/sorted result
   // Server should return filtered/sorted result
-  findAssignFeesStudents(queryParams: QueryParamsModel): Observable<QueryResultsModel> {
+  findAssignFeesStudents(queryParams: QueryParamsModel,classId:number,sectionId:number,category:number,gender:string,rte:string,feeGroupId:number): Observable<QueryResultsModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
+   // const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
+//
 
-    const url =Constants.URL.HOST_URL+Constants.Fees_Collection.AssignFeesStudent ;
-    return this.http.get<QueryResultsModel>(url, {
-      headers: httpHeaders,
-      // params: httpParams
-    });
+if(gender == null && rte == null){
+  const httpParams =new HttpParams()
+  .set('classesId', classId.toString())
+  .set('pageNo', queryParams.pageNumber.toString())
+  .set('pageSize', queryParams.pageSize.toString())
+  .set('sectionId', sectionId.toString())
+  .set('sortBy', 'id');
+  const url =Constants.URL.HOST_URL+Constants.Fees_Collection.AssignFeesStudent+'/'+feeGroupId ;
+  return this.http.get<QueryResultsModel>(url, {
+    headers: httpHeaders,
+    params: httpParams
+  });
+}
+
+
+    if(gender == null){
+      const httpParams =new HttpParams()
+      .set('classesId', classId.toString())
+      
+      .set('rte', rte.toString())
+      .set('pageNo', queryParams.pageNumber.toString())
+      .set('pageSize', queryParams.pageSize.toString())
+      .set('sectionId', sectionId.toString())
+      .set('sortBy', 'id');
+
+      const url =Constants.URL.HOST_URL+Constants.Fees_Collection.AssignFeesStudent+'/'+feeGroupId ;
+      return this.http.get<QueryResultsModel>(url, {
+        headers: httpHeaders,
+        params: httpParams
+      });
+    }
+		if(rte == null){
+      const httpParams =new HttpParams()
+      .set('classesId', classId.toString())
+      .set('gender', gender.toString())
+     
+      .set('pageNo', queryParams.pageNumber.toString())
+      .set('pageSize', queryParams.pageSize.toString())
+      .set('sectionId', sectionId.toString())
+      .set('sortBy', 'id');
+
+      const url =Constants.URL.HOST_URL+Constants.Fees_Collection.AssignFeesStudent+'/'+feeGroupId ;
+      return this.http.get<QueryResultsModel>(url, {
+        headers: httpHeaders,
+        params: httpParams
+      });
+    }
+  
+    
+  
   }
 
   // UPDATE => PUT: update the AssignFeesStudent on the server

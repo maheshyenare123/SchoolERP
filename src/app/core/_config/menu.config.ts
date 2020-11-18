@@ -147,20 +147,20 @@ export class MenuConfig {
             },
             {
               title: 'Student Admission',
-              page: '/student-information/student-details-edit'
+              page: '/student-information/student-details-edit/:id'
             },
-            {
-              title: 'Online Admission',
-              page: '/student-information/online-admission'
-            },
-            {
-              title: 'Disabled Student',
-              page: '/student-information/disabled-student'
-            },
-            {
-              title: 'Bulk Delete',
-              page: '/student-information/bulk-delete'
-            },
+            // {
+            //   title: 'Online Admission',
+            //   page: '/student-information/online-admission'
+            // },
+            // {
+            //   title: 'Disabled Student',
+            //   page: '/student-information/disabled-student'
+            // },
+            // {
+            //   title: 'Bulk Delete',
+            //   page: '/student-information/bulk-delete'
+            // },
             {
               title: 'Student Categories',
               page: '/student-information/student-categories'
@@ -363,6 +363,20 @@ export class MenuConfig {
             },
             
             {
+              title: 'Fees Collect',
+              page: '/fees-collection/fees-collect'
+            },
+
+            {
+              title: 'Search Fees Payment',
+              page: '/fees-collection/search-fees-payment'
+            },
+
+            {
+              title: 'Search Due Fees',
+              page: '/fees-collection/search-due-fees'
+            },
+            {
               title: 'Fees Reminder',
               page: '/fees-collection/fees-reminder'
             },
@@ -415,6 +429,31 @@ export class MenuConfig {
           ]
         },
         
+
+        {
+          title: 'Transport',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+            
+            {
+              title: 'Routes',
+              page: '/transport/routes'
+            },
+            {
+              title: 'Vehicles',
+              page: '/transport/vehicles'
+            },
+            {
+              title: 'Assign Vehicle',
+              page: '/transport/assign-vehicle'
+            },
+            
+          ]
+        },
+        
+
+
         // {section: 'Components'},
         // {
         //   title: 'Google Material',

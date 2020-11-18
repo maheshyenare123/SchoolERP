@@ -62,6 +62,7 @@ constructor(
              private studentService: StudentService,
              private studentClassService: StudentClassService,
              private sectionService: SectionService,
+            
              ) { }
 
 
@@ -391,7 +392,10 @@ deleteProducts() {
 
 		// 	this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
 		// 	this.loadStudentsList();
-		// });
+    // });
+    
+    this.router.navigate(["/student-information/student-details-edit/"+student.id])
+
 	}
 
   onStudentProfileView(student: StudentDtoModel) {

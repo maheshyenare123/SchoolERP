@@ -239,7 +239,7 @@ prepareExpenseHead(): ExpenseHeadModel {
 	const controls = this.expenseHeadForm.controls;
 	const _expenseHead = new ExpenseHeadModel();
 	_expenseHead.id = this.expenseHead.id;
-  _expenseHead.expCategory = controls.incomeCategory.value;
+  _expenseHead.expCategory = controls.expCategory.value;
   _expenseHead.description = controls.description.value;
   _expenseHead.isDeleted='no';
 	_expenseHead.isActive='yes';

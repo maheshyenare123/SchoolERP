@@ -39,18 +39,24 @@ export class AssignFeesStudentEffects {
     ofType<AssignFeesStudentsPageRequested>(AssignFeesStudentActionTypes.AssignFeesStudentsPageRequested),
     mergeMap(({payload}) => {
       this.store.dispatch(this.showPageLoadingDistpatcher);
-      const requestToServer = this.assignFeesStudentsService.findAssignFeesStudents(payload.page);
-      const lastQuery = of(payload.page);
+      const requestToServer = this.assignFeesStudentsService.findAssignFeesStudents(payload.page,payload.classId,payload.sectionId,payload.category,payload.gender,payload.rte,payload.feeGroupId);
+      const lastQuery = of(payload.page); 
       return forkJoin(requestToServer, lastQuery);
     }),
     map(response => {
+      debugger
       const result: QueryResultsModel = response[0];
       const lastQuery: QueryParamsModel = response[1];
-      const data : FindResultsModel= result['data'];
+     const data : FindResultsModel= result['data'];
+     const data1 : FindResultsModel= data['studentDetails'];
+      
+      
       return new AssignFeesStudentsPageLoaded({
-        assignFeesStudents: data.content,
-    totalCount: data.totalPages,
-    page: lastQuery
+        
+      assignFeesStudents: data1.content,
+      totalCount: data1.totalPages,
+      page: lastQuery
+    
       });
     })
   );

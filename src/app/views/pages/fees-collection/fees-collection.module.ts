@@ -30,6 +30,14 @@ import { FeesDiscountAssignStudentDialogComponent } from './fees-discounts/fees-
 import { FeesMasterComponent } from './fees-masters/fees-master/fees-master.component';
 import { FeesMasterAssignStudentDialogComponent } from './fees-masters/fees-master-assign-student/fees-master-assign-student.dialog.component';
 import { FeesCarryForwordComponent } from './fees-carry-forword/fees-carry-forword.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { AdmissionEnquiryEffects } from 'src/app/core/front-office';
+import { feesTypesReducer, FeesTypeEffects, FeesTypeService, feesGroupsReducer, FeesGroupEffects, FeesGroupService, feesDiscountsReducer, FeesDiscountService, feesMastersReducer, FeesMasterEffects, FeesMasterService, FeesDiscountEffects, assignFeesStudentsReducer, AssignFeesStudentEffects, AssignFeesStudentService } from 'src/app/core/fees-collection';
+import { FeesCollectComponent } from './fees-collect/fees-collect.component';
+import { FeeCollectEditDialogComponent } from './fee-collect-edit/fee-collect-edit.dialog.component';
+import { SearchFeesPaymentComponent } from './search-fees-payment/search-fees-payment.component';
+import { SearchDueFeesComponent } from './search-due-fees/search-due-fees.component';
 
 const routes: Routes = [
 	{
@@ -58,6 +66,18 @@ const routes: Routes = [
 				component: FeesMasterComponent
       },
       {
+				path: 'fees-collect',
+				component: FeesCollectComponent
+      },
+      {
+				path: 'search-fees-payment',
+				component: SearchFeesPaymentComponent
+      },
+      {
+				path: 'search-due-fees',
+				component: SearchDueFeesComponent
+      },
+      {
 				path: 'fees-reminder',
 				component: FeesReminderComponent
       },
@@ -78,7 +98,11 @@ const routes: Routes = [
     FeesDiscountAssignStudentDialogComponent,
     FeesMasterComponent,
     FeesMasterAssignStudentDialogComponent,
-    FeesCarryForwordComponent
+    FeesCarryForwordComponent,
+    FeesCollectComponent,
+    FeeCollectEditDialogComponent,
+    SearchFeesPaymentComponent,
+    SearchDueFeesComponent
   ],
   imports: [
     CommonModule,
@@ -96,9 +120,22 @@ const routes: Routes = [
     NgxPermissionsModule.forChild(),
    // CKEditorModule
     
-//state manage
-    // StoreModule.forFeature('admissionEnquirys', admissionEnquirysReducer),
-    // EffectsModule.forFeature([AdmissionEnquiryEffects]),
+// state manage
+    StoreModule.forFeature('feesTypes', feesTypesReducer),
+    EffectsModule.forFeature([FeesTypeEffects]),
+
+    StoreModule.forFeature('feesGroups', feesGroupsReducer),
+    EffectsModule.forFeature([FeesGroupEffects]),
+
+    StoreModule.forFeature('feesDiscounts', feesDiscountsReducer),
+    EffectsModule.forFeature([FeesDiscountEffects]),
+
+    StoreModule.forFeature('feesMasters', feesMastersReducer),
+    EffectsModule.forFeature([FeesMasterEffects]),
+
+
+    StoreModule.forFeature('assignFeesStudents', assignFeesStudentsReducer),
+    EffectsModule.forFeature([AssignFeesStudentEffects]),
   ],
   providers: [
     NgbAlertConfig,
@@ -130,9 +167,17 @@ const routes: Routes = [
     },
 
 //custom service
-
+FeesTypeService,
+FeesGroupService,
+FeesDiscountService,
+FeesMasterService,
+AssignFeesStudentService
   ],
-    entryComponents: [FeesDiscountAssignStudentDialogComponent,FeesMasterAssignStudentDialogComponent],
+    entryComponents: [
+      FeesDiscountAssignStudentDialogComponent,
+      FeesMasterAssignStudentDialogComponent,
+      FeeCollectEditDialogComponent
+    ],
   exports: [RouterModule],
 })
 export class FeesCollectionModule { }

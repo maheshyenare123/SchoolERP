@@ -22,6 +22,8 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AssignFeesStudentsPageRequested, OneAssignFeesStudentDeleted, ManyAssignFeesStudentsDeleted, AssignFeesStudentsStatusUpdated, AssignFeesStudentUpdated, AssignFeesStudentOnServerCreated, selectLastCreatedAssignFeesStudentId } from '../../../../../core/fees-collection';
 import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from 'src/app/core/academics';
+import { CategoryService, CategoryDtoModel } from 'src/app/core/student-information';
+import { selectLastCreatedAssignVehicleId } from 'src/app/core/transport';
 
 
 
@@ -61,16 +63,16 @@ export class FeesMasterAssignStudentDialogComponent implements OnInit {
 	// Private properties
 	private componentSubscriptions: Subscription;
 
-	classId: number;
-	sectionId: number;
+	classId: number  = 0;
+	sectionId: number = 0;
 	category: string;
 	gender: string;
 	rte: string;
 
 	classList: StudentClassModel[] = [];
 	sectionList: SectionDtoModel[] = [];
-
-	feesMaster: FeesMasterModel;
+	categoryList:CategoryDtoModel[]=[];
+	feesMaster: any;
 	
 	constructor(public dialogRef: MatDialogRef<FeesMasterAssignStudentDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
@@ -80,6 +82,8 @@ export class FeesMasterAssignStudentDialogComponent implements OnInit {
 		private typesUtilsService: TypesUtilsService,
 		private studentClassService: StudentClassService,
 		private sectionService: SectionService,
+		private categoryService:CategoryService,
+		private assignFeesStudentService:AssignFeesStudentService
 		) {
 	}
 
@@ -87,16 +91,31 @@ export class FeesMasterAssignStudentDialogComponent implements OnInit {
 	 * On init
 	 */
 	ngOnInit() {
-
+debugger
 		this.loadAllClasses();
 		this.loadAllSectionsByClassId(1);
 		this.addAssignFeesStudent();
+		this.loadAllStudentCategory();
 		// Init DataSource
 		this.dataSource = new AssignFeesStudentsDataSource(this.store);
 
-		this.feesMaster = this.data.feesMaster;
+		this.feesMaster = this.data.assignFeesStudent;
 
-		
+		// feeGroupId: 1
+		// feeGroupName: "General"
+		// feeMasters: Array(1)
+		// 0:
+		// amount: 5000
+		// dueDate: "2020-11-11"
+		// feeGroupId: 1
+		// feeGroupName: "General"
+		// feetypeId: 1
+		// feetypeName: "Admission Fees"
+		// fineAmount: 0
+		// finePercentage: 0
+		// fineType: "None"
+		// id: 4
+		// isActive: "yes"
 	}
 	/**
 	 * On destroy
@@ -127,6 +146,18 @@ loadAllSectionsByClassId(id:number) {
 	}, err => {
 	});
 }
+
+	//get All Source List
+	loadAllStudentCategory() {
+		debugger
+		this.categoryService.getAllCategorys().subscribe(res => {
+			const data=res['data'];
+			this.categoryList=data['content'];
+			console.log(this.categoryList)
+		}, err => {
+		});
+	}
+
 	onSearch() {
 		debugger;
 		this.hasFormErrors = false;
@@ -140,29 +171,64 @@ loadAllSectionsByClassId(id:number) {
 			this.hasFormErrors = true;
 			return;
 		}
-	const	date = this.typesUtilsService.dateFormat(controls.attendanceDate.value);
-		this.getAllAssignFeesStudentList(controls.classId.value, controls.sectionId.value, date);
+		this.getAllAssignFeesStudentList(
+			controls.classId.value,
+			controls.sectionId.value,
+			controls.category.value,
+			controls.gender.value,
+			controls.rte.value,
+			this.feesMaster.feeGroupId
+			);
 
 
 	}
 
 
-	getAllAssignFeesStudentList(classId,sectionId,date){
+	getAllAssignFeesStudentList(classId,sectionId,category,gender,rte,feeGroupId){
+	
+		
 
-		const queryParams = new QueryParamsModel(
-			this.filterConfiguration(),
-			this.sort.direction,
-			this.sort.active,
-			this.paginator.pageIndex,
-			this.paginator.pageSize
-		);
+		const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+ this.subscriptions.push(sortSubscription);
 
+ /* Data load will be triggered in two cases:
+ - when a pagination event occurs => this.paginator.page
+ - when a sort event occurs => this.sort.sortChange
+ **/
+ const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
+   tap(() => this.loadAssignFeesStudentList(classId,sectionId,category,gender,rte,feeGroupId))
+ )
+ .subscribe();
+ this.subscriptions.push(paginatorSubscriptions);
 
-	// this.attendanceService.findAssignFeesStudents(queryParams,classId,sectionId,date).subscribe(res=>{
-	// 	console.log(res);
-	// 	// AssignFeesStudentsResult
+//  // Filtration, bind to searchInput
+//  const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
+//    // tslint:disable-next-line:max-line-length
+//    debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
+//    distinctUntilChanged(), // This operator will eliminate duplicate values
+//    tap(() => {
+//      this.paginator.pageIndex = 0;
+//      this.loadClassTimetablesList(classId,sectionId);
+//    })
+//  )
+//  .subscribe();
+//  this.subscriptions.push(searchSubscription);
 
-	// })
+ // Init DataSource
+ this.dataSource = new AssignFeesStudentsDataSource(this.store);
+ const entitiesSubscription = this.dataSource.entitySubject.pipe(
+   skip(1),
+   distinctUntilChanged()
+ ).subscribe(res => {
+   this.assignFeesStudentsResult = res;
+   console.log(this.assignFeesStudentsResult);
+   if(this.assignFeesStudentsResult.length==0)this.dataSource.hasItems=false;
+ });
+ this.subscriptions.push(entitiesSubscription);
+ // First load
+ of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
+    this.loadAssignFeesStudentList(classId,sectionId,category,gender,rte,feeGroupId);
+ });
 
 }
 
@@ -228,7 +294,7 @@ loadAllSectionsByClassId(id:number) {
 	/**
 	 * Load AssignFeesStudents List from service through data-source
 	 */
-	loadAssignFeesStudentList(classId, sectionId, date) {
+	loadAssignFeesStudentList(classId, sectionId, category, gender, rte,feeGroupId) {
 		debugger;
 		this.selection.clear();
 		const queryParams = new QueryParamsModel(
@@ -239,7 +305,7 @@ loadAllSectionsByClassId(id:number) {
 			this.paginator.pageSize
 		);
 		// Call request from server
-		// this.store.dispatch(new AssignFeesStudentsPageRequested({ page: queryParams, classId: classId, sectionId: sectionId, date: date }));
+		 this.store.dispatch(new AssignFeesStudentsPageRequested({ page: queryParams, classId: classId, sectionId: sectionId, category: category, gender: gender, rte:rte,feeGroupId:feeGroupId }));
 		this.selection.clear();
 	}
 
@@ -313,7 +379,27 @@ console.log(this.assignFeesStudentForFill);
 	 * On Submit
 	 */
 	onSubmit() {
-	
+		debugger
+		this.selection.selected.forEach((element, i)=> {
+			element.isSaved = 1;
+		  });
+	let entity = {
+		"feeGroupId": this.feesMaster.feeGroupId,
+		"feeGroupName": this.feesMaster.feeGroupName,
+		"studentDtos": this.selection.selected
+	}
+		
+	this.store.dispatch(new AssignFeesStudentOnServerCreated({ assignFeesStudent: entity }));
+
+	this.componentSubscriptions = this.store.pipe(
+		select(selectLastCreatedAssignFeesStudentId),
+		delay(1000), // Remove this line
+	).subscribe(res => {
+		if (!res) {
+			return;
+		}
+	});
+
 
 	}
 	onCancel() {
@@ -322,12 +408,57 @@ console.log(this.assignFeesStudentForFill);
 
 
 
+/**
+ * Check all rows are selected
+ */
+isAllSelected() {
+	const numSelected = this.selection.selected.length;
+	const numRows = this.assignFeesStudentsResult.length;
+	console.log("selection: "+this.selection)
+	console.log("selectionobj: "+this.selection.selected)
+	return numSelected === numRows;
+	
+  }
+  
+  /**
+   * Selects all rows if they are not all selected; otherwise clear selection
+   */
+  masterToggle() {
+	  debugger
+	if (this.isAllSelected()) {
+	  this.selection.clear();
+	} else {
+	  this.assignFeesStudentsResult.forEach(row => this.selection.select(row));
+	}
+	console.log("selection: "+this.selection)
+  }
 
 
 	/** Alect Close event */
 	onAlertClose($event) {
 		this.hasFormErrors = false;
 	}
+
+
+// 	_selection: Set(1)
+// [[Entries]]
+// 0:
+// value:
+// admissionNo: ""
+// amount: 0
+// category: "Physically Challenged"
+// className: "First"
+// fatherName: "Balasaheb  Yenare"
+// firstname: "Mahesh"
+// gender: "male"
+// isActive: "yes"
+// isSaved: 0
+// lastname: "Yenare"
+// rollNo: "1001"
+// sectionName: "A"
+// studentFeeMasterId: 0
+// studentId: 4
+// studentSessionId: 1
 
 }
 

@@ -54,8 +54,9 @@
 								   <div class="col-lg-3 kt-margin-bottom-20-mobile">
 									   <mat-form-field class="mat-form-field-fluid">
 										   <mat-select placeholder="Category" formControlName="category">
-											   <mat-option value="c1">Category 1</mat-option>
-											   <mat-option value="c2">Category 2</mat-option>
+											<mat-option *ngFor="let category of categoryList" [value]="category.id">
+												{{category.category}}
+											  </mat-option>
 										   </mat-select>
 	   
 									   </mat-form-field>
@@ -127,12 +128,12 @@
 			</tr>
 			<tr>
 				<td>
-					Scholar
-					<!-- {{feesDiscount.code}} -->
+					
+					{{feesDiscount.code}}
 				</td>
 				<td>
-					₹ 2000.00 
-					<!-- ₹ {{feesDiscount.amount}}.00 -->
+					
+					₹ {{feesDiscount.amount}}.00
 				</td>
 			</tr>
 		</table>

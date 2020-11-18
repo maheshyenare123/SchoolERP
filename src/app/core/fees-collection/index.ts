@@ -6,7 +6,7 @@ export {FeesReminderModel} from './_models/fees-reminder.model';
 export {FeesDiscountModel} from './_models/fees-discount.model';
 export {AssignFeesStudentModel} from './_models/assign-fees-student.model';
 export {FeesMasterModel} from './_models/fees-master.model';
-
+export {StudentFeeDepositeModel} from './_models/student-fee-deposite.model';
 
 
 //datasource
@@ -16,7 +16,7 @@ export {FeesRemindersDataSource} from './_data-sources/fees-reminder.datasource'
 export {FeesDiscountsDataSource} from './_data-sources/fees-discount.datasource';
 export {AssignFeesStudentsDataSource} from './_data-sources/assign-student.datasource';
 export {FeesMastersDataSource} from './_data-sources/fees-master.datasource';
-
+export {StudentFeeDepositesDataSource} from './_data-sources/student-fee-deposite.datasource';
 
 
 // Effects
@@ -26,6 +26,7 @@ export { FeesReminderEffects } from './_effects/fees-reminder.effects';
 export { FeesDiscountEffects } from './_effects/fees-discount.effects';
 export { AssignFeesStudentEffects } from './_effects/assign-student.effects';
 export { FeesMasterEffects } from './_effects/fees-master.effects';
+export { StudentFeeDepositeEffects } from './_effects/student-fee-deposite.effects';
 
 // Actions
 // Customer Actions =>
@@ -119,7 +120,21 @@ export {
     ManyFeesMastersDeleted,
     OneFeesMasterDeleted
 } from './_actions/fees-master.actions';
-
+export {
+    StudentFeeDepositeActionToggleLoading,
+    StudentFeeDepositeActionTypes,
+    StudentFeeDepositeActions,
+    StudentFeeDepositeCreated,
+    StudentFeeDepositeOnServerCreated,
+    StudentFeeDepositeUpdated,
+    StudentFeeDepositesPageCancelled,
+    StudentFeeDepositesPageLoaded,
+    StudentFeeDepositesPageRequested,
+    StudentFeeDepositesPageToggleLoading,
+    StudentFeeDepositesStatusUpdated,
+    ManyStudentFeeDepositesDeleted,
+    OneStudentFeeDepositeDeleted
+} from './_actions/student-fee-deposite.actions';
 // Reducers
 export { feesTypesReducer } from './_reducers/fees-type.reducers';
 export { feesGroupsReducer } from './_reducers/fees-group.reducers';
@@ -127,7 +142,7 @@ export { feesRemindersReducer } from './_reducers/fees-reminder.reducers';
 export { feesDiscountsReducer } from './_reducers/fees-discount.reducers';
 export { assignFeesStudentsReducer } from './_reducers/assign-student.reducers';
 export { feesMastersReducer } from './_reducers/fees-master.reducers';
-
+export { studentFeeDepositesReducer } from './_reducers/student-fee-deposite.reducers';
 // Selectors
 export {
     selectFeesTypeById,
@@ -183,7 +198,15 @@ export {
     selectFeesMastersState,
     selectLastCreatedFeesMasterId
 } from './_selectors/fees-master.selectors';
-
+export {
+    selectStudentFeeDepositeById,
+    selectStudentFeeDepositesActionLoading,
+    selectStudentFeeDepositesInStore,
+    selectStudentFeeDepositesPageLoading,
+    selectStudentFeeDepositesShowInitWaitingMessage,
+    selectStudentFeeDepositesState,
+    selectLastCreatedStudentFeeDepositeId
+} from './_selectors/student-fee-deposite.selectors';
 // Services
 export { FeesTypeService } from './_services/fees-type.service';
 export { FeesGroupService } from './_services/fees-group.service';
@@ -191,3 +214,4 @@ export { FeesReminderService } from './_services/fees-reminder.service';
 export { FeesDiscountService } from './_services/fees-discount.service';
 export { AssignFeesStudentService } from './_services/assign-student.service';
 export { FeesMasterService } from './_services/fees-master.service';
+export { StudentFeeDepositeService } from './_services/student-fee-deposite.service';

@@ -17,18 +17,18 @@ export class FeesGroupService {
   createFeesGroup(feesGroup: FeesGroupModel): Observable<FeesGroupModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<FeesGroupModel>(Constants.URL.HOST_URL+Constants.Fees_Collection.FeesGroup, feesGroup, {headers: httpHeaders});
+    return this.http.post<FeesGroupModel>(Constants.URL.HOST_URL+Constants.Fees_Collection.Fees_Group, feesGroup, {headers: httpHeaders});
   }
 
   // READ
   getAllFeesGroups(): Observable<FeesGroupModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<FeesGroupModel[]>(Constants.URL.HOST_URL+Constants.Fees_Collection.FeesGroup, {headers: httpHeaders});
+    return this.http.get<FeesGroupModel[]>(Constants.URL.HOST_URL+Constants.Fees_Collection.Fees_Group, {headers: httpHeaders});
   }
 
   getFeesGroupById(feesGroupId: number): Observable<FeesGroupModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<FeesGroupModel>(Constants.URL.HOST_URL+Constants.Fees_Collection.FeesGroup+ `/${feesGroupId}`, {headers: httpHeaders});
+    return this.http.get<FeesGroupModel>(Constants.URL.HOST_URL+Constants.Fees_Collection.Fees_Group+ `/${feesGroupId}`, {headers: httpHeaders});
   }
 
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
@@ -39,7 +39,7 @@ export class FeesGroupService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
-    const url =Constants.URL.HOST_URL+Constants.Fees_Collection.FeesGroup ;
+    const url =Constants.URL.HOST_URL+Constants.Fees_Collection.Fees_Group ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       // params: httpParams
@@ -49,7 +49,7 @@ export class FeesGroupService {
   // UPDATE => PUT: update the FeesGroup on the server
   updateFeesGroup(feesGroup: FeesGroupModel): Observable<any> {
     const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Fees_Collection.FeesGroup+'/'+feesGroup.id, feesGroup, {headers: httpHeader});
+    return this.http.put(Constants.URL.HOST_URL+Constants.Fees_Collection.Fees_Group+'/'+feesGroup.id, feesGroup, {headers: httpHeader});
   }
 
   // UPDATE Status
@@ -59,19 +59,19 @@ export class FeesGroupService {
       feesGroupsForUpdate: feesGroups,
       newStatus: status
     };
-    const url = Constants.URL.HOST_URL+Constants.Fees_Collection.FeesGroup+ '/updateStatus';
+    const url = Constants.URL.HOST_URL+Constants.Fees_Collection.Fees_Group+ '/updateStatus';
     return this.http.put(url, body, {headers: httpHeaders});
   }
 
   // DELETE => delete the FeesGroup from the server
   deleteFeesGroup(feesGroupId: number): Observable<FeesGroupModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const url = `${Constants.URL.HOST_URL+Constants.Fees_Collection.FeesGroup}/${feesGroupId}`;
+    const url = `${Constants.URL.HOST_URL+Constants.Fees_Collection.Fees_Group}/${feesGroupId}`;
     return this.http.delete<FeesGroupModel>(url, {headers: httpHeaders});
   }
 
   deleteFeesGroups(ids: number[] = []): Observable<any> {
-    const url = Constants.URL.HOST_URL+Constants.Fees_Collection.FeesGroup + '/deleteFeesGroups';
+    const url = Constants.URL.HOST_URL+Constants.Fees_Collection.Fees_Group + '/deleteFeesGroups';
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const body = {feesGroupIdsForDelete: ids};
     return this.http.put<QueryResultsModel>(url, body, {headers: httpHeaders});
