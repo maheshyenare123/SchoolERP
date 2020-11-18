@@ -2,7 +2,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { StaffAttendancesDataSource, StaffAttendanceModel, selectStaffAttendancesActionLoading } from '../../../../core/human-resource';
+import { StaffAttendancesDataSource, StaffAttendanceModel, selectStaffAttendancesActionLoading, RoleService } from '../../../../core/human-resource';
 import { AttendenceTypeService, AttendenceTypeModel } from '../../../../core/attendance';
 import { QueryParamsModel, LayoutUtilsService, MessageType, TypesUtilsService } from '../../../../core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -22,6 +22,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { StaffAttendancesPageRequested, OneStaffAttendanceDeleted, ManyStaffAttendancesDeleted, StaffAttendancesStatusUpdated, StaffAttendanceUpdated, StaffAttendanceOnServerCreated, selectLastCreatedStaffAttendanceId } from '../../../../core/human-resource';
+import { RolesDtoModel } from 'src/app/core/Models/rolesDto.model';
 // import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from 'src/app/core/academics';
 
 
@@ -66,7 +67,7 @@ export class StaffAttendanceComponent implements OnInit {
 	// classList: StudentClassModel[] = [];
 	// sectionList: SectionDtoModel[] = [];
 	attendanceTypeList:AttendenceTypeModel[]=[];
-
+	rolesList: RolesDtoModel[] = [];
 	constructor(public dialog: MatDialog,
 		public snackBar: MatSnackBar,
 		private layoutUtilsService: LayoutUtilsService,
@@ -76,10 +77,12 @@ export class StaffAttendanceComponent implements OnInit {
 		private typesUtilsService: TypesUtilsService,
 		// private studentClassService: StudentClassService,
 		// private sectionService: SectionService,
-		private attendanceTypeService:AttendenceTypeService) { }
+		private attendanceTypeService:AttendenceTypeService,
+		private roleService:RoleService,) { }
 
 	ngOnInit() {
 
+		this.loadAllRoles();
 		// this.loadAllClasses();
 		// this.loadAllSectionsByClassId(1);
 		this.loadAllAttendanceType();
@@ -121,6 +124,18 @@ loadAllAttendanceType(){
 // 	}, err => {
 // 	});
 // }
+
+
+loadAllRoles() {
+	debugger
+	this.roleService.getAllRoles().subscribe(res => {
+	  const data = res['data'];
+	  this.rolesList = data['content'];
+	  console.log(this.rolesList)
+	}, err => {
+	});
+  }
+
 	onSearch() {
 		debugger;
 		this.hasFormErrors = false;

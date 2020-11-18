@@ -2,7 +2,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { ClassTimetablesDataSource, ClassTimetableModel,selectClassTimetablesActionLoading } from '../../../../core/academics';
+import { ClassTimetablesDataSource, ClassTimetableModel,selectClassTimetablesActionLoading, StaffTimetableService, TimetableDayModel } from '../../../../core/academics';
 import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from '../../../../core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -20,6 +20,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ClassTimetablesPageRequested, OneClassTimetableDeleted, ManyClassTimetablesDeleted, ClassTimetablesStatusUpdated, ClassTimetableUpdated, ClassTimetableOnServerCreated, selectLastCreatedClassTimetableId } from '../../../../core/academics';
+import { StaffService } from 'src/app/core/human-resource';
+import { StaffDtoModel } from 'src/app/core/academics/_models/staffDto.model';
 
 
 @Component({
@@ -52,9 +54,11 @@ classTimetableForm: FormGroup;
 hasFormErrors = false;
 viewLoading = false;
 // Private properties
+loading:boolean=false;
+staffList: StaffDtoModel[] = [];
 private componentSubscriptions: Subscription;
 
-
+classTimetablesData:TimetableDayModel;
 
 
   constructor(
@@ -64,57 +68,16 @@ private componentSubscriptions: Subscription;
 		private translate: TranslateService,
 		private store: Store<AppState>,
 		private fb: FormBuilder,
-    private typesUtilsService: TypesUtilsService
+	private typesUtilsService: TypesUtilsService,
+	private staffService:StaffService,
+	private staffTimetableService:StaffTimetableService
     ) { }
 
   ngOnInit() {
 
 	debugger;
-	//this.loadAllTeachers();
-    const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-		this.subscriptions.push(sortSubscription);
-
-		/* Data load will be triggered in two cases:
-		- when a pagination event occurs => this.paginator.page
-		- when a sort event occurs => this.sort.sortChange
-		**/
-		const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-			tap(() => this.loadClassTimetableList())
-		)
-		.subscribe();
-		this.subscriptions.push(paginatorSubscriptions);
-
-		// Filtration, bind to searchInput
-		const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
-			// tslint:disable-next-line:max-line-length
-			debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
-			distinctUntilChanged(), // This operator will eliminate duplicate values
-			tap(() => {
-				this.paginator.pageIndex = 0;
-				this.loadClassTimetableList();
-			})
-		)
-		.subscribe();
-		this.subscriptions.push(searchSubscription);
-
-		// Init DataSource
-		this.dataSource = new ClassTimetablesDataSource(this.store);
-	
-		const entitiesSubscription = this.dataSource.entitySubject.pipe(
-			skip(1),
-			distinctUntilChanged()
-		).subscribe(res => {
-			debugger
-	console.log(res);
-			this.classTimetablesResult = res;
-		});
-		this.subscriptions.push(entitiesSubscription);
-		// First load
-		of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-			this.loadClassTimetableList();
-		}); // Remove this line, just loading imitation
-
-		
+	this.loadAllTeachers();
+	this.createForm	();
   }
 /**
 	 * On Destroy
@@ -124,15 +87,47 @@ private componentSubscriptions: Subscription;
   }
   
   //get All Complain Type List
-// loadAllTeachers() {
-// 	debugger
-// 	this.staffService.getAllReferences().subscribe(res => {
-// 		const data=res['data'];
-// 		this.staffList=data['content'];
-// 	}, err => {
-// 	});
-// }
+loadAllTeachers() {
+	debugger
+	this.staffService.getAllStaffs().subscribe(res => {
+		const data=res['data'];
+		this.staffList=data['content'];
+	}, err => {
+	});
+}
+onSearch(){
+	debugger;
+	
+		  this.hasFormErrors = false;
+		  const controls = this.classTimetableForm.controls;
+		  /** check form */
+		  if (this.classTimetableForm.invalid) {
+			  Object.keys(controls).forEach(controlName =>
+				  controls[controlName].markAsTouched()
+			  );
+  
+			  this.hasFormErrors = true;
+			  return;
+		  }
+  this.loading=true;
+		  this.getAllClassTimetableListByservice(controls.staffId.value);
+  
+  
+  
+  }
+getAllClassTimetableListByservice(staffId){
 
+	this.staffTimetableService.getAllStaffTimetables(staffId).subscribe(res=>{
+	  this.classTimetablesData=res['data'];
+	  // this.timeTableData= this.classTimetablesResult.
+	  console.log(  this.classTimetablesData);
+	  this.loading=false;
+	},eror=>{
+	
+	
+	})
+	
+	}
 	/**
 	 * Load ClassTimetables List from service through data-source
 	 */

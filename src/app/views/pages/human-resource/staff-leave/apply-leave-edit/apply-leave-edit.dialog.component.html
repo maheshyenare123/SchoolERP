@@ -31,9 +31,10 @@
 				</div>
 				<div class="col-lg-3 kt-margin-bottom-20-mobile">
 					<mat-form-field class="mat-form-field-fluid">
-						<mat-select placeholder="Available Leave" formControlName="leaveTypeId" (change)="getLeaveType($event)" >
-							<mat-option value="3">Business</mat-option>
-							<mat-option value="4">Individual</mat-option>
+						<mat-select placeholder="Available Leave" formControlName="leaveTypeId" (selectionChange)="onLeaveTypeSelectChange($event.value)">
+							<mat-option [value]="role.id" *ngFor="let role of leaveTypeList">
+								{{role.type}}
+							</mat-option>
 						</mat-select>
 
 					</mat-form-field>

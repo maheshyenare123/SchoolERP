@@ -35,13 +35,13 @@ export class Constants {
 
    public static Academics: any = {
       Class_TimeTable: 'api/subject-class-timetable',
-      Teacher_TimeTable: 'api/',
+      Teacher_TimeTable: 'api/staff-timetable',
       Assign_Class_Teacher: 'api/assign-class-teacher',
       Class: 'api/class',
       Section: 'api/section',
       Subject: 'api/subject',
       Subject_Group: 'api/subject-group',
-
+     
    }
 
    public static Attendance: any = {

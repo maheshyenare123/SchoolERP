@@ -1,5 +1,6 @@
 <kt-portlet>
-	<kt-portlet-header [sticky]="true" [title]="'Class Timetable List'" [class]="'card-head-lg'">
+	<kt-portlet-header [sticky]="true" [title]="'Class Timetable List'" [class]="'card-head-lg'"
+		[viewLoading$]="loading">
 		<ng-container ktPortletTools>
 			<button (click)="addClassTimetable()" mat-raised-button color="primary"
 				matTooltip="Create new ClassTimetable">New
@@ -248,7 +249,7 @@
 				</tr>
 
 			</thead>
-			
+
 			<tbody>
 				<!-- <tr>
 					<td colspan="6">
@@ -257,46 +258,181 @@
 					
 				</tr> -->
 				<tr>
+					<br>
+				</tr>
+				<tr>
 					<td>
 						<!-- <span *ngFor="let data of classTimetablesData?.timeTable?.monday">  -->
 						<span>
-							<mat-card>Simple card</mat-card>
+							<ng-container *ngIf="classTimetablesData?.timetable?.monday.length==0">
+								<mat-card>Not
+									Scheduled</mat-card>
+							</ng-container>
+							<ng-container *ngIf="classTimetablesData?.timetable?.monday.length>0">
+								<!-- <ng-template #elseData> -->
+								
+								<ng-container *ngFor="let data of classTimetablesData?.timetable?.monday">
+
+									<mat-card>
+										<span>Subject : {{data.subjectName}}</span> <br>
+										<span>{{data.timeFrom}}-{{data.timeTo}}</span> <br>
+										<span>Room Number : {{data.roomNo}}</span> <br>
+									</mat-card>
+									<br>
+								</ng-container>
+								</ng-container>
+								<!-- </ng-template> -->
 						</span>
-					
+
 					</td>
 					<td>
 						<span>
-							<mat-card>Simple card</mat-card>
+							<ng-container *ngIf="classTimetablesData?.timetable?.tuesday.length==0">
+								<mat-card>Not
+									Scheduled</mat-card>
+							</ng-container>
+							<!-- <ng-template #elseData> -->
+							<ng-container *ngIf="classTimetablesData?.timetable?.tuesday.length>0">
+								<ng-container *ngFor="let data of classTimetablesData?.timetable?.tuesday">
+
+									<mat-card>
+										<span>Subject : {{data.subjectName}}</span> <br>
+										<span>{{data.timeFrom}}-{{data.timeTo}}</span> <br>
+										<span>Room Number : {{data.roomNo}}</span> <br>
+									</mat-card>
+									<br>
+								</ng-container>
+								<!-- </ng-template> -->
+							</ng-container>
+
+
 						</span>
-						
+
 					</td>
 					<td>
-						
+
 						<span>
-							<mat-card>Simple card</mat-card>
+							<ng-container *ngIf="classTimetablesData?.timetable?.wednesday.length==0">
+								<mat-card>Not
+									Scheduled</mat-card>
+							</ng-container>
+							<!-- <ng-template #elseData> -->
+							<ng-container *ngIf="classTimetablesData?.timetable?.wednesday.length>0">
+								<ng-container *ngFor="let data of classTimetablesData?.timetable?.wednesday">
+
+									<mat-card>
+										<span>Subject : {{data.subjectName}}</span> <br>
+										<span>{{data.timeFrom}}-{{data.timeTo}}</span> <br>
+										<span>Room Number : {{data.roomNo}}</span> <br>
+									</mat-card>
+									<br>
+
+								</ng-container>
+								<!-- </ng-template> -->
+							</ng-container>
 						</span>
 					</td>
 					<td>
 						<span>
-							<mat-card>Simple card</mat-card>
+							<ng-container *ngIf="classTimetablesData?.timetable?.thursday.length==0">
+								<mat-card>Not
+									Scheduled</mat-card>
+							</ng-container>
+							<!-- <ng-template #elseData> -->
+								
+							<ng-container *ngIf="classTimetablesData?.timetable?.thursday.length>0">
+								<ng-container *ngFor="let data of classTimetablesData?.timetable?.thursday">
+
+
+									<mat-card>
+										<span>Subject : {{data.subjectName}}</span> <br>
+										<span>{{data.timeFrom}}-{{data.timeTo}}</span> <br>
+										<span>Room Number : {{data.roomNo}}</span> <br>
+									</mat-card>
+									<br>
+								</ng-container>
+								<!-- </ng-template> -->
+							</ng-container>
+
+
 						</span>
-						
+
 					</td>
 					<td>
 						<span>
-							<mat-card>Simple card</mat-card>
+							<ng-container *ngIf="classTimetablesData?.timetable?.friday.length==0">
+								<mat-card>Not
+									Scheduled</mat-card>
+							</ng-container>
+							<!-- <ng-template #elseData> -->
+								<ng-container *ngIf="classTimetablesData?.timetable?.friday.length>0">
+							
+								<ng-container *ngFor="let data of classTimetablesData?.timetable?.friday">
+
+									<mat-card>
+										<span>Subject : {{data.subjectName}}</span> <br>
+										<span>{{data.timeFrom}}-{{data.timeTo}}</span> <br>
+										<span>Room Number : {{data.roomNo}}</span> <br>
+									</mat-card>
+									<br>
+
+								</ng-container>
+								</ng-container>
+							<!-- </ng-template> -->
+
+
 						</span>
-					
+
 					</td>
 					<td>
 						<span>
-							<mat-card>Simple card</mat-card>
+							<ng-container *ngIf="classTimetablesData?.timetable?.saturday.length==0">
+								<mat-card>Not
+									Scheduled</mat-card>
+							</ng-container>
+							<!-- <ng-template #elseData> -->
+								<ng-container *ngIf="classTimetablesData?.timetable?.saturday.length>0">
+							
+								<ng-container *ngFor="let data of classTimetablesData?.timetable?.saturday">
+
+									<mat-card>
+										<span>Subject : {{data.subjectName}}</span> <br>
+										<span>{{data.timeFrom}}-{{data.timeTo}}</span> <br>
+										<span>Room Number : {{data.roomNo}}</span> <br>
+									</mat-card>
+									<br>
+
+								</ng-container>
+								</ng-container>
+							<!-- </ng-template> -->
+
+
 						</span>
-					
+
 					</td>
 					<td>
 						<span>
-							<mat-card>Simple card</mat-card>
+							<ng-container *ngIf="classTimetablesData?.timetable?.sunday.length==0">
+								<mat-card>Not
+									Scheduled</mat-card>
+							</ng-container>
+							<!-- <ng-template #elseData> -->
+								<ng-container *ngIf="classTimetablesData?.timetable?.sunday.length>0">
+							
+								<ng-container *ngFor="let data of classTimetablesData?.timetable?.sunday">
+
+									<mat-card>
+										<span>Subject : {{data.subjectName}}</span> <br>
+										<span>{{data.timeFrom}}-{{data.timeTo}}</span> <br>
+										<span>Room Number : {{data.roomNo}}</span> <br>
+									</mat-card>
+									<br>
+								</ng-container>
+								</ng-container>
+							<!-- </ng-template> -->
+
+
+
 						</span>
 
 					</td>

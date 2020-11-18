@@ -109,7 +109,7 @@
                                                 <mat-select placeholder="Select Role" formControlName="roleId"  >
                                                         <ng-container *ngFor="let role of rolesList">
                                                                 <ng-container *ngIf="role.name!='Student' && role.name!='Parent'">
-                                                                    <mat-option [value]="role.id">
+                                                                    <mat-option [value]="role.roleName">
                                                                         {{role.name}}
                                                                     </mat-option>
                                                                 </ng-container>
@@ -219,12 +219,12 @@
                         <ng-container matColumnDef="role">
                             <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>role
                             </mat-header-cell>
-                            <mat-cell *matCellDef="let staff">{{staff.roleName}}</mat-cell>
+                            <mat-cell *matCellDef="let staff">{{staff.staffRoleName}}</mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="department">
                             <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>department
                             </mat-header-cell>
-                            <mat-cell *matCellDef="let staff">{{staff.departmentName}}</mat-cell>
+                            <mat-cell *matCellDef="let staff">{{staff.staffDepartmentName}}</mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="designation">
                             <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Designation
@@ -241,7 +241,7 @@
                             <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                             <mat-cell *matCellDef="let staff">
                                 <!-- make condition to show 3 button seperate  -->
-                                <button type="button" mat-raised-button color="primary" (click)="onGeneratePaySlip(staff)" [disabled]="viewLoading" matTooltip=" Generate PaySlip">
+                                <!-- <button type="button" mat-raised-button color="primary" (click)="onGeneratePaySlip(staff)" [disabled]="viewLoading" matTooltip=" Generate PaySlip">
                                     Generate PaySlip
                                 </button>
                                 <button type="button" mat-raised-button color="primary" (click)="onProceedPay(staff)" [disabled]="viewLoading" matTooltip="Proceed Pay">
@@ -249,8 +249,26 @@
                                 </button>
                                 <button type="button" mat-raised-button color="primary" (click)="onViewPaySlip(staff)" [disabled]="viewLoading" matTooltip="View PaySlip">
                                     View PaySlip
-                                </button>
+                                </button> -->
             
+                                <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="More actions">
+                                    <mat-icon>more_vert</mat-icon>
+                                </button>
+                                <mat-menu #menu="matMenu">
+                                    <button mat-menu-item type="button" (click)="onGeneratePaySlip(staff)">
+                                        <mat-icon>subject</mat-icon>
+                                        <span>Generate PaySlip</span>
+                                    </button>
+                                    <button mat-menu-item type="button" (click)="onProceedPay(staff)">
+                                        <mat-icon>assignment</mat-icon>
+                                        <span>Proceed Pay</span>
+                                    </button>
+                                    <button mat-menu-item type="button" (click)="onViewPaySlip(staff)" >
+                                        <mat-icon>assignment</mat-icon>
+                                        <span>View PaySlip</span>
+                                    </button>
+                                </mat-menu>
+
 
                                 <!-- <button mat-icon-button color="primary" matTooltip="Edit Staff"
                                 (click)="editStaff(staff)">

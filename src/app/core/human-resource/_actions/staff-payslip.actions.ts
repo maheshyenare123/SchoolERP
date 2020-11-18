@@ -70,7 +70,7 @@ export class ManyStaffPayslipsDeleted implements Action {
 export class StaffPayslipsPageRequested implements Action {
   readonly type = StaffPayslipActionTypes.StaffPayslipsPageRequested;
 
-  constructor(public payload: { page: QueryParamsModel }) {
+  constructor(public payload: { page: QueryParamsModel ,roleName:string,month:string,year:string}) {
   }
 }
 

@@ -39,7 +39,7 @@ export class StaffPayslipEffects {
     ofType<StaffPayslipsPageRequested>(StaffPayslipActionTypes.StaffPayslipsPageRequested),
     mergeMap(({payload}) => {
       this.store.dispatch(this.showPageLoadingDistpatcher);
-      const requestToServer = this.staffPayslipsService.findStaffPayslips(payload.page);
+      const requestToServer = this.staffPayslipsService.findStaffPayslips(payload.page,payload.roleName,payload.month,payload.year);
       const lastQuery = of(payload.page);
       return forkJoin(requestToServer, lastQuery);
     }),

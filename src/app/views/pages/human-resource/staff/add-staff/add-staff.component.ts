@@ -17,7 +17,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { StaffModel, selectStaffsActionLoading, StaffUpdated, StaffOnServerCreated, selectLastCreatedStaffId, RoleService, DepartmentService, StaffDesignationService, DepartmentModel, LeaveTypeService, LeaveTypeModel, StaffService, selectStaffById, } from '../../../../../core/human-resource';
 import { RolesDtoModel } from '../../../../../core/Models/rolesDto.model';
 import { StaffDesignationModel } from '../../../../../core/Models/staffDesignation.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 
@@ -66,6 +66,7 @@ leaveTypeList:LeaveTypeModel[]=[];
     //  @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private cdr: ChangeDetectorRef,
     private store: Store<AppState>,
     private typesUtilsService: TypesUtilsService,
@@ -406,7 +407,7 @@ onDepartmentSelectChange(departmentId){
     _staff.linkedin = controls2.linkedin.value;
     _staff.instagram = controls2.instagram.value;
 
-    // _staff.isActive='yes'
+    _staff.isActive='yes'
     return _staff;
   }
 
@@ -445,6 +446,10 @@ onDepartmentSelectChange(departmentId){
     } else {
       this.createStaff(editedstaff);
     }
+
+
+
+
   }
 
   /**
@@ -488,7 +493,7 @@ onDepartmentSelectChange(departmentId){
       // this.dialogRef.close({ _staff, isEdit: false });
     });
 
-
+this.router.navigateByUrl('/human-resource/staff-directory', { relativeTo: this.activatedRoute });
   }
 
   onCancel() {

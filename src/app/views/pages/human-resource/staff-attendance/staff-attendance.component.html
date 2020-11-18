@@ -91,10 +91,20 @@
                                     <div class="col-lg-4 kt-margin-bottom-20-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
                                             <mat-select placeholder="Role" formControlName="roleId">
-                                                <mat-option value="3">Role 1</mat-option>
-                                                <mat-option value="4">Role 2</mat-option>
+                                                <mat-option [value]="role.id" *ngFor="let role of rolesList">
+                                                    {{role.name}}
+                                                </mat-option>
                                             </mat-select>
                     
+
+                                           
+                                                    <!-- <mat-option [value]="role.id" *ngFor="let role of rolesList">
+                                                        {{role.name}}
+                                                    </mat-option> -->
+
+
+
+
                                         </mat-form-field>
                                     </div>
                                     <div class="col-lg-4 kt-margin-bottom-20-mobile">
@@ -107,11 +117,17 @@
     
                                         </mat-form-field>
                                     </div>
+                                    <div class="col-lg-4 kt-margin-bottom-20-mobile">
+
+                                        <button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
+                                            Search
+                                        </button>
+                                        </div>
                                   
                                 </div>
                     
                             </div>
-                            <div class="card-footer">
+                            <!-- <div class="card-footer">
                                 <div class="d-flex justify-content-between">
                                     <div class="mr-2"></div>
                                     <div>
@@ -120,7 +136,7 @@
                                         </button>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </form>
     
                     </div>

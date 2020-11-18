@@ -196,3 +196,5 @@ export { SubjectService } from './_services/subject.service';
 export { SubjectGroupService } from './_services/subject-group.service';
 export { ClassTimetableService } from './_services/class-timetable.service';
 export { AssignClassTeacherService } from './_services/assign-class-teacher.service';
+export { StaffTimetableService } from './_services/staff-timetable.service';
+

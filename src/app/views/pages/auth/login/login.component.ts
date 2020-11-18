@@ -144,7 +144,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 			//   this.router.navigate(['/admin']);
 			//  console.log(this.jwtauth.getSessionID());
 			console.log('success');
-			alert('Login Successfull');
+			alert('Login Successfully');
+
+			this.templateLogin();
+
+
 
 		}, (err) => {
 			console.log('Error While Login');
@@ -165,30 +169,33 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 		this.loading = true;
 		this.login();
-		const authData = {
-			email: controls.email.value,
-			password: controls.password.value
-		};
-		this.auth
-			.login(authData.email, authData.password)
-			.pipe(
-				tap(user => {
-					if (user) {
-						this.store.dispatch(new Login({ authToken: user.accessToken }));
-						this.router.navigateByUrl(this.returnUrl); // Main page
-					} else {
-						this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');
-					}
-				}),
-				takeUntil(this.unsubscribe),
-				finalize(() => {
-					this.loading = false;
-					this.cdr.markForCheck();
-				})
-			)
-			.subscribe();
+		
 	}
-
+templateLogin(){
+	const controls = this.loginForm.controls;
+	const authData = {
+		email: controls.email.value,
+		password: controls.password.value
+	};
+	this.auth
+		.login(authData.email, authData.password)
+		.pipe(
+			tap(user => {
+				if (user) {
+					this.store.dispatch(new Login({ authToken: user.accessToken }));
+					this.router.navigateByUrl(this.returnUrl); // Main page
+				} else {
+					this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');
+				}
+			}),
+			takeUntil(this.unsubscribe),
+			finalize(() => {
+				this.loading = false;
+				this.cdr.markForCheck();
+			})
+		)
+		.subscribe();
+}
 	/**
 	 * Checking control validation
 	 *

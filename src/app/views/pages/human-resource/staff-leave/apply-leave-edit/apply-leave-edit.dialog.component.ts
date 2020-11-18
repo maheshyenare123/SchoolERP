@@ -14,7 +14,7 @@ import { AppState } from '../../../../../core/reducers';
 // CRUD
 import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { StaffLeaveRequestModel, selectStaffLeaveRequestsActionLoading, StaffLeaveRequestUpdated, selectLastCreatedStaffLeaveRequestId, StaffLeaveRequestOnServerCreated } from '../../../../../core/human-resource';
+import { StaffLeaveRequestModel, selectStaffLeaveRequestsActionLoading, StaffLeaveRequestUpdated, selectLastCreatedStaffLeaveRequestId, StaffLeaveRequestOnServerCreated, LeaveTypeService, LeaveTypeModel } from '../../../../../core/human-resource';
 
 
 
@@ -37,17 +37,20 @@ viewLoading = false;
 private componentSubscriptions: Subscription;
 files: File[] = [];
 
+leaveTypeList:LeaveTypeModel[]=[];
 constructor(public dialogRef: MatDialogRef<ApplyLeaveEditDialogComponent>,
 	@Inject(MAT_DIALOG_DATA) public data: any,
 	private fb: FormBuilder,
 	private store: Store<AppState>,
-	private typesUtilsService: TypesUtilsService) {
+	private typesUtilsService: TypesUtilsService,
+	private leaveTypeService:LeaveTypeService,) {
 }
 
 /**
  * On init
  */
 ngOnInit() {
+	this.loadAllLeaveType();
 	this.store.pipe(select(selectStaffLeaveRequestsActionLoading)).subscribe(res => this.viewLoading = res);
 	// loadding
 	this.staffLeaveRequest = this.data.staffLeaveRequest;
@@ -62,7 +65,19 @@ ngOnDestroy() {
 		this.componentSubscriptions.unsubscribe();
 	}
 }
-
+loadAllLeaveType() {
+	debugger
+	this.leaveTypeService.getAllLeaveTypes().subscribe(res => {
+	  const data = res['data'];
+	  this.leaveTypeList = data['content'];
+	  console.log(this.leaveTypeList)
+	}, err => {
+	});
+  }
+  onLeaveTypeSelectChange(leaveId){
+	var leaveObj = this.leaveTypeList.find(x => x.id === leaveId);
+	this.staffLeaveRequestForm.controls.leaveType.setValue(leaveObj.type);
+  }
 createForm() {
 	this.staffLeaveRequestForm = this.fb.group({
 		date: [this.typesUtilsService.getDateFromString(this.staffLeaveRequest.date), Validators.compose([Validators.nullValidator])],
@@ -121,8 +136,10 @@ preparestaffLeaveRequest(): StaffLeaveRequestModel {
 		_staffLeaveRequest.leaveType = controls.leaveType.value;
 		_staffLeaveRequest.leaveTypeId = controls.leaveTypeId.value;
 		_staffLeaveRequest.reason = controls.reason.value;
-		_staffLeaveRequest.sessionID = controls.sessionID.value;
-		_staffLeaveRequest.staffId = controls.staffId.value;
+		// _staffLeaveRequest.sessionID = controls.sessionID.value;
+		_staffLeaveRequest.sessionID = 1;
+		// _staffLeaveRequest.staffId = controls.staffId.value;
+		_staffLeaveRequest.staffId = 1;
 		_staffLeaveRequest.staffName = controls.staffName.value;
 		_staffLeaveRequest.status = controls.status.value;
 

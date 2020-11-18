@@ -45,6 +45,7 @@ searchForm: FormGroup;
   classTimetablesData:ClassTimetableModel;
   timeTableData:TimetableDayModel;
   
+  loading:boolean=false;
 constructor(public dialog: MatDialog,
              private activatedRoute: ActivatedRoute,
              private router: Router,
@@ -89,7 +90,8 @@ loadAllSectionsByClassId(id:number) {
 	});
 }
 onSearch(){
-	debugger;
+  debugger;
+  
 		this.hasFormErrors = false;
 		const controls = this.searchForm.controls;
 		/** check form */
@@ -101,8 +103,8 @@ onSearch(){
 			this.hasFormErrors = true;
 			return;
 		}
-
-		this.getAllClassTimetableList(controls.classId.value, controls.sectionId.value);
+this.loading=true;
+		this.getAllClassTimetableListByservice(controls.classId.value, controls.sectionId.value);
 
 
 
@@ -112,8 +114,8 @@ getAllClassTimetableListByservice(classId, sectionId){
 this.classTimetableService.getAllClassTimetables(classId,sectionId).subscribe(res=>{
   this.classTimetablesData=res['data'];
   // this.timeTableData= this.classTimetablesResult.
-  console.log(  this.classTimetablesResult);
-
+  console.log(  this.classTimetablesData);
+  this.loading=false;
 },eror=>{
 
 

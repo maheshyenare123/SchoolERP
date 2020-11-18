@@ -2,7 +2,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { StaffsDataSource, StaffModel,selectStaffsActionLoading, RoleService } from '../../../../../core/human-resource';
+import { StaffsDataSource, StaffModel,selectStaffsActionLoading, RoleService, StaffPayslipsDataSource, StaffPayslipsPageRequested } from '../../../../../core/human-resource';
 import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from '../../../../../core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -36,7 +36,7 @@ import { RolesDtoModel } from 'src/app/core/Models/rolesDto.model';
 export class PayrollComponent implements OnInit {
 
   // Table fields
-dataSource: StaffsDataSource;
+dataSource: StaffPayslipsDataSource;
 //  dataSource = new MatTableDataSource(ELEMENT_DATA);
 
    
@@ -82,7 +82,7 @@ rolesList: RolesDtoModel[] = [];
 	debugger;
 	this.loadAllRoles();
     this.createForm();
-	this.dataSource = new StaffsDataSource(this.store);	
+	this.dataSource = new StaffPayslipsDataSource(this.store);	
   }
   	//get All Class List
 	loadAllRoles() {
@@ -104,7 +104,7 @@ rolesList: RolesDtoModel[] = [];
 	/**
 	 * Load Staffs List from service through data-source
 	 */
-	loadStaffList() {
+	loadStaffList(roleName,month,year) {
 		debugger;
 		this.selection.clear();
 		const queryParams = new QueryParamsModel(
@@ -115,7 +115,7 @@ rolesList: RolesDtoModel[] = [];
 			this.paginator.pageSize
 		);
 		// Call request from server
-		// this.store.dispatch(new StaffsPageRequested({ page: queryParams }));
+		this.store.dispatch(new StaffPayslipsPageRequested({ page: queryParams,roleName,month,year }));
 		this.selection.clear();
 	}
 
@@ -166,11 +166,13 @@ createForm() {
 		}
 
 		//search api
-
+		// const	date = this.typesUtilsService.dateFormat(controls.attendanceDate.value);
+		this.getAllPayrollData(controls.roleId.value, controls.month.value, controls.year.value);
+		
 		
 	}
 
-getAllPayrollData(){
+getAllPayrollData(rolename,month,year){
 	const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 	this.subscriptions.push(sortSubscription);
 
@@ -179,7 +181,7 @@ getAllPayrollData(){
 	- when a sort event occurs => this.sort.sortChange
 	**/
 	const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-		tap(() => this.loadStaffList())
+		tap(() => this.loadStaffList(rolename,month,year))
 	)
 	.subscribe();
 	this.subscriptions.push(paginatorSubscriptions);
@@ -198,7 +200,7 @@ getAllPayrollData(){
 	// this.subscriptions.push(searchSubscription);
 
 	// Init DataSource
-	this.dataSource = new StaffsDataSource(this.store);
+	this.dataSource = new StaffPayslipsDataSource(this.store);
 
 	const entitiesSubscription = this.dataSource.entitySubject.pipe(
 		skip(1),
@@ -211,7 +213,7 @@ console.log(res);
 	this.subscriptions.push(entitiesSubscription);
 	// First load
 	of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-		this.loadStaffList();
+		this.loadStaffList(rolename,month,year);
 	}); 
 }
 
@@ -368,7 +370,7 @@ deleteProducts() {
 			}
 
 			// this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-			this.loadStaffList();
+			// this.loadStaffList();
 		});
   }
   onProceedPay(staff: StaffModel){
@@ -384,7 +386,7 @@ deleteProducts() {
 			}
 
 			// this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-			this.loadStaffList();
+			// this.loadStaffList();
 		});
   }
   onViewPaySlip(staff: StaffModel){
@@ -400,7 +402,7 @@ deleteProducts() {
 			}
 
 			// this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-			this.loadStaffList();
+			// this.loadStaffList();
 		});
   }
 

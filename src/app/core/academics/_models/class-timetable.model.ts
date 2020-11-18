@@ -1,13 +1,13 @@
 import { TimetableModel, TimetableDayModel } from './timetable.model';
 export class ClassTimetableModel {
     id : number;
-    classId: number;
-    // classes:string;
+    classesId: number;
+    classes:string;
     sectionId: number;
-    // section:string;
+    section:string;
     subjectGroupId: number;
     // day: string;
-    timeTable: TimetableDayModel;
+    timetable: TimetableDayModel;
     isActive: string;
     // roomNo:string;
     // staffId:number;
@@ -20,10 +20,10 @@ export class ClassTimetableModel {
 
     clear() {
         this.id = 0;
-        this.classId = 0;
-        // this.classes= '';
+        this.classesId = 0;
+        this.classes= '';
         this.sectionId = 0;
-        // this.section= '';
+        this.section= '';
         this.subjectGroupId = 0;
         // this.day = '';
         this.isActive= '';
@@ -35,7 +35,7 @@ export class ClassTimetableModel {
         // this.timeFrom= '';
         // this.timeTo= '';
 
-        this.timeTable = new TimetableDayModel();
+        this.timetable = new TimetableDayModel();
 
 
     }

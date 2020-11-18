@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from "@angular/common/http";
+import { HttpClient,HttpHeaders, HttpParams } from "@angular/common/http";
 import { Constants } from '../../api_url';
 import { HttpUtilsService, QueryResultsModel, QueryParamsModel } from '../../_base/crud';
 import { StaffLeaveRequestModel } from '../_models/staff-leave-request.model';
@@ -37,12 +37,21 @@ export class StaffLeaveRequestService {
   findStaffLeaveRequests(queryParams: QueryParamsModel): Observable<QueryResultsModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
+    // const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
+    var  id=0;
+    const httpParams =new HttpParams()
+    .set('date',id.toString())
+    .set('pageNo', queryParams.pageNumber.toString())
+    .set('pageSize', queryParams.pageSize.toString())
+    .set('sortBy', 'id')
+    
+    .set('staffId', id.toString());
+    
 
     const url =Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Leave ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
-      // params: httpParams
+      params: httpParams
     });
   }
 
