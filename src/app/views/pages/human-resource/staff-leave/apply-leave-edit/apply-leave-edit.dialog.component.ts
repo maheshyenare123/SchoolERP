@@ -140,7 +140,8 @@ preparestaffLeaveRequest(): StaffLeaveRequestModel {
 		_staffLeaveRequest.sessionID = 1;
 		// _staffLeaveRequest.staffId = controls.staffId.value;
 		_staffLeaveRequest.staffId = 1;
-		_staffLeaveRequest.staffName = controls.staffName.value;
+		// _staffLeaveRequest.staffName = controls.staffName.value;
+		_staffLeaveRequest.staffName ='vaibhav';
 		_staffLeaveRequest.status = controls.status.value;
 
 		const _date = controls.date.value;
@@ -161,6 +162,8 @@ preparestaffLeaveRequest(): StaffLeaveRequestModel {
 		} else {
 			_staffLeaveRequest.leaveTo = '';
 		}
+
+// calculate days for leave
 
 
 	return _staffLeaveRequest;

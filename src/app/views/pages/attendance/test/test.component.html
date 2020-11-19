@@ -3,7 +3,7 @@
   mat-raised-button
   color="primary"
   (click)="onSaveAttendance()"
-  [disabled]="viewLoading"
+ 
   matTooltip="Save changes"
 >
   Save Attendance
@@ -47,10 +47,10 @@
         [(ngModel)]="element.attendenceType"
         value="{{element.attendenceType}}"
       >
-        <mat-radio-button value="Present">Present</mat-radio-button>
-        <mat-radio-button value="Late">Late</mat-radio-button>
-        <mat-radio-button value="Absent">Absent</mat-radio-button>
-        <mat-radio-button value="HalfDay">HalfDay</mat-radio-button>
+        <mat-radio-button value="Present">Present</mat-radio-button><br>
+        <mat-radio-button value="Late">Late</mat-radio-button><br>
+        <mat-radio-button value="Absent">Absent</mat-radio-button><br>
+        <mat-radio-button value="HalfDay">HalfDay</mat-radio-button><br>
       </mat-radio-group>
     </td>
   </ng-container>

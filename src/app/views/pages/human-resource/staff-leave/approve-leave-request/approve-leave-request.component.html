@@ -119,7 +119,7 @@
                 <ng-container matColumnDef="leaveDate">
 					<mat-header-cell *matHeaderCellDef mat-sort-header >Leave Date
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let staffLeaveRequest" >{{staffLeaveRequest.leaveFrom}}-{{staffLeaveRequest.leaveTo}}</mat-cell>
+                    <mat-cell *matCellDef="let staffLeaveRequest" >{{staffLeaveRequest.leaveFrom}} <br> To <br> {{staffLeaveRequest.leaveTo}}</mat-cell>
                 </ng-container>
                
                 <ng-container matColumnDef="days">
