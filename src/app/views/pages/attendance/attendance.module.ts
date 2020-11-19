@@ -28,6 +28,7 @@ import { AttendanceByDateComponent } from './attendance-by-date/attendance-by-da
 import { ApproveLeaveEditDialogComponent } from './approve-leave/approve-leave-edit/approve-leave-edit.dialog.component';
 import { ApproveLeaveListComponent } from './approve-leave/approve-leave-list/approve-leave-list.component';
 import { StudentAttendenceEffects, approveLeavesReducer, ApproveLeaveEffects, studentAttendencesReducer, StudentAttendenceService, ApproveLeaveService, AttendenceTypeService } from '../../../core/attendance';
+import { TestComponent } from './test/test.component';
 
 const routes: Routes = [
 	{
@@ -51,7 +52,10 @@ const routes: Routes = [
 				path: 'approve-leave',
 				component: ApproveLeaveListComponent
       },
-			
+      {
+				path: 'test',
+				component: TestComponent
+      },
 
     
     ]
@@ -65,7 +69,8 @@ const routes: Routes = [
     StudentAttendanceComponent,
     AttendanceByDateComponent,
     ApproveLeaveEditDialogComponent,
-    ApproveLeaveListComponent
+    ApproveLeaveListComponent,
+    TestComponent
 ],
 
   imports: [

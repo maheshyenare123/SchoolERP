@@ -7,6 +7,8 @@ export class BookIssueReturnModel{
     issueDate:string
     memberId:number;
     returnDate:string;
+    bookNo:string;
+	bookTitle:string
 
     clear() {
         this.bookId= 0;
