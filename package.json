@@ -56,6 +56,7 @@
         "ngx-dropzone": "^2.2.2",
         "ngx-highlightjs": "3.0.3",
         "ngx-material-timepicker": "^5.5.3",
+        "ngx-pagination": "^5.0.0",
         "ngx-perfect-scrollbar": "9.0.0",
         "ngx-permissions": "7.0.3",
         "object-path": "0.11.4",

@@ -33,12 +33,12 @@ import { FeesCarryForwordComponent } from './fees-carry-forword/fees-carry-forwo
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { AdmissionEnquiryEffects } from 'src/app/core/front-office';
-import { feesTypesReducer, FeesTypeEffects, FeesTypeService, feesGroupsReducer, FeesGroupEffects, FeesGroupService, feesDiscountsReducer, FeesDiscountService, feesMastersReducer, FeesMasterEffects, FeesMasterService, FeesDiscountEffects, assignFeesStudentsReducer, AssignFeesStudentEffects, AssignFeesStudentService } from 'src/app/core/fees-collection';
+import { feesTypesReducer, FeesTypeEffects, FeesTypeService, feesGroupsReducer, FeesGroupEffects, FeesGroupService, feesDiscountsReducer, FeesDiscountService, feesMastersReducer, FeesMasterEffects, FeesMasterService, FeesDiscountEffects, assignFeesStudentsReducer, AssignFeesStudentEffects, AssignFeesStudentService, StudentFeeDepositeService, studentFeeDepositesReducer, StudentFeeDepositeEffects } from 'src/app/core/fees-collection';
 import { FeesCollectComponent } from './fees-collect/fees-collect.component';
 import { FeeCollectEditDialogComponent } from './fee-collect-edit/fee-collect-edit.dialog.component';
 import { SearchFeesPaymentComponent } from './search-fees-payment/search-fees-payment.component';
 import { SearchDueFeesComponent } from './search-due-fees/search-due-fees.component';
-
+import {NgxPaginationModule} from 'ngx-pagination';
 const routes: Routes = [
 	{
 		path: '',
@@ -118,6 +118,7 @@ const routes: Routes = [
     MaterialModule,
     TranslateModule.forChild(),
     NgxPermissionsModule.forChild(),
+    NgxPaginationModule,
    // CKEditorModule
     
 // state manage
@@ -136,6 +137,10 @@ const routes: Routes = [
 
     StoreModule.forFeature('assignFeesStudents', assignFeesStudentsReducer),
     EffectsModule.forFeature([AssignFeesStudentEffects]),
+
+    StoreModule.forFeature('studentFeeDeposites', studentFeeDepositesReducer),
+    EffectsModule.forFeature([StudentFeeDepositeEffects]),
+
   ],
   providers: [
     NgbAlertConfig,
@@ -171,7 +176,8 @@ FeesTypeService,
 FeesGroupService,
 FeesDiscountService,
 FeesMasterService,
-AssignFeesStudentService
+AssignFeesStudentService,
+StudentFeeDepositeService
   ],
     entryComponents: [
       FeesDiscountAssignStudentDialogComponent,
