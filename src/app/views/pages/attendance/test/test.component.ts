@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { StudentAttendenceService } from 'src/app/core/attendance/_services/student-attendance.service';
+
+import { StudentAttendenceDtoModel,StudentAttendenceService } from 'src/app/core/attendance';
 import { QueryParamsModel } from 'src/app/core/_base/crud';
 export interface PeriodicElement {
   name: string;
@@ -27,29 +28,29 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class TestComponent implements OnInit {
   displayedColumns: string[] = ["position", "name", "weight", "symbol"];
-  dataSource = ELEMENT_DATA;
+  dataSource : StudentAttendenceDtoModel[]= [];;
   constructor(private attendanceService: StudentAttendenceService) { }
 
   ngOnInit(): void {
+   this.getAllStudentAttendanceList();
+  }
+
+
+
+  getAllStudentAttendanceList() {
+
+    this.attendanceService.getAllStudentAddendaence( 1, 1, '2020-11-19').subscribe(res => {
+      console.log(res);
+      // studentAttendencesResult
+    const data   =res['data'];
+    this.dataSource=data['content'];
+    })
+
   }
 
 
   onSaveAttendance() {
     console.log(this.dataSource);
   }
-
-  getAllStudentAttendanceList() {
-
-    const queryParams = new QueryParamsModel( 'id', 'asc', 'yes', 0,10 );
-
-    this.attendanceService.findStudentAttendences(queryParams, 1, 1, '2020-11-19').subscribe(res => {
-      console.log(res);
-      // studentAttendencesResult
-
-    })
-
-  }
-
-
 
 }
