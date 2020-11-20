@@ -84,7 +84,7 @@ ngOnInit() {
  ).subscribe(res => {
    this.complainsResult = res;
    console.log(this.complainsResult);
-  //  if(this.complainsResult.length==0)this.dataSource.hasItems=false;
+   if(this.complainsResult.length==0)this.dataSource.hasItems=false;
  });
  this.subscriptions.push(entitiesSubscription);
  // First load
@@ -300,7 +300,7 @@ deleteProducts() {
 	 */
 	editComplain(complain: ComplaintModel) {
 		let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
-    const _saveMessage = complain.id > 0 ? 'Edit complaint' : 'Create complaint';
+    const _saveMessage = complain.id > 0 ? 'Edit product' : 'Create product';
     
 		const _messageType = complain.id > 0 ? MessageType.Update : MessageType.Create;
 		const dialogRef = this.dialog.open(ComplainEditDialogComponent, { data: { complain } });

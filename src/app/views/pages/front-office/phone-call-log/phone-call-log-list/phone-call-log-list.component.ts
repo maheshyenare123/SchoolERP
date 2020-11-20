@@ -84,7 +84,7 @@ ngOnInit() {
  ).subscribe(res => {
    this.phoneCallsResult = res;
    console.log(this.phoneCallsResult);
-  //  if(this.phoneCallsResult.length==0)this.dataSource.hasItems=false;
+   if(this.phoneCallsResult.length==0)this.dataSource.hasItems=false;
  });
  this.subscriptions.push(entitiesSubscription);
  // First load

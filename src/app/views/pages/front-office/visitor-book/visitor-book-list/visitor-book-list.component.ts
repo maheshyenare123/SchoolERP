@@ -83,7 +83,7 @@ ngOnInit() {
  ).subscribe(res => {
    this.visitorsBookResult = res;
   console.log( this.visitorsBookResult);
-  // if(this.visitorsBookResult.length==0)this.dataSource.hasItems=false;
+  if(this.visitorsBookResult.length==0)this.dataSource.hasItems=false;
  });
  this.subscriptions.push(entitiesSubscription);
  // First load

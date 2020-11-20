@@ -325,14 +325,14 @@ export class MenuConfig {
               page: '/human-resource/payroll'
             },
             
-            // {
-            //   title: 'Disabled Staff',
-            //   page: '/human-resource/disabled-staff'
-            // },
-            // {
-            //   title: 'Staff Rating',
-            //   page: '/human-resource/staff-rating'
-            // },
+            {
+              title: 'Disabled Staff',
+              page: '/human-resource/disabled-staff'
+            },
+            {
+              title: 'Staff Rating',
+              page: '/human-resource/staff-rating'
+            },
 
             
             
@@ -353,10 +353,10 @@ export class MenuConfig {
               title: 'Fees Group',
               page: '/fees-collection/fees-group'
             },
-            // {
-            //   title: 'Fees Discount',
-            //   page: '/fees-collection/fees-discount'
-            // },
+            {
+              title: 'Fees Discount',
+              page: '/fees-collection/fees-discount'
+            },
             {
               title: 'Fees Master',
               page: '/fees-collection/fees-master'
