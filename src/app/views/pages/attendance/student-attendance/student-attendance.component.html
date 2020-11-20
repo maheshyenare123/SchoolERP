@@ -152,30 +152,16 @@
                             <mat-cell *matCellDef="let studentAttendence">{{studentAttendence.firstname}} {{studentAttendence.lastname}}</mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="attendance">
-                            <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Attendance
+                            <mat-header-cell  *matHeaderCellDef mat-sort-header>Attendance
                             </mat-header-cell>
                             <mat-cell *matCellDef="let studentAttendence;let i=index">
-                                <!-- <mat-radio-group aria-label="Select an option" value="{{studentAttendence.attendenceType}}" >
-                                    <mat-radio-button value="Present">Present</mat-radio-button>
-                                    <mat-radio-button value="Late">Late</mat-radio-button>
-                                    <mat-radio-button value="Absent">Absent</mat-radio-button>
-                                    <mat-radio-button value="HalfDay">HalfDay</mat-radio-button>
-                                  </mat-radio-group> attendanceTypeList  [checked]="attendanceType.type === 'absent'"   [(ngModel)]="studentAttendencesResult[i].attendenceType"-->
-                                 <mat-radio-group [(ngModel)]="studentAttendence.attendenceType"  (change)="onChangeAttendanceType(i,studentAttendence,$event)"    >
-                                <mat-radio-button  *ngFor="let attendanceType of attendanceTypeList" [value]="attendanceType" >
+                                <mat-radio-group [(ngModel)]="studentAttendence.attendenceType"  (change)="onChangeAttendanceType(i,studentAttendence,$event)"    >
+                                <mat-radio-button  *ngFor="let attendanceType of attendanceTypeList" [value]="attendanceType.type" >
                                   {{attendanceType.type}}
                                 </mat-radio-button>
                               </mat-radio-group>
                             </mat-cell>
 
-
-                            <!-- <mat-radio-group  [(ngModel)]="element.language">
-                                <mat-radio-button  *ngFor="let lang of mylanguages" [value]="lang">
-                                  {{lang}}
-                                </mat-radio-button>
-                              </mat-radio-group> -->
-                              <!-- <mat-form-field><input matInput color="warn" *ngIf="!element.trainer"></mat-form-field> {{element.trainer}}</td> -->
-                        
                             </ng-container>
 
                         <ng-container matColumnDef="note">
@@ -184,10 +170,10 @@
                             <mat-cell *matCellDef="let studentAttendence ;let i=index">
                                 
                             <mat-form-field class="mat-form-field-fluid">
-                                <input  matInput  value="{{studentAttendence.note}}" />
+                                <input  matInput  [(ngModel)]="studentAttendence.note"/>
                                 
                             </mat-form-field>
-                            <!-- [(ngModel)]="studentAttendencesResult[i].note" -->
+                           
                             
                             </mat-cell>
                         </ng-container>
@@ -198,22 +184,89 @@
 
                         <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
                     </mat-table>
-                    <!-- Message for empty data  -->
-                    <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
-                    <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....
-                    </div>
+
+
+
+                    <!-- <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div> -->
+                    <!-- <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....
+                    </div> -->
                 </div>
 
-                <!-- start: BOTTOM -->
+
+ <!-- <table mat-table  class="lmat-elevation-z8" [dataSource]="dataSource" matSort #sort1="matSort"
+ matSortActive="id" matSortDirection="asc" matSortDisableClear>
+   
+  
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let element">{{element.rollNo }}</td>
+    </ng-container>
+  
+   
+    <ng-container matColumnDef="admissionNo">
+      <th mat-header-cell *matHeaderCellDef>Admission No</th>
+      <td mat-cell *matCellDef="let element">{{element.firstname}}</td>
+    </ng-container>
+  
+    
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>Date</th>
+      <td mat-cell *matCellDef="let element">{{element.date}}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="rollNo">
+        <th mat-header-cell *matHeaderCellDef>Roll No</th>
+        <td mat-cell *matCellDef="let element">{{element.rollNo}}</td>
+      </ng-container>
+    
+
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element">{{element.firstname}}</td>
+      </ng-container>
+
+
+    <ng-container matColumnDef="attendance">
+      <th mat-header-cell *matHeaderCellDef>Attendance</th>
+      <td mat-cell *matCellDef="let element">
+       
+       
+        <mat-radio-group [(ngModel)]="element.attendenceType"  (change)="onChangeAttendanceType(i,studentAttendence,$event)"    >
+            <mat-radio-button  *ngFor="let attendanceType of attendanceTypeList" [value]="attendanceType" >
+              {{attendanceType.type}} <br>
+            </mat-radio-button>
+            </mat-radio-group>
+
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="note">
+        <th mat-header-cell *matHeaderCellDef>Note</th>
+        <td mat-cell *matCellDef="let element">
+
+            <input  matInput    [(ngModel)]="element.note"  />
+        </td>
+      </ng-container>
+
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table> -->
+
+
+
+
+
+               
                 <div class="mat-table__bottom">
-                    <!-- MATERIAL SPINNER | Url: 'https://material.angular.io/components/progress-spinner/overview' -->
+                 
                     <mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner>
-                    <!-- MATERIAL PAGINATOR | Binded to dasources -->
-                    <!-- See off.documentations 'https://material.angular.io/components/paginator/overview' -->
+                  
                     <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 15, 20, 30]"
                         [length]="dataSource.paginatorTotal$ | async" [showFirstLastButtons]="true"></mat-paginator>
                 </div>
-                <!-- end: BOTTOM -->
+             
 
             </kt-portlet-body>
             <!-- end::Body -->
