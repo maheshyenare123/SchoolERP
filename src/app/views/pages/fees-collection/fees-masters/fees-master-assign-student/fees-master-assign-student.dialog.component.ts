@@ -27,7 +27,6 @@ import { selectLastCreatedAssignVehicleId } from 'src/app/core/transport';
 
 
 
-
 @Component({
 	// tslint:disable-next-line:component-selector
 	selector: 'kt-fees-master-assign-student-dialog',
@@ -66,22 +65,14 @@ export class FeesMasterAssignStudentDialogComponent implements OnInit {
 
 	classId: number  = 0;
 	sectionId: number = 0;
-	category: number;
+	category: string;
 	gender: string;
 	rte: string;
-
-	pageNo = 1;
-	itemsPerPage = 10;
 
 	classList: StudentClassModel[] = [];
 	sectionList: SectionDtoModel[] = [];
 	categoryList:CategoryDtoModel[]=[];
 	feesMaster: any;
-	assignFeesStudentList: any[] = [];
-	selectedList: any[] = [];
-	checkboxAll: boolean = false;
-	checkboxSingle: boolean = false;
-	assignFeesStudentListLength: any;
 	
 	constructor(public dialogRef: MatDialogRef<FeesMasterAssignStudentDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
@@ -92,8 +83,7 @@ export class FeesMasterAssignStudentDialogComponent implements OnInit {
 		private studentClassService: StudentClassService,
 		private sectionService: SectionService,
 		private categoryService:CategoryService,
-		private assignFeesStudentService:AssignFeesStudentService,
-		
+		private assignFeesStudentService:AssignFeesStudentService
 		) {
 	}
 
@@ -107,11 +97,25 @@ debugger
 		this.addAssignFeesStudent();
 		this.loadAllStudentCategory();
 		// Init DataSource
-		// this.dataSource = new AssignFeesStudentsDataSource(this.store);
+		this.dataSource = new AssignFeesStudentsDataSource(this.store);
 
 		this.feesMaster = this.data.assignFeesStudent;
 
-	
+		// feeGroupId: 1
+		// feeGroupName: "General"
+		// feeMasters: Array(1)
+		// 0:
+		// amount: 5000
+		// dueDate: "2020-11-11"
+		// feeGroupId: 1
+		// feeGroupName: "General"
+		// feetypeId: 1
+		// feetypeName: "Admission Fees"
+		// fineAmount: 0
+		// finePercentage: 0
+		// fineType: "None"
+		// id: 4
+		// isActive: "yes"
 	}
 	/**
 	 * On destroy
@@ -167,123 +171,66 @@ loadAllSectionsByClassId(id:number) {
 			this.hasFormErrors = true;
 			return;
 		}
+		this.getAllAssignFeesStudentList(
+			controls.classId.value,
+			controls.sectionId.value,
+			controls.category.value,
+			controls.gender.value,
+			controls.rte.value,
+			this.feesMaster.feeGroupId
+			);
 
- 		this.classId =	controls.classId.value,
-		 this.sectionId = controls.sectionId.value,
-		 this.category = controls.category.value,
-		 this.gender = controls.gender.value,
-		 this.rte =	controls.rte.value,
-
-		// this.getAllAssignFeesStudentList(
-		// 	controls.classId.value,
-		// 	controls.sectionId.value,
-		// 	controls.category.value,
-		// 	controls.gender.value,
-		// 	controls.rte.value,
-		// 	this.feesMaster.feeGroupId
-		// 	);
-
-			// const queryParams = new QueryParamsModel(
-			// 	this.filterConfiguration(),
-			// 	this.sort.direction,
-			// 	this.sort.active,
-			// 	this.paginator.pageIndex,
-			// 	this.paginator.pageSize
-			// );
-			this.pageNo
-			let queryParams = {
-				'pageNo': this.pageNo - 1,
-				'itemsPerPage': 10,
-			}
-			
-		
-			this.assignFeesStudentService.findAssignFeesStudents(queryParams, controls.classId.value, controls.sectionId.value,
-				 controls.category.value, controls.gender.value,
-				controls.rte.value,this.feesMaster.feeGroupId).subscribe(res => {
-					const data = res['data'];
-					this.assignFeesStudentList = data.studentDetails.content;//  ['content'];
-					this.assignFeesStudentListLength = data.studentDetails.totalElements
-					console.log(this.assignFeesStudentList)
-					
-				}, err => {
-				});
-	
 
 	}
 
-	pageNoChange($event){
-		debugger
-		let pageNo = $event-1;
-	
-		this.pageNo = $event;
-		this.pageNo
-			let queryParams = {
-				'pageNo': pageNo,
-				'itemsPerPage': 10,
-			}
-			this.assignFeesStudentService.findAssignFeesStudents(queryParams, this.classId , this.sectionId,
-				this.category , this.gender,
-				this.rte,this.feesMaster.feeGroupId).subscribe(res => {
-					const data = res['data'];
-					this.assignFeesStudentList = data.studentDetails.content;//  ['content'];
-					this.assignFeesStudentListLength = data.studentDetails.totalElements
-					console.log(this.assignFeesStudentList)
-					
-				}, err => {
-				});
-	
-		 
-	  }
-	
 
-
-// 	getAllAssignFeesStudentList(classId,sectionId,category,gender,rte,feeGroupId){
+	getAllAssignFeesStudentList(classId,sectionId,category,gender,rte,feeGroupId){
 	
 		
 
-// 		const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-//  this.subscriptions.push(sortSubscription);
+		const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+ this.subscriptions.push(sortSubscription);
 
-//  /* Data load will be triggered in two cases:
-//  - when a pagination event occurs => this.paginator.page
-//  - when a sort event occurs => this.sort.sortChange
-//  **/
-//  const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-//    tap(() => this.loadAssignFeesStudentList(classId,sectionId,category,gender,rte,feeGroupId))
+ /* Data load will be triggered in two cases:
+ - when a pagination event occurs => this.paginator.page
+ - when a sort event occurs => this.sort.sortChange
+ **/
+ const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
+   tap(() => this.loadAssignFeesStudentList(classId,sectionId,category,gender,rte,feeGroupId))
+ )
+ .subscribe();
+ this.subscriptions.push(paginatorSubscriptions);
+
+//  // Filtration, bind to searchInput
+//  const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
+//    // tslint:disable-next-line:max-line-length
+//    debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
+//    distinctUntilChanged(), // This operator will eliminate duplicate values
+//    tap(() => {
+//      this.paginator.pageIndex = 0;
+//      this.loadClassTimetablesList(classId,sectionId);
+//    })
 //  )
 //  .subscribe();
-//  this.subscriptions.push(paginatorSubscriptions);
+//  this.subscriptions.push(searchSubscription);
 
-// //  // Filtration, bind to searchInput
-// //  const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
-// //    // tslint:disable-next-line:max-line-length
-// //    debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
-// //    distinctUntilChanged(), // This operator will eliminate duplicate values
-// //    tap(() => {
-// //      this.paginator.pageIndex = 0;
-// //      this.loadClassTimetablesList(classId,sectionId);
-// //    })
-// //  )
-// //  .subscribe();
-// //  this.subscriptions.push(searchSubscription);
+ // Init DataSource
+ this.dataSource = new AssignFeesStudentsDataSource(this.store);
+ const entitiesSubscription = this.dataSource.entitySubject.pipe(
+   skip(1),
+   distinctUntilChanged()
+ ).subscribe(res => {
+   this.assignFeesStudentsResult = res;
+   console.log(this.assignFeesStudentsResult);
+   if(this.assignFeesStudentsResult.length==0)this.dataSource.hasItems=false;
+ });
+ this.subscriptions.push(entitiesSubscription);
+ // First load
+ of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
+    this.loadAssignFeesStudentList(classId,sectionId,category,gender,rte,feeGroupId);
+ });
 
-//  // Init DataSource
-//  this.dataSource = new AssignFeesStudentsDataSource(this.store);
-//  const entitiesSubscription = this.dataSource.entitySubject.pipe(
-//    skip(1),
-//    distinctUntilChanged()
-//  ).subscribe(res => {
-//    this.assignFeesStudentsResult = res;
-//    console.log(this.assignFeesStudentsResult);
-//    if(this.assignFeesStudentsResult.length==0)this.dataSource.hasItems=false;
-//  });
-//  this.subscriptions.push(entitiesSubscription);
-//  // First load
-//  of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-//     this.loadAssignFeesStudentList(classId,sectionId,category,gender,rte,feeGroupId);
-//  });
-
-// }
+}
 
 
 	// getAllAssignFeesStudentList(classId, sectionId, date) {
@@ -347,24 +294,20 @@ loadAllSectionsByClassId(id:number) {
 	/**
 	 * Load AssignFeesStudents List from service through data-source
 	 */
-	// loadAssignFeesStudentList(classId, sectionId, category, gender, rte,feeGroupId) {
-	// 	debugger;
-	// 	this.selection.clear();
-	// 	const queryParams = new QueryParamsModel(
-	// 		this.filterConfiguration(),
-	// 		this.sort.direction,
-	// 		this.sort.active,
-	// 		this.paginator.pageIndex,
-	// 		this.paginator.pageSize
-	// 	);
-
-
-
-
-	// 	// Call request from server
-	// 	 this.store.dispatch(new AssignFeesStudentsPageRequested({ page: queryParams, classId: classId, sectionId: sectionId, category: category, gender: gender, rte:rte,feeGroupId:feeGroupId }));
-	// 	this.selection.clear();
-	// }
+	loadAssignFeesStudentList(classId, sectionId, category, gender, rte,feeGroupId) {
+		debugger;
+		this.selection.clear();
+		const queryParams = new QueryParamsModel(
+			this.filterConfiguration(),
+			this.sort.direction,
+			this.sort.active,
+			this.paginator.pageIndex,
+			this.paginator.pageSize
+		);
+		// Call request from server
+		 this.store.dispatch(new AssignFeesStudentsPageRequested({ page: queryParams, classId: classId, sectionId: sectionId, category: category, gender: gender, rte:rte,feeGroupId:feeGroupId }));
+		this.selection.clear();
+	}
 
 //save
 	onSave(){
@@ -437,18 +380,26 @@ console.log(this.assignFeesStudentForFill);
 	 */
 	onSubmit() {
 		debugger
-		// this.selection.selected.forEach((element, i)=> {
-		// 	element.isSaved = 1;
-		//   });
-		this.selectedList
+		this.selection.selected.forEach((element, i)=> {
+			element.isSaved = 1;
+		  });
 	let entity = {
 		"feeGroupId": this.feesMaster.feeGroupId,
 		"feeGroupName": this.feesMaster.feeGroupName,
-		"studentDtos": this.selectedList
-	}	
+		"studentDtos": this.selection.selected
+	}
+		
 	this.store.dispatch(new AssignFeesStudentOnServerCreated({ assignFeesStudent: entity }));
 
-	this.dialogRef.close({ entity, isEdit: false });
+	this.componentSubscriptions = this.store.pipe(
+		select(selectLastCreatedAssignFeesStudentId),
+		delay(1000), // Remove this line
+	).subscribe(res => {
+		if (!res) {
+			return;
+		}
+	});
+
 
 	}
 	onCancel() {
@@ -488,42 +439,26 @@ isAllSelected() {
 		this.hasFormErrors = false;
 	}
 
-	onSelection(data, $event){
-		debugger
-		if( $event.target.checked){
-			data.isSaved = 1;
-		   this.selectedList.push(data)
-		   if(this.selectedList.length === this.assignFeesStudentList.length){
-			this.checkboxAll = true
-		   }else{
-			this.checkboxAll = false
-		   }
-		
-		}else{
-		  const index = this.selectedList.findIndex(item =>item.customerId === data.customerId);
-		  this.selectedList.splice(index, 1);
 
-		  if(this.selectedList.length === this.assignFeesStudentList.length){
-			this.checkboxAll = true
-		   }else{
-			this.checkboxAll = false
-		   }
-		}
-	  }
-	  
-	  onSelectionAll($event){
-		if( $event.target.checked){
-			this.assignFeesStudentList.map(item =>{
-				item.isSaved = 1;
-			})
-			this.selectedList = this.assignFeesStudentList
-			this.checkboxSingle = true
-		  
-		}else{
-			this.selectedList = []
-			this.checkboxSingle = false
-		}
-	  }
+// 	_selection: Set(1)
+// [[Entries]]
+// 0:
+// value:
+// admissionNo: ""
+// amount: 0
+// category: "Physically Challenged"
+// className: "First"
+// fatherName: "Balasaheb  Yenare"
+// firstname: "Mahesh"
+// gender: "male"
+// isActive: "yes"
+// isSaved: 0
+// lastname: "Yenare"
+// rollNo: "1001"
+// sectionName: "A"
+// studentFeeMasterId: 0
+// studentId: 4
+// studentSessionId: 1
 
 }
 
