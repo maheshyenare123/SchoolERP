@@ -83,7 +83,7 @@ ngOnInit() {
  ).subscribe(res => {
    this.enquirysResult = res;
    console.log(this.enquirysResult);
-   if(this.enquirysResult.length==0)this.dataSource.hasItems=false;
+  //  if(this.enquirysResult.length==0)this.dataSource.hasItems=false;
  });
  this.subscriptions.push(entitiesSubscription);
  // First load

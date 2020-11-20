@@ -284,6 +284,10 @@ export class BookIssueReturnDialogComponent implements OnInit {
 			_bookIssueReturn.returnDate = '';
 		}
 	}
+
+	
+	// _bookIssueReturn
+	// _bookIssueReturn.
 	_bookIssueReturn.isActive='yes';
 	_bookIssueReturn.isReturned= 0;
 		return _bookIssueReturn;

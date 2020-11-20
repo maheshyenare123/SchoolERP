@@ -84,7 +84,7 @@ ngOnInit() {
  ).subscribe(res => {
    this.postalDispatchsResult = res;
    console.log(this.postalDispatchsResult);
-  if(this.postalDispatchsResult.length==0)this.dataSource.hasItems=false;
+  // if(this.postalDispatchsResult.length==0)this.dataSource.hasItems=false;
  });
  this.subscriptions.push(entitiesSubscription);
  // First load

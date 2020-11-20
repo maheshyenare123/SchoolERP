@@ -233,7 +233,7 @@ createForm() {
     vehicleModel: [this.vehicle.vehicleModel,],
     note: [this.vehicle.note, ],
     isActive: [this.vehicle.isActive, ],
-		
+	isSaved: [this.vehicle.isSaved,],
 	});
 }
 
@@ -257,23 +257,14 @@ prepareVehicle(): VehicleModel {
 	const controls = this.vehicleForm.controls;
 	const _vehicle = new VehicleModel(this.id,this.vehicleNo,this.isSaved);
   _vehicle.id = this.vehicle.id;
-  // driverContact: string;
-    // driverLicence: string;
-    // driverName: string;
-    // id: number;
-    // isActive: string;
-    // manufactureYear: string;
-    // note: string;
-    // vehicleModel: string;
-    // vehicleNo: string;
-
+  
   _vehicle.driverContact = controls.driverContact.value;
   _vehicle.driverLicence = controls.driverLicence.value;
   _vehicle.driverName = controls.driverName.value;
   _vehicle.manufactureYear = controls.manufactureYear.value;
   _vehicle.vehicleNo = controls.vehicleNo.value;
-  _vehicle.isActive= controls.isActive.value;
-  _vehicle.isSaved = controls.isSaved.value;
+  _vehicle.isActive= 'yes';
+  _vehicle.isSaved = 0;
 	_vehicle.vehicleModel = controls.vehicleModel.value;
   _vehicle.note = controls.note.value;
 
