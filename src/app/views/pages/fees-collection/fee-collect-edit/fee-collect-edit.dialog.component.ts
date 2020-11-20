@@ -18,8 +18,6 @@ import { StudentFeeDepositeModel, selectStudentFeeDepositesActionLoading, Studen
 import { StudentDtoModel, StudentService } from 'src/app/core/student-information';
 import { SectionDtoModel, StudentClassModel, SectionService, StudentClassService } from 'src/app/core/academics';
 
-
-
 @Component({
 	// tslint:disable-next-line:component-selector
 	selector: 'kt-fee-collect-edit-dialog',
