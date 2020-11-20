@@ -31,7 +31,7 @@ import { VehiclesComponent } from './vehicles/vehicles.component';
 import { AssignVehicleComponent } from './assign-vehicle/assign-vehicle.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { RouteEffects, routesReducer, RouteService, vehiclesReducer, VehicleEffects, VehicleService } from 'src/app/core/transport';
+import { RouteEffects, routesReducer, RouteService, vehiclesReducer, VehicleEffects, VehicleService, assignVehiclesReducer, AssignVehicleEffects, AssignVehicleService } from 'src/app/core/transport';
 
 
 const routes: Routes = [
@@ -84,7 +84,8 @@ const routes: Routes = [
     EffectsModule.forFeature([RouteEffects]),
     StoreModule.forFeature('vehicles', vehiclesReducer),
     EffectsModule.forFeature([VehicleEffects]),
-    
+    StoreModule.forFeature('assignVehicles', assignVehiclesReducer),
+    EffectsModule.forFeature([AssignVehicleEffects]),
   ],
   providers: [
     NgbAlertConfig,
@@ -117,7 +118,8 @@ const routes: Routes = [
 
 //custom service
 RouteService,
-VehicleService
+VehicleService,
+AssignVehicleService
   ],
     entryComponents: [],
   exports: [RouterModule],
