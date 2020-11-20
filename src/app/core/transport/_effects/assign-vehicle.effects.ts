@@ -61,7 +61,7 @@ export class AssignVehicleEffects {
       ofType<OneAssignVehicleDeleted>(AssignVehicleActionTypes.OneAssignVehicleDeleted),
       mergeMap(({payload}) => {
           this.store.dispatch(this.showActionLoadingDistpatcher);
-          return this.assignvehiclesService.deleteAssignVehicle(payload.payloadItem);
+          return this.assignvehiclesService.deleteAssignVehicle(payload.id);
         }
       ),
       map(() => {

@@ -44,9 +44,6 @@ searchForm: FormGroup;
 studentfeedeposite
   classList: StudentClassModel[] = [];
 	sectionList: SectionDtoModel[] = [];
-  collectionFeeShowFlag: boolean = false;
-  student: StudentFeeDepositeModel;
-  studentListFlag: boolean = true;
 constructor(public dialog: MatDialog,
              private activatedRoute: ActivatedRoute,
              private router: Router,
@@ -62,7 +59,7 @@ constructor(public dialog: MatDialog,
  * On init
  */
 ngOnInit() {
-  this.studentListFlag = true;
+
  this.createForm();
      // Init DataSource
      this.loadAllClasses();
@@ -370,15 +367,7 @@ deleteProducts() {
 		// 	this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
 		// 	// this.loadStudentFeeDepositesList();
 		// });
-  }
-  
-  collectionFeeShow(studentFeeDeposite: StudentFeeDepositeModel){
-    this.student = studentFeeDeposite
-    this.collectionFeeShowFlag = true;
-    this.studentListFlag = false;
-
-  }
-
+	}
   collectStudentFee(studentFeeDeposite: StudentFeeDepositeModel,type:string) {
     debugger
 		let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
