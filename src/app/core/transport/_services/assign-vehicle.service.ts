@@ -15,6 +15,7 @@ export class AssignVehicleService {
 
   // CREATE =>  POST: add a new AssignVehicle to the server
   createAssignVehicle(assignVehicle: AssignVehicleModel): Observable<AssignVehicleModel> {
+    debugger
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     return this.http.post<AssignVehicleModel>(Constants.URL.HOST_URL+Constants.Transports.AssignVehicle, assignVehicle, {headers: httpHeaders});
@@ -48,10 +49,18 @@ export class AssignVehicleService {
   }
 
   // UPDATE => PUT: update the AssignVehicle on the server
-  updateAssignVehicle(assignVehicle: AssignVehicleModel): Observable<any> {
-    const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Transports.AssignVehicle+'/'+assignVehicle.id, assignVehicle, {headers: httpHeader});
+  // updateAssignVehicle(assignVehicle: AssignVehicleModel): Observable<any> {
+  //   const httpHeader = this.httpUtils.getHTTPHeaders();
+  //   return this.http.put(Constants.URL.HOST_URL+Constants.Transports.AssignVehicle+'/'+assignVehicle.id, assignVehicle, {headers: httpHeader});
+  // }
+
+  updateAssignVehicle(assignVehicle: AssignVehicleModel): Observable<AssignVehicleModel> {
+    debugger
+    // Note: Add headers if needed (tokens/bearer)
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.post<AssignVehicleModel>(Constants.URL.HOST_URL+Constants.Transports.AssignVehicle, assignVehicle, {headers: httpHeaders});
   }
+
 
   // UPDATE Status
   updateStatusForAssignVehicle(assignVehicles: AssignVehicleModel[], status: number): Observable<any> {
@@ -65,10 +74,30 @@ export class AssignVehicleService {
   }
 
   // DELETE => delete the AssignVehicle from the server
-  deleteAssignVehicle(assignVehicleId: number): Observable<AssignVehicleModel> {
+  // deleteAssignVehicle(assignVehicleId: number): Observable<AssignVehicleModel> {
+  //   const httpHeaders = this.httpUtils.getHTTPHeaders();
+  //   const url = `${Constants.URL.HOST_URL+Constants.Transports.AssignVehicle}/${assignVehicleId}`;
+  //   return this.http.delete<AssignVehicleModel>(url, {headers: httpHeaders});
+  // }
+
+  deleteAssignVehicle(payloadItem: any): Observable<AssignVehicleModel> {
+debugger
+
+payloadItem
+
+payloadItem = {
+  "id": payloadItem.id,
+  "routeId": payloadItem.routeId,
+  "vehicles": payloadItem.vehicles
+}
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const url = `${Constants.URL.HOST_URL+Constants.Transports.AssignVehicle}/${assignVehicleId}`;
-    return this.http.delete<AssignVehicleModel>(url, {headers: httpHeaders});
+    const body = {vehicleRouteDto: payloadItem};
+    const option ={
+      headers: httpHeaders,
+      body
+    }
+    const url = `${Constants.URL.HOST_URL+Constants.Transports.AssignVehicle}`;
+    return this.http.delete<AssignVehicleModel>(url,option);
   }
 
   deleteAssignVehicles(ids: number[] = []): Observable<any> {

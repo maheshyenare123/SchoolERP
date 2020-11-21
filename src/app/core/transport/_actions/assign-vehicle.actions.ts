@@ -56,8 +56,13 @@ export class AssignVehiclesStatusUpdated implements Action {
 export class OneAssignVehicleDeleted implements Action {
   readonly type = AssignVehicleActionTypes.OneAssignVehicleDeleted;
 
-  constructor(public payload: { id: number }) {
+  // constructor(public payload: { id: number }) {
+  // }
+
+  constructor(public payload: { payloadItem: any }) {
   }
+
+  
 }
 
 export class ManyAssignVehiclesDeleted implements Action {

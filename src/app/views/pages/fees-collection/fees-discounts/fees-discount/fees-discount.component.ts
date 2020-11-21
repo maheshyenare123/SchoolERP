@@ -251,6 +251,7 @@ prepareFeesDiscount(): FeesDiscountModel {
  * On Submit
  */
 onSubmit() {
+	debugger
 	this.hasFormErrors = false;
 	const controls = this.feesDiscountForm.controls;
 	/** check form */

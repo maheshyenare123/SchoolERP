@@ -223,7 +223,8 @@ this.addAssignVehicle();
 				return;
 			}
 
-			this.store.dispatch(new OneAssignVehicleDeleted({ id: _item.id }));
+			// this.store.dispatch(new OneAssignVehicleDeleted({ id: _item.id }));
+			this.store.dispatch(new OneAssignVehicleDeleted({ payloadItem: _item }));
 			this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
 			this.loadAssignVehicleList();
 		});
@@ -384,6 +385,7 @@ onCancel(){
  * @param _assignVehicle: AssignVehicleModel
  */
 updateAssignVehicle(_assignVehicle: AssignVehicleModel) {
+	
 	const updateAssignVehicle: Update<AssignVehicleModel> = {
 		id: _assignVehicle.id,
 		changes: _assignVehicle
@@ -402,6 +404,8 @@ updateAssignVehicle(_assignVehicle: AssignVehicleModel) {
  * @param _assignVehicle: AssignVehicleModel
  */
 createAssignVehicle(_assignVehicle:AssignVehicleModel) {
+	debugger
+
 	this.store.dispatch(new AssignVehicleOnServerCreated({ assignVehicle: _assignVehicle }));
 	this.componentSubscriptions = this.store.pipe(
 		select(selectLastCreatedAssignVehicleId),

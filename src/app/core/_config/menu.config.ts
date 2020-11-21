@@ -453,6 +453,50 @@ export class MenuConfig {
         },
         
 
+        {
+          title: 'Hostel',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+            
+            {
+              title: 'Hostel',
+              page: '/hostel/hostel'
+            },
+            {
+              title: 'Room Type',
+              page: '/hostel/room-type'
+            },
+            {
+              title: 'Hostel Room',
+              page: '/hostel/hostel-room'
+            },
+            
+          ]
+        },
+
+        {
+          title: 'Inventory',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+            
+            {
+              title: 'Item Category',
+              page: '/inventory/item-category'
+            },
+            {
+              title: 'Add Item',
+              page: '/inventory/add-item'
+            },
+            {
+              title: 'Item Store',
+              page: '/inventory/item-store'
+            },
+            
+          ]
+        },
+
 
         // {section: 'Components'},
         // {

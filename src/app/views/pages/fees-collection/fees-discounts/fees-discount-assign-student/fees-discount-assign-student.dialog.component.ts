@@ -64,7 +64,7 @@ export class FeesDiscountAssignStudentDialogComponent implements OnInit {
 
 	classId: number=0;
 	sectionId: number=0;
-	category: string;
+	category: number;
 	gender: string;
 	rte: string;
 	id:number;
@@ -72,6 +72,16 @@ export class FeesDiscountAssignStudentDialogComponent implements OnInit {
 	sectionList: SectionDtoModel[] = [];
 	categoryList:CategoryDtoModel[]=[];
 	feesDiscount: FeesDiscountModel;
+
+
+	pageNo = 1;
+	itemsPerPage = 10;
+
+	assignFeesStudentList: any[] = [];
+	selectedList: any[] = [];
+	checkboxAll: boolean = false;
+	checkboxSingle: boolean = false;
+	assignFeesStudentListLength: any;
 	
 	constructor(public dialogRef: MatDialogRef<FeesDiscountAssignStudentDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
@@ -96,7 +106,7 @@ export class FeesDiscountAssignStudentDialogComponent implements OnInit {
 		this.addAssignFeesStudent();
 		this.loadAllStudentCategory();
 		// Init DataSource
-		this.dataSource = new AssignFeesStudentsDataSource(this.store);
+	//	this.dataSource = new AssignFeesStudentsDataSource(this.store);
 		this.feesDiscount = this.data.assignFeesStudent;
 		console.log(this.feesDiscount)
 	}
@@ -153,64 +163,110 @@ loadAllSectionsByClassId(id:number) {
 			this.hasFormErrors = true;
 			return;
 		}
-	
-		this.getAllAssignFeesStudentList(
-			controls.classId.value,
-			controls.sectionId.value,
-			controls.category.value,
-			controls.gender.value,
-			controls.rte.value
-			);
 
+		this.classId =	controls.classId.value,
+		this.sectionId = controls.sectionId.value,
+		this.category = controls.category.value,
+		this.gender = controls.gender.value,
+		this.rte =	controls.rte.value,
+	
+		// this.getAllAssignFeesStudentList(
+		// 	controls.classId.value,
+		// 	controls.sectionId.value,
+		// 	controls.category.value,
+		// 	controls.gender.value,
+		// 	controls.rte.value
+		// 	);
+
+		this.pageNo
+		let queryParams = {
+			'pageNo': this.pageNo - 1,
+			'itemsPerPage': 10,
+		}
+		
+	
+		this.assignFeesStudentService.findAssignFeesStudents(queryParams, controls.classId.value, controls.sectionId.value,
+			 controls.category.value, controls.gender.value,
+			controls.rte.value,this.feesDiscount.id).subscribe(res => {
+				const data = res['data'];
+				this.assignFeesStudentList = data.studentDetails.content;//  ['content'];
+				this.assignFeesStudentListLength = data.studentDetails.totalElements
+				console.log(this.assignFeesStudentList)
+				
+			}, err => {
+			});
 
 	}
 
+	pageNoChange($event){
+		debugger
+		let pageNo = $event-1;
+	
+		this.pageNo = $event;
+		this.pageNo
+			let queryParams = {
+				'pageNo': pageNo,
+				'itemsPerPage': 10,
+			}
+			this.assignFeesStudentService.findAssignFeesStudents(queryParams, this.classId , this.sectionId,
+				this.category , this.gender,
+				this.rte,this.feesDiscount.id).subscribe(res => {
+					const data = res['data'];
+					this.assignFeesStudentList = data.studentDetails.content;//  ['content'];
+					this.assignFeesStudentListLength = data.studentDetails.totalElements
+					console.log(this.assignFeesStudentList)
+					
+				}, err => {
+				});
+	
+		 
+	  }
 
-	getAllAssignFeesStudentList(classId,sectionId,category,gender,rte){
+// 	getAllAssignFeesStudentList(classId,sectionId,category,gender,rte){
 
-		const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
- this.subscriptions.push(sortSubscription);
+// 		const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+//  this.subscriptions.push(sortSubscription);
 
- /* Data load will be triggered in two cases:
- - when a pagination event occurs => this.paginator.page
- - when a sort event occurs => this.sort.sortChange
- **/
- const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-   tap(() => this.loadAssignFeesStudentList(classId,sectionId,category,gender,rte))
- )
- .subscribe();
- this.subscriptions.push(paginatorSubscriptions);
-
-//  // Filtration, bind to searchInput
-//  const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
-//    // tslint:disable-next-line:max-line-length
-//    debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
-//    distinctUntilChanged(), // This operator will eliminate duplicate values
-//    tap(() => {
-//      this.paginator.pageIndex = 0;
-//      this.loadClassTimetablesList(classId,sectionId);
-//    })
+//  /* Data load will be triggered in two cases:
+//  - when a pagination event occurs => this.paginator.page
+//  - when a sort event occurs => this.sort.sortChange
+//  **/
+//  const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
+//    tap(() => this.loadAssignFeesStudentList(classId,sectionId,category,gender,rte))
 //  )
 //  .subscribe();
-//  this.subscriptions.push(searchSubscription);
+//  this.subscriptions.push(paginatorSubscriptions);
 
- // Init DataSource
- this.dataSource = new AssignFeesStudentsDataSource(this.store);
- const entitiesSubscription = this.dataSource.entitySubject.pipe(
-   skip(1),
-   distinctUntilChanged()
- ).subscribe(res => {
-   this.assignFeesStudentsResult = res;
-   console.log(this.assignFeesStudentsResult);
-   if(this.assignFeesStudentsResult.length==0)this.dataSource.hasItems=false;
- });
- this.subscriptions.push(entitiesSubscription);
- // First load
- of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-    this.loadAssignFeesStudentList(classId,sectionId,category,gender,rte);
- });
+// //  // Filtration, bind to searchInput
+// //  const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
+// //    // tslint:disable-next-line:max-line-length
+// //    debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
+// //    distinctUntilChanged(), // This operator will eliminate duplicate values
+// //    tap(() => {
+// //      this.paginator.pageIndex = 0;
+// //      this.loadClassTimetablesList(classId,sectionId);
+// //    })
+// //  )
+// //  .subscribe();
+// //  this.subscriptions.push(searchSubscription);
 
-}
+//  // Init DataSource
+//  this.dataSource = new AssignFeesStudentsDataSource(this.store);
+//  const entitiesSubscription = this.dataSource.entitySubject.pipe(
+//    skip(1),
+//    distinctUntilChanged()
+//  ).subscribe(res => {
+//    this.assignFeesStudentsResult = res;
+//    console.log(this.assignFeesStudentsResult);
+//    if(this.assignFeesStudentsResult.length==0)this.dataSource.hasItems=false;
+//  });
+//  this.subscriptions.push(entitiesSubscription);
+//  // First load
+//  of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
+//     this.loadAssignFeesStudentList(classId,sectionId,category,gender,rte);
+//  });
+
+// }
 
 
 	// getAllAssignFeesStudentList(classId, sectionId, date) {
@@ -274,20 +330,20 @@ loadAllSectionsByClassId(id:number) {
 	/**
 	 * Load AssignFeesStudents List from service through data-source
 	 */
-	loadAssignFeesStudentList(classId, sectionId, category, gender, rte) {
-		debugger;
-		this.selection.clear();
-		const queryParams = new QueryParamsModel(
-			this.filterConfiguration(),
-			this.sort.direction,
-			this.sort.active,
-			this.paginator.pageIndex,
-			this.paginator.pageSize
-		);
-		// Call request from server
-		 this.store.dispatch(new AssignFeesStudentsPageRequested({ page: queryParams, classId: classId, sectionId: sectionId, category: category, gender: gender, rte:rte,feeGroupId:this.id }));
-		this.selection.clear();
-	}
+	// loadAssignFeesStudentList(classId, sectionId, category, gender, rte) {
+	// 	debugger;
+	// 	this.selection.clear();
+	// 	const queryParams = new QueryParamsModel(
+	// 		this.filterConfiguration(),
+	// 		this.sort.direction,
+	// 		this.sort.active,
+	// 		this.paginator.pageIndex,
+	// 		this.paginator.pageSize
+	// 	);
+	// 	// Call request from server
+	// 	 this.store.dispatch(new AssignFeesStudentsPageRequested({ page: queryParams, classId: classId, sectionId: sectionId, category: category, gender: gender, rte:rte,feeGroupId:this.id }));
+	// 	this.selection.clear();
+	// }
 
 //save
 	onSave(){
@@ -363,14 +419,48 @@ console.log(this.assignFeesStudentForFill);
 		this.searchForm.reset();
 	}
 
-
-
-
-
 	/** Alect Close event */
 	onAlertClose($event) {
 		this.hasFormErrors = false;
 	}
+
+	onSelection(data, $event){
+		debugger
+		if( $event.target.checked){
+			data.isSaved = 1;
+		   this.selectedList.push(data)
+		   if(this.selectedList.length === this.assignFeesStudentList.length){
+			this.checkboxAll = true
+		   }else{
+			this.checkboxAll = false
+		   }
+		
+		}else{
+		  const index = this.selectedList.findIndex(item =>item.customerId === data.customerId);
+		  this.selectedList.splice(index, 1);
+
+		  if(this.selectedList.length === this.assignFeesStudentList.length){
+			this.checkboxAll = true
+		   }else{
+			this.checkboxAll = false
+		   }
+		}
+	  }
+	  
+	  onSelectionAll($event){
+		if( $event.target.checked){
+			this.assignFeesStudentList.map(item =>{
+				item.isSaved = 1;
+			})
+			this.selectedList = this.assignFeesStudentList
+			this.checkboxSingle = true
+		  
+		}else{
+			this.selectedList = []
+			this.checkboxSingle = false
+		}
+	  }
+
 
 }
 
