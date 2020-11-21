@@ -35,7 +35,7 @@ export class AssignFeesStudentService {
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
   // items => filtered/sorted result
   // Server should return filtered/sorted result
-  findAssignFeesStudents(queryParams: QueryParamsModel,classId:number,sectionId:number,category:number,gender:string,rte:string,feeGroupId:number): Observable<QueryResultsModel> {
+  findAssignFeesStudents(queryParams,classId:number,sectionId:number,category:number,gender:string,rte:string,feeGroupId:number): Observable<QueryResultsModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
    // const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
@@ -44,8 +44,8 @@ export class AssignFeesStudentService {
 if(gender == null && rte == null){
   const httpParams =new HttpParams()
   .set('classesId', classId.toString())
-  .set('pageNo', queryParams.pageNumber.toString())
-  .set('pageSize', queryParams.pageSize.toString())
+  .set('pageNo', queryParams.pageNo.toString())
+  .set('pageSize', queryParams.itemsPerPage.toString())
   .set('sectionId', sectionId.toString())
   .set('sortBy', 'id');
   const url =Constants.URL.HOST_URL+Constants.Fees_Collection.AssignFeesStudent+'/'+feeGroupId ;
@@ -61,8 +61,8 @@ if(gender == null && rte == null){
       .set('classesId', classId.toString())
       
       .set('rte', rte.toString())
-      .set('pageNo', queryParams.pageNumber.toString())
-      .set('pageSize', queryParams.pageSize.toString())
+      .set('pageNo', queryParams.pageNo.toString())
+      .set('pageSize', queryParams.itemsPerPage.toString())
       .set('sectionId', sectionId.toString())
       .set('sortBy', 'id');
 
@@ -77,8 +77,8 @@ if(gender == null && rte == null){
       .set('classesId', classId.toString())
       .set('gender', gender.toString())
      
-      .set('pageNo', queryParams.pageNumber.toString())
-      .set('pageSize', queryParams.pageSize.toString())
+      .set('pageNo', queryParams.pageNo.toString())
+      .set('pageSize', queryParams.itemsPerPage.toString())
       .set('sectionId', sectionId.toString())
       .set('sortBy', 'id');
 
