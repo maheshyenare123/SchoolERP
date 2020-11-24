@@ -21,10 +21,13 @@
 <!--  not Variavle related Role -->
 					<div class="col-lg-3 kt-margin-bottom-20-mobile">
 						<mat-form-field class="mat-form-field-fluid">
-							<mat-select placeholder="Role" >
-								<mat-option value="0">Admin</mat-option>
-								<mat-option value="1">Teacher</mat-option>
+							<mat-select placeholder="Role" formControlName="roleId">
+								<mat-option [value]="role.id" *ngFor="let role of rolesList">
+									{{role.name}}
+								</mat-option>
 							</mat-select>
+	
+						   
 
 						</mat-form-field>
 					</div>
@@ -51,10 +54,14 @@
 				</div>
 				<div class="col-lg-3 kt-margin-bottom-20-mobile">
 					<mat-form-field class="mat-form-field-fluid">
-						<mat-select placeholder="Available Leave" formControlName="leaveTypeId" (change)="getLeaveType($event)" >
-							<mat-option value="3">Business</mat-option>
-							<mat-option value="4">Individual</mat-option>
-						</mat-select>
+						<mat-form-field class="mat-form-field-fluid">
+							<mat-select placeholder="Available Leave" formControlName="leaveTypeId" (selectionChange)="onLeaveTypeSelectChange($event.value)">
+								<mat-option [value]="leave.id" *ngFor="let leave of leaveTypeList">
+									{{leave.type}}
+								</mat-option>
+							</mat-select>
+	
+						</mat-form-field>
 
 					</mat-form-field>
 				</div>

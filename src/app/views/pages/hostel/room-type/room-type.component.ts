@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { RoomTypesDataSource, RoomTypeModel,selectRoomTypesActionLoading, } from 'src/app/core/Hostel';
+import { RoomTypesDataSource, RoomTypeModel,selectRoomTypesActionLoading, selectLastCreatedRoomTypeId, } from 'src/app/core/Hostel';
 import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -19,7 +19,7 @@ import { Update } from '@ngrx/entity';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
-import { RoomTypesPageRequested, OneRoomTypeDeleted, ManyRoomTypesDeleted, RoomTypesStatusUpdated, RoomTypeUpdated, RoomTypeOnServerCreated, selectLastCreatedRoomTypeId } from '../../../../core/hostel';
+import { RoomTypesPageRequested, OneRoomTypeDeleted, ManyRoomTypesDeleted, RoomTypesStatusUpdated, RoomTypeUpdated, RoomTypeOnServerCreated } from '../../../../core/hostel';
 
 
 

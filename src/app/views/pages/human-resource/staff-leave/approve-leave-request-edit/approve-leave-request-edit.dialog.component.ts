@@ -14,7 +14,8 @@ import { AppState } from '../../../../../core/reducers';
 // CRUD
 import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { StaffLeaveRequestModel, selectStaffLeaveRequestsActionLoading, StaffLeaveRequestUpdated, selectLastCreatedStaffLeaveRequestId, StaffLeaveRequestOnServerCreated } from '../../../../../core/human-resource';
+import { StaffLeaveRequestModel, selectStaffLeaveRequestsActionLoading, StaffLeaveRequestUpdated, selectLastCreatedStaffLeaveRequestId, StaffLeaveRequestOnServerCreated, LeaveTypeModel, LeaveTypeService, RoleService } from '../../../../../core/human-resource';
+import { RolesDtoModel } from 'src/app/core/Models/rolesDto.model';
 
 
 
@@ -36,24 +37,52 @@ viewLoading = false;
 // Private properties
 private componentSubscriptions: Subscription;
 files: File[] = [];
-
+leaveTypeList:LeaveTypeModel[]=[];
+rolesList: RolesDtoModel[] = [];
 constructor(public dialogRef: MatDialogRef<ApproveLeaveRequestEditDialogComponent>,
 	@Inject(MAT_DIALOG_DATA) public data: any,
 	private fb: FormBuilder,
 	private store: Store<AppState>,
-	private typesUtilsService: TypesUtilsService) {
+	private typesUtilsService: TypesUtilsService,
+	private leaveTypeService:LeaveTypeService,
+	private roleService:RoleService)
+	 {
 }
 
 /**
  * On init
  */
 ngOnInit() {
+	this.loadAllLeaveType();
+	this.loadAllRoles();
 	this.store.pipe(select(selectStaffLeaveRequestsActionLoading)).subscribe(res => this.viewLoading = res);
 	// loadding
 	this.staffLeaveRequest = this.data.staffLeaveRequest;
 	this.createForm();
 }
 
+loadAllRoles() {
+	debugger
+	this.roleService.getAllRoles().subscribe(res => {
+	  const data = res['data'];
+	  this.rolesList = data['content'];
+	  console.log(this.rolesList)
+	}, err => {
+	});
+  }
+loadAllLeaveType() {
+	debugger
+	this.leaveTypeService.getAllLeaveTypes().subscribe(res => {
+	  const data = res['data'];
+	  this.leaveTypeList = data['content'];
+	  console.log(this.leaveTypeList)
+	}, err => {
+	});
+  }
+  onLeaveTypeSelectChange(leaveId){
+	var leaveObj = this.leaveTypeList.find(x => x.id === leaveId);
+	this.staffLeaveRequestForm.controls.leaveType.setValue(leaveObj.type);
+  }
 /**
  * On destroy
  */
@@ -78,6 +107,7 @@ createForm() {
 		staffId: [this.staffLeaveRequest.staffId,],
 		staffName: [this.staffLeaveRequest.staffName,],
 		status: [this.staffLeaveRequest.status,'Pending'],	
+		roleId:['',]
 	});
 }
 getLeaveType($event){

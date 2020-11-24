@@ -2,7 +2,7 @@
 import { createFeatureSelector } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter, Update } from '@ngrx/entity';
 // Actions
-import { HostelActions, HostelActionTypes } from '../_actions/hostel.actions';
+import { HostelActionTypes,HostelActions } from '../_actions/hostel.actions';
 // Models
 import { HostelModel } from '../_models/hostel.model';
 import { QueryParamsModel } from '../../_base/crud';

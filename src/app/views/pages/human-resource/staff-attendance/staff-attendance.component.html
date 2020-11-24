@@ -234,8 +234,8 @@
                         <ng-container matColumnDef="attendance">
                             <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Attendance
                             </mat-header-cell>
-                            <mat-cell *matCellDef="let staffAttendance">
-                               <mat-radio-group  [(ngModel)]="staffAttendance.attendenceType">
+                            <mat-cell *matCellDef="let staffAttendance ;let i=index">
+                               <mat-radio-group  [(ngModel)]="staffAttendance.attendenceType"  (change)="onChangeAttendanceType(i,$event.value)" >
                                 <mat-radio-button  *ngFor="let attendanceType of attendanceTypeList" [value]="attendanceType.type"  [checked]="attendanceType.type === 'absent'"   >
                                   {{attendanceType.type}}
                                 </mat-radio-button>

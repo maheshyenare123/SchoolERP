@@ -171,7 +171,14 @@ loadAllRoles() {
 
 			})
 	}
-
+	onChangeAttendanceType(index,attendanceType){
+	
+		var attendanceTypeObj = this.attendanceTypeList.find(x => x.type === attendanceType);
+		console.log(attendanceTypeObj)
+		this.dataSource[index].attendenceTypeId=attendanceTypeObj.id;
+		console.log(this.dataSource[index].attendenceTypeId=attendanceTypeObj.id)
+		
+	}
 	// getAllStudentAttendanceList(classId, sectionId, date) {
 
 	// 	// const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
@@ -247,6 +254,25 @@ loadAllRoles() {
 //save Attendance button 
 	onSaveAttendance(){
 console.log(this.staffAttendancesResult);
+
+
+
+console.log(this.dataSource);
+// this.markAsHoliday=false;
+
+this.createStaffAttendance(this.dataSource);
+// }
+
+const _saveMessage = 'Attendance has been created';
+
+const _messageType = MessageType.Create;
+
+this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
+
+// this.studentAttendenceForm.reset();
+
+// this.addStudentAttendence();
+
 	}
 
 
@@ -388,34 +414,34 @@ console.log(this.staffAttendancesResult);
 	 * On Submit
 	 */
 	onSubmit() {
-		this.hasFormErrors = false;
-		const controls = this.staffAttendanceForm.controls;
-		/** check form */
-		if (this.staffAttendanceForm.invalid) {
-			Object.keys(controls).forEach(controlName =>
-				controls[controlName].markAsTouched()
-			);
+		// this.hasFormErrors = false;
+		// const controls = this.staffAttendanceForm.controls;
+		// /** check form */
+		// if (this.staffAttendanceForm.invalid) {
+		// 	Object.keys(controls).forEach(controlName =>
+		// 		controls[controlName].markAsTouched()
+		// 	);
 
-			this.hasFormErrors = true;
-			return;
-		}
+		// 	this.hasFormErrors = true;
+		// 	return;
+		// }
 
-		const editedStaffAttendance = this.prepareStaffAttendance();
-		if (editedStaffAttendance.id > 0) {
-			this.updateStaffAttendance(editedStaffAttendance);
-		} else {
-			this.createStaffAttendance(editedStaffAttendance);
-		}
+		// const editedStaffAttendance = this.prepareStaffAttendance();
+		// if (editedStaffAttendance.id > 0) {
+		// 	this.updateStaffAttendance(editedStaffAttendance);
+		// } else {
+		// 	this.createStaffAttendance(editedStaffAttendance);
+		// }
 
-		const _saveMessage = editedStaffAttendance.id > 0 ? 'Purpose  has been updated' : 'Purpose has been created';
+		// const _saveMessage = editedStaffAttendance.id > 0 ? 'Purpose  has been updated' : 'Purpose has been created';
 
-		const _messageType = editedStaffAttendance.id > 0 ? MessageType.Update : MessageType.Create;
+		// const _messageType = editedStaffAttendance.id > 0 ? MessageType.Update : MessageType.Create;
 
-		this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
+		// this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
 
-		this.staffAttendanceForm.reset();
+		// this.staffAttendanceForm.reset();
 
-		this.addStaffAttendance();
+		// this.addStaffAttendance();
 		// this.staffAttendance.clear();
 		// this.createForm();
 
@@ -469,18 +495,41 @@ console.log(this.staffAttendancesResult);
 	 *
 	 * @param _staffAttendance: StaffAttendanceModel
 	 */
-	createStaffAttendance(_staffAttendance: StaffAttendanceModel) {
-		this.store.dispatch(new StaffAttendanceOnServerCreated({ staffAttendance: _staffAttendance }));
-		this.componentSubscriptions = this.store.pipe(
-			select(selectLastCreatedStaffAttendanceId),
-			// delay(1000), // Remove this line
-		).subscribe(res => {
-			if (!res) {
-				return;
-			}
+	createStaffAttendance(_staffAttendance: StaffAttendanceModel[]) {
+		// this.store.dispatch(new StaffAttendanceOnServerCreated({ staffAttendance: _staffAttendance }));
+		// this.componentSubscriptions = this.store.pipe(
+		// 	select(selectLastCreatedStaffAttendanceId),
+		// 	// delay(1000), // Remove this line
+		// ).subscribe(res => {
+		// 	if (!res) {
+		// 		return;
+		// 	}
 
-			// this.dialogRef.close({ _staffAttendance, isEdit: false });
-		});
+		// 	// this.dialogRef.close({ _staffAttendance, isEdit: false });
+		// });
+
+
+		const controls = this.searchForm.controls;
+		const	date = this.typesUtilsService.dateFormat(controls.date.value);
+		_staffAttendance.forEach(ele=>{
+			ele.date=date;
+			ele.attendence=true;
+		})
+
+
+
+this.staffAttendanceService.createStaffAttendances(_staffAttendance).subscribe(res=>{
+
+
+
+},err=>{
+
+
+})
+
+
+
+
 	}
 
 	/** Alect Close event */

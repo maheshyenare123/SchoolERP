@@ -317,12 +317,16 @@ isAllSelected() {
 
 approveLeave(approveLeave: ApproveLeaveDtoModel) {
  //approve api
+
+
     this.loadApproveLeavesList();
   
 }
 
 disapproveLeave(approveLeave: ApproveLeaveDtoModel) {
   //disapprove api
+
+  
     this.loadApproveLeavesList();
   
 }

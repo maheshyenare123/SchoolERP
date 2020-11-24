@@ -19,6 +19,12 @@ export class StaffAttendanceService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     return this.http.post<StaffAttendanceModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Attendance, staffAttendance, {headers: httpHeaders});
   }
+  createStaffAttendances(staffAttendance: StaffAttendanceModel[]): Observable<StaffAttendanceModel> {
+    // Note: Add headers if needed (tokens/bearer)
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.post<StaffAttendanceModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Attendance, staffAttendance, {headers: httpHeaders});
+  }
+
 
   // READ
   getAllStaffAttendances(): Observable<StaffAttendanceModel[]> {
