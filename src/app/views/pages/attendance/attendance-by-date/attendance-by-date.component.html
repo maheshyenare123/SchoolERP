@@ -19,25 +19,35 @@
                             </kt-alert>
                 
                             <div class="form-group row">
-                                <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                <div class="col-lg-3 kt-margin-bottom-20-mobile">
                                     <mat-form-field class="mat-form-field-fluid">
-                                        <mat-select placeholder="Class" formControlName="classId">
-                                            <mat-option value="3">Business</mat-option>
-                                            <mat-option value="4">Individual</mat-option>
+                                        <mat-select placeholder="Select Class" formControlName="classId" (selectionChange)="onClassSelectChange($event.value)">
+
+                                            <mat-option *ngFor="let classData of classList" [value]="classData.id" >
+                                                {{classData.classses}}
+                                            </mat-option>
                                         </mat-select>
-                
+                                        <mat-error>Class
+                                            <strong>is required</strong>
+                                        </mat-error>
                                     </mat-form-field>
                                 </div>
-                                <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                <div class="col-lg-3 kt-margin-bottom-20-mobile">
                                     <mat-form-field class="mat-form-field-fluid">
                                         <mat-select placeholder="Section" formControlName="sectionId">
-                                            <mat-option value="0">Business</mat-option>
-                                            <mat-option value="1">Individual</mat-option>
+                                            <mat-option *ngFor="let sectionData of sectionList" [value]="sectionData.id">
+                                                {{sectionData.section}}
+                                            </mat-option>
                                         </mat-select>
-                
+                                        <mat-error>Section
+                                            <strong>is required</strong>
+                                        </mat-error>
                                     </mat-form-field>
                                 </div>
-                                <div class="col-lg-4 kt-margin-bottom-20-mobile">
+
+
+
+                                <div class="col-lg-3 kt-margin-bottom-20-mobile">
                                     <mat-form-field class="mat-form-field-fluid">
                                         <input matInput [matDatepicker]="picker"
                                             placeholder="Choose a Date "
@@ -48,10 +58,17 @@
                                             <strong>Date </strong> in 'mm/dd/yyyy' format</mat-hint>
                                     </mat-form-field>
                                 </div>
+
+                                <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                <button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
+                                    Search
+                                </button>
+                            </div>
+
                             </div>
                 
                         </div>
-                        <div class="card-footer">
+                        <!-- <div class="card-footer">
                             <div class="d-flex justify-content-between">
                                 <div class="mr-2"></div>
                                 <div>
@@ -60,7 +77,7 @@
                                     </button>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </form>
                     <div class="kt-separator kt-separator--dashed"></div>
 
@@ -81,7 +98,7 @@
             <!-- end::Header -->
             <kt-portlet-body>
                 <!-- start::FILTERS -->
-                <div class="kt-form__filtration">
+                <!-- <div class="kt-form__filtration">
                     <div class="row align-items-center">
 
                         <div class="col-md-2 kt-margin-bottom-10-mobile">
@@ -95,7 +112,7 @@
                         </div>
 
                     </div>
-                </div>
+                </div> -->
                 <!-- end::FILTERS -->
                
                 <div class="mat-table__wrapper">

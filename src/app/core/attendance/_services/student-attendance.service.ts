@@ -17,9 +17,14 @@ export class StudentAttendenceService {
   createStudentAttendence(studentAttendence: StudentAttendenceDtoModel): Observable<StudentAttendenceDtoModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<StudentAttendenceDtoModel>(Constants.URL.HOST_URL+Constants.Attendance.Student_Attendance, studentAttendence, {headers: httpHeaders});
+    return this.http.post<StudentAttendenceDtoModel>(Constants.URL.HOST_URL+Constants.Attendance.Student_Attendance,studentAttendence, {headers: httpHeaders});
   }
-
+// CREATE =>  POST: add a new StudentAttendence to the server
+createStudentAttendences(studentAttendence: StudentAttendenceDtoModel[]): Observable<StudentAttendenceDtoModel> {
+  // Note: Add headers if needed (tokens/bearer)
+  const httpHeaders = this.httpUtils.getHTTPHeaders();
+  return this.http.post<StudentAttendenceDtoModel>(Constants.URL.HOST_URL+Constants.Attendance.Student_Attendance,studentAttendence, {headers: httpHeaders});
+}
   // READ
   getAllStudentAttendences(): Observable<StudentAttendenceDtoModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();

@@ -147,16 +147,16 @@ loadAllSectionsByClassId(id:number) {
 
 	getAllStudentAttendanceList(classId,sectionId,date){
 
-		const queryParams = new QueryParamsModel(
-			this.filterConfiguration(),
-			this.sort.direction,
-			this.sort.active,
-			this.paginator.pageIndex,
-			this.paginator.pageSize
-		);
+		// const queryParams = new QueryParamsModel(
+		// 	this.filterConfiguration(),
+		// 	this.sort.direction,
+		// 	this.sort.active,
+		// 	this.paginator.pageIndex,
+		// 	this.paginator.pageSize
+		// );
 
 
-	this.attendanceService.findStudentAttendences(queryParams,classId,sectionId,date).subscribe(res=>{
+	this.attendanceService.getAllStudentAddendaence(classId,sectionId,date).subscribe(res=>{
 		console.log(res);
 		// studentAttendencesResult
 		const data   =res['data'];
@@ -248,21 +248,38 @@ loadAllSectionsByClassId(id:number) {
 console.log(this.dataSource);
 this.markAsHoliday=false;
 
+// const editedStudentAttendence = this.prepareStudentAttendence();
+		// if (editedStudentAttendence.id > 0) {
+		// 	this.updateStudentAttendence(editedStudentAttendence);
+		// } else {
+
+			this.createStudentAttendence(this.dataSource);
+		// }
+
+		const _saveMessage = 'Attendance has been created';
+
+		const _messageType = MessageType.Create;
+
+		this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
+
+		this.studentAttendenceForm.reset();
+
+		this.addStudentAttendence();
+
+
+
+
+
 	}
 	onMarkAsHoliday(){
 	this.markAsHoliday=true;
 }
-	onChangeAttendanceType(index,studentAttendance,attendanceType){
-		console.log(index);
-		console.log(studentAttendance);
-		console.log(attendanceType);
-
-		// this.studentAttendenceForFill.forEach(element=>{
-		// 	if(element.rollNo==studentAttendance.rollNo && element.admissionNo==studentAttendance.admissionNo){
-		// 		element.attendenceType=attendanceType.type;
-		// 		element.attendenceTypeId=	attendanceType.id;
-		// 	}
-		// })
+	onChangeAttendanceType(index,attendanceType){
+	
+		var attendanceTypeObj = this.attendanceTypeList.find(x => x.type === attendanceType);
+		console.log(attendanceTypeObj)
+		this.dataSource[index].attendenceTypeId=attendanceTypeObj.id;
+		console.log(this.dataSource[index].attendenceTypeId=attendanceTypeObj.id)
 		
 	}
 
@@ -289,10 +306,10 @@ this.markAsHoliday=false;
 	 */
 	deleteStudentAttendence(_item: StudentAttendenceDtoModel) {
 
-		const _title = 'Purpose';
-		const _description = 'Are you sure to permanently delete selected purpose?';
-		const _waitDesciption = 'Purpose is deleting...';
-		const _deleteMessage = ' Selected purpose has been deleted';
+		const _title = 'Attendance';
+		const _description = 'Are you sure to permanently delete selected Attendance?';
+		const _waitDesciption = 'Attendance is deleting...';
+		const _deleteMessage = ' Selected Attendance has been deleted';
 
 
 
@@ -405,34 +422,34 @@ this.markAsHoliday=false;
 	 * On Submit
 	 */
 	onSubmit() {
-		this.hasFormErrors = false;
-		const controls = this.studentAttendenceForm.controls;
-		/** check form */
-		if (this.studentAttendenceForm.invalid) {
-			Object.keys(controls).forEach(controlName =>
-				controls[controlName].markAsTouched()
-			);
+		// this.hasFormErrors = false;
+		// const controls = this.studentAttendenceForm.controls;
+		// /** check form */
+		// if (this.studentAttendenceForm.invalid) {
+		// 	Object.keys(controls).forEach(controlName =>
+		// 		controls[controlName].markAsTouched()
+		// 	);
 
-			this.hasFormErrors = true;
-			return;
-		}
+		// 	this.hasFormErrors = true;
+		// 	return;
+		// }
 
-		const editedStudentAttendence = this.prepareStudentAttendence();
-		if (editedStudentAttendence.id > 0) {
-			this.updateStudentAttendence(editedStudentAttendence);
-		} else {
-			this.createStudentAttendence(editedStudentAttendence);
-		}
+		// const editedStudentAttendence = this.prepareStudentAttendence();
+		// if (editedStudentAttendence.id > 0) {
+		// 	this.updateStudentAttendence(editedStudentAttendence);
+		// } else {
+		// 	this.createStudentAttendence(editedStudentAttendence);
+		// }
 
-		const _saveMessage = editedStudentAttendence.id > 0 ? 'Purpose  has been updated' : 'Purpose has been created';
+		// const _saveMessage = editedStudentAttendence.id > 0 ? 'Attendance  has been updated' : 'Attendance has been created';
 
-		const _messageType = editedStudentAttendence.id > 0 ? MessageType.Update : MessageType.Create;
+		// const _messageType = editedStudentAttendence.id > 0 ? MessageType.Update : MessageType.Create;
 
-		this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
+		// this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
 
-		this.studentAttendenceForm.reset();
+		// this.studentAttendenceForm.reset();
 
-		this.addStudentAttendence();
+		// this.addStudentAttendence();
 		// this.studentAttendence.clear();
 		// this.createForm();
 
@@ -470,18 +487,33 @@ this.markAsHoliday=false;
 	 *
 	 * @param _studentAttendence: StudentAttendenceDtoModel
 	 */
-	createStudentAttendence(_studentAttendence: StudentAttendenceDtoModel) {
-		this.store.dispatch(new StudentAttendenceOnServerCreated({ studentAttendence: _studentAttendence }));
-		this.componentSubscriptions = this.store.pipe(
-			select(selectLastCreatedStudentAttendenceId),
-			// delay(1000), // Remove this line
-		).subscribe(res => {
-			if (!res) {
-				return;
-			}
+	createStudentAttendence(_studentAttendence: StudentAttendenceDtoModel[]) {
+		// this.store.dispatch(new StudentAttendenceOnServerCreated({ studentAttendence: _studentAttendence }));
+		// this.componentSubscriptions = this.store.pipe(
+		// 	select(selectLastCreatedStudentAttendenceId),
+		// 	// delay(1000), // Remove this line
+		// ).subscribe(res => {
+		// 	if (!res) {
+		// 		return;
+		// 	}
 
-			// this.dialogRef.close({ _studentAttendence, isEdit: false });
+		// 	// this.dialogRef.close({ _studentAttendence, isEdit: false });
+		// });
+
+		const controls = this.searchForm.controls;
+		const	date = this.typesUtilsService.dateFormat(controls.attendanceDate.value);
+		_studentAttendence.forEach(ele=>{
+			ele.date=date;
+			ele.attendence=true;
+		})
+
+
+		this.attendanceService.createStudentAttendences(_studentAttendence).subscribe(res=>{
+
+		},err=>{
+
 		});
+		
 	}
 
 	/** Alect Close event */
