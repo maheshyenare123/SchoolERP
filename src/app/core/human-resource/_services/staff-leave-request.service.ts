@@ -40,11 +40,10 @@ export class StaffLeaveRequestService {
     // const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
     var  id=0;
     const httpParams =new HttpParams()
-    .set('date',id.toString())
+    // .set('date',id.toString())
     .set('pageNo', queryParams.pageNumber.toString())
     .set('pageSize', queryParams.pageSize.toString())
     .set('sortBy', 'id')
-    
     .set('staffId', id.toString());
     
 

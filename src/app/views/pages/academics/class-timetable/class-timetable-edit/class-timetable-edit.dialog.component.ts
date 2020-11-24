@@ -52,8 +52,8 @@ export class ClassTimetableEditDialogComponent implements OnInit, OnDestroy {
 
 	tabsForTabs = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 	///
-	classTimetablesData:ClassTimetableModel;
-	showTimetableData:boolean=false;
+	classTimetablesData: ClassTimetableModel;
+	showTimetableData: boolean = false;
 	constructor(public dialogRef: MatDialogRef<ClassTimetableEditDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		private fb: FormBuilder,
@@ -65,7 +65,7 @@ export class ClassTimetableEditDialogComponent implements OnInit, OnDestroy {
 		private assignClassTeacherService: AssignClassTeacherService,
 		private subjectService: SubjectService,
 		private subjectGroupService: SubjectGroupService,
-	
+
 	) {
 	}
 
@@ -155,21 +155,21 @@ export class ClassTimetableEditDialogComponent implements OnInit, OnDestroy {
 		this.searchForm.controls.section.setValue(sectionObj.section);
 
 	}
-	onSubjectSelectChange(subjectId,indexi,indexj) {
+	onSubjectSelectChange(subjectId, indexi, indexj) {
 		var subjectObj = this.subjectList.find(x => x.id === subjectId);
 		let daysArray = this.classTimetableForm.get('days') as FormArray;
 		let itemArray = daysArray.controls[indexi].get('items') as FormArray;
-itemArray.controls[indexj].get('subjectName').setValue(subjectObj.name);
+		itemArray.controls[indexj].get('subjectName').setValue(subjectObj.name);
 
 	}
-	onStaffSelectChange(staffId,indexi,indexj) {
+	onStaffSelectChange(staffId, indexi, indexj) {
 		var staffObj = this.staffList.find(x => x.id === staffId);
 		let daysArray = this.classTimetableForm.get('days') as FormArray;
 		let itemArray = daysArray.controls[indexi].get('items') as FormArray;
-itemArray.controls[indexj].get('staffName').setValue(staffObj.name);
+		itemArray.controls[indexj].get('staffName').setValue(staffObj.name);
 
 	}
-	
+
 	/**
 	 * On destroy
 	 */
@@ -210,12 +210,12 @@ itemArray.controls[indexj].get('staffName').setValue(staffObj.name);
 	}
 	createItemRow(dayName) {
 		return this.fb.group({
-			id:['',],
-			day:[dayName,],
+			id: ['',],
+			day: [dayName,],
 			subjectId: ['',],
 			subjectName: ['',],
 			staffId: ['',],
-			staffName:['',],
+			staffName: ['',],
 			timeFrom: ['',],
 			timeTo: ['',],
 			roomNo: ['',],
@@ -223,7 +223,7 @@ itemArray.controls[indexj].get('staffName').setValue(staffObj.name);
 			classes: ['',],
 			sectionId: ['',],
 			section: ['',],
-			isActive:['yes',]
+			isActive: ['yes',]
 
 		});
 	}
@@ -231,21 +231,30 @@ itemArray.controls[indexj].get('staffName').setValue(staffObj.name);
 
 
 
-	addItemRow(index,tab) {
+	addItemRow(index, tab) {
 		let daysArray = this.classTimetableForm.get('days') as FormArray;
 		let itemArray = daysArray.controls[index].get('items') as FormArray;
 		itemArray.push(this.createItemRow(tab));
 	}
 
-	removeItemRow(indexi, indexj,id) {
+	removeItemRow(indexi, indexj, id) {
 
 		//delete api
-	var flag=this.deleteTimetableRow(id);
-	if(flag){
-		let daysArray = this.classTimetableForm.get('days') as FormArray;
-		let itemArray = daysArray.controls[indexi].get('items') as FormArray;
-		itemArray.removeAt(indexj);
-	}
+
+		if (id === "") {
+
+			let daysArray = this.classTimetableForm.get('days') as FormArray;
+			let itemArray = daysArray.controls[indexi].get('items') as FormArray;
+			itemArray.removeAt(indexj);
+		} else {
+			var flag = this.deleteTimetableRow(id);
+			if (flag) {
+				let daysArray = this.classTimetableForm.get('days') as FormArray;
+				let itemArray = daysArray.controls[indexi].get('items') as FormArray;
+				itemArray.removeAt(indexj);
+			}
+		}
+
 	}
 
 	tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
@@ -256,9 +265,9 @@ itemArray.controls[indexj].get('staffName').setValue(staffObj.name);
 	deleteTimetableRow(id): Observable<Boolean> {
 		var flag;
 		this.classTimetableService.deleteClassTimetable(id).subscribe(res => {
-			flag=1;
+			flag = 1;
 		}, er => {
-			flag=0;
+			flag = 0;
 		})
 		return flag;
 	}
@@ -307,226 +316,384 @@ itemArray.controls[indexj].get('staffName').setValue(staffObj.name);
 		// var timeTableArr = [];
 		const _dayTimetable = new TimetableDayModel();
 		for (var i = 0; i < days.length; i++) {
-		// var day=days[i].dayName;
-		// if(days[i].items[0].subjectId>0){
-		// 	// timeTableArr.push({[day]:days[i].items});
-		// }else{
-		// 	// timeTableArr.push({[day]:[]});
-		// }
-	
-		if(days[i].dayName=="Monday"){
-			if(days[i].items[0].subjectId>0){
+			// var day=days[i].dayName;
+			// if(days[i].items[0].subjectId>0){
+			// 	// timeTableArr.push({[day]:days[i].items});
+			// }else{
+			// 	// timeTableArr.push({[day]:[]});
+			// }
 
-				days[i].items.forEach(ele => {
-					ele.classesId=controls1.classId.value;
-					ele.classes=controls1.classes.value;
-					ele.sectionId=controls1.sectionId.value;
-					ele.section=controls1.section.value;
-				});
-				
-				_dayTimetable.monday=days[i].items;
+			if (days[i].dayName == "Monday") {
+				if (days[i].items[0].subjectId > 0) {
 
-			}else{
-				_dayTimetable.monday=[];
-			}
-			
-		}else if(days[i].dayName=="Tuesday"){
-			if(days[i].items[0].subjectId>0){
-				days[i].items.forEach(ele => {
-					ele.classesId=controls1.classId.value;
-					ele.classes=controls1.classes.value;
-					ele.sectionId=controls1.sectionId.value;
-					ele.section=controls1.section.value;
-				});
-				_dayTimetable.tuesday=days[i].items;
-			}else{
-				_dayTimetable.tuesday=[];
-			}
-			
+					days[i].items.forEach(ele => {
+						ele.classesId = controls1.classId.value;
+						ele.classes = controls1.classes.value;
+						ele.sectionId = controls1.sectionId.value;
+						ele.section = controls1.section.value;
+					});
 
-		}else if(days[i].dayName=="Wednesday"){
-			if(days[i].items[0].subjectId>0){
-				days[i].items.forEach(ele => {
-					ele.classesId=controls1.classId.value;
-					ele.classes=controls1.classes.value;
-					ele.sectionId=controls1.sectionId.value;
-					ele.section=controls1.section.value;
-				});
-				_dayTimetable.wednesday=days[i].items;
-			}else{
-				_dayTimetable.wednesday=[];
+					_dayTimetable.monday = days[i].items;
+
+				} else {
+					_dayTimetable.monday = [];
+				}
+
+			} else if (days[i].dayName == "Tuesday") {
+				if (days[i].items[0].subjectId > 0) {
+					days[i].items.forEach(ele => {
+						ele.classesId = controls1.classId.value;
+						ele.classes = controls1.classes.value;
+						ele.sectionId = controls1.sectionId.value;
+						ele.section = controls1.section.value;
+					});
+					_dayTimetable.tuesday = days[i].items;
+				} else {
+					_dayTimetable.tuesday = [];
+				}
+
+
+			} else if (days[i].dayName == "Wednesday") {
+				if (days[i].items[0].subjectId > 0) {
+					days[i].items.forEach(ele => {
+						ele.classesId = controls1.classId.value;
+						ele.classes = controls1.classes.value;
+						ele.sectionId = controls1.sectionId.value;
+						ele.section = controls1.section.value;
+					});
+					_dayTimetable.wednesday = days[i].items;
+				} else {
+					_dayTimetable.wednesday = [];
+				}
+
 			}
-			
-		}
-		else if(days[i].dayName=="Thursday"){
-			if(days[i].items[0].subjectId>0){
-				days[i].items.forEach(ele => {
-					ele.classesId=controls1.classId.value;
-					ele.classes=controls1.classes.value;
-					ele.sectionId=controls1.sectionId.value;
-					ele.section=controls1.section.value;
-				});
-				_dayTimetable.thursday=days[i].items;
-			}else{
-				_dayTimetable.thursday=[];
+			else if (days[i].dayName == "Thursday") {
+				if (days[i].items[0].subjectId > 0) {
+					days[i].items.forEach(ele => {
+						ele.classesId = controls1.classId.value;
+						ele.classes = controls1.classes.value;
+						ele.sectionId = controls1.sectionId.value;
+						ele.section = controls1.section.value;
+					});
+					_dayTimetable.thursday = days[i].items;
+				} else {
+					_dayTimetable.thursday = [];
+				}
+
 			}
-			
-		}
-		else if(days[i].dayName=="Friday"){
-			if(days[i].items[0].subjectId>0){
-				days[i].items.forEach(ele => {
-					ele.classesId=controls1.classId.value;
-					ele.classes=controls1.classes.value;
-					ele.sectionId=controls1.sectionId.value;
-					ele.section=controls1.section.value;
-				});
-				_dayTimetable.friday=days[i].items;
-			}else{
-				_dayTimetable.friday=[];
+			else if (days[i].dayName == "Friday") {
+				if (days[i].items[0].subjectId > 0) {
+					days[i].items.forEach(ele => {
+						ele.classesId = controls1.classId.value;
+						ele.classes = controls1.classes.value;
+						ele.sectionId = controls1.sectionId.value;
+						ele.section = controls1.section.value;
+					});
+					_dayTimetable.friday = days[i].items;
+				} else {
+					_dayTimetable.friday = [];
+				}
+
 			}
-			
-		}
-		else if(days[i].dayName=="Saturday"){
-			if(days[i].items[0].subjectId>0){
-				days[i].items.forEach(ele => {
-					ele.classesId=controls1.classId.value;
-					ele.classes=controls1.classes.value;
-					ele.sectionId=controls1.sectionId.value;
-					ele.section=controls1.section.value;
-				});
-				_dayTimetable.saturday=days[i].items;
-			}else{
-				_dayTimetable.saturday=[];
+			else if (days[i].dayName == "Saturday") {
+				if (days[i].items[0].subjectId > 0) {
+					days[i].items.forEach(ele => {
+						ele.classesId = controls1.classId.value;
+						ele.classes = controls1.classes.value;
+						ele.sectionId = controls1.sectionId.value;
+						ele.section = controls1.section.value;
+					});
+					_dayTimetable.saturday = days[i].items;
+				} else {
+					_dayTimetable.saturday = [];
+				}
+
 			}
-			
-		}
-		else {
-			if(days[i].items[0].subjectId>0){
-				days[i].items.forEach(ele => {
-					ele.classesId=controls1.classId.value;
-					ele.classes=controls1.classes.value;
-					ele.sectionId=controls1.sectionId.value;
-					ele.section=controls1.section.value;
-				});
-				_dayTimetable.sunday=days[i].items;
-			}else{
-				_dayTimetable.sunday=[];
+			else {
+				if (days[i].items[0].subjectId > 0) {
+					days[i].items.forEach(ele => {
+						ele.classesId = controls1.classId.value;
+						ele.classes = controls1.classes.value;
+						ele.sectionId = controls1.sectionId.value;
+						ele.section = controls1.section.value;
+					});
+					_dayTimetable.sunday = days[i].items;
+				} else {
+					_dayTimetable.sunday = [];
+				}
 			}
-		}
 
 		}
-  _classTimetable.timetable =_dayTimetable;
-// console.log(timeTableArr)
+		_classTimetable.timetable = _dayTimetable;
+		// console.log(timeTableArr)
 		// _classTimetable.timeTable =timeTableArr.toString;
 
 		return _classTimetable;
 	}
 
-	onSearch(){
+	onSearch() {
 		debugger;
-		
-			  this.hasFormErrors = false;
-			  const controls = this.searchForm.controls;
-			  /** check form */
-			  if (this.searchForm.invalid) {
-				  Object.keys(controls).forEach(controlName =>
-					  controls[controlName].markAsTouched()
-				  );
-	  
-				  this.hasFormErrors = true;
-				  return;
-			  }
-	  
-			  this.getAllClassTimetableListByservice(controls.classId.value, controls.sectionId.value);
-	  
-	  
-	  
-	  }
-	  getAllClassTimetableListByservice(classId, sectionId){
-	  
-	  this.classTimetableService.getAllClassTimetables(classId,sectionId).subscribe(res=>{
-		this.classTimetablesData=res['data'];
-		// this.timeTableData= this.classTimetablesResult.
-		console.log(  this.classTimetablesData);
-		this.showTimetableData=true;
-		this.setTimetableDataOnSearch(this.classTimetablesData);
-	  },eror=>{
-	  
-	  
-	  })
-	  
-	  }
-	  
+
+		this.hasFormErrors = false;
+		const controls = this.searchForm.controls;
+		/** check form */
+		if (this.searchForm.invalid) {
+			Object.keys(controls).forEach(controlName =>
+				controls[controlName].markAsTouched()
+			);
+
+			this.hasFormErrors = true;
+			return;
+		}
+
+		this.getAllClassTimetableListByservice(controls.classId.value, controls.sectionId.value);
 
 
-	  setTimetableDataOnSearch(data) {
+
+	}
+	getAllClassTimetableListByservice(classId, sectionId) {
+
+		this.classTimetableService.getAllClassTimetables(classId, sectionId).subscribe(res => {
+			this.classTimetablesData = res['data'];
+			// this.timeTableData= this.classTimetablesResult.
+			console.log(this.classTimetablesData);
+			this.showTimetableData = true;
+			this.setTimetableDataOnSearch(this.classTimetablesData);
+		}, eror => {
+
+
+		})
+
+	}
+
+
+
+	setTimetableDataOnSearch(data) {
 		let daysArray = this.classTimetableForm.get('days') as FormArray;
 		// let itemArray = daysArray.controls[index].get('items') as FormArray;
-		
+		const days = daysArray.value;
+
+
+		days.forEach((element, indexj) => {
+
+			if (element.dayName === "Monday") {
+
+				if (data.timetable.monday.length > 0) {
+
+					let itemArray = daysArray.controls[indexj].get('items') as FormArray;
+					data.timetable.monday.forEach((element, indexi) => {
+
+						if (indexi != 0) {
+							itemArray.push(this.createItemRow(element.dayName));
+						}
+
+						itemArray.controls[indexi].get('id').setValue(element.id);
+						itemArray.controls[indexi].get('day').setValue(element.day);
+						itemArray.controls[indexi].get('subjectId').setValue(element.subjectId);
+						itemArray.controls[indexi].get('subjectName').setValue(element.subjectName);
+						itemArray.controls[indexi].get('staffId').setValue(element.staffId);
+						itemArray.controls[indexi].get('staffName').setValue(element.staffName);
+						itemArray.controls[indexi].get('timeFrom').setValue(element.timeFrom);
+						itemArray.controls[indexi].get('timeTo').setValue(element.timeTo);
+						itemArray.controls[indexi].get('roomNo').setValue(element.roomNo);
+						itemArray.controls[indexi].get('classesId').setValue(element.classesId);
+						itemArray.controls[indexi].get('classes').setValue(element.classes);
+						itemArray.controls[indexi].get('sectionId').setValue(element.sectionId);
+						itemArray.controls[indexi].get('section').setValue(element.section);
+						itemArray.controls[indexi].get('isActive').setValue(element.isActive);
+
+
+					});
+				}
+			} else if (element.dayName === "Tuesday") {
+
+
+				if (data.timetable.tuesday.length > 0) {
+
+					let itemArray = daysArray.controls[indexj].get('items') as FormArray;
+					data.timetable.tuesday.forEach((element, indexi) => {
+
+
+						if (indexi != 0) {
+							itemArray.push(this.createItemRow(element.dayName));
+						}
+
+						itemArray.controls[indexi].get('id').setValue(element.id);
+						itemArray.controls[indexi].get('day').setValue(element.day);
+						itemArray.controls[indexi].get('subjectId').setValue(element.subjectId);
+						itemArray.controls[indexi].get('subjectName').setValue(element.subjectName);
+						itemArray.controls[indexi].get('staffId').setValue(element.staffId);
+						itemArray.controls[indexi].get('staffName').setValue(element.staffName);
+						itemArray.controls[indexi].get('timeFrom').setValue(element.timeFrom);
+						itemArray.controls[indexi].get('timeTo').setValue(element.timeTo);
+						itemArray.controls[indexi].get('roomNo').setValue(element.roomNo);
+						itemArray.controls[indexi].get('classesId').setValue(element.classesId);
+						itemArray.controls[indexi].get('classes').setValue(element.classes);
+						itemArray.controls[indexi].get('sectionId').setValue(element.sectionId);
+						itemArray.controls[indexi].get('section').setValue(element.section);
+						itemArray.controls[indexi].get('isActive').setValue(element.isActive);
+
+
+					});
+				}
+			} else if (element.dayName === "Wednesday") {
 
 
 
+				if (data.timetable.wednesday.length > 0) {
+					let itemArray = daysArray.controls[indexj].get('items') as FormArray;
+					data.timetable.wednesday.forEach((element, indexi) => {
 
-		data.timetable.sunday.forEach((element, index) => {
+						if (indexi != 0) {
+							itemArray.push(this.createItemRow(element.dayName));
+						}
 
-			// if (index != 0) {
-			// 	this.createDaysRow(tab)
-			// 	  }
-
-
-			// itemArray.controls[index].get('po_item_id').setValue(poitem.po_item_id);
-			//   itemArray.controls[index].get('item').setValue(poitem.item);
-			//   itemArray.controls[index].get('description').setValue(poitem.description);
-			//   itemArray.controls[index].get('rate').setValue(poitem.rate);
-			//   itemArray.controls[index].get('unit').setValue(poitem.item.unit);
-			//   itemArray.controls[index].get('quantity').setValue(poitem.quantity);
-			//   itemArray.controls[index].get('total').setValue(poitem.total);
-			//   itemArray.controls[index].get('remark').setValue(poitem.remark);
-		});
-		// createDaysRow(tab) {
-		// 	return this.fb.group({
-		// 		dayName: [tab,],
-		// 		items: this.fb.array([
-		// 			this.createItemRow(tab)
-		// 		]),
-		// 	});
-		// }
-		// createItemRow(dayName) {
-		// 	return this.fb.group({
-		// 		id:['',],
-		// 		day:[dayName,],
-		// 		subjectId: ['',],
-		// 		subjectName: ['',],
-		// 		staffId: ['',],
-		// 		staffName:['',],
-		// 		timeFrom: ['',],
-		// 		timeTo: ['',],
-		// 		roomNo: ['',],
-		// 		classesId: ['',],
-		// 		classes: ['',],
-		// 		sectionId: ['',],
-		// 		section: ['',],
-		// 		isActive:['yes',]
-	
-		// 	});
-		// }
+						itemArray.controls[indexi].get('id').setValue(element.id);
+						itemArray.controls[indexi].get('day').setValue(element.day);
+						itemArray.controls[indexi].get('subjectId').setValue(element.subjectId);
+						itemArray.controls[indexi].get('subjectName').setValue(element.subjectName);
+						itemArray.controls[indexi].get('staffId').setValue(element.staffId);
+						itemArray.controls[indexi].get('staffName').setValue(element.staffName);
+						itemArray.controls[indexi].get('timeFrom').setValue(element.timeFrom);
+						itemArray.controls[indexi].get('timeTo').setValue(element.timeTo);
+						itemArray.controls[indexi].get('roomNo').setValue(element.roomNo);
+						itemArray.controls[indexi].get('classesId').setValue(element.classesId);
+						itemArray.controls[indexi].get('classes').setValue(element.classes);
+						itemArray.controls[indexi].get('sectionId').setValue(element.sectionId);
+						itemArray.controls[indexi].get('section').setValue(element.section);
+						itemArray.controls[indexi].get('isActive').setValue(element.isActive);
 
 
-		
-		// let itemArray = this.purchaseOrderAddForm.get('poLogItemSupplier') as FormArray;
-		// obj.poLogItemSupplier.forEach((poitem, index) => {
-		//   if (index != 0) {
-		// 	this.addItemRow();
-		//   }
-		//   itemArray.controls[index].get('po_item_id').setValue(poitem.po_item_id);
-		//   itemArray.controls[index].get('item').setValue(poitem.item);
-		//   itemArray.controls[index].get('description').setValue(poitem.description);
-		//   itemArray.controls[index].get('rate').setValue(poitem.rate);
-		//   itemArray.controls[index].get('unit').setValue(poitem.item.unit);
-		//   itemArray.controls[index].get('quantity').setValue(poitem.quantity);
-		//   itemArray.controls[index].get('total').setValue(poitem.total);
-		//   itemArray.controls[index].get('remark').setValue(poitem.remark);
-		// })
+					});
+				}
+
+			} else if (element.dayName === "Thursday") {
+				if (data.timetable.thursday.length > 0) {
+					let itemArray = daysArray.controls[indexj].get('items') as FormArray;
+
+					data.timetable.thursday.forEach((element, indexi) => {
+
+
+						if (indexi != 0) {
+							itemArray.push(this.createItemRow(element.dayName));
+						}
+
+						itemArray.controls[indexi].get('id').setValue(element.id);
+						itemArray.controls[indexi].get('day').setValue(element.day);
+						itemArray.controls[indexi].get('subjectId').setValue(element.subjectId);
+						itemArray.controls[indexi].get('subjectName').setValue(element.subjectName);
+						itemArray.controls[indexi].get('staffId').setValue(element.staffId);
+						itemArray.controls[indexi].get('staffName').setValue(element.staffName);
+						itemArray.controls[indexi].get('timeFrom').setValue(element.timeFrom);
+						itemArray.controls[indexi].get('timeTo').setValue(element.timeTo);
+						itemArray.controls[indexi].get('roomNo').setValue(element.roomNo);
+						itemArray.controls[indexi].get('classesId').setValue(element.classesId);
+						itemArray.controls[indexi].get('classes').setValue(element.classes);
+						itemArray.controls[indexi].get('sectionId').setValue(element.sectionId);
+						itemArray.controls[indexi].get('section').setValue(element.section);
+						itemArray.controls[indexi].get('isActive').setValue(element.isActive);
+
+
+					});
+				}
+
+			} else if (element.dayName === "Friday") {
+
+				if (data.timetable.friday.length > 0) {
+					let itemArray = daysArray.controls[indexj].get('items') as FormArray;
+
+					data.timetable.friday.forEach((element, indexi) => {
+
+
+						if (indexi != 0) {
+							itemArray.push(this.createItemRow(element.dayName));
+						}
+
+						itemArray.controls[indexi].get('id').setValue(element.id);
+						itemArray.controls[indexi].get('day').setValue(element.day);
+						itemArray.controls[indexi].get('subjectId').setValue(element.subjectId);
+						itemArray.controls[indexi].get('subjectName').setValue(element.subjectName);
+						itemArray.controls[indexi].get('staffId').setValue(element.staffId);
+						itemArray.controls[indexi].get('staffName').setValue(element.staffName);
+						itemArray.controls[indexi].get('timeFrom').setValue(element.timeFrom);
+						itemArray.controls[indexi].get('timeTo').setValue(element.timeTo);
+						itemArray.controls[indexi].get('roomNo').setValue(element.roomNo);
+						itemArray.controls[indexi].get('classesId').setValue(element.classesId);
+						itemArray.controls[indexi].get('classes').setValue(element.classes);
+						itemArray.controls[indexi].get('sectionId').setValue(element.sectionId);
+						itemArray.controls[indexi].get('section').setValue(element.section);
+						itemArray.controls[indexi].get('isActive').setValue(element.isActive);
+
+
+					});
+				}
+			} else if (element.dayName === "Saturday") {
+
+				if (data.timetable.saturday.length > 0) {
+
+					let itemArray = daysArray.controls[indexj].get('items') as FormArray;
+
+					data.timetable.saturday.forEach((element, indexi) => {
+
+						if (indexi != 0) {
+							itemArray.push(this.createItemRow(element.dayName));
+						}
+
+						itemArray.controls[indexi].get('id').setValue(element.id);
+						itemArray.controls[indexi].get('day').setValue(element.day);
+						itemArray.controls[indexi].get('subjectId').setValue(element.subjectId);
+						itemArray.controls[indexi].get('subjectName').setValue(element.subjectName);
+						itemArray.controls[indexi].get('staffId').setValue(element.staffId);
+						itemArray.controls[indexi].get('staffName').setValue(element.staffName);
+						itemArray.controls[indexi].get('timeFrom').setValue(element.timeFrom);
+						itemArray.controls[indexi].get('timeTo').setValue(element.timeTo);
+						itemArray.controls[indexi].get('roomNo').setValue(element.roomNo);
+						itemArray.controls[indexi].get('classesId').setValue(element.classesId);
+						itemArray.controls[indexi].get('classes').setValue(element.classes);
+						itemArray.controls[indexi].get('sectionId').setValue(element.sectionId);
+						itemArray.controls[indexi].get('section').setValue(element.section);
+						itemArray.controls[indexi].get('isActive').setValue(element.isActive);
+
+
+					});
+				}
+			} else if (element.dayName === "Sunday") {
+				if (data.timetable.sunday.length > 0) {
+
+					let itemArray = daysArray.controls[indexj].get('items') as FormArray;
+
+					data.timetable.sunday.forEach((element, indexi) => {
+
+						if (indexi != 0) {
+							itemArray.push(this.createItemRow(element.dayName));
+						}
+
+						itemArray.controls[indexi].get('id').setValue(element.id);
+						itemArray.controls[indexi].get('day').setValue(element.day);
+						itemArray.controls[indexi].get('subjectId').setValue(element.subjectId);
+						itemArray.controls[indexi].get('subjectName').setValue(element.subjectName);
+						itemArray.controls[indexi].get('staffId').setValue(element.staffId);
+						itemArray.controls[indexi].get('staffName').setValue(element.staffName);
+						itemArray.controls[indexi].get('timeFrom').setValue(element.timeFrom);
+						itemArray.controls[indexi].get('timeTo').setValue(element.timeTo);
+						itemArray.controls[indexi].get('roomNo').setValue(element.roomNo);
+						itemArray.controls[indexi].get('classesId').setValue(element.classesId);
+						itemArray.controls[indexi].get('classes').setValue(element.classes);
+						itemArray.controls[indexi].get('sectionId').setValue(element.sectionId);
+						itemArray.controls[indexi].get('section').setValue(element.section);
+						itemArray.controls[indexi].get('isActive').setValue(element.isActive);
+
+
+					});
+				}
+
+			}
+
+
+		})
+
+
+
 	}
 
 
@@ -593,18 +760,23 @@ itemArray.controls[indexj].get('staffName').setValue(staffObj.name);
 	 * @param _classTimetable: ClassTimetableModel
 	 */
 	createClassTimetable(_classTimetable: ClassTimetableModel) {
-		this.store.dispatch(new ClassTimetableOnServerCreated({ classTimetable: _classTimetable }));
-		this.componentSubscriptions = this.store.pipe(
-			select(selectLastCreatedClassTimetableId),
-			delay(1000), // Remove this line
-		).subscribe(res => {
-			if (!res) {
-				return;
-			}
+		// this.store.dispatch(new ClassTimetableOnServerCreated({ classTimetable: _classTimetable }));
+		// this.componentSubscriptions = this.store.pipe(
+		// 	select(selectLastCreatedClassTimetableId),
+		// 	delay(1000), // Remove this line
+		// ).subscribe(res => {
+		// 	if (!res) {
+		// 		return;
+		// 	}
 
+		// 	this.dialogRef.close({ _classTimetable, isEdit: false });
+		// });
+		this.classTimetableService.createClassTimetable(_classTimetable).subscribe(res => {
 			this.dialogRef.close({ _classTimetable, isEdit: false });
-		});
+		}, err => {
 
+
+		})
 
 	}
 

@@ -21,6 +21,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { StudentAttendencesPageRequested, OneStudentAttendenceDeleted, ManyStudentAttendencesDeleted, StudentAttendencesStatusUpdated, StudentAttendenceUpdated, StudentAttendenceOnServerCreated, selectLastCreatedStudentAttendenceId } from '../../../../core/attendance';
+import { SectionService, StudentClassService, StudentClassModel, SectionDtoModel } from 'src/app/core/academics';
 
 @Component({
   selector: 'kt-attendance-by-date',
@@ -61,64 +62,52 @@ sectionId : number;
 attendanceDate: string;
 
 
+classList: StudentClassModel[] = [];
+sectionList: SectionDtoModel[] = [];
   constructor(public dialog: MatDialog,
 		public snackBar: MatSnackBar,
 		private layoutUtilsService: LayoutUtilsService,
 		private translate: TranslateService,
 		private store: Store<AppState>,
 		private fb: FormBuilder,
-		private typesUtilsService: TypesUtilsService) { }
+		private typesUtilsService: TypesUtilsService,
+		private studentClassService: StudentClassService,
+		private sectionService: SectionService) { }
 
   ngOnInit() {
 
 	debugger;
 	
-    const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-		this.subscriptions.push(sortSubscription);
-
-		/* Data load will be triggered in two cases:
-		- when a pagination event occurs => this.paginator.page
-		- when a sort event occurs => this.sort.sortChange
-		**/
-		const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-			tap(() => this.loadStudentAttendenceList())
-		)
-		.subscribe();
-		this.subscriptions.push(paginatorSubscriptions);
-
-		// Filtration, bind to searchInput
-		const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
-			// tslint:disable-next-line:max-line-length
-			debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
-			distinctUntilChanged(), // This operator will eliminate duplicate values
-			tap(() => {
-				this.paginator.pageIndex = 0;
-				this.loadStudentAttendenceList();
-			})
-		)
-		.subscribe();
-		this.subscriptions.push(searchSubscription);
-
-		// Init DataSource
+	this.loadAllClasses();
+		this.loadAllSectionsByClassId(1);
 		this.dataSource = new StudentAttendencesDataSource(this.store);
-	
-		const entitiesSubscription = this.dataSource.entitySubject.pipe(
-			skip(1),
-			distinctUntilChanged()
-		).subscribe(res => {
-			debugger
-	console.log(res);
-			this.studentAttendencesResult = res;
-		});
-		this.subscriptions.push(entitiesSubscription);
-		// First load
-		of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-			this.loadStudentAttendenceList();
-		}); // Remove this line, just loading imitation
 
     this.createForm();
 		
   }
+
+
+  loadAllClasses() {
+	debugger
+	this.studentClassService.getAllStudentClasss().subscribe(res => {
+		const data = res['data'];
+		this.classList = data['content'];
+		console.log(this.classList)
+	}, err => {
+	});
+}
+onClassSelectChange(classId){
+	this.loadAllSectionsByClassId(classId);
+}
+loadAllSectionsByClassId(id:number) {
+	debugger
+	this.studentClassService.getAllSectionByClasssId(id).subscribe(res => {
+		this.sectionList =  res['data'];
+		console.log(this.sectionList)
+	}, err => {
+	});
+}
+
 /**
 	 * On Destroy
 	 */
@@ -129,7 +118,7 @@ attendanceDate: string;
 	/**
 	 * Load StudentAttendences List from service through data-source
 	 */
-	loadStudentAttendenceList() {
+	loadStudentAttendenceList(classId,sectionId,date) {
 		debugger;
 		this.selection.clear();
 		const queryParams = new QueryParamsModel(
@@ -140,7 +129,7 @@ attendanceDate: string;
 			this.paginator.pageSize
 		);
 		// Call request from server
-		// this.store.dispatch(new StudentAttendencesPageRequested({ page: queryParams }));
+		this.store.dispatch(new StudentAttendencesPageRequested({ page: queryParams,classId,sectionId,date }));
 		this.selection.clear();
 	}
 
@@ -149,8 +138,8 @@ attendanceDate: string;
 	 */
 	filterConfiguration(): any {
 		const filter: any = {};
-		const searchText: string = this.searchInput.nativeElement.value;
-
+		// const searchText: string = this.searchInput.nativeElement.value;
+		const searchText='';
 		filter.class = searchText;
 		if (!searchText) {
 			return filter;
@@ -192,8 +181,60 @@ createForm() {
 		}
 
 		//search api
+		const	date = this.typesUtilsService.dateFormat(controls.attendanceDate.value);
+		this.getAllStudentAttendanceList(controls.classId.value, controls.sectionId.value, date);
+
 
 		
+	}
+
+	getAllStudentAttendanceList(classId,sectionId,date){
+
+
+
+		const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+		this.subscriptions.push(sortSubscription);
+
+		/* Data load will be triggered in two cases:
+		- when a pagination event occurs => this.paginator.page
+		- when a sort event occurs => this.sort.sortChange
+		**/
+		const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
+			tap(() => this.loadStudentAttendenceList(classId,sectionId,date))
+		)
+		.subscribe();
+		this.subscriptions.push(paginatorSubscriptions);
+
+		// Filtration, bind to searchInput
+		// const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
+		// 	// tslint:disable-next-line:max-line-length
+		// 	debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
+		// 	distinctUntilChanged(), // This operator will eliminate duplicate values
+		// 	tap(() => {
+		// 		this.paginator.pageIndex = 0;
+		// 		this.loadStudentAttendenceList(classId,sectionId,date);
+		// 	})
+		// )
+		// .subscribe();
+		// this.subscriptions.push(searchSubscription);
+
+		// Init DataSource
+		this.dataSource = new StudentAttendencesDataSource(this.store);
+	
+		const entitiesSubscription = this.dataSource.entitySubject.pipe(
+			skip(1),
+			distinctUntilChanged()
+		).subscribe(res => {
+			debugger
+	console.log(res);
+			this.studentAttendencesResult = res;
+		});
+		this.subscriptions.push(entitiesSubscription);
+		// First load
+		of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
+			this.loadStudentAttendenceList(classId,sectionId,date);
+		}); // Remove this line, just loading imitation
+
 	}
 
 

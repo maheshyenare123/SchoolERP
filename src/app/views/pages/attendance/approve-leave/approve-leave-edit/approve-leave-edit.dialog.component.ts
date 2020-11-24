@@ -57,6 +57,8 @@ constructor(public dialogRef: MatDialogRef<ApproveLeaveEditDialogComponent>,
  * On init
  */
 ngOnInit() {
+
+	this.loadAllClasses();
 	this.store.pipe(select(selectApproveLeavesActionLoading)).subscribe(res => this.viewLoading = res);
 	// loadding
 	this.approveLeave = this.data.approveLeave;
@@ -72,13 +74,14 @@ ngOnInit() {
 		}, err => {
 		});
 	}
+	onClassSelectChange(classId){
+		this.loadAllSectionsByClassId(classId);
+	}
 	loadAllSectionsByClassId(id:number) {
 		debugger
-		this.sectionService.getAllSections().subscribe(res => {
-			const data = res['data'];
-			this.sectionList = data['content'];
+		this.studentClassService.getAllSectionByClasssId(id).subscribe(res => {
+			this.sectionList =  res['data'];
 			console.log(this.sectionList)
-			
 		}, err => {
 		});
 	}
@@ -117,7 +120,9 @@ createForm() {
     // status: number;
     // studentSessionId: number;
     // toDate: string;
-
+classId: ['',],
+sectionId: ['',],
+studentId: ['',],
 	applyDate: [this.typesUtilsService.getDateFromString(this.approveLeave.applyDate), Validators.compose([Validators.nullValidator])],
 	fromDate: [this.typesUtilsService.getDateFromString(this.approveLeave.fromDate), Validators.compose([Validators.nullValidator])],
 	toDate: [this.typesUtilsService.getDateFromString(this.approveLeave.toDate), Validators.compose([Validators.nullValidator])],
@@ -128,6 +133,8 @@ createForm() {
 		requestType: [this.approveLeave.requestType,],
 		status: [this.approveLeave.status,],
 		studentSessionId: [this.approveLeave.studentSessionId,],
+	
+		
 
 	});
 }

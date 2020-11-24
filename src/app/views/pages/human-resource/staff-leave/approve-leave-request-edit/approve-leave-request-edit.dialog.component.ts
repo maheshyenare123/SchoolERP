@@ -92,7 +92,7 @@ getTitle(): string {
 	// 	return `Edit Leave '${this.staffLeaveRequest.staffName}'`;
 	// }
 
-	return 'New Leave';
+	return 'Approve Leave';
 }
 
 /**

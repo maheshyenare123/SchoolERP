@@ -32,9 +32,10 @@ import { StudentModel } from 'src/app/core/Models/student.model';
 export class StudentAttendanceComponent implements OnInit {
 
 	// Table fields
-	dataSource: StudentAttendencesDataSource;
+	// dataSource: StudentAttendencesDataSource;
 	//  dataSource = new MatTableDataSource(ELEMENT_DATA);
 
+	dataSource : StudentAttendenceDtoModel[]= [];
 
 	displayedColumns = ['id', 'admissionNo', 'date', 'rollNo', 'name', 'attendance', 'note'];
 	@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -45,8 +46,8 @@ export class StudentAttendanceComponent implements OnInit {
 	filterType = '';
 	// Selection
 	selection = new SelectionModel<StudentAttendenceDtoModel>(true, []);
-	studentAttendencesResult: StudentAttendenceDtoModel[] = [];
-	studentAttendenceForFill: StudentAttendenceDtoModel[] = [];
+	// studentAttendencesResult: StudentAttendenceDtoModel[] = [];
+	// studentAttendenceForFill: StudentAttendenceDtoModel[] = [];
 	// Subscriptions
 	private subscriptions: Subscription[] = [];
 
@@ -89,7 +90,7 @@ export class StudentAttendanceComponent implements OnInit {
 		this.loadAllAttendanceType();
 		this.addStudentAttendence();
 		// Init DataSource
-		this.dataSource = new StudentAttendencesDataSource(this.store);
+		// this.dataSource = new StudentAttendencesDataSource(this.store);
 
 	}
 
@@ -144,75 +145,76 @@ loadAllSectionsByClassId(id:number) {
 	}
 
 
-// 	getAllStudentAttendanceList(classId,sectionId,date){
+	getAllStudentAttendanceList(classId,sectionId,date){
 
-// 		const queryParams = new QueryParamsModel(
-// 			this.filterConfiguration(),
-// 			this.sort.direction,
-// 			this.sort.active,
-// 			this.paginator.pageIndex,
-// 			this.paginator.pageSize
-// 		);
-
-
-// 	this.attendanceService.findStudentAttendences(queryParams,classId,sectionId,date).subscribe(res=>{
-// 		console.log(res);
-// 		// studentAttendencesResult
-
-// 	})
-
-// }
+		// const queryParams = new QueryParamsModel(
+		// 	this.filterConfiguration(),
+		// 	this.sort.direction,
+		// 	this.sort.active,
+		// 	this.paginator.pageIndex,
+		// 	this.paginator.pageSize
+		// );
 
 
-	getAllStudentAttendanceList(classId, sectionId, date) {
+	this.attendanceService.getAllStudentAddendaence(classId,sectionId,date).subscribe(res=>{
+		console.log(res);
+		// studentAttendencesResult
+		const data   =res['data'];
+		this.dataSource=data['content'];
+	})
 
-		const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-		this.subscriptions.push(sortSubscription);
+}
 
-		const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-			tap(() => this.loadStudentAttendenceList(classId, sectionId, date))
-		)
-			.subscribe();
-		this.subscriptions.push(paginatorSubscriptions);
 
-		// // Filtration, bind to searchInput
-		// const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
-		// 	// tslint:disable-next-line:max-line-length
-		// 	debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
-		// 	distinctUntilChanged(), // This operator will eliminate duplicate values
-		// 	tap(() => {
-		// 		this.paginator.pageIndex = 0;
-		// 		this.loadStudentAttendenceList();
-		// 	})
-		// )
-		// .subscribe();
-		// this.subscriptions.push(searchSubscription);
+	// getAllStudentAttendanceList(classId, sectionId, date) {
 
-		// Init DataSource
-		this.dataSource = new StudentAttendencesDataSource(this.store);
+	// 	// const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+	// 	// this.subscriptions.push(sortSubscription);
 
-		const entitiesSubscription = this.dataSource.entitySubject.pipe(
-			skip(1),
-			distinctUntilChanged()
-		).subscribe(res => {
-			// debugger
-			console.log(res);
-			this.studentAttendencesResult = res;
-			console.log(this.studentAttendencesResult);
-			if(this.studentAttendencesResult){
-				this.studentAttendenceForFill=this.studentAttendencesResult;
-			}
+	// 	// const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
+	// 	// 	tap(() => this.loadStudentAttendenceList(classId, sectionId, date))
+	// 	// )
+	// 	// 	.subscribe();
+	// 	// this.subscriptions.push(paginatorSubscriptions);
+
+	// 	// // Filtration, bind to searchInput
+	// 	// const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
+	// 	// 	// tslint:disable-next-line:max-line-length
+	// 	// 	debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
+	// 	// 	distinctUntilChanged(), // This operator will eliminate duplicate values
+	// 	// 	tap(() => {
+	// 	// 		this.paginator.pageIndex = 0;
+	// 	// 		this.loadStudentAttendenceList();
+	// 	// 	})
+	// 	// )
+	// 	// .subscribe();
+	// 	// this.subscriptions.push(searchSubscription);
+
+	// 	// Init DataSource
+	// 	// this.dataSource = new StudentAttendencesDataSource(this.store);
+
+	// 	// const entitiesSubscription = this.dataSource.entitySubject.pipe(
+	// 	// 	skip(1),
+	// 	// 	distinctUntilChanged()
+	// 	// ).subscribe(res => {
+	// 	// 	// debugger
+	// 	// 	console.log(res);
+	// 	// 	this.studentAttendencesResult = res;
+	// 	// 	console.log(this.studentAttendencesResult);
+	// 	// 	if(this.studentAttendencesResult){
+	// 	// 		this.studentAttendenceForFill=this.studentAttendencesResult;
+	// 	// 	}
 		
-		});
-		this.subscriptions.push(entitiesSubscription);
-		// First load
-		of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-			this.loadStudentAttendenceList(classId, sectionId, date);
-		}); // Remove this line, just loading imitation
+	// 	// });
+	// 	// this.subscriptions.push(entitiesSubscription);
+	// 	// // First load
+	// 	// of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
+	// 	// 	this.loadStudentAttendenceList(classId, sectionId, date);
+	// 	// }); // Remove this line, just loading imitation
 
 
 
-	}
+	// }
 
 
 	/**
@@ -242,25 +244,42 @@ loadAllSectionsByClassId(id:number) {
 
 //save Attendance button 
 	onSaveAttendance(){
-console.log(this.studentAttendenceForFill);
-
+// console.log(this.studentAttendenceForFill);
+console.log(this.dataSource);
 this.markAsHoliday=false;
+
+// const editedStudentAttendence = this.prepareStudentAttendence();
+		// if (editedStudentAttendence.id > 0) {
+		// 	this.updateStudentAttendence(editedStudentAttendence);
+		// } else {
+
+			this.createStudentAttendence(this.dataSource);
+		// }
+
+		const _saveMessage = 'Attendance has been created';
+
+		const _messageType = MessageType.Create;
+
+		this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
+
+		this.studentAttendenceForm.reset();
+
+		this.addStudentAttendence();
+
+
+
+
 
 	}
 	onMarkAsHoliday(){
 	this.markAsHoliday=true;
 }
-	onChangeAttendanceType(index,studentAttendance,attendanceType){
-		console.log(index);
-		console.log(studentAttendance);
-		console.log(attendanceType);
-
-		this.studentAttendenceForFill.forEach(element=>{
-			if(element.rollNo==studentAttendance.rollNo && element.admissionNo==studentAttendance.admissionNo){
-				element.attendenceType=attendanceType.type;
-				element.attendenceTypeId=	attendanceType.id;
-			}
-		})
+	onChangeAttendanceType(index,attendanceType){
+	
+		var attendanceTypeObj = this.attendanceTypeList.find(x => x.type === attendanceType);
+		console.log(attendanceTypeObj)
+		this.dataSource[index].attendenceTypeId=attendanceTypeObj.id;
+		console.log(this.dataSource[index].attendenceTypeId=attendanceTypeObj.id)
 		
 	}
 
@@ -287,10 +306,10 @@ this.markAsHoliday=false;
 	 */
 	deleteStudentAttendence(_item: StudentAttendenceDtoModel) {
 
-		const _title = 'Purpose';
-		const _description = 'Are you sure to permanently delete selected purpose?';
-		const _waitDesciption = 'Purpose is deleting...';
-		const _deleteMessage = ' Selected purpose has been deleted';
+		const _title = 'Attendance';
+		const _description = 'Are you sure to permanently delete selected Attendance?';
+		const _waitDesciption = 'Attendance is deleting...';
+		const _deleteMessage = ' Selected Attendance has been deleted';
 
 
 
@@ -403,34 +422,34 @@ this.markAsHoliday=false;
 	 * On Submit
 	 */
 	onSubmit() {
-		this.hasFormErrors = false;
-		const controls = this.studentAttendenceForm.controls;
-		/** check form */
-		if (this.studentAttendenceForm.invalid) {
-			Object.keys(controls).forEach(controlName =>
-				controls[controlName].markAsTouched()
-			);
+		// this.hasFormErrors = false;
+		// const controls = this.studentAttendenceForm.controls;
+		// /** check form */
+		// if (this.studentAttendenceForm.invalid) {
+		// 	Object.keys(controls).forEach(controlName =>
+		// 		controls[controlName].markAsTouched()
+		// 	);
 
-			this.hasFormErrors = true;
-			return;
-		}
+		// 	this.hasFormErrors = true;
+		// 	return;
+		// }
 
-		const editedStudentAttendence = this.prepareStudentAttendence();
-		if (editedStudentAttendence.id > 0) {
-			this.updateStudentAttendence(editedStudentAttendence);
-		} else {
-			this.createStudentAttendence(editedStudentAttendence);
-		}
+		// const editedStudentAttendence = this.prepareStudentAttendence();
+		// if (editedStudentAttendence.id > 0) {
+		// 	this.updateStudentAttendence(editedStudentAttendence);
+		// } else {
+		// 	this.createStudentAttendence(editedStudentAttendence);
+		// }
 
-		const _saveMessage = editedStudentAttendence.id > 0 ? 'Purpose  has been updated' : 'Purpose has been created';
+		// const _saveMessage = editedStudentAttendence.id > 0 ? 'Attendance  has been updated' : 'Attendance has been created';
 
-		const _messageType = editedStudentAttendence.id > 0 ? MessageType.Update : MessageType.Create;
+		// const _messageType = editedStudentAttendence.id > 0 ? MessageType.Update : MessageType.Create;
 
-		this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
+		// this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
 
-		this.studentAttendenceForm.reset();
+		// this.studentAttendenceForm.reset();
 
-		this.addStudentAttendence();
+		// this.addStudentAttendence();
 		// this.studentAttendence.clear();
 		// this.createForm();
 
@@ -468,18 +487,33 @@ this.markAsHoliday=false;
 	 *
 	 * @param _studentAttendence: StudentAttendenceDtoModel
 	 */
-	createStudentAttendence(_studentAttendence: StudentAttendenceDtoModel) {
-		this.store.dispatch(new StudentAttendenceOnServerCreated({ studentAttendence: _studentAttendence }));
-		this.componentSubscriptions = this.store.pipe(
-			select(selectLastCreatedStudentAttendenceId),
-			// delay(1000), // Remove this line
-		).subscribe(res => {
-			if (!res) {
-				return;
-			}
+	createStudentAttendence(_studentAttendence: StudentAttendenceDtoModel[]) {
+		// this.store.dispatch(new StudentAttendenceOnServerCreated({ studentAttendence: _studentAttendence }));
+		// this.componentSubscriptions = this.store.pipe(
+		// 	select(selectLastCreatedStudentAttendenceId),
+		// 	// delay(1000), // Remove this line
+		// ).subscribe(res => {
+		// 	if (!res) {
+		// 		return;
+		// 	}
 
-			// this.dialogRef.close({ _studentAttendence, isEdit: false });
+		// 	// this.dialogRef.close({ _studentAttendence, isEdit: false });
+		// });
+
+		const controls = this.searchForm.controls;
+		const	date = this.typesUtilsService.dateFormat(controls.attendanceDate.value);
+		_studentAttendence.forEach(ele=>{
+			ele.date=date;
+			ele.attendence=true;
+		})
+
+
+		this.attendanceService.createStudentAttendences(_studentAttendence).subscribe(res=>{
+
+		},err=>{
+
 		});
+		
 	}
 
 	/** Alect Close event */

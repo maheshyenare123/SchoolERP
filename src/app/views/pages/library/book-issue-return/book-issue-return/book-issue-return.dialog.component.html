@@ -102,7 +102,7 @@
 										<div class="col-lg-3 kt-margin-bottom-20-mobile">
 											<mat-form-field class="mat-form-field-fluid">
 			
-                                                <mat-select placeholder="Select Book" formControlName="bookId">
+                                                <mat-select placeholder="Select Book" formControlName="bookId" (selectionChange)="onBookSelectChange($event.value)">
 
                                                     <mat-option *ngFor="let book of bookList" [value]="book.id" >
                                                         {{book.bookTitle}}

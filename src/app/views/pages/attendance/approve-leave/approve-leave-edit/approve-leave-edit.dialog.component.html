@@ -20,7 +20,7 @@
 				<div class="col-lg-4 kt-margin-bottom-20-mobile">
 					<mat-form-field class="mat-form-field-fluid">
 					<mat-select placeholder="Select Class" formControlName="classId" >
-						<mat-option *ngFor="let classData of classList" [value]="classData.id" (change)="onClassSelectChange(classData)">
+						<mat-option *ngFor="let classData of classList" [value]="classData.id" (change)="onClassSelectChange($event.value)">
 							{{classData.classses}}
 						</mat-option>
 					</mat-select>

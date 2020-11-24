@@ -211,7 +211,7 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 		_homework.description = controls.description.value;
 
 		_homework.staffId = 1;
-		_homework.evaluatedBy = 1;
+		// _homework.evaluatedBy = 1;
 		_homework.document=" ";
 		_homework.staffName=controls.staffName.value;
 		
@@ -229,7 +229,7 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 		const _submitDate = controls.submitDate.value;
 		if (_submitDate) {
 			_homework.submitDate = this.typesUtilsService.dateFormat(_submitDate);
-			_homework.evaluationDate=this.typesUtilsService.dateFormat(_submitDate);
+			// _homework.evaluationDate=this.typesUtilsService.dateFormat(_submitDate);
 		} else {
 			_homework.submitDate = '';
 		}

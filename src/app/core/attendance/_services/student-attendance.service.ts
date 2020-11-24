@@ -17,9 +17,14 @@ export class StudentAttendenceService {
   createStudentAttendence(studentAttendence: StudentAttendenceDtoModel): Observable<StudentAttendenceDtoModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<StudentAttendenceDtoModel>(Constants.URL.HOST_URL+Constants.Attendance.Student_Attendance, studentAttendence, {headers: httpHeaders});
+    return this.http.post<StudentAttendenceDtoModel>(Constants.URL.HOST_URL+Constants.Attendance.Student_Attendance,studentAttendence, {headers: httpHeaders});
   }
-
+// CREATE =>  POST: add a new StudentAttendence to the server
+createStudentAttendences(studentAttendence: StudentAttendenceDtoModel[]): Observable<StudentAttendenceDtoModel> {
+  // Note: Add headers if needed (tokens/bearer)
+  const httpHeaders = this.httpUtils.getHTTPHeaders();
+  return this.http.post<StudentAttendenceDtoModel>(Constants.URL.HOST_URL+Constants.Attendance.Student_Attendance,studentAttendence, {headers: httpHeaders});
+}
   // READ
   getAllStudentAttendences(): Observable<StudentAttendenceDtoModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
@@ -30,7 +35,26 @@ export class StudentAttendenceService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     return this.http.get<StudentAttendenceDtoModel>(Constants.URL.HOST_URL+Constants.Attendance.Student_Attendance+ `/${studentAttendenceId}`, {headers: httpHeaders});
   }
+getAllStudentAddendaence(classId:number,sectionId:number,date:string){
+  // http://yamistha.cloudjiffy.net/api/student-attendance?classesId=1&date=2020-11-19&pageNo=0&pageSize=10&sectionId=1&sortBy=id
+  const httpHeaders = this.httpUtils.getHTTPHeaders();
+  // const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
+  const httpParams =new HttpParams()
+  .set('classesId', classId.toString())
+  .set('date', date)
+  .set('pageNo', '0')
+  .set('pageSize', '10')
+  .set('sectionId', sectionId.toString())
+  .set('sortBy', 'id');
+  
+  const url =Constants.URL.HOST_URL+Constants.Attendance.Student_Attendance ;
+  return this.http.get<QueryResultsModel>(url, {
+    headers: httpHeaders,
+    params: httpParams
+  });
+
+}
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
   // items => filtered/sorted result
   // Server should return filtered/sorted result

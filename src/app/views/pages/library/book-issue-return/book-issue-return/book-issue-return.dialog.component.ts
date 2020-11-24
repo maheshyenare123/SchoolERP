@@ -119,12 +119,12 @@ export class BookIssueReturnDialogComponent implements OnInit {
 		of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
 			this.loadBookIssueReturnList(this.libraryMember.memberId);
 		}); // Remove this line, just loading imitation
-	
+
 		this.libraryMember = this.data.librarymember;
-		console.log(	this.libraryMember );
+		console.log(this.libraryMember);
 		this.addBookIssueReturn();
 
-	
+
 		// this.createForm();
 
 	}
@@ -137,6 +137,17 @@ export class BookIssueReturnDialogComponent implements OnInit {
 		}, err => {
 		});
 	}
+	onBookSelectChange(bookId) {
+
+		var bookObj = this.bookList.find(x => x.id === bookId);
+
+		this.bookIssueReturnForm.controls.bookNo.setValue(bookObj.bookNo);
+
+		this.bookIssueReturnForm.controls.bookTitle.setValue(bookObj.bookTitle);
+	}
+
+
+
 	/**
 		 * On Destroy
 		 */
@@ -238,6 +249,10 @@ export class BookIssueReturnDialogComponent implements OnInit {
 			memberId: [this.libraryMember.memberId, Validators.required],
 			// issueDate: [this.typesUtilsService.getDateFromString(this.bookIssueReturn.issueDate), Validators.compose([Validators.nullValidator])],
 			returnDate: [this.typesUtilsService.getDateFromString(this.bookIssueReturn.returnDate), Validators.compose([Validators.nullValidator])],
+			bookNo: [this.bookIssueReturn.bookNo, Validators.required],
+			bookTitle: [this.bookIssueReturn.bookTitle, Validators.required],
+
+
 		});
 	}
 
@@ -274,18 +289,28 @@ export class BookIssueReturnDialogComponent implements OnInit {
 
 		const issueDate = new Date();
 		_bookIssueReturn.issueDate = this.typesUtilsService.dateFormat(issueDate);
-		if(this.bookIssueReturn.id>0){
-			_bookIssueReturn.isActive=this.bookIssueReturn.isActive;
-			_bookIssueReturn.isReturned= this.bookIssueReturn.isReturned;
-		const _returnDate = controls.returnDate.value;
-		if (_returnDate) {
-			_bookIssueReturn.returnDate = this.typesUtilsService.dateFormat(_returnDate);
-		} else {
-			_bookIssueReturn.returnDate = '';
+		if (this.bookIssueReturn.id > 0) {
+			_bookIssueReturn.isActive = this.bookIssueReturn.isActive;
+			_bookIssueReturn.isReturned = this.bookIssueReturn.isReturned;
+			const _returnDate = controls.returnDate.value;
+			if (_returnDate) {
+				_bookIssueReturn.returnDate = this.typesUtilsService.dateFormat(_returnDate);
+			} else {
+				_bookIssueReturn.returnDate = '';
+			}
 		}
-	}
-	_bookIssueReturn.isActive='yes';
-	_bookIssueReturn.isReturned= 0;
+
+		_bookIssueReturn.bookNo = controls.bookNo.value;
+		_bookIssueReturn.bookTitle = controls.bookTitle.value;
+
+		_bookIssueReturn.isActive = 'yes';
+		_bookIssueReturn.isReturned = 0;
+
+
+
+
+
+
 		return _bookIssueReturn;
 	}
 
@@ -309,7 +334,7 @@ export class BookIssueReturnDialogComponent implements OnInit {
 		if (this.bookIssueReturn.id > 0) {
 			this.updateBookIssueReturn(editedBookIssueReturn);
 		} else {
-		this.createBookIssueReturn(editedBookIssueReturn);
+			this.createBookIssueReturn(editedBookIssueReturn);
 		}
 		this.loadBookIssueReturnList(this.libraryMember.memberId);
 		const _saveMessage = editedBookIssueReturn.id > 0 ? 'Issue Book has been returned' : 'Issue Book has been created';
@@ -367,7 +392,7 @@ export class BookIssueReturnDialogComponent implements OnInit {
 
 		this.showReturnDate = false;
 	}
-	   
+
 
 
 

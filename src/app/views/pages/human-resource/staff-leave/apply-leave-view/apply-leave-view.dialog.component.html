@@ -8,13 +8,13 @@
 	<!-- <form class="form" [formGroup]="staffLeaveRequestForm"> -->
 		<div class="card-body">
 
-			<div class="card-body-progress">
+			<!-- <div class="card-body-progress">
 				<mat-spinner [diameter]="20"></mat-spinner>
-			</div>
+			</div> -->
 
-			<kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
+			<!-- <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
 				Oh snap! Change a few things up and try submitting again.
-			</kt-alert>
+			</kt-alert> -->
 			
 			<!-- <div class="form-group row">
 				
@@ -81,13 +81,13 @@
 						<label>Name:</label>
 					</td>
 					<td>
-						<!-- {{staffLeaveRequest.staffName}} -->Mahesh Yenare
+						 {{staffLeaveRequest.staffName}}
 					</td>
 					<td>
 						<label>StaffId:</label>
 					</td>
 					<td>
-						<!-- {{staffLeaveRequest.staffId}} -->APSP0909
+						staffLeaveRequest.staffId
 					</td>
 				</tr>
 				<tr>
@@ -96,13 +96,13 @@
 						<label>Submitted By:</label>
 					</td>
 					<td>
-							<!-- {{staffLeaveRequest.staffName}} -->Mahesh Yenare
+						 {{staffLeaveRequest.staffName}}
 					</td>
 					<td>
 						<label>Leave Type:</label>
 					</td>
 					<td>
-						<!-- {{staffLeaveRequest.leaveType}} -->abc
+					{{staffLeaveRequest.leaveType}}
 					</td>
 				</tr>
 				<tr>
@@ -111,14 +111,14 @@
 						<label>Leave:</label>
 					</td>
 					<td>
-						<!-- {{staffLeaveRequest.leaveFrom}}-{{staffLeaveRequest.leaveTo}} ({{staffLeaveRequest.leaveDays}} Days) --> 30/10/2020-5/11/2020( 6 Days)
+						 {{staffLeaveRequest.leaveFrom}} To {{staffLeaveRequest.leaveTo}} ({{staffLeaveRequest.leaveDays}} Days)
 			
 					</td>
 					<td>
 						<label>Apply Date:</label>
 					</td>
 					<td>
-						<!-- {{staffLeaveRequest.date}} -->29/10/2020
+						 {{staffLeaveRequest.date}} 
 					</td>
 				</tr>
 				<tr>
@@ -127,13 +127,13 @@
 						<label>Reason:</label>
 					</td>
 					<td>
-						<!-- {{staffLeaveRequest.reason}} -->Reason
+						 {{staffLeaveRequest.reason}}
 					</td>
 					<td>
 						<label>Download:</label>
 					</td>
 					<td>
-						<!-- {{staffLeaveRequest.documentFile}} -->
+						 {{staffLeaveRequest.documentFile}}
 						<button type="button" mat-raised-button color="primary" (click)="documentFile()" [disabled]="viewLoading" matTooltip="Download">
 							<mat-icon>download</mat-icon>	Download
 						</button>

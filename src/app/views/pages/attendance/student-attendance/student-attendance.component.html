@@ -1,73 +1,5 @@
 <div class="form-group kt-form__group row">
-    <!-- <div class="col-lg-12 kt-margin-bottom-20-mobile">
-        <kt-portlet>
-           <kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Student Attendance'">
-            </kt-portlet-header>
-           
-            <kt-portlet-body>
-                <div class="kt-form kt-margin-b-30">
-                    <form class="form" [formGroup]="searchForm">
-                        <div class="card-body">
-                
-                            <div class="card-body-progress">
-                                <mat-spinner [diameter]="20"></mat-spinner>
-                            </div>
-                
-                            <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
-                                Oh snap! Change a few things up and try submitting again.
-                            </kt-alert>
-                
-                            <div class="form-group row">
-                                <div class="col-lg-4 kt-margin-bottom-20-mobile">
-                                    <mat-form-field class="mat-form-field-fluid">
-                                        <mat-select placeholder="Class" formControlName="classId">
-                                            <mat-option value="3">Business</mat-option>
-                                            <mat-option value="4">Individual</mat-option>
-                                        </mat-select>
-                
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-lg-4 kt-margin-bottom-20-mobile">
-                                    <mat-form-field class="mat-form-field-fluid">
-                                        <mat-select placeholder="Section" formControlName="sectionId">
-                                            <mat-option value="0">Business</mat-option>
-                                            <mat-option value="1">Individual</mat-option>
-                                        </mat-select>
-                
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-lg-4 kt-margin-bottom-20-mobile">
-                                    <mat-form-field class="mat-form-field-fluid">
-                                        <input matInput [matDatepicker]="picker"
-                                            placeholder="Choose a Date "
-                                            formControlName="attendanceDate" />
-                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                        <mat-datepicker #picker></mat-datepicker>
-                                        <mat-hint align="start">Please enter
-                                            <strong>Date </strong> in 'mm/dd/yyyy' format</mat-hint>
-                                    </mat-form-field>
-                                </div>
-                            </div>
-                
-                        </div>
-                        <div class="card-footer">
-                            <div class="d-flex justify-content-between">
-                                <div class="mr-2"></div>
-                                <div>
-                                    <button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
-                                        Search
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                
-
-                </div>
-            </kt-portlet-body>
-         
-        </kt-portlet>
-    </div> -->
+ 
     <div class="col-lg-12 kt-margin-bottom-20-mobile">
         <kt-portlet>
 
@@ -88,7 +20,7 @@
                                 </kt-alert>
                     
                                 <div class="form-group row">
-                                    <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                    <div class="col-lg-3 kt-margin-bottom-20-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
                                             <mat-select placeholder="Select Class" formControlName="classId" (selectionChange)="onClassSelectChange($event.value)">
 
@@ -101,7 +33,7 @@
                                             </mat-error>
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                    <div class="col-lg-3 kt-margin-bottom-20-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
                                             <mat-select placeholder="Section" formControlName="sectionId">
                                                 <mat-option *ngFor="let sectionData of sectionList" [value]="sectionData.id">
@@ -113,7 +45,8 @@
                                             </mat-error>
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                    
+                                    <div class="col-lg-3 kt-margin-bottom-20-mobile">
                                         <mat-form-field class="mat-form-field-fluid">
                                             <input matInput [matDatepicker]="picker"
                                                 placeholder="Choose a Date "
@@ -127,19 +60,23 @@
                                                 </mat-error>
                                             </mat-form-field>
                                     </div>
-                                </div>
-                    
-                            </div>
-                            <div class="card-footer">
-                                <div class="d-flex justify-content-between">
-                                    <div class="mr-2"></div>
-                                    <div>
+
+                                    <div class="col-lg-3 kt-margin-bottom-20-mobile">
                                         <button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
                                             Search
                                         </button>
                                     </div>
                                 </div>
+                    
                             </div>
+                            <!-- <div class="card-footer">
+                                <div class="d-flex justify-content-between">
+                                    <div class="mr-2"></div>
+                                    <div>
+                                        
+                                    </div>
+                                </div>
+                            </div> -->
                         </form>
                     
     
@@ -154,7 +91,7 @@
 
             <!-- See prop => '../../_core/models/data-sources/_base.datasource.ts' (loading$) -->
             <kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Attendance List'"
-                [viewLoading$]="dataSource.loading$">
+             >
             </kt-portlet-header>
             <!-- end::Header -->
             <kt-portlet-body>
@@ -216,30 +153,21 @@
                             <mat-cell *matCellDef="let studentAttendence">{{studentAttendence.firstname}} {{studentAttendence.lastname}}</mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="attendance">
-                            <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Attendance
+                            <mat-header-cell  *matHeaderCellDef mat-sort-header>Attendance
                             </mat-header-cell>
                             <mat-cell *matCellDef="let studentAttendence;let i=index">
-                                <!-- <mat-radio-group aria-label="Select an option" value="{{studentAttendence.attendenceType}}" >
-                                    <mat-radio-button value="Present">Present</mat-radio-button>
-                                    <mat-radio-button value="Late">Late</mat-radio-button>
-                                    <mat-radio-button value="Absent">Absent</mat-radio-button>
-                                    <mat-radio-button value="HalfDay">HalfDay</mat-radio-button>
-                                  </mat-radio-group> attendanceTypeList  [checked]="attendanceType.type === 'absent'"   [(ngModel)]="studentAttendencesResult[i].attendenceType"-->
-                                 <mat-radio-group [(ngModel)]="studentAttendence.attendenceType"  (change)="onChangeAttendanceType(i,studentAttendence,$event)"    >
-                                <mat-radio-button  *ngFor="let attendanceType of attendanceTypeList" [value]="attendanceType" >
+                                <mat-radio-group [(ngModel)]="studentAttendence.attendenceType"  (change)="onChangeAttendanceType(i,$event.value)"    >
+                                    <ng-container *ngIf="studentAttendence.attendenceType==null ">
+
+                                    </ng-container>
+                             
+                                    <mat-radio-button  *ngFor="let attendanceType of attendanceTypeList" [value]="attendanceType.type"   >
                                   {{attendanceType.type}}
                                 </mat-radio-button>
+                                <!-- <input  matInput hidden [(ngModel)]="attendanceType.attendenceTypeId"/> [checked]="studentAttendence.attendenceType"-->
                               </mat-radio-group>
                             </mat-cell>
 
-
-                            <!-- <mat-radio-group  [(ngModel)]="element.language">
-                                <mat-radio-button  *ngFor="let lang of mylanguages" [value]="lang">
-                                  {{lang}}
-                                </mat-radio-button>
-                              </mat-radio-group> -->
-                              <!-- <mat-form-field><input matInput color="warn" *ngIf="!element.trainer"></mat-form-field> {{element.trainer}}</td> -->
-                        
                             </ng-container>
 
                         <ng-container matColumnDef="note">
@@ -248,10 +176,10 @@
                             <mat-cell *matCellDef="let studentAttendence ;let i=index">
                                 
                             <mat-form-field class="mat-form-field-fluid">
-                                <input  matInput  value="{{studentAttendence.note}}" />
+                                <input  matInput  [(ngModel)]="studentAttendence.note"/>
                                 
                             </mat-form-field>
-                            <!-- [(ngModel)]="studentAttendencesResult[i].note" -->
+                           
                             
                             </mat-cell>
                         </ng-container>
@@ -262,22 +190,89 @@
 
                         <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
                     </mat-table>
-                    <!-- Message for empty data  -->
-                    <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
-                    <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....
-                    </div>
+
+
+
+                    <!-- <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div> -->
+                    <!-- <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....
+                    </div> -->
                 </div>
 
-                <!-- start: BOTTOM -->
-                <div class="mat-table__bottom">
-                    <!-- MATERIAL SPINNER | Url: 'https://material.angular.io/components/progress-spinner/overview' -->
+
+ <!-- <table mat-table  class="lmat-elevation-z8" [dataSource]="dataSource" matSort #sort1="matSort"
+ matSortActive="id" matSortDirection="asc" matSortDisableClear>
+   
+  
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let element">{{element.rollNo }}</td>
+    </ng-container>
+  
+   
+    <ng-container matColumnDef="admissionNo">
+      <th mat-header-cell *matHeaderCellDef>Admission No</th>
+      <td mat-cell *matCellDef="let element">{{element.firstname}}</td>
+    </ng-container>
+  
+    
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>Date</th>
+      <td mat-cell *matCellDef="let element">{{element.date}}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="rollNo">
+        <th mat-header-cell *matHeaderCellDef>Roll No</th>
+        <td mat-cell *matCellDef="let element">{{element.rollNo}}</td>
+      </ng-container>
+    
+
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element">{{element.firstname}}</td>
+      </ng-container>
+
+
+    <ng-container matColumnDef="attendance">
+      <th mat-header-cell *matHeaderCellDef>Attendance</th>
+      <td mat-cell *matCellDef="let element">
+       
+       
+        <mat-radio-group [(ngModel)]="element.attendenceType"  (change)="onChangeAttendanceType(i,studentAttendence,$event)"    >
+            <mat-radio-button  *ngFor="let attendanceType of attendanceTypeList" [value]="attendanceType" >
+              {{attendanceType.type}} <br>
+            </mat-radio-button>
+            </mat-radio-group>
+
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="note">
+        <th mat-header-cell *matHeaderCellDef>Note</th>
+        <td mat-cell *matCellDef="let element">
+
+            <input  matInput    [(ngModel)]="element.note"  />
+        </td>
+      </ng-container>
+
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table> -->
+
+
+
+
+
+               
+                <!-- <div class="mat-table__bottom">
+                 
                     <mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner>
-                    <!-- MATERIAL PAGINATOR | Binded to dasources -->
-                    <!-- See off.documentations 'https://material.angular.io/components/paginator/overview' -->
+                  
                     <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 15, 20, 30]"
                         [length]="dataSource.paginatorTotal$ | async" [showFirstLastButtons]="true"></mat-paginator>
-                </div>
-                <!-- end: BOTTOM -->
+                </div> -->
+             
 
             </kt-portlet-body>
             <!-- end::Body -->

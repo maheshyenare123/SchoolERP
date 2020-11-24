@@ -105,9 +105,11 @@ const routes: Routes = [
       },
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {path: '**', redirectTo: 'dashboard', pathMatch: 'full'},
+      
     ],
   },
   {path: '**', redirectTo: 'error/403', pathMatch: 'full'},
+
 ];
 
 @NgModule({
