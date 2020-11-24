@@ -2,7 +2,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { StaffAttendancesDataSource, StaffAttendanceModel, selectStaffAttendancesActionLoading, RoleService } from '../../../../core/human-resource';
+import { StaffAttendancesDataSource, StaffAttendanceModel, selectStaffAttendancesActionLoading, RoleService, StaffAttendanceService } from '../../../../core/human-resource';
 import { AttendenceTypeService, AttendenceTypeModel } from '../../../../core/attendance';
 import { QueryParamsModel, LayoutUtilsService, MessageType, TypesUtilsService } from '../../../../core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -23,6 +23,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { StaffAttendancesPageRequested, OneStaffAttendanceDeleted, ManyStaffAttendancesDeleted, StaffAttendancesStatusUpdated, StaffAttendanceUpdated, StaffAttendanceOnServerCreated, selectLastCreatedStaffAttendanceId } from '../../../../core/human-resource';
 import { RolesDtoModel } from 'src/app/core/Models/rolesDto.model';
+import { validators } from 'dist/assets/plugins/formvalidation/src/js';
 // import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from 'src/app/core/academics';
 
 
@@ -34,9 +35,9 @@ import { RolesDtoModel } from 'src/app/core/Models/rolesDto.model';
 export class StaffAttendanceComponent implements OnInit {
 
   // Table fields
-	dataSource: StaffAttendancesDataSource;
-	//  dataSource = new MatTableDataSource(ELEMENT_DATA);
+	// dataSource: StaffAttendancesDataSource;
 
+	dataSource : StaffAttendanceModel[]= [];
 
 	displayedColumns = ['id', 'staffId', 'name', 'role', 'attendance', 'note'];
 	@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -78,7 +79,8 @@ export class StaffAttendanceComponent implements OnInit {
 		// private studentClassService: StudentClassService,
 		// private sectionService: SectionService,
 		private attendanceTypeService:AttendenceTypeService,
-		private roleService:RoleService,) { }
+		private roleService:RoleService,
+		private staffAttendanceService:StaffAttendanceService) { }
 
 	ngOnInit() {
 
@@ -88,7 +90,8 @@ export class StaffAttendanceComponent implements OnInit {
 		this.loadAllAttendanceType();
 		this.addStaffAttendance();
 		// Init DataSource
-		this.dataSource = new StaffAttendancesDataSource(this.store);
+		// this.dataSource = new StaffAttendancesDataSource(this.store);
+	
 
 	}
 
@@ -149,57 +152,71 @@ loadAllRoles() {
 			this.hasFormErrors = true;
 			return;
 		}
-	const	date = this.typesUtilsService.dateFormat(controls.attendanceDate.value);
-		this.getAllStudentAttendanceList(controls.classId.value, controls.sectionId.value, date);
+	const	date = this.typesUtilsService.dateFormat(controls.date.value);
+		this.getAllStudentAttendanceList(controls.roleId.value,date);
 
 
 	}
 
-	getAllStudentAttendanceList(classId, sectionId, date) {
+	getAllStudentAttendanceList(roleId,date) {
 
-		const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-		this.subscriptions.push(sortSubscription);
+		this.staffAttendanceService.getAllStaffAttendance(roleId,date).subscribe(res=>
+			{
+				console.log(res);
+			const data=	res['data'];
+			// const content=data['content'];
+			this.dataSource=data['content'];
 
-		const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-			tap(() => this.loadStaffAttendanceList(this.roleId, this.searchText))
-		)
-			.subscribe();
-		this.subscriptions.push(paginatorSubscriptions);
+			},err=>{
 
-		// // Filtration, bind to searchInput
-		// const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
-		// 	// tslint:disable-next-line:max-line-length
-		// 	debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
-		// 	distinctUntilChanged(), // This operator will eliminate duplicate values
-		// 	tap(() => {
-		// 		this.paginator.pageIndex = 0;
-		// 		this.loadStaffAttendanceList();
-		// 	})
-		// )
-		// .subscribe();
-		// this.subscriptions.push(searchSubscription);
-
-		// Init DataSource
-		this.dataSource = new StaffAttendancesDataSource(this.store);
-
-		const entitiesSubscription = this.dataSource.entitySubject.pipe(
-			skip(1),
-			distinctUntilChanged()
-		).subscribe(res => {
-			// debugger
-			console.log(res);
-			this.staffAttendancesResult = res;
-			console.log(this.staffAttendancesResult);
-		});
-		this.subscriptions.push(entitiesSubscription);
-		// First load
-		of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-			this.loadStaffAttendanceList(this.roleId, this.searchText);
-		}); // Remove this line, just loading imitation
-
-
-
+			})
 	}
+
+	// getAllStudentAttendanceList(classId, sectionId, date) {
+
+	// 	// const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+	// 	// this.subscriptions.push(sortSubscription);
+
+	// 	// const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
+	// 	// 	tap(() => this.loadStaffAttendanceList(this.roleId, this.searchText))
+	// 	// )
+	// 	// 	.subscribe();
+	// 	// this.subscriptions.push(paginatorSubscriptions);
+
+	// 	// // Filtration, bind to searchInput
+	// 	// const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
+	// 	// 	// tslint:disable-next-line:max-line-length
+	// 	// 	debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
+	// 	// 	distinctUntilChanged(), // This operator will eliminate duplicate values
+	// 	// 	tap(() => {
+	// 	// 		this.paginator.pageIndex = 0;
+	// 	// 		this.loadStaffAttendanceList();
+	// 	// 	})
+	// 	// )
+	// 	// .subscribe();
+	// 	// this.subscriptions.push(searchSubscription);
+
+	// 	// Init DataSource
+	// 	// this.dataSource = new StaffAttendancesDataSource(this.store);
+
+	// 	// const entitiesSubscription = this.dataSource.entitySubject.pipe(
+	// 	// 	skip(1),
+	// 	// 	distinctUntilChanged()
+	// 	// ).subscribe(res => {
+	// 	// 	// debugger
+	// 	// 	console.log(res);
+	// 	// 	this.staffAttendancesResult = res;
+	// 	// 	console.log(this.staffAttendancesResult);
+	// 	// });
+	// 	// this.subscriptions.push(entitiesSubscription);
+	// 	// // First load
+	// 	// of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
+	// 	// 	this.loadStaffAttendanceList(this.roleId, this.searchText);
+	// 	// }); // Remove this line, just loading imitation
+
+
+
+	// }
 
 
 	/**
@@ -303,9 +320,12 @@ console.log(this.staffAttendancesResult);
 
 	createForm() {
 		debugger;
+	var	date;
 		this.searchForm = this.fb.group({
-			roleId: [this.roleId, ],
-      		searchText: [this.searchText, ],
+			roleId: ['',Validators.required ],
+			date: [this.typesUtilsService.getDateFromString(date),Validators.required ],
+			  searchText: [this.searchText, ],
+			  
    
 		})
 

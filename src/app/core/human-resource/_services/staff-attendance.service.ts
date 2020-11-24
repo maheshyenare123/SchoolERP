@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from "@angular/common/http";
+import { HttpClient,HttpHeaders, HttpParams } from "@angular/common/http";
 import { Constants } from '../../api_url';
 import { HttpUtilsService, QueryResultsModel, QueryParamsModel } from '../../_base/crud';
 import { StaffAttendanceModel } from '../_models/staff-attendance.model';
@@ -30,6 +30,21 @@ export class StaffAttendanceService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     return this.http.get<StaffAttendanceModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Attendance+ `/${staffAttendanceId}`, {headers: httpHeaders});
   }
+
+
+
+  getAllStaffAttendance( roleId,date ): Observable<StaffAttendanceModel[]> {
+    const httpParams =new HttpParams()
+    .set('roleId',roleId )
+    .set('date', date)
+    .set('pageNo',"0")
+    .set('pageSize',"10")
+    .set('sortBy', 'id');
+
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.get<StaffAttendanceModel[]>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Attendance, {headers: httpHeaders,params:httpParams});
+  }
+
 
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
   // items => filtered/sorted result
