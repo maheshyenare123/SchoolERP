@@ -248,6 +248,39 @@ export class PageConfig {
     },
 
 
+    'hostel': {
+      'hostel': {
+        page: { title: 'Hostel', desc: '' }
+      },
+      'room-type': {
+        page: { title: 'Room Type', desc: '' }
+      },
+      'hostel-room': {
+        page: { title: 'Hostel Room', desc: '' }
+      },
+    },
+    'inventory': {
+      'item-category': {
+        page: { title: 'Item Category', desc: '' }
+      },
+      'add-item': {
+        page: { title: 'Add Item', desc: '' }
+      },
+      'item-store': {
+        page: { title: 'Item Store', desc: '' }
+      },
+      'item-supplier': {
+        page: { title: 'Item Supplier', desc: '' }
+      },
+      'item-stock': {
+        page: { title: 'Item Stock', desc: '' }
+      },
+      'item-issue': {
+        page: { title: 'Item Issue', desc: '' }
+      },
+      
+    },
+
 
     ecommerce: {
       customers: {

@@ -280,7 +280,12 @@ prepareIncome(): IncomeModel {
   _income.documents = controls.documents.value;
   _income.incHeadId = controls.incHeadId.value;
   _income.invoiceNo = controls.invoiceNo.value;
-  _income.isActive='yes';
+  if(_income.id>0){
+	_income.isActive = controls.isActive.value;
+  }else{
+	_income.isActive = 'yes';
+  }
+ 
 	_income.name = controls.name.value;
   _income.note = controls.note.value;
 

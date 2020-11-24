@@ -111,5 +111,22 @@ export class Constants {
    }
 
    
+   public static Hostels: any = {
+      Hostel: 'api/hostel',
+      RoomType: 'api/room-type',
+      HostelRoom: 'api/hostel-room',
+   }
+   public static Inventory: any = {
+      ItemCategory: 'api/item-category',
+      AddItem: 'api/item',
+      HostelRoom: 'api/hostel-room',
+      ItemStore: 'api/item-Store',
+      ItemSupplier: 'api/item-supplier',
+      ItemStock: 'api/item-stock',
+      ItemIssue: 'api/item-issue'
+   }
+
+   
+   
 
 }

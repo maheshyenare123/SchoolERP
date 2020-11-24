@@ -10,6 +10,7 @@ export class VehicleModel {
     vehicleModel: string;
     vehicleNo: string;
     isSaved: number;
+
     clear() {
         this.driverContact= '';
         this.driverLicence= '';

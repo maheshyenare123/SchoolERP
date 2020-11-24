@@ -223,7 +223,8 @@ this.addAssignVehicle();
 				return;
 			}
 
-			this.store.dispatch(new OneAssignVehicleDeleted({ id: _item.id }));
+			// this.store.dispatch(new OneAssignVehicleDeleted({ id: _item.id }));
+			this.store.dispatch(new OneAssignVehicleDeleted({ payloadItem: _item }));
 			this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
 			this.loadAssignVehicleList();
 		});
@@ -267,7 +268,8 @@ this.addAssignVehicle();
 createForm() {
 	debugger;
 	this.assignVehicleForm = this.fb.group({
-    routeId: [this.assignVehicle.routeId, Validators.required],
+	routeId: [this.assignVehicle.routeId, Validators.required],
+	isActive: [this.assignVehicle.isActive, ],
     // sections: [this.assignVehicle.sections, Validators.required],
 		// subjects: [this.assignVehicle.subjects, Validators.required],
 	});
@@ -313,7 +315,11 @@ prepareAssignVehicle(): AssignVehicleModel {
 	const _assignVehicle = new AssignVehicleModel();
 	_assignVehicle.id = this.assignVehicle.id;
 
-
+	if(_assignVehicle.id>0){
+		_assignVehicle.isActive = controls.isActive.value;
+	}else{
+		_assignVehicle.isActive = 'yes';
+	}
   _assignVehicle.routeId = controls.routeId.value;
   
 //   _assignVehicle.sections = controls.sections.value;
@@ -384,6 +390,7 @@ onCancel(){
  * @param _assignVehicle: AssignVehicleModel
  */
 updateAssignVehicle(_assignVehicle: AssignVehicleModel) {
+	
 	const updateAssignVehicle: Update<AssignVehicleModel> = {
 		id: _assignVehicle.id,
 		changes: _assignVehicle
@@ -402,6 +409,8 @@ updateAssignVehicle(_assignVehicle: AssignVehicleModel) {
  * @param _assignVehicle: AssignVehicleModel
  */
 createAssignVehicle(_assignVehicle:AssignVehicleModel) {
+	debugger
+
 	this.store.dispatch(new AssignVehicleOnServerCreated({ assignVehicle: _assignVehicle }));
 	this.componentSubscriptions = this.store.pipe(
 		select(selectLastCreatedAssignVehicleId),

@@ -255,7 +255,11 @@ prepareRoute(): RouteModel {
     _route.fare = controls.fare.value;
    
   _route.noOfVehicle = controls.noOfVehicle.value;
-  _route.isActive='yes';
+  if(_route.id>0){
+	_route.isActive = controls.isActive.value;
+}else{
+	_route.isActive = 'yes';
+}
 	_route.routeTitle = controls.routeTitle.value;
   _route.note = controls.note.value;
 

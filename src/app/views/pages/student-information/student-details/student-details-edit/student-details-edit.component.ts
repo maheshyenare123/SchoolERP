@@ -378,8 +378,13 @@ loadAllSectionsByClassId(id:number) {
     _studentDetail.state = controls.state.value;
     _studentDetail.transportFees = controls.transportFees.value;
     _studentDetail.vehrouteId = controls.vehrouteId.value;
-
-    // _studentDetail.isActive='yes'
+    if(_studentDetail.id>0){
+      _studentDetail.isActive = controls.isActive.value;
+    }else{
+      _studentDetail.isActive = 'yes';
+    }
+     
+    
     return _studentDetail;
   }
 

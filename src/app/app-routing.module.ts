@@ -82,7 +82,15 @@ const routes: Routes = [
           loadChildren: () => import('./views/pages/transport/transport.module').then(m => m.TransportModule),
         },
 
-        
+        {
+          path: 'hostel',
+          loadChildren: () => import('./views/pages/hostel/hostel.module').then(m => m.HostelModule),
+        },
+
+        {
+          path: 'inventory',
+          loadChildren: () => import('./views/pages/inventory/inventory.module').then(m => m.InventoryModule),
+        },
       {
         path: 'user-management',
         loadChildren: () => import('./views/pages/user-management/user-management.module').then(m => m.UserManagementModule),

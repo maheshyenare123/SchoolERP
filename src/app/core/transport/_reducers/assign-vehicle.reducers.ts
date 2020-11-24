@@ -66,7 +66,7 @@ export function assignVehiclesReducer(state = initialAssignVehiclesState, action
     //   return adapter.updateMany(_partialAssignVehicles, state);
     // }
     case AssignVehicleActionTypes.OneAssignVehicleDeleted:
-      return adapter.removeOne(action.payload.id, state);
+      return adapter.removeOne(action.payload.payloadItem, state);
     case AssignVehicleActionTypes.ManyAssignVehiclesDeleted:
       return adapter.removeMany(action.payload.ids, state);
     case AssignVehicleActionTypes.AssignVehiclesPageCancelled: {

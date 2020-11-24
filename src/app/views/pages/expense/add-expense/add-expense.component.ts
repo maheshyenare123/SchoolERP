@@ -281,8 +281,17 @@ prepareExpense(): ExpenseModel {
   _expense.documents = controls.documents.value;
   _expense.expHeadId = controls.expHeadId.value;
   _expense.invoiceNo = controls.invoiceNo.value;
-  _expense.isActive='yes';
-  _expense.isDeleted='yes';
+  if(_expense.id>0){
+	_expense.isActive = controls.isActive.value;
+  }else{
+	_expense.isActive = 'yes';
+  }
+  if(_expense.id>0){
+	_expense.isDeleted = controls.isDeleted.value;
+  }else{
+	_expense.isDeleted = 'yes';
+  }
+
 	_expense.name = controls.name.value;
   _expense.note = controls.note.value;
 

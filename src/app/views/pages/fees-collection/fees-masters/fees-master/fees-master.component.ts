@@ -256,8 +256,6 @@ createForm() {
     finePercentage: [this.feesMaster.finePercentage, ],
     fineType: [this.feesMaster.fineType, ],
     isActive: [this.feesMaster.isActive, ],
-    sessionID: [this.feesMaster.sessionID, ],
-
 	});
 }
 
@@ -281,11 +279,7 @@ prepareFeesMaster(): FeesMasterModel {
 	const controls = this.feesMasterForm.controls;
   const _feesMaster = new FeesMasterModel();
 
-
-
-
   _feesMaster.id = this.feesMaster.id;
-  
 
   _feesMaster.amount = controls.amount.value;
   const _dueDate = controls.dueDate.value;
@@ -301,7 +295,6 @@ prepareFeesMaster(): FeesMasterModel {
   _feesMaster.fineAmount = controls.fineAmount.value;
   _feesMaster.finePercentage = controls.finePercentage.value;
   _feesMaster.fineType = controls.fineType.value;
-  _feesMaster.sessionID = controls.sessionID.value;
 	_feesMaster.isActive='yes';
 	return _feesMaster;
 }
@@ -331,6 +324,7 @@ getNameByTypeId(id){
  * On Submit
  */
 onSubmit() {
+	debugger
 	this.hasFormErrors = false;
 	const controls = this.feesMasterForm.controls;
 	/** check form */

@@ -12,7 +12,6 @@ export class FeesMasterModel {
     fineType: string;
     id: number;
     isActive: string;
-    sessionID: number;
 
     clear() {
         this.amount= 0;
@@ -26,6 +25,6 @@ export class FeesMasterModel {
         this.fineType= 'None';
         this.id= 0;
         this.isActive= '';
-        this.sessionID= 0;
+        
     }
 }
