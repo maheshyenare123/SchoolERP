@@ -241,7 +241,12 @@ prepareItemCategory(): ItemCategoryModel {
 	_itemCategory.id = this.itemCategory.id;
   _itemCategory.itemCategory = controls.itemCategory.value;
 	_itemCategory.description = controls.description.value;
-	_itemCategory.isActive='yes';
+	if(_itemCategory.id>0){
+		_itemCategory.isActive = controls.isActive.value;
+	}else{
+		_itemCategory.isActive = 'yes';
+	}
+
 	return _itemCategory;
 }
 

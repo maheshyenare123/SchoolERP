@@ -243,7 +243,13 @@ prepareIncomeHead(): IncomeHeadModel {
 	_incomeHead.id = this.incomeHead.id;
   _incomeHead.incomeCategory = controls.incomeCategory.value;
 	_incomeHead.description = controls.description.value;
-	_incomeHead.isActive='yes';
+	if(_incomeHead.id>0){
+		_incomeHead.isActive = controls.isActive.value;
+	  }else{
+		_incomeHead.isActive = 'yes';
+	  }
+	 
+	
 	return _incomeHead;
 }
 

@@ -268,7 +268,8 @@ this.addAssignVehicle();
 createForm() {
 	debugger;
 	this.assignVehicleForm = this.fb.group({
-    routeId: [this.assignVehicle.routeId, Validators.required],
+	routeId: [this.assignVehicle.routeId, Validators.required],
+	isActive: [this.assignVehicle.isActive, ],
     // sections: [this.assignVehicle.sections, Validators.required],
 		// subjects: [this.assignVehicle.subjects, Validators.required],
 	});
@@ -314,7 +315,11 @@ prepareAssignVehicle(): AssignVehicleModel {
 	const _assignVehicle = new AssignVehicleModel();
 	_assignVehicle.id = this.assignVehicle.id;
 
-
+	if(_assignVehicle.id>0){
+		_assignVehicle.isActive = controls.isActive.value;
+	}else{
+		_assignVehicle.isActive = 'yes';
+	}
   _assignVehicle.routeId = controls.routeId.value;
   
 //   _assignVehicle.sections = controls.sections.value;

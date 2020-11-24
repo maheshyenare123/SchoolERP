@@ -255,7 +255,12 @@ prepareVehicle(): VehicleModel {
   _vehicle.driverName = controls.driverName.value;
   _vehicle.manufactureYear = controls.manufactureYear.value;
   _vehicle.vehicleNo = controls.vehicleNo.value;
-  _vehicle.isActive= 'yes';
+  if(_vehicle.id>0){
+	_vehicle.isActive = controls.isActive.value;
+}else{
+	_vehicle.isActive = 'yes';
+}
+ 
   _vehicle.isSaved = 0;
 	_vehicle.vehicleModel = controls.vehicleModel.value;
   _vehicle.note = controls.note.value;

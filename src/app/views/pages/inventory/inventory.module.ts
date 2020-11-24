@@ -26,9 +26,13 @@ import {NgxPaginationModule} from 'ngx-pagination';
 
 import { InventoryComponent } from './inventory.component';
 import { ItemCategoryComponent } from './item-category/item-category.component';
-import { itemCategorysReducer, ItemCategoryEffects, ItemCategoryService, AddItemEffects, AddItemService, addItemsReducer, ItemStoreEffects, ItemStoreService, itemStoresReducer } from 'src/app/core/inventory';
+import { itemCategorysReducer, ItemCategoryEffects, ItemCategoryService, AddItemEffects, AddItemService, addItemsReducer, ItemStoreEffects, ItemStoreService, itemStoresReducer, ItemSupplierEffects, ItemSupplierService, itemSuppliersReducer, ItemStockEffects, ItemStockService, itemStocksReducer, ItemIssueEffects, ItemIssueService, itemIssuesReducer } from 'src/app/core/inventory';
 import { AddItemComponent } from './add-item/add-item.component';
 import { ItemStoreComponent } from './item-store/item-store.component';
+import { ItemSupplierComponent } from './item-supplier/item-supplier.component';
+import { ItemStockComponent } from './item-stock/item-stock.component';
+import { ItemIssueEditDialogComponent } from './item-issue/item-issue-edit/item-issue-edit.dialog.component';
+import { ItemIssueListComponent } from './item-issue/item-issue-list/item-issue-list.component';
 
 const routes: Routes = [
 	{
@@ -52,6 +56,18 @@ const routes: Routes = [
 				path: 'item-store',
 				component: ItemStoreComponent
       },
+      {
+				path: 'item-supplier',
+				component: ItemSupplierComponent
+      },
+      {
+				path: 'item-stock',
+				component: ItemStockComponent
+      },
+      {
+				path: 'item-issue',
+				component: ItemIssueListComponent
+      },
     ] 
   }
 ]
@@ -62,7 +78,11 @@ const routes: Routes = [
     InventoryComponent,
     ItemCategoryComponent,
     AddItemComponent,
-    ItemStoreComponent
+    ItemStoreComponent,
+    ItemSupplierComponent,
+    ItemStockComponent,
+    ItemIssueListComponent,
+    ItemIssueEditDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -82,6 +102,12 @@ const routes: Routes = [
    // CKEditorModule
     
 // state manage
+StoreModule.forFeature('itemStocks', itemStocksReducer),
+EffectsModule.forFeature([ItemStockEffects]),
+
+StoreModule.forFeature('itemSuppliers', itemSuppliersReducer),
+EffectsModule.forFeature([ItemSupplierEffects]),
+
     StoreModule.forFeature('itemStores', itemStoresReducer),
     EffectsModule.forFeature([ItemStoreEffects]),
 
@@ -91,7 +117,8 @@ const routes: Routes = [
     StoreModule.forFeature('addItems', addItemsReducer),
     EffectsModule.forFeature([AddItemEffects]),
 
-  
+    StoreModule.forFeature('itemIssues', itemIssuesReducer),
+    EffectsModule.forFeature([ItemIssueEffects]), 
 
   ],
   providers: [
@@ -124,13 +151,15 @@ const routes: Routes = [
     },
 
 //custom service
+ItemStockService,
+ItemSupplierService,
 ItemStoreService,
 ItemCategoryService,
 AddItemService,
-
+ItemIssueService,
   ],
     entryComponents: [
-     
+      ItemIssueEditDialogComponent,
     ],
   exports: [RouterModule],
 })

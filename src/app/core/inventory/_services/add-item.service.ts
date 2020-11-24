@@ -31,6 +31,11 @@ export class AddItemService {
     return this.http.get<AddItemModel>(Constants.URL.HOST_URL+Constants.Inventory.AddItem+ `/${addItemId}`, {headers: httpHeaders});
   }
 
+  getAllItemsByItemCategoryId(id): Observable<AddItemModel[]> {
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.get<AddItemModel[]>(Constants.URL.HOST_URL+Constants.Inventory.AddItem+"/itemcategory/"+id, {headers: httpHeaders});
+  }
+
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
   // items => filtered/sorted result
   // Server should return filtered/sorted result

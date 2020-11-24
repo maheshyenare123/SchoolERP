@@ -436,7 +436,7 @@ console.log(this.assignFeesStudentForFill);
 		   }
 		
 		}else{
-		  const index = this.selectedList.findIndex(item =>item.customerId === data.customerId);
+		  const index = this.selectedList.findIndex(item =>item.studentId === data.studentId);
 		  this.selectedList.splice(index, 1);
 
 		  if(this.selectedList.length === this.assignFeesStudentList.length){

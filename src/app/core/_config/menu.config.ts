@@ -493,6 +493,18 @@ export class MenuConfig {
               title: 'Item Store',
               page: '/inventory/item-store'
             },
+            {
+              title: 'Item Supplier',
+              page: '/inventory/item-supplier'
+            },
+            {
+              title: 'Item Stock',
+              page: '/inventory/item-stock'
+            },
+            {
+              title: 'Item Issue',
+              page: '/inventory/item-issue'
+            },
             
           ]
         },

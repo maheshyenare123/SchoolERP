@@ -269,6 +269,16 @@ export class PageConfig {
       'item-store': {
         page: { title: 'Item Store', desc: '' }
       },
+      'item-supplier': {
+        page: { title: 'Item Supplier', desc: '' }
+      },
+      'item-stock': {
+        page: { title: 'Item Stock', desc: '' }
+      },
+      'item-issue': {
+        page: { title: 'Item Issue', desc: '' }
+      },
+      
     },
 
 

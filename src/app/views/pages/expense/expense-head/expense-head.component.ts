@@ -241,8 +241,17 @@ prepareExpenseHead(): ExpenseHeadModel {
 	_expenseHead.id = this.expenseHead.id;
   _expenseHead.expCategory = controls.expCategory.value;
   _expenseHead.description = controls.description.value;
-  _expenseHead.isDeleted='no';
-	_expenseHead.isActive='yes';
+  if(_expenseHead.id>0){
+	_expenseHead.isActive = controls.isActive.value;
+  }else{
+	_expenseHead.isActive = 'yes';
+  }
+  if(_expenseHead.id>0){
+	_expenseHead.isDeleted = controls.isDeleted.value;
+  }else{
+	_expenseHead.isDeleted = 'yes';
+  }
+ 
 	return _expenseHead;
 }
 

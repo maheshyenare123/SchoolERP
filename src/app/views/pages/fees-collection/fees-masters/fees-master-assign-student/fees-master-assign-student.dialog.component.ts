@@ -446,6 +446,7 @@ console.log(this.assignFeesStudentForFill);
 		"feeGroupName": this.feesMaster.feeGroupName,
 		"studentDtos": this.selectedList
 	}	
+
 	this.store.dispatch(new AssignFeesStudentOnServerCreated({ assignFeesStudent: entity }));
 
 	this.dialogRef.close({ entity, isEdit: false });
@@ -500,7 +501,14 @@ isAllSelected() {
 		   }
 		
 		}else{
-		  const index = this.selectedList.findIndex(item =>item.customerId === data.customerId);
+
+			// this.assignFeesStudentList.map(item =>{
+			// 	if(item.studentId === data.studentId){
+			// 		item.isSaved = 0;
+			// 		this.selectedList.push(item)
+			// 	}
+			// })
+		  const index = this.selectedList.findIndex(item =>item.studentId === data.studentId);
 		  this.selectedList.splice(index, 1);
 
 		  if(this.selectedList.length === this.assignFeesStudentList.length){
@@ -508,6 +516,7 @@ isAllSelected() {
 		   }else{
 			this.checkboxAll = false
 		   }
+		 
 		}
 	  }
 	  
@@ -518,10 +527,11 @@ isAllSelected() {
 			})
 			this.selectedList = this.assignFeesStudentList
 			this.checkboxSingle = true
-		  
+			this.checkboxAll = true
 		}else{
-			this.selectedList = []
+			 this.selectedList = []
 			this.checkboxSingle = false
+			this.checkboxAll = false
 		}
 	  }
 

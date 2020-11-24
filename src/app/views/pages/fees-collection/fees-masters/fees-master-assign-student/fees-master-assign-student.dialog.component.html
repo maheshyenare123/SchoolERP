@@ -170,6 +170,7 @@
 						<th><input type="checkbox" (change)="onSelection(assignFeesStudent, $event)" checked /></th>
 					</ng-container>
 					<ng-template #elsecheckboxSingle>
+					
 						<ng-container *ngIf="assignFeesStudent.isSaved == 1;else elseisSaved">
 							<th><input type="checkbox" (change)="onSelection(assignFeesStudent, $event)" checked/></th>
 						</ng-container>

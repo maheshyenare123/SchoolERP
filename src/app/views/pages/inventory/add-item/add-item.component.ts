@@ -302,7 +302,11 @@ prepareAddItem(): AddItemModel {
 
  
   _addItem.description = controls.description.value;
-  _addItem.isActive='yes';
+  if(_addItem.id>0){
+	_addItem.isActive = controls.isActive.value;
+}else{
+	_addItem.isActive = 'yes';
+}
   _addItem.itemCategory = controls.itemCategory.value;
   _addItem.itemCategoryId = controls.itemCategoryId.value;
   _addItem.itemPhoto = controls.itemPhoto.value;

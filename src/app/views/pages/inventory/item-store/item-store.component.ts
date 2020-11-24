@@ -242,7 +242,11 @@ prepareItemStore(): ItemStoreModel {
   _itemStore.itemStore = controls.itemStore.value;
   _itemStore.code = controls.code.value;
 	_itemStore.description = controls.description.value;
-	_itemStore.isActive='yes';
+	if(_itemStore.id>0){
+		_itemStore.isActive = controls.isActive.value;
+	}else{
+		_itemStore.isActive = 'yes';
+	}
 	return _itemStore;
 }
 

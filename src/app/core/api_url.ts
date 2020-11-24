@@ -121,7 +121,9 @@ export class Constants {
       AddItem: 'api/item',
       HostelRoom: 'api/hostel-room',
       ItemStore: 'api/item-Store',
-      
+      ItemSupplier: 'api/item-supplier',
+      ItemStock: 'api/item-stock',
+      ItemIssue: 'api/item-issue'
    }
 
    
