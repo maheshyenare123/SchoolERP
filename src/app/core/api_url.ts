@@ -125,8 +125,12 @@ export class Constants {
       ItemStock: 'api/item-stock',
       ItemIssue: 'api/item-issue'
    }
-
    
+   public static Exams: any = {
+      ExamGroup: 'api/exam-group',
+      Exam: 'api/exam',
+      HostelRoom: 'api/hostel-room',
+   } 
    
 
 }

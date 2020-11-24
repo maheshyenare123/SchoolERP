@@ -278,9 +278,16 @@ export class PageConfig {
       'item-issue': {
         page: { title: 'Item Issue', desc: '' }
       },
-      
     },
-
+    
+    'examination': {
+      'exam-group': {
+        page: { title: 'Exam Group', desc: '' }
+      },
+      'exam/:id': {
+        page: { title: 'Exam', desc: '' }
+      },
+    },
 
     ecommerce: {
       customers: {

@@ -509,6 +509,28 @@ export class MenuConfig {
           ]
         },
 
+        {
+          title: 'Examination',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+            
+            {
+              title: 'Exam Group',
+              page: '/examination/exam-group'
+            },
+            // {
+            //   title: 'Exam',
+            //   page: '/examination/exam/:id'
+            // },
+            // {
+            //   title: 'Hostel Room',
+            //   page: '/examination/hostel-room'
+            // },
+            
+          ]
+        },
+
 
         // {section: 'Components'},
         // {

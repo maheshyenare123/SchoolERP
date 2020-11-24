@@ -91,6 +91,10 @@ const routes: Routes = [
           path: 'inventory',
           loadChildren: () => import('./views/pages/inventory/inventory.module').then(m => m.InventoryModule),
         },
+        {
+          path: 'examination',
+          loadChildren: () => import('./views/pages/examination/examination.module').then(m => m.ExaminationModule),
+        },
       {
         path: 'user-management',
         loadChildren: () => import('./views/pages/user-management/user-management.module').then(m => m.UserManagementModule),

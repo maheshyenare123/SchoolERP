@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { RoomTypesDataSource, RoomTypeModel,selectRoomTypesActionLoading, } from 'src/app/core/hostel';
+import { ExamGroupsDataSource, ExamGroupModel,selectExamGroupsActionLoading, } from 'src/app/core/examination';
 import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -19,21 +19,20 @@ import { Update } from '@ngrx/entity';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
-import { RoomTypesPageRequested, OneRoomTypeDeleted, ManyRoomTypesDeleted, RoomTypesStatusUpdated, RoomTypeUpdated, RoomTypeOnServerCreated, selectLastCreatedRoomTypeId } from '../../../../core/hostel';
-
+import { ExamGroupsPageRequested, OneExamGroupDeleted, ManyExamGroupsDeleted, ExamGroupsStatusUpdated, ExamGroupUpdated, ExamGroupOnServerCreated, selectLastCreatedExamGroupId } from '../../../../core/examination';
 
 
 @Component({
-  selector: 'kt-room-type',
-  templateUrl: './room-type.component.html',
-  styleUrls: ['./room-type.component.scss']
+  selector: 'kt-exam-group',
+  templateUrl: './exam-group.component.html',
+  styleUrls: ['./exam-group.component.scss']
 })
-export class RoomTypeComponent implements OnInit {
+export class ExamGroupComponent implements OnInit {
 
   // Table fields
-dataSource: RoomTypesDataSource;
+dataSource: ExamGroupsDataSource;
 //  dataSource = new MatTableDataSource(ELEMENT_DATA);
-displayedColumns = ['id', 'roomType', 'description', 'actions'];
+displayedColumns = ['id', 'name','examType', 'description', 'actions'];
 @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 @ViewChild('sort1', {static: true}) sort: MatSort;
 // Filter fields
@@ -41,14 +40,14 @@ displayedColumns = ['id', 'roomType', 'description', 'actions'];
 filterStatus = '';
 filterType = '';
 // Selection
-selection = new SelectionModel<RoomTypeModel>(true, []);
-roomTypesResult: RoomTypeModel[] = [];
+selection = new SelectionModel<ExamGroupModel>(true, []);
+examGroupsResult: ExamGroupModel[] = [];
 // Subscriptions
 private subscriptions: Subscription[] = [];
 
 // Public properties
-roomType: RoomTypeModel;
-roomTypeForm: FormGroup;
+examGroup: ExamGroupModel;
+examGroupForm: FormGroup;
 hasFormErrors = false;
 viewLoading = false;
 // Private properties
@@ -64,7 +63,7 @@ private componentSubscriptions: Subscription;
 		private store: Store<AppState>,
 		private fb: FormBuilder,
 		private typesUtilsService: TypesUtilsService,
-		
+		private router: Router,
 		) { }
 
   ngOnInit() {
@@ -79,7 +78,7 @@ private componentSubscriptions: Subscription;
 		- when a sort event occurs => this.sort.sortChange
 		**/
 		const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-			tap(() => this.loadRoomTypeList())
+			tap(() => this.loadExamGroupList())
 		)
 		.subscribe();
 		this.subscriptions.push(paginatorSubscriptions);
@@ -91,14 +90,14 @@ private componentSubscriptions: Subscription;
 			distinctUntilChanged(), // This operator will eliminate duplicate values
 			tap(() => {
 				this.paginator.pageIndex = 0;
-				this.loadRoomTypeList();
+				this.loadExamGroupList();
 			})
 		)
 		.subscribe();
 		this.subscriptions.push(searchSubscription);
 
 		// Init DataSource
-		this.dataSource = new RoomTypesDataSource(this.store);
+		this.dataSource = new ExamGroupsDataSource(this.store);
 	
 		const entitiesSubscription = this.dataSource.entitySubject.pipe(
 			skip(1),
@@ -106,15 +105,15 @@ private componentSubscriptions: Subscription;
 		).subscribe(res => {
 			debugger
 	console.log(res);
-			this.roomTypesResult = res;
+			this.examGroupsResult = res;
 		});
 		this.subscriptions.push(entitiesSubscription);
 		// First load
 		of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-			this.loadRoomTypeList();
+			this.loadExamGroupList();
 		}); // Remove this line, just loading imitation
 
-		this.addRoomType();
+		this.addExamGroup();
 		
   }
 /**
@@ -125,9 +124,9 @@ private componentSubscriptions: Subscription;
 	}
 	
 	/**
-	 * Load RoomTypes List from service through data-source
+	 * Load ExamGroups List from service through data-source
 	 */
-	loadRoomTypeList() {
+	loadExamGroupList() {
 		debugger;
 		this.selection.clear();
 		const queryParams = new QueryParamsModel(
@@ -138,7 +137,7 @@ private componentSubscriptions: Subscription;
 			this.paginator.pageSize
 		);
 		// Call request from server
-		this.store.dispatch(new RoomTypesPageRequested({ page: queryParams }));
+		this.store.dispatch(new ExamGroupsPageRequested({ page: queryParams }));
 		this.selection.clear();
 	}
 
@@ -149,7 +148,7 @@ private componentSubscriptions: Subscription;
 		const filter: any = {};
 		const searchText: string = this.searchInput.nativeElement.value;
 
-		filter.RoomType = searchText;
+		filter.ExamGroup = searchText;
 		if (!searchText) {
 			return filter;
 		}
@@ -159,16 +158,16 @@ private componentSubscriptions: Subscription;
 
 	/** ACTIONS */
 	/**
-	 * Delete RoomType
+	 * Delete ExamGroup
 	 *
-	 * @param _item: RoomTypeModel
+	 * @param _item: ExamGroupModel
 	 */
-	deleteRoomType(_item: RoomTypeModel) {
+	deleteExamGroup(_item: ExamGroupModel) {
 
-		const _title = 'RoomType';
-		const _description = 'Are you sure to permanently delete selected RoomType?';
-		const _waitDesciption = 'RoomType is deleting...';
-		const _deleteMessage = ' Selected RoomType has been deleted';
+		const _title = 'ExamGroup';
+		const _description = 'Are you sure to permanently delete selected ExamGroup?';
+		const _waitDesciption = 'ExamGroup is deleting...';
+		const _deleteMessage = ' Selected ExamGroup has been deleted';
 
 
 
@@ -178,45 +177,47 @@ private componentSubscriptions: Subscription;
 				return;
 			}
 
-			this.store.dispatch(new OneRoomTypeDeleted({ id: _item.id }));
+			this.store.dispatch(new OneExamGroupDeleted({ id: _item.id }));
 			this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
-			this.loadRoomTypeList();
+			this.loadExamGroupList();
 		});
 		
 
 	}
 
 	/**
-	 * Show add RoomType dialog
+	 * Show add ExamGroup dialog
 	 */
-	addRoomType() {
-		this.roomType=new RoomTypeModel();
-		this.roomType.clear(); //
+	addExamGroup() {
+		this.examGroup=new ExamGroupModel();
+		this.examGroup.clear(); //
 		this.createForm();
 
 	}
 
 	/**
-	 * Show Edit RoomType dialog and save after success close result
-	 * @param roomType: RoomTypeModel
+	 * Show Edit ExamGroup dialog and save after success close result
+	 * @param examGroup: ExamGroupModel
 	 */
-	editRoomType(roomType: RoomTypeModel) {
+	editExamGroup(examGroup: ExamGroupModel) {
 		
-		this.roomType=roomType;
+		this.examGroup=examGroup;
 		this.createForm();
 
 	}
 
-
+	addExam(examGroup: ExamGroupModel) {
+		this.examGroup=examGroup;
+		this.router.navigate(["/examination/exam/"+examGroup.id])
+	}
 
 createForm() {
 	debugger;
-	this.roomTypeForm = this.fb.group({
-   
-    roomType: [this.roomType.roomType, Validators.required],
-    description: [this.roomType.description, ],
-    isActive: [this.roomType.isActive, ],
-		
+	this.examGroupForm = this.fb.group({
+    examType: [this.examGroup.examType, Validators.required],
+    description: [this.examGroup.description, ],
+    isActive: [this.examGroup.isActive, ],
+		name: [this.examGroup.name, ],
 	});
 }
 
@@ -226,7 +227,7 @@ createForm() {
  * @param controlName: string
  */
 isControlInvalid(controlName: string): boolean {
-	const control = this.roomTypeForm.controls[controlName];
+	const control = this.examGroupForm.controls[controlName];
 	const result = control.invalid && control.touched;
 	return result;
 }
@@ -234,16 +235,17 @@ isControlInvalid(controlName: string): boolean {
 /** ACTIONS */
 
 /**
- * Returns prepared roomType
+ * Returns prepared examGroup
  */
-prepareRoomType(): RoomTypeModel {
-	const controls = this.roomTypeForm.controls;
-	const _roomType = new RoomTypeModel();
-	_roomType.id = this.roomType.id;
-  _roomType.roomType = controls.roomType.value;
-	_roomType.description = controls.description.value;
-	_roomType.isActive='yes';
-	return _roomType;
+prepareExamGroup(): ExamGroupModel {
+	const controls = this.examGroupForm.controls;
+	const _examGroup = new ExamGroupModel();
+  _examGroup.id = this.examGroup.id;
+  _examGroup.examType = controls.examType.value;
+  _examGroup.description = controls.description.value;
+  _examGroup.isActive='yes';
+  _examGroup.name = controls.name.value;
+	return _examGroup;
 }
 
 /**
@@ -251,9 +253,9 @@ prepareRoomType(): RoomTypeModel {
  */
 onSubmit() {
 	this.hasFormErrors = false;
-	const controls = this.roomTypeForm.controls;
+	const controls = this.examGroupForm.controls;
 	/** check form */
-	if (this.roomTypeForm.invalid) {
+	if (this.examGroupForm.invalid) {
 		Object.keys(controls).forEach(controlName =>
 			controls[controlName].markAsTouched()
 		);
@@ -262,65 +264,65 @@ onSubmit() {
 		return;
 	}
 
-	const editedRoomType = this.prepareRoomType();
-	if (editedRoomType.id > 0) {
-		this.updateRoomType(editedRoomType);
+	const editedExamGroup = this.prepareExamGroup();
+	if (editedExamGroup.id > 0) {
+		this.updateExamGroup(editedExamGroup);
 	} else {
-		this.createRoomType(editedRoomType);
+		this.createExamGroup(editedExamGroup);
 	}
 
-	const	_saveMessage= editedRoomType.id > 0 ? 'RoomType  has been updated' : 'RoomType has been created';
+	const	_saveMessage= editedExamGroup.id > 0 ? 'ExamGroup  has been updated' : 'ExamGroup has been created';
 		
-	const _messageType = editedRoomType.id > 0 ? MessageType.Update : MessageType.Create;
+	const _messageType = editedExamGroup.id > 0 ? MessageType.Update : MessageType.Create;
 	
 		this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-		this.loadRoomTypeList();
-		this.roomTypeForm.reset();
-		this.addRoomType();
-		// this.roomType.clear();
+		this.loadExamGroupList();
+		this.examGroupForm.reset();
+		this.addExamGroup();
+		// this.examGroup.clear();
 		// this.createForm();
 
 }
 onCancel(){
-	this.roomTypeForm.reset();
-	this.addRoomType();
-	// this.roomType.clear();
+	this.examGroupForm.reset();
+	this.addExamGroup();
+	// this.examGroup.clear();
 	// this.createForm();
 }
 /**
- * Update RoomType
+ * Update ExamGroup
  *
- * @param _roomType: RoomTypeModel
+ * @param _examGroup: ExamGroupModel
  */
-updateRoomType(_roomType: RoomTypeModel) {
-	const updateRoomType: Update<RoomTypeModel> = {
-		id: _roomType.id,
-		changes: _roomType
+updateExamGroup(_examGroup: ExamGroupModel) {
+	const updateExamGroup: Update<ExamGroupModel> = {
+		id: _examGroup.id,
+		changes: _examGroup
 	};
-	this.store.dispatch(new RoomTypeUpdated({
-		partialRoomType: updateRoomType,
-		roomType: _roomType
+	this.store.dispatch(new ExamGroupUpdated({
+		partialExamGroup: updateExamGroup,
+		examGroup: _examGroup
 	}));
 
 
 }
 
 /**
- * Create RoomType
+ * Create ExamGroup
  *
- * @param _roomType: RoomTypeModel
+ * @param _examGroup: ExamGroupModel
  */
-createRoomType(_roomType:RoomTypeModel) {
-	this.store.dispatch(new RoomTypeOnServerCreated({ roomType: _roomType }));
+createExamGroup(_examGroup:ExamGroupModel) {
+	this.store.dispatch(new ExamGroupOnServerCreated({ examGroup: _examGroup }));
 	this.componentSubscriptions = this.store.pipe(
-		select(selectLastCreatedRoomTypeId),
+		select(selectLastCreatedExamGroupId),
 		delay(1000), // Remove this line
 	).subscribe(res => {
 		if (!res) {
 			return;
 		}
 
-		// this.dialogRef.close({ _roomType, isEdit: false });
+		// this.dialogRef.close({ _examGroup, isEdit: false });
 	});
 }
 
@@ -330,6 +332,3 @@ onAlertClose($event) {
 }
 
 }
-
-
-
