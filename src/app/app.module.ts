@@ -68,9 +68,6 @@ import scss from 'highlight.js/lib/languages/scss';
 import typescript from 'highlight.js/lib/languages/typescript';
 
 
-
-
-
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   wheelSpeed: 0.5,
   swipeEasing: true,

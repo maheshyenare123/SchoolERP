@@ -7,21 +7,21 @@ import { QueryResultsModel, BaseDataSource } from '../../_base/crud';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../../reducers';
 // Selectors
-import { selectAssignFeesStudentsInStore, selectAssignFeesStudentsPageLoading,selectAssignFeesStudentsShowInitWaitingMessage } from '../_selectors/assign-student.selectors';
+import { selectAssignStudentFeemastersInStore, selectAssignStudentFeemastersPageLoading,selectAssignStudentFeemastersShowInitWaitingMessage } from '../_selectors/assign-student-feemaster.selectors';
 
-export class AssignFeesStudentsDataSource extends BaseDataSource {
+export class AssignStudentFeemastersDataSource extends BaseDataSource {
   constructor(private store: Store<AppState>) {
     super();
     this.loading$ = this.store.pipe(
-      select(selectAssignFeesStudentsPageLoading)
+      select(selectAssignStudentFeemastersPageLoading)
     );
 
     this.isPreloadTextViewed$ = this.store.pipe(
-      select(selectAssignFeesStudentsShowInitWaitingMessage)
+      select(selectAssignStudentFeemastersShowInitWaitingMessage)
     );
 
     this.store.pipe(
-      select(selectAssignFeesStudentsInStore)
+      select(selectAssignStudentFeemastersInStore)
     ).subscribe((response: QueryResultsModel) => {
       this.paginatorTotalSubject.next(response.totalCount);
       this.entitySubject.next(response.items);

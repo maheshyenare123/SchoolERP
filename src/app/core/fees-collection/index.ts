@@ -14,7 +14,7 @@ export {FeesTypesDataSource} from './_data-sources/fees-type.datasource';
 export {FeesGroupsDataSource} from './_data-sources/fees-group.datasource';
 export {FeesRemindersDataSource} from './_data-sources/fees-reminder.datasource';
 export {FeesDiscountsDataSource} from './_data-sources/fees-discount.datasource';
-export {AssignFeesStudentsDataSource} from './_data-sources/assign-student.datasource';
+export {AssignStudentFeemastersDataSource} from './_data-sources/assign-student.-feemaster.datasource';
 export {FeesMastersDataSource} from './_data-sources/fees-master.datasource';
 export {StudentFeeDepositesDataSource} from './_data-sources/student-fee-deposite.datasource';
 
@@ -24,7 +24,7 @@ export { FeesTypeEffects } from './_effects/fees-type.effects';
 export { FeesGroupEffects } from './_effects/fees-group.effects';
 export { FeesReminderEffects } from './_effects/fees-reminder.effects';
 export { FeesDiscountEffects } from './_effects/fees-discount.effects';
-export { AssignFeesStudentEffects } from './_effects/assign-student.effects';
+export { AssignStudentFeemasterEffects } from './_effects/assign-student-feemaster.effects';
 export { FeesMasterEffects } from './_effects/fees-master.effects';
 export { StudentFeeDepositeEffects } from './_effects/student-fee-deposite.effects';
 
@@ -91,20 +91,20 @@ export {
     OneFeesDiscountDeleted
 } from './_actions/fees-discount.actions';
 export {
-    AssignFeesStudentActionToggleLoading,
-    AssignFeesStudentActionTypes,
-    AssignFeesStudentActions,
-    AssignFeesStudentCreated,
-    AssignFeesStudentOnServerCreated,
-    AssignFeesStudentUpdated,
-    AssignFeesStudentsPageCancelled,
-    AssignFeesStudentsPageLoaded,
-    AssignFeesStudentsPageRequested,
-    AssignFeesStudentsPageToggleLoading,
-    AssignFeesStudentsStatusUpdated,
-    ManyAssignFeesStudentsDeleted,
-    OneAssignFeesStudentDeleted
-} from './_actions/assign-student.actions';
+    AssignStudentFeemasterActionToggleLoading,
+    AssignStudentFeemasterActionTypes,
+    AssignStudentFeemasterActions,
+    AssignStudentFeemasterCreated,
+    AssignStudentFeemasterOnServerCreated,
+    AssignStudentFeemasterUpdated,
+    AssignStudentFeemastersPageCancelled,
+    AssignStudentFeemastersPageLoaded,
+    AssignStudentFeemastersPageRequested,
+    AssignStudentFeemastersPageToggleLoading,
+    AssignStudentFeemastersStatusUpdated,
+    ManyAssignStudentFeemastersDeleted,
+    OneAssignStudentFeemasterDeleted
+} from './_actions/assign-student-feemaster.actions';
 export {
     FeesMasterActionToggleLoading,
     FeesMasterActionTypes,
@@ -140,7 +140,7 @@ export { feesTypesReducer } from './_reducers/fees-type.reducers';
 export { feesGroupsReducer } from './_reducers/fees-group.reducers';
 export { feesRemindersReducer } from './_reducers/fees-reminder.reducers';
 export { feesDiscountsReducer } from './_reducers/fees-discount.reducers';
-export { assignFeesStudentsReducer } from './_reducers/assign-student.reducers';
+export { assignStudentFeemastersReducer } from './_reducers/assign-student-feemaster.reducers';
 export { feesMastersReducer } from './_reducers/fees-master.reducers';
 export { studentFeeDepositesReducer } from './_reducers/student-fee-deposite.reducers';
 // Selectors
@@ -181,14 +181,14 @@ export {
     selectLastCreatedFeesDiscountId
 } from './_selectors/fees-discount.selectors';
 export {
-    selectAssignFeesStudentById,
-    selectAssignFeesStudentsActionLoading,
-    selectAssignFeesStudentsInStore,
-    selectAssignFeesStudentsPageLoading,
-    selectAssignFeesStudentsShowInitWaitingMessage,
-    selectAssignFeesStudentsState,
-    selectLastCreatedAssignFeesStudentId
-} from './_selectors/assign-student.selectors';
+    selectAssignStudentFeemasterById,
+    selectAssignStudentFeemastersActionLoading,
+    selectAssignStudentFeemastersInStore,
+    selectAssignStudentFeemastersPageLoading,
+    selectAssignStudentFeemastersShowInitWaitingMessage,
+    selectAssignStudentFeemastersState,
+    selectLastCreatedAssignStudentFeemasterId
+} from './_selectors/assign-student-feemaster.selectors';
 export {
     selectFeesMasterById,
     selectFeesMastersActionLoading,
@@ -212,6 +212,6 @@ export { FeesTypeService } from './_services/fees-type.service';
 export { FeesGroupService } from './_services/fees-group.service';
 export { FeesReminderService } from './_services/fees-reminder.service';
 export { FeesDiscountService } from './_services/fees-discount.service';
-export { AssignFeesStudentService } from './_services/assign-student.service';
+export { AssignStudentFeemasterService } from './_services/assign-student-feemaster.service';
 export { FeesMasterService } from './_services/fees-master.service';
 export { StudentFeeDepositeService } from './_services/student-fee-deposite.service';

@@ -289,6 +289,77 @@ export class PageConfig {
       },
     },
 
+    'report': {
+      'student-information': {
+        page: { title: 'Student Information', desc: '' }
+      },
+      'student-report': {
+        page: { title: 'Student Report', desc: '' }
+      },
+      'guardian-report': {
+        page: { title: 'Guardian Report', desc: '' }
+      },
+      'student-history': {
+        page: { title: 'Student History', desc: '' }
+      },
+      'student-login-credential': {
+        page: { title: 'Student Login Credential', desc: '' }
+      },
+      'class-subject-report': {
+        page: { title: 'Class Subject Report', desc: '' }
+      },
+      'admission-report': {
+        page: { title: 'Admission Report', desc: '' }
+      },
+      'sibling-report': {
+        page: { title: 'Sibling Report', desc: '' }
+      },
+      'student-profile': {
+        page: { title: 'Student Profile', desc: '' }
+      },
+      'homework-evaluation-report': {
+        page: { title: 'Homework Evaluation Report', desc: '' }
+      },
+      'finance': {
+        page: { title: 'Finance', desc: '' }
+      },
+
+
+      'fees-statement': {
+        page: { title: 'Fees Statement', desc: '' }
+      },
+      'balance-fees-report': {
+        page: { title: 'Balance Fees Report', desc: '' }
+      },
+      'fees-collection-report': {
+        page: { title: 'Fees Collection Report', desc: '' }
+      },
+      'online-fees-collection-report': {
+        page: { title: 'Online Fees Collection Report', desc: '' }
+      },
+      'income-report': {
+        page: { title: 'Income Report', desc: '' }
+      },
+      'expense-report': {
+        page: { title: 'Expense Report', desc: '' }
+      },
+      'payroll-report': {
+        page: { title: 'Payroll Report', desc: '' }
+      },
+      'income-group-report': {
+        page: { title: 'Income Group Report', desc: '' }
+      },
+      'expense-group-report': {
+        page: { title: 'Expense Group Report', desc: '' }
+      },
+
+
+      'hostel-report': {
+        page: { title: 'Hostel Report', desc: '' }
+      },
+    },
+
+
     ecommerce: {
       customers: {
         page: { title: 'Customers', desc: '' }

@@ -21,9 +21,9 @@ export class ExamService {
   }
 
   // READ
-  getAllExams(examGroupId): Observable<ExamModel[]> {
+  getAllExams(): Observable<ExamModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<ExamModel[]>(Constants.URL.HOST_URL+Constants.Exams.Exam+`/${examGroupId}`, {headers: httpHeaders});
+    return this.http.get<ExamModel[]>(Constants.URL.HOST_URL+Constants.Exams.Exam, {headers: httpHeaders});
   }
 
   getExamById(examId: number): Observable<ExamModel> {
@@ -34,12 +34,12 @@ export class ExamService {
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
   // items => filtered/sorted result
   // Server should return filtered/sorted result
-  findExams(queryParams: QueryParamsModel): Observable<QueryResultsModel> {
+  findExams(queryParams: QueryParamsModel,examGroupId): Observable<QueryResultsModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
-    const url =Constants.URL.HOST_URL+Constants.Exams.Exam ;
+    const url =Constants.URL.HOST_URL+Constants.Exams.Exam+`/${examGroupId}` ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       // params: httpParams

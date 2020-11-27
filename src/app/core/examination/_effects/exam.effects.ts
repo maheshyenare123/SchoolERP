@@ -39,7 +39,7 @@ export class ExamEffects {
     ofType<ExamsPageRequested>(ExamActionTypes.ExamsPageRequested),
     mergeMap(({payload}) => {
       this.store.dispatch(this.showPageLoadingDistpatcher);
-      const requestToServer = this.examsService.findExams(payload.page);
+      const requestToServer = this.examsService.findExams(payload.page , payload.examGroupId);
       const lastQuery = of(payload.page);
       return forkJoin(requestToServer, lastQuery);
     }),

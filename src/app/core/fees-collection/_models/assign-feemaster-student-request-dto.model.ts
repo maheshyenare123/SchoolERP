@@ -1,6 +1,6 @@
 import { AssignFeesStudentModel } from '..';
 
-export class AssignFeeStudentRequestDtoModel {
+export class AssignFeemasterStudentRequestDtoModel {
 
     feeGroupId: number;
     feeGroupName: string;

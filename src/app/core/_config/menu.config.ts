@@ -531,6 +531,35 @@ export class MenuConfig {
           ]
         },
 
+        {
+          title: 'Report',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+            
+            {
+              title: 'Student Information',
+              page: '/report/student-information'
+            },
+            {
+              title: 'Finance',
+              page: '/report/finance'
+            },
+
+
+            
+            // {
+            //   title: 'Student Report',
+            //   page: '/report/student-report'
+            // },
+            {
+              title: 'Hostel',
+              page: '/report/hostel-report'
+            },
+            
+          ]
+        },
+        
 
         // {section: 'Components'},
         // {
