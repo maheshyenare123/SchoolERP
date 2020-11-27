@@ -86,6 +86,7 @@ export class MenuConfig {
           icon: 'flaticon-interface-7',
           submenu: [
             {
+              
               title: 'Admission Enquiry',
               page: '/front-office/admissionenqury'
             },

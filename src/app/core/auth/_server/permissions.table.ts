@@ -18,6 +18,9 @@ export class PermissionsTable {
       level: 1,
       title: 'Mail module'
     },
+
+
+    
     {
       id: 4,
       name: 'canReadECommerceData',

@@ -58,6 +58,7 @@ export class BaseComponent implements OnInit, OnDestroy {
     // register configs by demos
     this.layoutConfigService.loadConfigs(new LayoutConfig().configs);
     this.menuConfigService.loadConfigs(new MenuConfig().configs);
+   
     this.pageConfigService.loadConfigs(new PageConfig().configs);
 
     // setup element classes

@@ -34,4 +34,8 @@ export class MenuConfigService {
     this.menuConfig = config;
     this.onConfigUpdated$.next(this.menuConfig);
   }
+
+
+
+  
 }

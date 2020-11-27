@@ -43,7 +43,7 @@ export class InterceptService implements HttpInterceptor {
           if (event instanceof HttpResponse) {
             // console.log('all looks good');
             // http response status code
-            console.log(event.status);
+            // console.log(event.status);
 
 
 
@@ -55,10 +55,8 @@ export class InterceptService implements HttpInterceptor {
           // console.log('----response----');
           // console.error('status code:');
           // tslint:disable-next-line:no-debugger
-          console.error(error.status);
-          console.error(error.message);
-
-
+          
+          // console.error(error.message);
 
           if (error.status === 401) {
                 //             // auto logout if 401 response returned from api
