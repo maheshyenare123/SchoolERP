@@ -14,6 +14,7 @@ import * as objectPath from 'object-path';
 // Layout
 import { LayoutConfigService, MenuAsideService, MenuOptions, OffcanvasOptions } from '../../../core/_base/layout';
 import { HtmlClassService } from '../html-class.service';
+import { RolePermissionService } from 'src/app/core/role_permission';
 
 @Component({
   selector: 'kt-aside-left',
@@ -60,6 +61,8 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
     }
   };
 
+  menusList:any;
+
   /**
    * Component Constructor
    *
@@ -76,16 +79,21 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
     public layoutConfigService: LayoutConfigService,
     private router: Router,
     private render: Renderer2,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private rolePermissionService: RolePermissionService
   ) {
+    console.log("Menus List");
+    console.log(this.menuAsideService.menuList$);
   }
 
   ngAfterViewInit(): void {    
   }
 
   ngOnInit() {
-    this.currentRouteUrl = this.router.url.split(/[?#]/)[0];
 
+    this.getDynamicMenuConfig();
+
+    this.currentRouteUrl = this.router.url.split(/[?#]/)[0];
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(event => {
@@ -93,7 +101,6 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
         this.mobileMenuClose();
         this.cdr.markForCheck();
       });
-
 
 
     const config = this.layoutConfigService.getConfig();
@@ -119,6 +126,21 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
     }
     return `./assets/media/logos/${result}`;
   }
+
+
+  getDynamicMenuConfig() {
+    // const roleName= localStorage.getItem('schoolRoleConfig');
+    this.rolePermissionService.getAllPermissionsByRole().subscribe(res => {
+      // console.log(res);
+      const data=res['data'];
+      this.menusList=data['content'];
+      console.log(this.menusList);
+    }, err => {
+
+    })
+
+  }
+
 
   /**
    * Check Menu is active

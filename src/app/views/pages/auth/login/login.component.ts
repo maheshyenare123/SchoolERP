@@ -13,6 +13,7 @@ import { AppState } from '../../../../core/reducers';
 // Auth
 import { AuthNoticeService, AuthService, Login } from '../../../../core/auth';
 import { AuthLoginService } from './auth-login.service';
+import { RolePermissionService } from 'src/app/core/role_permission';
 
 /**
  * ! Just example => Should be removed in development
@@ -62,6 +63,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 		private cdr: ChangeDetectorRef,
 		private route: ActivatedRoute,
 		private authloginservice: AuthLoginService,
+		private rolePermissionService:RolePermissionService,
 	) {
 		this.unsubscribe = new Subject();
 	}
@@ -136,7 +138,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 			console.log(res);
 
 			localStorage.setItem('token', res['accessToken']);
-
+			const role= res['roles'];
+			localStorage.setItem('schoolRoleConfig',role[0]);
 			//    this.jwtauth.setToken(res.accessToken);
 			//   this.localstorage.set("CurrentRole",res.roles[0]);
 			//   this.localstorage.set("CurrentUsername",res.username);
@@ -145,10 +148,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 			//  console.log(this.jwtauth.getSessionID());
 			console.log('success');
 			alert('Login Successfully');
-
+			// this.getDynamicMenuConfig();
 			this.templateLogin();
-
-
 
 		}, (err) => {
 			console.log('Error While Login');
@@ -156,6 +157,20 @@ export class LoginComponent implements OnInit, OnDestroy {
 			console.error(err);
 		});
 	}
+
+	getDynamicMenuConfig() {
+		// const roleName= localStorage.getItem('schoolRoleConfig');
+		this.rolePermissionService.getAllPermissionsByRole().subscribe(res => {
+		  console.log(res);
+	
+	
+	
+		}, err => {
+	
+		})
+	
+	  }
+
 
 	submit() {
 		const controls = this.loginForm.controls;

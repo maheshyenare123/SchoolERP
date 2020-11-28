@@ -11,6 +11,13 @@ export class Constants {
    public static RECEIVE: string = 'receive';
 
 
+   public static Role_permission: any = {
+      Role: 'api/role',
+      Permission: 'api/permission/groups-category'
+   }
+
+
+
    public static Front_Office: any = {
       Admission_Enquiry: 'api/enquiry',
       Complain: 'api/complaint',
@@ -41,7 +48,7 @@ export class Constants {
       Section: 'api/section',
       Subject: 'api/subject',
       Subject_Group: 'api/subject-group',
-     
+
    }
 
    public static Attendance: any = {
@@ -73,12 +80,12 @@ export class Constants {
       Staff_Designation: 'api/staffdesignation',
       Department: 'api/department',
       Leave_Type: 'api/leave-type',
-      Staff_Leave:'api/staff-leave',
-      Staff_Leave_Details:'api/staff-leave-details',
+      Staff_Leave: 'api/staff-leave',
+      Staff_Leave_Details: 'api/staff-leave-details',
       Staff_Payroll: 'api/staff-payroll',
       Staff_Rating: 'api/staff-rating',
       Staff_Attendance: 'api/staff-attendance',
-      Roles:'api/role',
+      Roles: 'api/role',
 
    }
 
@@ -103,14 +110,14 @@ export class Constants {
       Expense: 'api/expense',
       ExpenseHead: 'api/expense-head',
    }
-  
+
    public static Transports: any = {
       Route: 'api/transport-route',
       Vehicle: 'api/vehicle',
       AssignVehicle: 'api/vehicle-route',
    }
 
-   
+
    public static Hostels: any = {
       Hostel: 'api/hostel',
       RoomType: 'api/room-type',
@@ -126,7 +133,7 @@ export class Constants {
       ItemIssue: 'api/item-issue'
    }
 
-   
-   
+
+
 
 }
