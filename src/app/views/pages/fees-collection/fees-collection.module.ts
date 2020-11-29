@@ -33,7 +33,7 @@ import { FeesCarryForwordComponent } from './fees-carry-forword/fees-carry-forwo
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { AdmissionEnquiryEffects } from 'src/app/core/front-office';
-import { feesTypesReducer, FeesTypeEffects, FeesTypeService, feesGroupsReducer, FeesGroupEffects, FeesGroupService, feesDiscountsReducer, FeesDiscountService, feesMastersReducer, FeesMasterEffects, FeesMasterService, FeesDiscountEffects, assignStudentFeemastersReducer, AssignStudentFeemasterService, StudentFeeDepositeService, studentFeeDepositesReducer, StudentFeeDepositeEffects, AssignStudentFeemasterActionTypes, AssignStudentFeemasterEffects } from 'src/app/core/fees-collection';
+import { feesTypesReducer, FeesTypeEffects, FeesTypeService, feesGroupsReducer, FeesGroupEffects, FeesGroupService, feesDiscountsReducer, FeesDiscountService, feesMastersReducer, FeesMasterEffects, FeesMasterService, FeesDiscountEffects, assignStudentFeemastersReducer, AssignStudentFeemasterService, StudentFeeDepositeService, studentFeeDepositesReducer, StudentFeeDepositeEffects, AssignStudentFeemasterActionTypes, AssignStudentFeemasterEffects, AssignStudentFeediscountEffects, AssignStudentFeediscountService, assignStudentFeediscountsReducer, StudentFeeAmountDetailsEffects, StudentFeeAmountDetailsService, studentFeeAmountDetailssReducer } from 'src/app/core/fees-collection';
 import { FeesCollectComponent } from './fees-collect/fees-collect.component';
 import { FeeCollectEditDialogComponent } from './fee-collect-edit/fee-collect-edit.dialog.component';
 import { SearchFeesPaymentComponent } from './search-fees-payment/search-fees-payment.component';
@@ -138,8 +138,13 @@ const routes: Routes = [
     StoreModule.forFeature('assignStudentFeemasters', assignStudentFeemastersReducer),
     EffectsModule.forFeature([AssignStudentFeemasterEffects]),
 
+    StoreModule.forFeature('assignStudentFeediscounts', assignStudentFeediscountsReducer),
+    EffectsModule.forFeature([AssignStudentFeediscountEffects]),
+
     StoreModule.forFeature('studentFeeDeposites', studentFeeDepositesReducer),
     EffectsModule.forFeature([StudentFeeDepositeEffects]),
+    StoreModule.forFeature('studentFeeAmountDetailss', studentFeeAmountDetailssReducer),
+    EffectsModule.forFeature([StudentFeeAmountDetailsEffects]),
 
   ],
   providers: [
@@ -177,7 +182,9 @@ FeesGroupService,
 FeesDiscountService,
 FeesMasterService,
 AssignStudentFeemasterService,
-StudentFeeDepositeService
+AssignStudentFeediscountService,
+StudentFeeDepositeService,
+StudentFeeAmountDetailsService
   ],
     entryComponents: [
       FeesDiscountAssignStudentDialogComponent,

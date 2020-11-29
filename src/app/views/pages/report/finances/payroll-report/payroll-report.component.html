@@ -169,18 +169,13 @@
             </div>
             <!-- end::FILTERS -->
 
+ 
             <div class="mat-table__wrapper">
                 <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource" matSort #sort1="matSort"
                     matSortActive="id" matSortDirection="asc" matSortDisableClear>
                     <ng-container matColumnDef="id">
                         <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
                         <mat-cell *matCellDef="let staff">{{staff.id}}</mat-cell>
-                    </ng-container>
-
-                    <ng-container matColumnDef="staffId">
-                        <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Staff Id
-                        </mat-header-cell>
-                        <mat-cell *matCellDef="let staff">{{staff.staffId}}</mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="name">
                         <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Name
@@ -192,22 +187,53 @@
                         </mat-header-cell>
                         <mat-cell *matCellDef="let staff">{{staff.staffRoleName}}</mat-cell>
                     </ng-container>
-                    <ng-container matColumnDef="department">
-                        <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>department
-                        </mat-header-cell>
-                        <mat-cell *matCellDef="let staff">{{staff.staffDepartmentName}}</mat-cell>
-                    </ng-container>
                     <ng-container matColumnDef="designation">
                         <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Designation
                         </mat-header-cell>
                         <mat-cell *matCellDef="let staff"> {{staff.staffDesignation}}</mat-cell>
                     </ng-container>
-
-                    <ng-container matColumnDef="mobileNo">
-                        <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Mobile No
+                    <ng-container matColumnDef="monthYear">
+                        <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Month Year
                         </mat-header-cell>
-                        <mat-cell *matCellDef="let staff">{{staff.contactNo}}</mat-cell>
+                        <mat-cell *matCellDef="let staff"> {{staff.staffDesignation}}</mat-cell>
                     </ng-container>
+                    <ng-container matColumnDef="payslip">
+                        <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Payslip
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let staff"> {{staff.staffDesignation}}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="basicSalary">
+                        <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Basic Salary
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let staff"> {{staff.staffDesignation}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="earning">
+                        <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Earning
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let staff"> {{staff.staffDesignation}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="deduction">
+                        <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Deduction
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let staff"> {{staff.staffDesignation}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="grossSalary">
+                        <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Gross Salary
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let staff"> {{staff.staffDesignation}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="tax">
+                        <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Tax
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let staff"> {{staff.staffDesignation}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="netSalary">
+                        <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Net Salary
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let staff"> {{staff.staffDesignation}}</mat-cell>
+                    </ng-container>
+                    '', '', '', '', '', ''
 
                     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
@@ -218,7 +244,6 @@
                 <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....
                 </div>
             </div>
-
             <!-- start: BOTTOM -->
             <div class="mat-table__bottom">
                 <!-- MATERIAL SPINNER | Url: 'https://material.angular.io/components/progress-spinner/overview' -->

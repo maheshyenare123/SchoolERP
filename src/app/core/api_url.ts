@@ -88,8 +88,9 @@ export class Constants {
       Fees_Discount: 'api/fee-discount',
       Fees_Master: 'api/feemaster',
       AssignStudentFeemaster: 'api/feemaster/assign/student',
-      // AssignFeesStudent: 'api/feemaster/assign/student',
-      Student_Fee_Deposite: 'api/student-fee-deposite'
+      AssignStudentFeediscount: 'api/fee-discount/assign/student',
+      Student_Fee_Deposite: 'api/student-fee-deposite',
+      Student_Discount:'api/student-discount'
    }
 
 

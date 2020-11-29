@@ -30,6 +30,8 @@ import { examGroupsReducer, ExamGroupEffects, ExamEffects, ExamService, examsRed
 import { ExamGroupService } from 'src/app/core/examination/_services/exam-group.service';
 import { ExamEditDialogComponent } from './exams/exam-edit/exam-edit.dialog.component';
 import { ExamComponent } from './exams/exam/exam.component';
+import { ExamScheduleComponent } from './exam-schedule/exam-schedule.component';
+
 
 const routes: Routes = [
 	{
@@ -46,6 +48,10 @@ const routes: Routes = [
 				component: ExamGroupComponent
       },
       {
+				path: 'exam-schedule',
+				component: ExamScheduleComponent
+      },
+      {
 				path: 'exam/:id',
 				component: ExamComponent
       },
@@ -60,7 +66,8 @@ const routes: Routes = [
     ExaminationComponent,
     ExamGroupComponent,
     ExamComponent,
-    ExamEditDialogComponent
+    ExamEditDialogComponent,
+    ExamScheduleComponent
   ],
   imports: [
     CommonModule,

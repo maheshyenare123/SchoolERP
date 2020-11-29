@@ -48,8 +48,29 @@ import { OnlineFeesCollectionReportComponent } from './finances/online-fees-coll
 import { PayrollReportComponent } from './finances/payroll-report/payroll-report.component';
 import { expensesReducer, ExpenseEffects, ExpenseService, ExpenseHeadEffects, ExpenseHeadService, expenseHeadsReducer } from 'src/app/core/expense';
 import { incomesReducer, IncomeEffects, incomeHeadsReducer, IncomeHeadEffects, IncomeService, IncomeHeadService } from 'src/app/core/income';
-import { staffPayslipsReducer, StaffPayslipEffects, StaffPayslipService } from 'src/app/core/human-resource';
+import { staffPayslipsReducer, StaffPayslipEffects, StaffPayslipService, StaffService, staffsReducer } from 'src/app/core/human-resource';
 import { HostelReportComponent } from './hostel-report/hostel-report.component';
+import { TransportReportComponent } from './transport-report/transport-report.component';
+import { AddItemReportComponent } from './inventory/add-item-report/add-item-report.component';
+import { InventoryReportComponent } from './inventory/inventory-report/inventory-report.component';
+import { IssueItemReportComponent } from './inventory/issue-item-report/issue-item-report.component';
+import { StockReportComponent } from './inventory/stock-report/stock-report.component';
+import { itemStocksReducer, ItemStockEffects, ItemStockService } from 'src/app/core/inventory';
+import { bookIssueReturnsReducer, BookIssueReturnEffects, BookIssueReturnService, BookEffects, BookService, booksReducer } from 'src/app/core/library';
+import { BookDueReportComponent } from './library/book-due-report/book-due-report.component';
+import { BookInventoryReportComponent } from './library/book-inventory-report/book-inventory-report.component';
+import { BookIssueReportComponent } from './library/book-issue-report/book-issue-report.component';
+import { BookIssueReturnReportComponent } from './library/book-issue-return-report/book-issue-return-report.component';
+import { LibraryReportComponent } from './library/library-report/library-report.component';
+import { HumanResourceReportComponent } from './human-resource/human-resource-report/human-resource-report.component';
+import { PayrollsReportComponent } from './human-resource/payrolls-report/payrolls-report.component';
+import { StaffReportComponent } from './human-resource/staff-report/staff-report.component';
+import { StaffEffects } from 'src/app/core/human-resource/_effects/staff.effects';
+import { AttendanceReportComponent } from './Attendances/attendance-report/attendance-report.component';
+import { BiometricAttendanceLogComponent } from './Attendances/biometric-attendance-log/biometric-attendance-log.component';
+import { StaffAttendanceReportComponent } from './Attendances/staff-attendance-report/staff-attendance-report.component';
+import { StudentAttendanceReportComponent } from './Attendances/student-attendance-report/student-attendance-report.component';
+import { StudentAttendanceTypeReportComponent } from './Attendances/student-attendance-type-report/student-attendance-type-report.component';
 
 
 
@@ -146,10 +167,94 @@ const routes: Routes = [
 				path: 'expense-group-report',
 				component:   ExpenseGroupReportComponent,
       },
+
+
+      {
+				path: 'human-resource-report',
+				component:   HumanResourceReportComponent, 
+      },
+      {
+				path: 'staff-report',
+				component:   StaffReportComponent, 
+      },
+      {
+				path: 'payrolls-report',
+				component:   PayrollsReportComponent, 
+      },
+
+
+      // {
+			// 	path: 'attendance-report',
+			// 	component:   AttendanceReportComponent, 
+      // },
+      // {
+			// 	path: 'book-issue-report',
+			// 	component:   StudentAttendanceReportComponent, 
+      // },
+      // {
+			// 	path: 'book-due-report',
+			// 	component:   StudentAttendanceTypeReportComponent, 
+      // },
+      // {
+			// 	path: 'book-inventory-report',
+			// 	component:  StaffAttendanceReportComponent,
+      // },
+      // {
+			// 	path: 'book-issue-return-report',
+			// 	component:  BiometricAttendanceLogComponent,
+      // },
+
+
+    
+      {
+				path: 'library-report',
+				component:   LibraryReportComponent, 
+      },
+      {
+				path: 'book-issue-report',
+				component:   BookIssueReportComponent, 
+      },
+      {
+				path: 'book-due-report',
+				component:   BookDueReportComponent, 
+      },
+      {
+				path: 'book-inventory-report',
+				component:  BookInventoryReportComponent,
+      },
+      {
+				path: 'book-issue-return-report',
+				component:  BookIssueReturnReportComponent,
+      },
+
+
+      {
+				path: 'inventory-report',
+				component:   InventoryReportComponent, 
+      },
+      {
+				path: 'stock-report',
+				component:   StockReportComponent, 
+      },
+      {
+				path: 'add-item-report',
+				component:   AddItemReportComponent, 
+      },
+      {
+				path: 'issue-item-report',
+				component:  IssueItemReportComponent,
+      },
+
+
+      {
+				path: 'transport-report',
+				component:   TransportReportComponent,
+      },
       {
 				path: 'hostel-report',
 				component:   HostelReportComponent,
       },
+
     ] 
   }
 ]
@@ -181,7 +286,29 @@ const routes: Routes = [
     ExpenseGroupReportComponent,
 
 
+    AttendanceReportComponent, 
+    StudentAttendanceReportComponent, 
+    StudentAttendanceTypeReportComponent, 
+    StaffAttendanceReportComponent, 
+    BiometricAttendanceLogComponent,
 
+
+    HumanResourceReportComponent, 
+    StaffReportComponent, 
+    PayrollsReportComponent, 
+
+    LibraryReportComponent, 
+    BookIssueReportComponent, 
+    BookDueReportComponent, 
+    BookInventoryReportComponent, 
+    BookIssueReturnReportComponent,
+
+    InventoryReportComponent, 
+    StockReportComponent, 
+    AddItemReportComponent, 
+    IssueItemReportComponent,
+
+    TransportReportComponent,
     HostelReportComponent
   ],
   imports: [
@@ -216,7 +343,14 @@ const routes: Routes = [
         EffectsModule.forFeature([IncomeHeadEffects]),
         StoreModule.forFeature('staffPayslips', staffPayslipsReducer),
         EffectsModule.forFeature([StaffPayslipEffects]),
-
+        StoreModule.forFeature('itemStocks', itemStocksReducer),
+        StoreModule.forFeature('books', booksReducer),
+        EffectsModule.forFeature([BookEffects]),
+        EffectsModule.forFeature([ItemStockEffects]),
+        StoreModule.forFeature('bookIssueReturns', bookIssueReturnsReducer),
+        EffectsModule.forFeature([BookIssueReturnEffects]),
+        StoreModule.forFeature('staffs', staffsReducer),
+        EffectsModule.forFeature([StaffEffects]),
   ],
   providers: [
     NgbAlertConfig,
@@ -255,6 +389,10 @@ ExpenseHeadService,
 IncomeService,
 IncomeHeadService,
 StaffPayslipService,
+ItemStockService,
+BookService,
+BookIssueReturnService,
+StaffService,
   ],
     entryComponents: [
      

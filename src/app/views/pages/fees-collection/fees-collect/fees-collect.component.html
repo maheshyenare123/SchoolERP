@@ -358,6 +358,71 @@
 				<th>Action</th>
 			</thead>
 			<tbody>
+				
+				<tr *ngFor="let data of feesDepositeList">
+					<th><input type="checkbox" (change)="onSelection(data, $event)" /></th>
+				
+						<td>{{data.feeGroupName}}</td>
+						<td>{{data.feeCode}}</td>
+						<td>{{data.dueDate}}</td>
+						<ng-container *ngIf="data.status == 'unpaid'">
+							<td><span class="danger">Unpaid</span></td>
+						</ng-container>
+						<ng-container *ngIf="data.status == 'paid'">
+							<td><span class="success">Paid</span></td>
+						</ng-container>
+						<ng-container *ngIf="data.status == 'partial'">
+							<td><span class="warning">Partial</span></td>
+						</ng-container>
+						<td>{{data.amount}}.00</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>{{data.discount}}.00</td>
+						<td>{{data.fine}}.00</td>
+						<td>{{data.paid}}.00</td>
+						<td>{{data.balance}}.00</td>
+					
+					
+						<!-- <table>
+							<tbody>
+								<tr *ngFor="let data1 of data.amountDetails">
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td>{{data1.id}}</td>
+									<td>{{data1.paymentMode}}</td>
+									<td>{{data1.date}}</td>
+									<td>{{data1.amountDiscount}}.00</td>
+									<td>{{data1.amountFine}}.00</td>
+									<td>{{data1.amount}}.00</td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table> -->
+						
+					
+					
+					<td>
+						<div class="btn-group pull-right">
+							<ng-container *ngIf="data.amountDetails == null || data.status == 'partial'">
+								<button type="button" class="btn btn-xs btn-default myCollectFeeBtn " title="Add Fees" (click)="collectStudentFee(data,'single')"><i class="fa fa-plus"></i></button>
+							</ng-container>
+							<!--  -->
+							<!-- <button class="btn btn-xs btn-default printInv" title="Print"><i class="fa fa-print"></i> </button> -->
+							<!-- <button class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm-delete" title="Revert"><i class="fa fa-undo"> </i></button> -->
+						</div>
+					</td>
+				</tr>
+
+				Static
+
+
+
 				<tr>
 					<th><input type="checkbox" (change)="onSelection(data, $event)" /></th>
 					<td>General</td>

@@ -33,7 +33,7 @@ export class PayrollReportComponent implements OnInit {
   //  dataSource = new MatTableDataSource(ELEMENT_DATA);
   
      
-  displayedColumns = ['id', 'staffId','name','role','department','designation','mobileNo'];
+  displayedColumns = ['id','name','role','designation', 'monthYear', 'payslip', 'basicSalary', 'earning', 'deduction', 'grossSalary', 'tax', 'netSalary'];
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('sort1', {static: true}) sort: MatSort;
   // Filter fields

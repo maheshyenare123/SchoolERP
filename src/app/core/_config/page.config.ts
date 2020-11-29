@@ -284,6 +284,9 @@ export class PageConfig {
       'exam-group': {
         page: { title: 'Exam Group', desc: '' }
       },
+      'exam-schedule': {
+        page: { title: 'Exam Schedule', desc: '' }
+      },
       'exam/:id': {
         page: { title: 'Exam', desc: '' }
       },
@@ -354,8 +357,53 @@ export class PageConfig {
       },
 
 
+      'human-resource-report': {
+        page: { title: 'Human Resource', desc: '' }
+      },
+      'staff-report': {
+        page: { title: 'Staff Report', desc: '' }
+      },
+      'payrolls-report': {
+        page: { title: 'Payrolls Report', desc: '' }
+      },
+
+
+      'library-report': {
+        page: { title: 'Library', desc: '' }
+      },
+      'book-issue-report': {
+        page: { title: 'Book Issue Report', desc: '' }
+      },
+      'book-due-report': {
+        page: { title: 'Book Due Report', desc: '' }
+      },
+      'book-inventory-report': {
+        page: { title: 'Book Inventory Report', desc: '' }
+      },
+      'book-issue-return-report': {
+        page: { title: 'Book Issue Return Report', desc: '' }
+      },
+
+
+      'inventory-report': {
+        page: { title: 'Inventory', desc: '' }
+      },
+      'stock-report': {
+        page: { title: 'Stock Report', desc: '' }
+      },
+      'add-item-report': {
+        page: { title: 'Add Item Report', desc: '' }
+      },
+      'issue-item-report': {
+        page: { title: 'Issue Item Report', desc: '' }
+      },
+
+
+      'transport-report': {
+        page: { title: 'Transport', desc: '' }
+      },
       'hostel-report': {
-        page: { title: 'Hostel Report', desc: '' }
+        page: { title: 'Hostel', desc: '' }
       },
     },
 

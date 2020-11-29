@@ -65,7 +65,7 @@ export class FeesMasterAssignStudentDialogComponent implements OnInit {
 
 	classId: number  = 0;
 	sectionId: number = 0;
-	category: number;
+	category: number=0;
 	gender: string;
 	rte: string;
 
@@ -436,10 +436,7 @@ console.log(this.assignFeesStudentForFill);
 	 */
 	onSubmit() {
 		debugger
-		// this.selection.selected.forEach((element, i)=> {
-		// 	element.isSaved = 1;
-		//   });
-		this.selectedList
+		
 	let entity = {
 		"feeGroupId": this.feesMaster.feeGroupId,
 		"feeGroupName": this.feesMaster.feeGroupName,
@@ -520,11 +517,14 @@ isAllSelected() {
 	  }
 	  
 	  onSelectionAll($event){
+		  debugger
 		if( $event.target.checked){
-			this.assignFeesStudentList.map(item =>{
+			let tempList= this.assignFeesStudentList
+			tempList.map(item =>{
 				item.isSaved = 1;
 			})
-			this.selectedList = this.assignFeesStudentList
+			
+			this.selectedList = tempList
 			this.checkboxSingle = true
 			this.checkboxAll = true
 		}else{

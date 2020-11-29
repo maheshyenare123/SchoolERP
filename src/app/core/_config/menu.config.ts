@@ -523,10 +523,10 @@ export class MenuConfig {
             //   title: 'Exam',
             //   page: '/examination/exam/:id'
             // },
-            // {
-            //   title: 'Hostel Room',
-            //   page: '/examination/hostel-room'
-            // },
+            {
+              title: 'Exam Schedule',
+              page: '/examination/exam-schedule'
+            },
             
           ]
         },
@@ -546,12 +546,27 @@ export class MenuConfig {
               page: '/report/finance'
             },
 
-
             
-            // {
-            //   title: 'Student Report',
-            //   page: '/report/student-report'
-            // },
+            
+            {
+              title: 'Human Resource',
+              page: '/report/human-resource-report'
+            },
+
+            {
+              title: 'Library',
+              page: '/report/library-report'
+            },
+
+            {
+              title: 'Inventory',
+              page: '/report/inventory-report'
+            },
+
+            {
+              title: 'Transport',
+              page: '/report/transport-report'
+            },
             {
               title: 'Hostel',
               page: '/report/hostel-report'
