@@ -12,6 +12,9 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '../../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
 import { ExamEditDialogComponent} from '../exam-edit/exam-edit.dialog.component';
+import { ExamAssignStudentDialogComponent } from '../../exam-assign-student/exam-assign-student.dialog.component';
+import { ExamSubjectDialogComponent } from '../../exam-subject-edit/exam-subject-edit.dialog.component';
+import { ExamMarksDialogComponent } from '../../exam-marks/exam-marks.dialog.component';
 
 @Component({
   selector: 'kt-exam',
@@ -330,7 +333,59 @@ deleteProducts() {
 			this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
 			this.loadExamsList();
 		});
-	}
+  }
+  
+  assignExamToStudent(exam: ExamModel) {
+    let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
+  //const _saveMessage = homework.id > 0 ? 'Edit  Homework' : 'Create  Homework';
+  
+    //const _messageType = homework.id > 0 ? MessageType.Update : MessageType.Create;
+    const dialogRef = this.dialog.open(ExamAssignStudentDialogComponent, { data: { exam } });
+    dialogRef.afterClosed().subscribe(res => {
+      if (!res) {
+        return;
+      }
+  
+    //	this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
+      
+     });
+  }
+
+  addSubject(exam: ExamModel) {
+    let examGroupDetail = this.examGroupDetail;
+    let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
+  //const _saveMessage = homework.id > 0 ? 'Edit  Homework' : 'Create  Homework';
+  
+    //const _messageType = homework.id > 0 ? MessageType.Update : MessageType.Create;
+    const dialogRef = this.dialog.open(ExamSubjectDialogComponent, { data: { exam, examGroupDetail } });
+    dialogRef.afterClosed().subscribe(res => {
+      if (!res) {
+        return;
+      }
+  
+    //	this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
+      
+     });
+  }
+
+
+  examMarks(exam: ExamModel) {
+    let examGroupDetail = this.examGroupDetail;
+    let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
+  //const _saveMessage = homework.id > 0 ? 'Edit  Homework' : 'Create  Homework';
+  
+    //const _messageType = homework.id > 0 ? MessageType.Update : MessageType.Create;
+    const dialogRef = this.dialog.open(ExamMarksDialogComponent, { data: { exam, examGroupDetail } });
+    dialogRef.afterClosed().subscribe(res => {
+      if (!res) {
+        return;
+      }
+  
+    //	this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
+      
+     });
+  }
+
 
 /**
  * Check all rows are selected

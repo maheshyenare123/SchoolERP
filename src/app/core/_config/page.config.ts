@@ -290,6 +290,14 @@ export class PageConfig {
       'exam/:id': {
         page: { title: 'Exam', desc: '' }
       },
+      'examSubjectMarks/:examId/:examSubjectId/:examGroupId': {
+        page: { title: 'Exam Subject Marks', desc: '' }
+      },
+      'exam-result': {
+        page: { title: 'Exam Result', desc: '' }
+      },
+
+      
     },
 
     'report': {

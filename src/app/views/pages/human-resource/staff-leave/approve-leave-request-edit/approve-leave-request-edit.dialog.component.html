@@ -52,10 +52,10 @@
 				<div class="col-lg-3 kt-margin-bottom-20-mobile">
 					<mat-form-field class="mat-form-field-fluid">
 						<mat-select placeholder="Available Leave" formControlName="leaveTypeId" (change)="getLeaveType($event)" >
-							<mat-option value="3">Business</mat-option>
-							<mat-option value="4">Individual</mat-option>
+							<mat-option *ngFor="let leaveType of leaveTypeList" [value]="leaveType.id" >
+								{{leaveType.type}}
+							</mat-option>
 						</mat-select>
-
 					</mat-form-field>
 				</div>
 				<div class="col-lg-3 kt-margin-bottom-20-mobile">
@@ -83,9 +83,9 @@
 				<div class="col-lg-3 kt-margin-bottom-20-mobile">
 					<label >Status</label><br>
 					<mat-radio-group aria-label="Select an option" formControlName="status" >
-						<mat-radio-button value="Pending">Pending</mat-radio-button>
-						<mat-radio-button value="Approve ">Approve </mat-radio-button>
-						<mat-radio-button value="Disapprove ">Disapprove </mat-radio-button>
+						<mat-radio-button value="pending">Pending</mat-radio-button>
+						<mat-radio-button value="approve ">Approve </mat-radio-button>
+						<mat-radio-button value="disapprove ">Disapprove </mat-radio-button>
 					  </mat-radio-group>
 				</div>
 				<div class="col-lg-12 kt-margin-bottom-20-mobile">

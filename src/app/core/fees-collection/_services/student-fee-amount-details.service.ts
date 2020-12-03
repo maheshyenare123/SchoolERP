@@ -26,9 +26,9 @@ export class StudentFeeAmountDetailsService {
     return this.http.get<StudentFeeAmountDetailsModel[]>(Constants.URL.HOST_URL+Constants.Fees_Collection.Student_Fee_Deposite, {headers: httpHeaders});
   }
 
-  getStudentFeeAmountDetailsById(studentFeeAmountDetailsId: number): Observable<StudentFeeAmountDetailsModel> {
+  getStudentFeeAmountDetailsById(feeMastersId: number): Observable<StudentFeeAmountDetailsModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<StudentFeeAmountDetailsModel>(Constants.URL.HOST_URL+Constants.Fees_Collection.Student_Fee_Deposite+ `/${studentFeeAmountDetailsId}`, {headers: httpHeaders});
+    return this.http.get<StudentFeeAmountDetailsModel>(Constants.URL.HOST_URL+Constants.Fees_Collection.Student_Fee_Deposite+ `/${feeMastersId}`, {headers: httpHeaders});
   }
 
   getStudentDiscountById(studentFeeAmountDetailsId: number): Observable<StudentFeeAmountDetailsModel> {

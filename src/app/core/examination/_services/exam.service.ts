@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from "@angular/common/http";
+import { HttpClient,HttpHeaders, HttpParams } from "@angular/common/http";
 import { Constants } from '../../api_url';
 import { HttpUtilsService, QueryResultsModel, QueryParamsModel } from '../../_base/crud';
 import { ExamModel } from '../_models/exam.model';
@@ -45,6 +45,9 @@ export class ExamService {
       // params: httpParams
     });
   }
+
+
+
 
   // UPDATE => PUT: update the Exam on the server
   updateExam(exam: ExamModel): Observable<any> {

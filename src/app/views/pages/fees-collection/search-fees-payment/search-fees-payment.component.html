@@ -1,5 +1,5 @@
 <kt-portlet>
-	<kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Search Payment By Id'">
+	<kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Search Payment By Id'" [viewLoading$]="dataSource.loading$">
 	</kt-portlet-header>
 	<!-- end::Header -->
 	<kt-portlet-body>
@@ -56,13 +56,12 @@
 
 
 
-	<kt-portlet-header [sticky]="true" [title]="'Payment Details List'" [class]="'card-head-lg'"
-		[viewLoading$]="dataSource.loading$">
+	<!-- <kt-portlet-header [sticky]="true" [title]="'Payment Details List'" [class]="'card-head-lg'"> -->
 		<!-- <ng-container ktPortletTools>
 			<button (click)="addStudentfeedeposite()" mat-raised-button color="primary" matTooltip="Create new Studentfeedeposite">New
 				Studentfeedeposite</button>
 		</ng-container> -->
-	</kt-portlet-header>
+	<!-- </kt-portlet-header> -->
 	<!-- end::Header -->
 
 	<kt-portlet-body>

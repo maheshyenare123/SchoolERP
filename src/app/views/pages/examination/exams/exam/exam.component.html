@@ -131,17 +131,6 @@
 					</mat-cell>
                 </ng-container> -->
 				
-				// 	dateFrom: string;
-    // dateTo: string;
-    // description: string;
-    // examGroupId: number;
-    // examGroupName: string;
-    // id: number;
-    // isPublish: string;
-    // name: string;
-    // sessionName: string;
-    // status: string;
-    // subjectCount: number;
 
                 <ng-container matColumnDef="name">
 					<mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
@@ -181,12 +170,28 @@
 						Actions
 					</mat-header-cell>
 					<mat-cell *matCellDef="let exam">
+						<button mat-icon-button color="primary" matTooltip="Assign Exam"
+						(click)="assignExamToStudent(exam)">
+						<mat-icon>local_offer</mat-icon>
+					</button>&nbsp;
+				
+						<button mat-icon-button color="primary" matTooltip="Add Subject"
+						(click)="addSubject(exam)">
+						<mat-icon>book</mat-icon>
+					</button>&nbsp;
+
+
+					<button mat-icon-button color="primary" matTooltip="Exam Marks"
+					(click)="examMarks(exam)">
+					<mat-icon>book</mat-icon>
+				</button>&nbsp;
+					
 						<button type="button" (click)="editExam(exam)" mat-icon-button color="primary"
-							matTooltip="Edit Postal Dispatch">
+							matTooltip="Edit Exam">
 							<mat-icon>create</mat-icon>
 						</button>&nbsp;
 						<button mat-icon-button color="warn" type="button" (click)="deleteExam(exam)"
-							matTooltip="Delete Postal Dispatch">
+							matTooltip="Delete Exam">
 							<mat-icon>delete</mat-icon>
 						</button>&nbsp;
 						<!-- <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="More actions">

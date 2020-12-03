@@ -571,8 +571,8 @@ $table-compact-head-letter-spacing:                 0.1rem !default; // Custom v
 $card-box-shadow: 									0px 0px 30px 0px rgba(82,63,105,0.05) !default; // card custom shadow
 $card-border-color:                 				$gray-200 !default;
 $card-cap-bg:                       				$white !default;
-$card-spacer-y:                     				2rem !default;
-$card-spacer-x:                    					2.25rem !default;
+$card-spacer-y:                     				1.5rem !default; //2rem !default;
+$card-spacer-x:                    					2rem !default; //2.25rem !default;
 $card-border-radius:                				$border-radius !default;
 
 $card-header-spacer-y:                              0.5rem !default; // Custom variable

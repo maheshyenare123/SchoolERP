@@ -1,5 +1,5 @@
 <kt-portlet>
-	<kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Student'">
+	<kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Student'" [viewLoading$]="dataSource.loading$">
 	</kt-portlet-header>
 	<!-- end::Header -->
 	<kt-portlet-body>
@@ -51,10 +51,15 @@
 								
 							</mat-form-field>
 						</div> -->
+						<div class="col-lg-3 kt-margin-bottom-20-mobile">
+							<button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
+								Search
+							</button>
+						</div>
 					</div>
 		
 				</div>
-				<div class="card-footer">
+				<!-- <div class="card-footer">
 					<div class="d-flex justify-content-between">
 						<div class="mr-2"></div>
 						<div>
@@ -63,7 +68,7 @@
 							</button>
 						</div>
 					</div>
-				</div>
+				</div> -->
 			</form>
 		
 
@@ -76,13 +81,12 @@
 
 
 
-	<kt-portlet-header [sticky]="true" [title]="'Student List'" [class]="'card-head-lg'"
-		[viewLoading$]="dataSource.loading$">
+	<!-- <kt-portlet-header [sticky]="true" [title]="'Student List'" [class]="'card-head-lg'"> -->
 		<!-- <ng-container ktPortletTools>
 			<button (click)="addStudent()" mat-raised-button color="primary" matTooltip="Create new Student">New
 				Student</button>
 		</ng-container> -->
-	</kt-portlet-header>
+	<!-- </kt-portlet-header> -->
 	<!-- end::Header -->
 
 	<kt-portlet-body>

@@ -101,7 +101,7 @@ export class FeesDiscountAssignStudentDialogComponent implements OnInit {
 	ngOnInit() {
 
 		this.loadAllClasses();
-		this.loadAllSectionsByClassId(1);
+		// this.loadAllSectionsByClassId(1);
 		this.addAssignFeesStudent();
 		this.loadAllStudentCategory();
 		// Init DataSource
@@ -411,7 +411,10 @@ console.log(this.assignFeesStudentForFill);
 	 * On Submit
 	 */
 	onSubmit() {
+		if(this.selectedList.length === 0){
 
+			return
+		}
 	let entity = {
 		"feeDiscountId": this.feesDiscount.id,
 		"studentDtos": this.selectedList

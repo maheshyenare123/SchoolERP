@@ -74,7 +74,7 @@
 					</kt-alert>
 		
 					<div class="form-group row">
-						<div class="col-lg-3 kt-margin-bottom-20-mobile">
+						<div class="col-lg-4 kt-margin-bottom-20-mobile">
 							<mat-form-field class="mat-form-field-fluid">
 								<mat-select placeholder="Select Class" formControlName="classId" (selectionChange)="onClassSelectChange($event.value)">
 
@@ -95,7 +95,11 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-
+						<div class="col-lg-4 kt-margin-bottom-20-mobile">
+							<button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
+								Search
+							</button>
+						</div>
 						<!-- <div class="col-lg-3 kt-margin-bottom-20-mobile">
 							<mat-form-field class="mat-form-field-fluid">
 								<mat-select placeholder="Section" formControlName="sectionId">
@@ -123,7 +127,7 @@
 					</div>
 		
 				</div>
-				<div class="card-footer">
+				<!-- <div class="card-footer">
 					<div class="d-flex justify-content-between">
 						<div class="mr-2"></div>
 						<div>
@@ -132,7 +136,7 @@
 							</button>
 						</div>
 					</div>
-				</div>
+				</div> -->
 			</form>
 		
 

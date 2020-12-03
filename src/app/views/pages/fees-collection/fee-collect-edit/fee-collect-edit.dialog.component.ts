@@ -45,6 +45,7 @@ classList: StudentClassModel[] = [];
 studentList: StudentDtoModel[] = [];
 	feesDiscountList: any[];
 	student: StudentModel;
+	errormsg: string;
 
 constructor(public dialogRef: MatDialogRef<FeeCollectEditDialogComponent>,
 	@Inject(MAT_DIALOG_DATA) public data: any,
@@ -68,15 +69,14 @@ ngOnInit() {
 	const studentFeeAmountDetails = new StudentFeeAmountDetailsModel();
 	studentFeeAmountDetails.clear(); // Set all defaults fields
 	this.studentFeeDeposite = this.data.studentFeeDeposite;
-	if (this.studentFeeDeposite.amountDetails == null || this.studentFeeDeposite.amountDetails == undefined) {
-		this.studentFeeDeposite.amountDetails = studentFeeAmountDetails
-		this.studentFeeDeposite.amountDetails.amount = this.studentFeeDeposite.amount;
-		this.studentFeeDeposite.amountDetails.amountFine = this.studentFeeDeposite.fine;
-		this.studentFeeDeposite.amountDetails.paymentMode = 'Cash';
-		this.studentFeeDeposite.amountDetails.feeMastersId = this.studentFeeDeposite.feeMastersId;
-		this.studentFeeDeposite.amountDetails.studentFeeMasterId = this.studentFeeDeposite.studentFeeMasterId;
-	}
 
+		this.studentFeeAmountDetails = studentFeeAmountDetails
+		this.studentFeeAmountDetails.amount = this.studentFeeDeposite.balance;
+		this.studentFeeAmountDetails.amountFine = this.studentFeeDeposite.fine;
+		this.studentFeeAmountDetails.paymentMode = 'Cash';
+		this.studentFeeAmountDetails.feeMastersId = this.studentFeeDeposite.feeMastersId;
+		this.studentFeeAmountDetails.studentFeeMasterId = this.studentFeeDeposite.studentFeeMasterId;
+	
 
 	this.student =  this.data.student
 	console.log(this.studentFeeDeposite)
@@ -107,7 +107,10 @@ ngOnInit() {
 			}
 		}) 
 	}
+	amountEnter($event){
+		this.errormsg ="";
 
+	}
 
 	loadAllClasses() {
 		debugger
@@ -161,28 +164,28 @@ createForm() {
 	if(this.data.type == 'single'){
 		this.studentFeeAmountDetailsForm = this.fb.group({
 
-			amount: [this.studentFeeDeposite.amountDetails.amount,],
-			amountDiscount: [this.studentFeeDeposite.amountDetails.amountDiscount,],
-			amountFine: [this.studentFeeDeposite.amountDetails.amountFine,],
-			date: [this.typesUtilsService.getDateFromString(this.studentFeeDeposite.amountDetails.date), Validators.compose([Validators.nullValidator])],
-			description: [this.studentFeeDeposite.amountDetails.description,],
-			feeMastersId: [this.studentFeeDeposite.amountDetails.feeMastersId,],
-			paymentMode: [this.studentFeeDeposite.amountDetails.paymentMode,],
-			studentFeeMasterId: [this.studentFeeDeposite.amountDetails.studentFeeMasterId,]
+			amount: [this.studentFeeAmountDetails.amount,],
+			amountDiscount: [this.studentFeeAmountDetails.amountDiscount,],
+			amountFine: [this.studentFeeAmountDetails.amountFine,],
+			date: [this.typesUtilsService.getDateFromString(this.studentFeeAmountDetails.date), Validators.compose([Validators.nullValidator])],
+			description: [this.studentFeeAmountDetails.description,],
+			feeMastersId: [this.studentFeeAmountDetails.feeMastersId,],
+			paymentMode: [this.studentFeeAmountDetails.paymentMode,],
+			studentFeeMasterId: [this.studentFeeAmountDetails.studentFeeMasterId,]
 			});
 	}
 
 	if(this.data.type == 'All'){
 		this.studentFeeAmountDetailsForm = this.fb.group({
 
-			amount: [this.studentFeeDeposite.amountDetails.amount,],
-			amountDiscount: [this.studentFeeDeposite.amountDetails.amountDiscount,],
-			amountFine: [this.studentFeeDeposite.amountDetails.amountFine,],
-			date: [this.typesUtilsService.getDateFromString(this.studentFeeDeposite.amountDetails.date), Validators.compose([Validators.nullValidator])],
-			description: [this.studentFeeDeposite.amountDetails.description,],
-			feeMastersId: [this.studentFeeDeposite.amountDetails.feeMastersId,],
-			paymentMode: [this.studentFeeDeposite.amountDetails.paymentMode,],
-			studentFeeMasterId: [this.studentFeeDeposite.amountDetails.studentFeeMasterId,]
+			amount: [this.studentFeeAmountDetails.amount,],
+			amountDiscount: [this.studentFeeAmountDetails.amountDiscount,],
+			amountFine: [this.studentFeeAmountDetails.amountFine,],
+			date: [this.typesUtilsService.getDateFromString(this.studentFeeAmountDetails.date), Validators.compose([Validators.nullValidator])],
+			description: [this.studentFeeAmountDetails.description,],
+			feeMastersId: [this.studentFeeAmountDetails.feeMastersId,],
+			paymentMode: [this.studentFeeAmountDetails.paymentMode,],
+			studentFeeMasterId: [this.studentFeeAmountDetails.studentFeeMasterId,]
 		
 			});
 	}
@@ -264,6 +267,16 @@ onSubmit() {
 		return;
 	}
 
+	
+	if(this.studentFeeAmountDetailsForm.get("amount").value > this.studentFeeDeposite.amount){
+		this.errormsg = "Deposit amount can not be grater than remaining";
+		return
+	}else{
+		this.errormsg ="";
+	}
+
+
+	return
 	const editedStudentFeeAmountDetails = this.preparestudentFeeAmountDetails();
 	// if (editedStudentFeeAmountDetails.feeMastersId > 0) {
 	// 	this.updateStudentFeeAmountDetails(editedStudentFeeAmountDetails);
@@ -302,16 +315,17 @@ updateStudentFeeAmountDetails(_studentFeeAmountDetails: StudentFeeAmountDetailsM
  */
 createStudentFeeAmountDetails(_studentFeeAmountDetails: StudentFeeAmountDetailsModel) {
 	this.store.dispatch(new StudentFeeAmountDetailsOnServerCreated({ studentFeeAmountDetails: _studentFeeAmountDetails }));
-	this.componentSubscriptions = this.store.pipe(
-		select(selectLastCreatedStudentFeeAmountDetailsId),
-		delay(1000), // Remove this line
-	).subscribe(res => {
-		if (!res) {
-			return;
-		}
+	this.dialogRef.close({ _studentFeeAmountDetails, isEdit: false });
+	// this.componentSubscriptions = this.store.pipe(
+	// 	select(selectLastCreatedStudentFeeAmountDetailsId),
+	// 	delay(1000), // Remove this line
+	// ).subscribe(res => {
+	// 	if (!res) {
+	// 		return;
+	// 	}
 
-		this.dialogRef.close({ _studentFeeAmountDetails, isEdit: false });
-	});
+	// 	this.dialogRef.close({ _studentFeeAmountDetails, isEdit: false });
+	// });
 
 	// integrate studentFeeAmountDetails  create api
 }

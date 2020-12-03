@@ -526,7 +526,16 @@ export class MenuConfig {
             {
               title: 'Exam Schedule',
               page: '/examination/exam-schedule'
+            },  
+            {
+              title: 'Exam Subject Marks',
+              page: '/examination/examSubjectMarks/:examId/:examSubjectId/:examGroupId'
             },
+            {
+              title: 'Exam Result',
+              page: '/examination/exam-result'
+            },  
+
             
           ]
         },

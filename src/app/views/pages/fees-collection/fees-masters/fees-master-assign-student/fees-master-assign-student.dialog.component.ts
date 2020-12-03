@@ -102,7 +102,7 @@ export class FeesMasterAssignStudentDialogComponent implements OnInit {
 	ngOnInit() {
 debugger
 		this.loadAllClasses();
-		this.loadAllSectionsByClassId(1);
+		// this.loadAllSectionsByClassId(1);
 		this.addAssignFeesStudent();
 		this.loadAllStudentCategory();
 		// Init DataSource
@@ -436,6 +436,10 @@ console.log(this.assignFeesStudentForFill);
 	 */
 	onSubmit() {
 		debugger
+		if(this.selectedList.length === 0){
+
+			return
+		}
 		
 	let entity = {
 		"feeGroupId": this.feesMaster.feeGroupId,

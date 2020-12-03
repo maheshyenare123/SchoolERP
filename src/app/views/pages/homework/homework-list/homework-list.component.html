@@ -23,7 +23,7 @@
                 </kt-alert>
     
                 <div class="form-group row">
-                    <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                    <div class="col-lg-2 kt-margin-bottom-20-mobile">
                         <mat-form-field class="mat-form-field-fluid">
 							<mat-select placeholder="Select Class" formControlName="classesId"  (selectionChange)="onClassSelectChange($event.value)">
 								<mat-option *ngFor="let classData of classList" [value]="classData.id" >
@@ -33,7 +33,7 @@
     
                         </mat-form-field>
                     </div>
-                    <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                    <div class="col-lg-2 kt-margin-bottom-20-mobile">
                         <mat-form-field class="mat-form-field-fluid">
 							<mat-select placeholder="Select Section" formControlName="sectionId"  >
 								<mat-option *ngFor="let section of sectionList" [value]="section.id" >
@@ -61,11 +61,16 @@
 								</mat-option>
 							</mat-select>
                         </mat-form-field>
-                    </div>
+					</div>
+					<div class="col-lg-2 kt-margin-bottom-20-mobile">
+						<button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
+                            Search
+                        </button>
+					</div>
                 </div>
     
             </div>
-            <div class="card-footer">
+            <!-- <div class="card-footer">
                 <div class="d-flex justify-content-between">
                     <div class="mr-2"></div>
                     <div>
@@ -74,7 +79,7 @@
                         </button>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </form>
     
 		<!-- <div class="form mb-3"> -->
@@ -154,9 +159,9 @@
 		<!-- end::FILTERS & GROUP ACTIONS -->
 	</kt-portlet-body>
 
-	<kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Homework List'"
+	<!-- <kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Homework List'"
 	[viewLoading$]="dataSource.loading$">
-</kt-portlet-header>
+</kt-portlet-header> -->
 <!-- end::Header -->
 <kt-portlet-body>
 

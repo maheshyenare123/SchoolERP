@@ -334,15 +334,15 @@
 		<br>
 		<hr>
 		<br>
-		<button type="button" mat-raised-button color="primary" (click)="collectStudentFee(studentfeedeposite,'All')"  matTooltip="Collect Selected">
+		<!-- <button type="button" mat-raised-button color="primary" (click)="collectStudentFee(studentfeedeposite,'All')"  matTooltip="Collect Selected">
 			Collect Selected
-		</button>
+		</button> -->
 		<br>
 		<hr>
 		<br>
 		<table style="width: 100%;">
 			<thead >
-				<th><input type="checkbox" (change)="onSelectionAll(data, $event)"/></th>
+				<!-- <th><input type="checkbox" (change)="onSelectionAll(feesdeposite, $event)"/></th> -->
 				<th>Fees Group</th>
 				<th>Fees Code</th>
 				<th>Due Date</th>
@@ -357,353 +357,79 @@
 				<th>Balance</th>
 				<th>Action</th>
 			</thead>
-			<tbody>
+			<tbody *ngFor="let feesdeposite of feesDepositeList">
+				<tr>
+					<!-- <th><input type="checkbox" (change)="onSelection(feesdeposite, $event)" /></th> -->
 				
-				<tr *ngFor="let data of feesDepositeList">
-					<th><input type="checkbox" (change)="onSelection(data, $event)" /></th>
-				
-						<td>{{data.feeGroupName}}</td>
-						<td>{{data.feeCode}}</td>
-						<td>{{data.dueDate}}</td>
-						<ng-container *ngIf="data.status == 'unpaid'">
+						<td>{{feesdeposite.feeGroupName}}</td>
+						<td>{{feesdeposite.feeCode}}</td>
+						<td>{{feesdeposite.dueDate}}</td>
+						<ng-container *ngIf="feesdeposite.status == 'unpaid'">
 							<td><span class="danger">Unpaid</span></td>
 						</ng-container>
-						<ng-container *ngIf="data.status == 'paid'">
+						<ng-container *ngIf="feesdeposite.status == 'paid'">
 							<td><span class="success">Paid</span></td>
 						</ng-container>
-						<ng-container *ngIf="data.status == 'partial'">
+						<ng-container *ngIf="feesdeposite.status == 'partial'">
 							<td><span class="warning">Partial</span></td>
 						</ng-container>
-						<td>{{data.amount}}.00</td>
+						<td>{{feesdeposite.amount}}.00</td>
 						<td></td>
 						<td></td>
 						<td></td>
-						<td>{{data.discount}}.00</td>
-						<td>{{data.fine}}.00</td>
-						<td>{{data.paid}}.00</td>
-						<td>{{data.balance}}.00</td>
-					
-					
-						<!-- <table>
-							<tbody>
-								<tr *ngFor="let data1 of data.amountDetails">
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>{{data1.id}}</td>
-									<td>{{data1.paymentMode}}</td>
-									<td>{{data1.date}}</td>
-									<td>{{data1.amountDiscount}}.00</td>
-									<td>{{data1.amountFine}}.00</td>
-									<td>{{data1.amount}}.00</td>
-									<td></td>
-									<td></td>
-								</tr>
-							</tbody>
-						</table> -->
-						
-					
-					
+						<td>{{feesdeposite.discount}}.00</td>
+						<td>{{feesdeposite.fine}}.00</td>
+						<td>{{feesdeposite.paid}}.00</td>
+						<td>{{feesdeposite.balance}}.00</td>
 					<td>
 						<div class="btn-group pull-right">
-							<ng-container *ngIf="data.amountDetails == null || data.status == 'partial'">
-								<button type="button" class="btn btn-xs btn-default myCollectFeeBtn " title="Add Fees" (click)="collectStudentFee(data,'single')"><i class="fa fa-plus"></i></button>
+							<ng-container *ngIf="feesdeposite.amountDetails == null || feesdeposite.status == 'partial'">
+								<button type="button" class="btn btn-xs btn-default myCollectFeeBtn " title="Add Fees" (click)="collectStudentFee(feesdeposite,'single')"><i class="fa fa-plus"></i></button>
 							</ng-container>
 							<!--  -->
 							<!-- <button class="btn btn-xs btn-default printInv" title="Print"><i class="fa fa-print"></i> </button> -->
-							<!-- <button class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm-delete" title="Revert"><i class="fa fa-undo"> </i></button> -->
+							<!-- <button class="btn btn-default btn-xs" feesdeposite-toggle="modal" feesdeposite-target="#confirm-delete" title="Revert"><i class="fa fa-undo"> </i></button> -->
 						</div>
 					</td>
 				</tr>
 
-				Static
-
-
-
-				<tr>
-					<th><input type="checkbox" (change)="onSelection(data, $event)" /></th>
-					<td>General</td>
-					<td>admission-fees</td>
-					<td>30/08/2020</td>
-					<td><span class="success">Paid</span></td>
-					<td>5000.00</td>
+				<tr *ngFor="let feesdeposite1 of feesdeposite.amountDetails">
+					<!-- <td></td> -->
 					<td></td>
 					<td></td>
 					<td></td>
-					<td>0.00</td>
-					<td>0.00</td>
-					<td>5000.00</td>
 					<td></td>
-					<td>
-						<div class="btn-group pull-right">
-							<!-- <button type="button" class="btn btn-xs btn-default myCollectFeeBtn " title="Add Fees" (click)="collectStudentFee(studentfeedeposite,'single')"><i class="fa fa-plus"></i></button> -->
-							<button class="btn btn-xs btn-default printInv" title="Print"><i class="fa fa-print"></i> </button>
-							<!-- <button class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm-delete" title="Revert"><i class="fa fa-undo"> </i></button> -->
-						</div>
-					</td>
-				</tr>
-				<tr>
 					<td></td>
+					<td>{{feesdeposite1.id}}</td>
+					<td>{{feesdeposite1.paymentMode}}</td>
+					<td>{{feesdeposite1.date}}</td>
+					<td>{{feesdeposite1.amountDiscount}}.00</td>
+					<td>{{feesdeposite1.amountFine}}.00</td>
+					<td>{{feesdeposite1.amount}}.00</td>
 					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>3/1</td>
-					<td>Cash</td>
-					<td>07/08/2020</td>
-					<td>0.00</td>
-					<td>0.00</td>
-					<td>2000.00</td>
-					<td></td>
-					<td>
-						<div class="btn-group pull-right">
-							<!-- <button type="button" class="btn btn-xs btn-default myCollectFeeBtn " title="Add Fees" (click)="collectStudentFee(studentfeedeposite,'single')"><i class="fa fa-plus"></i></button> -->
-							<button class="btn btn-xs btn-default printInv" title="Print"><i class="fa fa-print"></i> </button>
-							<button class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm-delete" title="Revert"><i class="fa fa-undo"> </i></button>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>3/2</td>
-					<td>Cheque</td>
-					<td>07/08/2020</td>
-					<td>0.00</td>
-					<td>0.00</td>
-					<td>1000.00</td>
-					<td></td>
-					<td>
-						<div class="btn-group pull-right">
-							<!-- <button type="button" class="btn btn-xs btn-default myCollectFeeBtn " title="Add Fees" (click)="collectStudentFee(studentfeedeposite,'single')"><i class="fa fa-plus"></i></button> -->
-							<button class="btn btn-xs btn-default printInv" title="Print"><i class="fa fa-print"></i> </button>
-							<button class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm-delete" title="Revert"><i class="fa fa-undo"> </i></button>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>3/3</td>
-					<td>Cash</td>
-					<td>03/10/2020</td>
-					<td>0.00</td>
-					<td>0.00</td>
-					<td>2000.00</td>
-					<td></td>
-					<td>
-						<div class="btn-group pull-right">
-							<!-- <button type="button" class="btn btn-xs btn-default myCollectFeeBtn " title="Add Fees" (click)="collectStudentFee(studentfeedeposite,'single')"><i class="fa fa-plus"></i></button> -->
-							<button class="btn btn-xs btn-default printInv" title="Print"><i class="fa fa-print"></i> </button>
-							<button class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm-delete" title="Revert"><i class="fa fa-undo"> </i></button>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<th><input type="checkbox" (change)="onSelection(data, $event)"/></th>
-					<td>General</td>
-					<td>Bus-fees</td>
-					<td>31/08/2020</td>
-					<td><span class="success">Paid</span></td>
-					<td>999.00</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>99.00</td>
-					<td>0.00</td>
-					<td>900.00</td>
-					<td></td>
-					<td>
-						<div class="btn-group pull-right">
-							<!-- <button type="button" class="btn btn-xs btn-default myCollectFeeBtn " title="Add Fees" (click)="collectStudentFee(studentfeedeposite,'single')"><i class="fa fa-plus"></i></button> -->
-							<button class="btn btn-xs btn-default printInv" title="Print"><i class="fa fa-print"></i> </button>
-							<!-- <button class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm-delete" title="Revert"><i class="fa fa-undo"> </i></button> -->
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>4/1</td>
-					<td>Cash</td>
-					<td>07/08/2020</td>
-					<td>99.00</td>
-					<td>0.00</td>
-					<td>400.00</td>
-					<td></td>
-					<td>
-						<div class="btn-group pull-right">
-							<!-- <button type="button" class="btn btn-xs btn-default myCollectFeeBtn " title="Add Fees" (click)="collectStudentFee(studentfeedeposite,'single')"><i class="fa fa-plus"></i></button> -->
-							<button class="btn btn-xs btn-default printInv" title="Print"><i class="fa fa-print"></i> </button>
-							<button class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm-delete" title="Revert"><i class="fa fa-undo"> </i></button>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>4/2</td>
-					<td>Cash</td>
-					<td>03/10/2020</td>
-					<td>0.00</td>
-					<td>0.00</td>
-					<td>500.00</td>
-					<td></td>
-					<td>
-						<div class="btn-group pull-right">
-							<!-- <button type="button" class="btn btn-xs btn-default myCollectFeeBtn " title="Add Fees" (click)="collectStudentFee(studentfeedeposite,'single')"><i class="fa fa-plus"></i></button> -->
-							<button class="btn btn-xs btn-default printInv" title="Print"><i class="fa fa-print"></i> </button>
-							<button class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm-delete" title="Revert"><i class="fa fa-undo"> </i></button>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<th><input type="checkbox" (change)="onSelection(data, $event)"/></th>
-					<td>General</td>
-					<td>exam-fees</td>
-					<td>31/12/2020</td>
-					<td><span class="danger">Unpaid</span></td>
-					<td>5000.00</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>0.00</td>
-					<td>0.00</td>
-					<td>0.00</td>
-					<td>5000.00</td>
-					<td>
-						<div class="btn-group pull-right">
-							<button type="button" class="btn btn-xs btn-default myCollectFeeBtn " title="Add Fees" (click)="collectStudentFee(studentfeedeposite,'single')"><i class="fa fa-plus"></i></button>
-							<button class="btn btn-xs btn-default printInv" title="Print"><i class="fa fa-print"></i> </button>
-							<!-- <button class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm-delete" title="Revert"><i class="fa fa-undo"> </i></button> -->
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<th><input type="checkbox" (change)="onSelection(data, $event)"/></th>
-					<td>School Sport Event</td>
-					<td>G-SPORT</td>
-					<td>10/10/2020</td>
-					<td><span class="success">Paid</span></td>
-					<td>450.00</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>0.00</td>
-					<td>0.00</td>
-					<td>450.00</td>
-					<td></td>
-					<td>
-						<div class="btn-group pull-right">
-							<!-- <button type="button" class="btn btn-xs btn-default myCollectFeeBtn " title="Add Fees" (click)="collectStudentFee(studentfeedeposite,'single')"><i class="fa fa-plus"></i></button> -->
-							<button class="btn btn-xs btn-default printInv" title="Print"><i class="fa fa-print"></i> </button>
-							<!-- <button class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm-delete" title="Revert"><i class="fa fa-undo"> </i></button> -->
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>6/1</td>
-					<td>Cash</td>
-					<td>16/10/2020</td>
-					<td>0.00</td>
-					<td>0.00</td>
-					<td>450.00</td>
-					<td></td>
-					<td>
-						<div class="btn-group pull-right">
-							<!-- <button type="button" class="btn btn-xs btn-default myCollectFeeBtn " title="Add Fees" (click)="collectStudentFee(studentfeedeposite,'single')"><i class="fa fa-plus"></i></button> -->
-							<button class="btn btn-xs btn-default printInv" title="Print"><i class="fa fa-print"></i> </button>
-							<button class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm-delete" title="Revert"><i class="fa fa-undo"> </i></button>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<th><input type="checkbox" (change)="onSelection(data, $event)"/></th>
-					<td>General</td>
-					<td>admission-fees</td>
-					<td>30/08/2020</td>
-					<td><span class="warning">Partial</span></td>
-					<td>5000.00</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>0.00</td>
-					<td>0.00</td>
-					<td>2000.00</td>
-					<td>3000.00	</td>
-					<td>
-						<div class="btn-group pull-right">
-							<button type="button" class="btn btn-xs btn-default myCollectFeeBtn " title="Add Fees" (click)="collectStudentFee(studentfeedeposite,'single')"><i class="fa fa-plus"></i></button>
-							<button class="btn btn-xs btn-default printInv" title="Print"><i class="fa fa-print"></i> </button>
-							<!-- <button class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm-delete" title="Revert"><i class="fa fa-undo"> </i></button> -->
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>7/1</td>
-					<td>Cash</td>
-					<td>11/11/2020</td>
-					<td>0.00</td>
-					<td>0.00</td>
-					<td>2000.00	</td>
-					<td></td>
-					<td>
-						<div class="btn-group pull-right">
-							<!-- <button type="button" class="btn btn-xs btn-default myCollectFeeBtn " title="Add Fees" (click)="collectStudentFee(studentfeedeposite,'single')"><i class="fa fa-plus"></i></button> -->
-							<button class="btn btn-xs btn-default printInv" title="Print"><i class="fa fa-print"></i> </button>
-							<button class="btn btn-default btn-xs" data-toggle="modal" data-target="#confirm-delete" title="Revert"><i class="fa fa-undo"> </i></button>
-						</div>
-					</td>
+					<td></td>					
 				</tr>
 
+					
+
+
+			
 			</tbody>
 			<tfoot>
 				<tr>
-					<td></td>
+					<!-- <td></td> -->
 					<td></td>
 					<td></td>
 					<td></td>
 					<td>Grand Total</td>
-					<td>₹16449.00</td>
+					<td>₹{{totalAmount}}.00</td>
 					<td></td>
 					<td></td>
 					<td></td>
-					<td>₹99.00</td>
-					<td>₹0.00</td>
-					<td>₹8350.00</td>
-					<td>₹8000.00</td>
+					<td>₹{{totalDiscount}}.00</td>
+					<td>₹{{totalFine}}.00</td>
+					<td>₹{{totalPaid}}.00</td>
+					<td>₹{{totalBalance}}.00</td>
 					<td></td>
 				</tr>
 			</tfoot>
@@ -712,4 +438,3 @@
 	</kt-portlet-body>
 	<!-- end::Body -->
 </kt-portlet>
-

@@ -26,11 +26,17 @@ import {NgxPaginationModule} from 'ngx-pagination';
 
 import { ExaminationComponent } from './examination.component';
 import { ExamGroupComponent } from './exam-group/exam-group.component';
-import { examGroupsReducer, ExamGroupEffects, ExamEffects, ExamService, examsReducer } from 'src/app/core/examination';
+import { examGroupsReducer, ExamGroupEffects, ExamEffects, ExamService, examsReducer, AssignStudentExamEffects, AssignStudentExamService, assignStudentExamsReducer, ExamSubjectEffects, ExamSubjectService, examSubjectsReducer, ExamSubjectMarksEffects, ExamSubjectMarksService, examSubjectMarkssReducer } from 'src/app/core/examination';
 import { ExamGroupService } from 'src/app/core/examination/_services/exam-group.service';
 import { ExamEditDialogComponent } from './exams/exam-edit/exam-edit.dialog.component';
 import { ExamComponent } from './exams/exam/exam.component';
 import { ExamScheduleComponent } from './exam-schedule/exam-schedule.component';
+import { ExamAssignStudentDialogComponent } from './exam-assign-student/exam-assign-student.dialog.component';
+import { ExamSubjectDialogComponent } from './exam-subject-edit/exam-subject-edit.dialog.component';
+import { ExamMarksDialogComponent } from './exam-marks/exam-marks.dialog.component';
+import { ExamSubjectMarksComponent } from './exam-subject-marks/exam-subject-marks.component';
+import { ExamResultComponent } from './exam-result/exam-result.component';
+
 
 
 const routes: Routes = [
@@ -55,6 +61,14 @@ const routes: Routes = [
 				path: 'exam/:id',
 				component: ExamComponent
       },
+      {
+				path: 'examSubjectMarks/:examId/:examSubjectId',
+				component: ExamSubjectMarksComponent
+      },
+      {
+				path: 'exam-result',
+				component: ExamResultComponent
+      },
       
     ] 
   }
@@ -67,7 +81,12 @@ const routes: Routes = [
     ExamGroupComponent,
     ExamComponent,
     ExamEditDialogComponent,
-    ExamScheduleComponent
+    ExamScheduleComponent,
+    ExamAssignStudentDialogComponent,
+    ExamSubjectDialogComponent,
+    ExamMarksDialogComponent,
+    ExamSubjectMarksComponent,
+    ExamResultComponent
   ],
   imports: [
     CommonModule,
@@ -93,7 +112,15 @@ EffectsModule.forFeature([ExamGroupEffects]),
 StoreModule.forFeature('exams', examsReducer),
 EffectsModule.forFeature([ExamEffects]),
 
+StoreModule.forFeature('assignStudentExams', assignStudentExamsReducer),
+EffectsModule.forFeature([AssignStudentExamEffects]),
    
+StoreModule.forFeature('examSubjects', examSubjectsReducer),
+EffectsModule.forFeature([ExamSubjectEffects]),
+
+
+StoreModule.forFeature('examSubjectMarkss', examSubjectMarkssReducer),
+EffectsModule.forFeature([ExamSubjectMarksEffects]),
   ],
   providers: [
     NgbAlertConfig,
@@ -126,10 +153,16 @@ EffectsModule.forFeature([ExamEffects]),
 
 //custom service
 ExamGroupService,
-ExamService
+ExamService,
+AssignStudentExamService,
+ExamSubjectService,
+ExamSubjectMarksService,
   ],
     entryComponents: [
-      ExamEditDialogComponent
+      ExamEditDialogComponent,
+      ExamAssignStudentDialogComponent,
+      ExamSubjectDialogComponent,
+      ExamMarksDialogComponent
     ],
   exports: [RouterModule],
 })

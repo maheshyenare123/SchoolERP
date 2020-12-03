@@ -132,6 +132,9 @@ export class Constants {
       ExamGroup: 'api/exam-group',
       Exam: 'api/exam',
       HostelRoom: 'api/hostel-room',
+      AssignStudentExam: 'api/exam/students',
+      ExamSubject: 'api/exam/subjects',
+      ExamSubjectMarks: 'api/exam/subjects/marks'
    } 
    
 

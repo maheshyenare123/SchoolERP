@@ -50,6 +50,12 @@ studentfeedeposite
   studentListFlag: boolean = true;
   feesDepositeList: any;
   feesDiscountList: any;
+
+  totalAmount: number = 0;
+  totalDiscount: number = 0;
+  totalFine: number = 0;
+  totalPaid: number = 0; 
+  totalBalance: number = 0;
 constructor(public dialog: MatDialog,
              private activatedRoute: ActivatedRoute,
              private router: Router,
@@ -380,7 +386,8 @@ deleteProducts() {
     this.student = studentFeeDeposite
     this.collectionFeeShowFlag = true;
     this.studentListFlag = false;
-    this.getStudentFeeDepositeById()
+    this.getStudentFeeDepositeById();
+    this.loadAllFeesDiscount();
   }
 
   getStudentFeeDepositeById(){
@@ -390,9 +397,35 @@ deleteProducts() {
       const data = res['data'];
       this.feesDepositeList = data['studentFeeDetails'];
       console.log(this.feesDepositeList)
+      this.totalAmount= 0;
+      this.totalDiscount= 0;
+      this.totalFine= 0;
+      this.totalPaid= 0; 
+      this.totalBalance= 0;
+
+      this.feesDepositeList.map(item=>{
+        this.totalAmount += item.amount;
+        this.totalDiscount += item.discount;
+        this.totalFine += item.fine;
+        this.totalPaid += item.paid;
+        this.totalBalance += item.balance;
+
+      })
+
     }, err => {
     });
   }
+
+  loadAllFeesDiscount() {
+		debugger
+		this.feesDiscountList = []
+	this.studentFeeDepositeService.getStudentDiscountById(this.student.studentSessionId).subscribe(res => {
+	  const data1 = res['data'];
+	  this.feesDiscountList = data1;
+	  console.log(this.feesDiscountList)
+	}, err => {
+	});
+	}
 
   collectStudentFee(studentFeeDeposite: StudentFeeDepositeModel,type:string) {
     debugger

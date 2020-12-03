@@ -5,7 +5,7 @@
 			<h3 class="card-label">{{getTitle()}}</h3>
 		</div>
 	</div>
-	<form class="form" [formGroup]="studentFeeDepositeForm">
+	<form class="form" [formGroup]="studentFeeAmountDetailsForm">
 		<div class="card-body">
 
 			<div class="card-body-progress">
@@ -33,11 +33,11 @@
 					</div>
 					<div class="col-lg-4 kt-margin-bottom-20-mobile">
 						<mat-form-field class="mat-form-field-fluid">
-							<input matInput placeholder="Enter Amount" formControlName="amount" />
+							<input matInput placeholder="Enter Amount" formControlName="amount" (keypress)=_keyPress($event) (keyup)="amountEnter($event)"/>
 							<mat-error> Amount is
 								<strong>required</strong>
 							</mat-error>
-	
+							<span style="color: red;font-size: 12px">{{errormsg}}</span>
 						</mat-form-field>
 					</div>
 					<div class="col-lg-4 kt-margin-bottom-20-mobile">
