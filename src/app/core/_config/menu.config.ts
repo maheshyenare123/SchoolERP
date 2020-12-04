@@ -146,7 +146,7 @@ export class MenuConfig {
           icon: 'flaticon-interface-7',
           submenu: [
             {
-              title: 'Student Details ',
+              title: 'Student ',
               page: '/student-information/student-details'
             },
             {

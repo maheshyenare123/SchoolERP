@@ -17,7 +17,7 @@ import { MaterialModule } from '../material/material.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModuleGuard } from 'src/app/core/auth';
-import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from 'src/app/core/_base/crud';
+import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService, DynamicSetActionsService } from 'src/app/core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 import { LibraryComponent } from './library.component';
@@ -44,19 +44,19 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'book-list',
+        path: 'book_list',
         component: BookListComponent
       },
       {
-        path: 'library-student-member',
+        path: 'library_student_member',
         component: LibraryStudentMemberComponent
       },
       {
-        path: 'library-staff-member',
+        path: 'library_staff_member',
         component: LibraryStaffMemberComponent
       },
       {
-        path: 'library-member-list',
+        path: 'library_member_list',
         component: LibraryMemberListComponent
       },
     ]
@@ -112,6 +112,7 @@ const routes: Routes = [
     TypesUtilsService,
     HttpUtilsService,
     LayoutUtilsService,
+    DynamicSetActionsService,
     { provide: MatBottomSheetRef, useValue: {} },
     { provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },

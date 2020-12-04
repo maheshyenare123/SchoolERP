@@ -47,12 +47,12 @@ export class PageConfig {
     },
     'student-information': {
 
-      'student-details': {
-        page: { title: 'Student Details', desc: '' }
+      'student': {
+        page: { title: 'Student', desc: '' }
       },
-      'student-details-edit/:id': {
-        page: { title: 'Student Admission', desc: '' }
-      },
+      // 'student/:id': {
+      //   page: { title: 'Student Admission', desc: '' }
+      // },
       // 'online-admission': {
       //   page: { title: 'Online Admission', desc: '' }
       // },
@@ -65,8 +65,8 @@ export class PageConfig {
       'student-categories': {
         page: { title: 'Student Categories', desc: '' }
       },
-      'student-house': {
-        page: { title: 'Student House', desc: '' }
+      'student-houses': {
+        page: { title: 'Student Houses', desc: '' }
       },
       'disable-reason': {
         page: { title: 'Disable Reason', desc: '' }

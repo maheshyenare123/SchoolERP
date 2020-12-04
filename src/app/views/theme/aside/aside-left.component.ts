@@ -61,8 +61,6 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
     }
   };
 
-  menusList:any;
-
   /**
    * Component Constructor
    *
@@ -82,18 +80,16 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
     private cdr: ChangeDetectorRef,
     private rolePermissionService: RolePermissionService
   ) {
-    console.log("Menus List");
-    console.log(this.menuAsideService.menuList$);
   }
 
   ngAfterViewInit(): void {    
   }
 
   ngOnInit() {
-
-    this.getDynamicMenuConfig();
-
+debugger;
+  // this.getDynamicMenuConfig();
     this.currentRouteUrl = this.router.url.split(/[?#]/)[0];
+
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(event => {
@@ -101,6 +97,7 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
         this.mobileMenuClose();
         this.cdr.markForCheck();
       });
+
 
 
     const config = this.layoutConfigService.getConfig();
@@ -128,18 +125,25 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
   }
 
 
+  menusList:any;
   getDynamicMenuConfig() {
     // const roleName= localStorage.getItem('schoolRoleConfig');
     this.rolePermissionService.getAllPermissionsByRole().subscribe(res => {
       // console.log(res);
       const data=res['data'];
       this.menusList=data['content'];
-      console.log(this.menusList);
+      // console.log(this.menusList);
     }, err => {
 
     })
 
   }
+
+
+
+
+
+
 
 
   /**
@@ -148,7 +152,10 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
    */
   isMenuItemIsActive(item): boolean {
     if (item.submenu) {
-      return this.isMenuRootItemIsActive(item);
+  var flag=this.isMenuRootItemIsActive(item);
+  // console.log(item)
+  // console.log(flag)
+      return flag
     }
 
     if (!item.page) {
@@ -158,6 +165,19 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
     return this.currentRouteUrl.indexOf(item.page) !== -1;
   }
 
+  
+  // isMenuItemIsActive(item): boolean {
+  //   if (item.submenu) {
+  //     return this.isMenuRootItemIsActive(item);
+  //   }
+
+  //   if (!item.page) {
+  //     return false;
+  //   }
+
+  //   return this.currentRouteUrl.indexOf(item.page) !== -1;
+  // }
+
   /**
    * Check Menu Root Item is active
    * @param item: any
@@ -165,8 +185,10 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
   isMenuRootItemIsActive(item): boolean {
     let result = false;
 
-    for (const subItem of item.submenu) {
-      result = this.isMenuItemIsActive(subItem);
+    for (const subMenuItem of item.submenu) {
+      result = this.isMenuItemIsActive(subMenuItem);
+      // console.log(item)
+      // console.log(result)
       if (result) {
         return true;
       }
@@ -174,6 +196,26 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
 
     return false;
   }
+
+ 
+  // isMenuRootItemIsActive(item): boolean {
+  //   let result = false;
+
+  //   for (const subItem of item.submenu) {
+  //     result = this.isMenuItemIsActive(subItem);
+  //     if (result) {
+  //       return true;
+  //     }
+  //   }
+
+  //   return false;
+  // }
+
+
+
+
+
+
 
   /**
    * Use for fixed left aside menu, to show menu on mouseenter event.
@@ -219,23 +261,24 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
       }, 100);
     }
   }
-
+ 
   /**
    * Returns Submenu CSS Class Name
    * @param item: any
    */
   getItemCssClasses(item) {
+    // console.log(item);
     let classes = 'menu-item';
 
     if (objectPath.get(item, 'submenu')) {
       classes += ' menu-item-submenu';
     }
 
-    if (!item.submenu && this.isMenuItemIsActive(item)) {
+    if (!item.permissionCategories && this.isMenuItemIsActive(item)) {
       classes += ' menu-item-active menu-item-here';
     }
 
-    if (item.submenu && this.isMenuItemIsActive(item)) {
+    if (item.permissionCategories && this.isMenuItemIsActive(item)) {
       classes += ' menu-item-open menu-item-here';
     }
 
@@ -253,6 +296,7 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
   }
 
   getItemAttrSubmenuToggle(item) {
+    // console.log(item)
     let toggle = 'hover';
     if (objectPath.get(item, 'toggle') === 'click') {
       toggle = 'click';

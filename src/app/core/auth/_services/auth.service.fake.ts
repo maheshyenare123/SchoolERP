@@ -52,24 +52,24 @@ export class AuthService {
 
   }
 
-  register(user: User): Observable<any> {
-    user.roles = [2]; // Manager
-    user.accessToken = 'access-token-' + Math.random();
-    user.refreshToken = 'access-token-' + Math.random();
-    user.pic = './assets/media/users/default.jpg';
+  // register(user: User): Observable<any> {
+  //   user.roles = [2]; // Manager
+  //   user.accessToken = 'access-token-' + Math.random();
+  //   user.refreshToken = 'access-token-' + Math.random();
+  //   user.pic = './assets/media/users/default.jpg';
 
-    let httpHeaders = new HttpHeaders();
-    httpHeaders = httpHeaders.set('Content-Type', 'application/json');
-    return this.http.post<User>(API_USERS_URL, user, {headers: httpHeaders})
-      .pipe(
-        map((res: User) => {
-          return res;
-        }),
-        catchError(err => {
-          return null;
-        })
-      );
-  }
+  //   let httpHeaders = new HttpHeaders();
+  //   httpHeaders = httpHeaders.set('Content-Type', 'application/json');
+  //   return this.http.post<User>(API_USERS_URL, user, {headers: httpHeaders})
+  //     .pipe(
+  //       map((res: User) => {
+  //         return res;
+  //       }),
+  //       catchError(err => {
+  //         return null;
+  //       })
+  //     );
+  // }
 
   requestPassword(email: string): Observable<any> {
     return this.http.get(API_USERS_URL).pipe(
@@ -177,22 +177,22 @@ export class AuthService {
     return this.http.get<Permission[]>(API_PERMISSION_URL);
   }
 
-  getRolePermissions(roleId: number): Observable<Permission[]> {
-    const allRolesRequest = this.http.get<Permission[]>(API_PERMISSION_URL);
-    const roleRequest = roleId ? this.getRoleById(roleId) : of(null);
-    return forkJoin(allRolesRequest, roleRequest).pipe(
-      map(res => {
-        const allPermissions: Permission[] = res[0];
-        const role: Role = res[1];
-        if (!allPermissions || allPermissions.length === 0) {
-          return [];
-        }
+  // getRolePermissions(roleId: number): Observable<Permission[]> {
+  //   const allRolesRequest = this.http.get<Permission[]>(API_PERMISSION_URL);
+  //   const roleRequest = roleId ? this.getRoleById(roleId) : of(null);
+  //   return forkJoin(allRolesRequest, roleRequest).pipe(
+  //     map(res => {
+  //       const allPermissions: Permission[] = res[0];
+  //       const role: Role = res[1];
+  //       if (!allPermissions || allPermissions.length === 0) {
+  //         return [];
+  //       }
 
-        const rolePermission = role ? role.permissions : [];
-        return this.getRolePermissionsTree(allPermissions, rolePermission);
-      })
-    );
-  }
+  //       const rolePermission = role ? role.permissions : [];
+  //       return this.getRolePermissionsTree(allPermissions, rolePermission);
+  //     })
+  //   );
+  // }
 
   private getRolePermissionsTree(allPermission: Permission[] = [], rolePermissionIds: number[] = []): Permission[] {
     const result: Permission[] = [];

@@ -23,7 +23,7 @@
 	<ng-container *ngFor="let child of menuAsideService.menuList$ | async">
 		<ng-container *ngIf="child.section" [ngTemplateOutlet]="menuItemSectionTemplate" [ngTemplateOutletContext]="{ item: child }"></ng-container>
 		<ng-container *ngIf="child.separator" [ngTemplateOutlet]="menuItemSeparatorTemplate" [ngTemplateOutletContext]="{ item: child }"></ng-container>
-		<ng-container *ngIf="child.title" [ngTemplateOutlet]="menuItemTemplate" [ngTemplateOutletContext]="{ item: child }"></ng-container>
+		<ng-container *ngIf="child.name" [ngTemplateOutlet]="menuItemTemplate" [ngTemplateOutletContext]="{ item: child }"></ng-container>
 	</ng-container>
 </ng-template>
 
@@ -69,11 +69,16 @@
 
 <ng-template #menuSubmenuTemplate let-item="item" let-parentItem="parentItem">
 	<ul class="menu-subnav">
+
 		<ng-container *ngFor="let child of item.submenu">
+			<ng-container *ngIf="child.enableView"> 
 			<ng-container *ngIf="child.section" [ngTemplateOutlet]="menuItemSectionTemplate" [ngTemplateOutletContext]="{ item: child, parentItem: item }"></ng-container>
 			<ng-container *ngIf="child.separator" [ngTemplateOutlet]="menuItemSeparatorTemplate" [ngTemplateOutletContext]="{ item: child, parentItem: item }"></ng-container>
-			<ng-container *ngIf="child.title" [ngTemplateOutlet]="menuItemTemplate" [ngTemplateOutletContext]="{ item: child, parentItem: item }"></ng-container>
+			<ng-container *ngIf="child.name" [ngTemplateOutlet]="menuItemTemplate" [ngTemplateOutletContext]="{ item: child, parentItem: item }"></ng-container>
 		</ng-container>
+		</ng-container>
+
+
 	</ul>
 </ng-template>
 
@@ -90,7 +95,7 @@
 	</i>
 
 	<!-- menu item title text -->
-	<span class="menu-text" [translate]="item.translate">{{item.title}}</span>
+	<span class="menu-text" [translate]="item.translate">{{item.name}}</span>
 	<!-- menu item with badge -->
 	<span *ngIf="item.badge" class="menu-badge">
 		<span class="badge" [ngClass]="item.badge.type">{{item.badge.value}}</span>

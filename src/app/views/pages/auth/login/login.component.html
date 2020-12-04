@@ -8,25 +8,25 @@
       </p>
     </div>
 
-    <kt-auth-notice></kt-auth-notice>
+    <!-- <kt-auth-notice></kt-auth-notice> -->
 
     <!--begin::Form-->
     <form class="form" [formGroup]="loginForm" autocomplete="off" novalidate="novalidate" id="kt_login_form">
       <div class="form-group">
         <mat-form-field>
           <mat-label>{{ "AUTH.INPUT.EMAIL" | translate }}</mat-label>
-          <input matInput type="email" placeholder="{{ 'AUTH.INPUT.EMAIL' | translate }}" formControlName="email"
+          <input matInput type="email" placeholder="{{ 'AUTH.INPUT.EMAIL' | translate }}" formControlName="username"
             autocomplete="off" />
-          <mat-error *ngIf="isControlHasError('email', 'required')">
+          <mat-error *ngIf="isControlHasError('username', 'required')">
             <strong>{{ "AUTH.VALIDATION.REQUIRED_FIELD" | translate }}</strong>
           </mat-error>
-          <mat-error *ngIf="isControlHasError('email', 'email')">
+          <mat-error *ngIf="isControlHasError('username', 'email')">
             <strong>{{ "AUTH.VALIDATION.INVALID_FIELD" | translate }}</strong>
           </mat-error>
-          <mat-error *ngIf="isControlHasError('email', 'minlength')">
+          <mat-error *ngIf="isControlHasError('username', 'minlength')">
             <strong>{{ "AUTH.VALIDATION.MIN_LENGTH_FIELD" | translate }} 3</strong>
           </mat-error>
-          <mat-error *ngIf="isControlHasError('email', 'maxlength')">
+          <mat-error *ngIf="isControlHasError('username', 'maxlength')">
             <strong>{{ "AUTH.VALIDATION.MAX_LENGTH_FIELD" | translate }} 320</strong>
           </mat-error>
         </mat-form-field>

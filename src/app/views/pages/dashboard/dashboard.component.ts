@@ -1,5 +1,7 @@
 // Angular
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { DynamicSetActionsService } from 'src/app/core/_base/crud';
 
 @Component({
   selector: 'kt-dashboard',
@@ -8,6 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
+
+  actionsData
+constructor(
+  private activatedRoute: ActivatedRoute,
+            private dynamicActionsService: DynamicSetActionsService
+            
+             ) { }
   ngOnInit(): void {
+    var url;
+  this.activatedRoute.url.subscribe(activeUrl =>{
+    url=window.location.pathname;
+  });
+    this.actionsData=this.dynamicActionsService.getPermissionsForActions(url);
   }
+
 }

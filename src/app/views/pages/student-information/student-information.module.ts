@@ -31,7 +31,7 @@ import { DisabledStudentComponent } from './disabled-student/disabled-student.co
 
 import { disableReasonsReducer, DisableReasonEffects, studentDetailsReducer, studentsReducer, StudentEffects, CategoryEffects, studentHousesReducer, StudentHouseEffects, categorysReducer, DisableReasonService, StudentService, StudentHouseService, CategoryService, onlineAdmissionsReducer, OnlineAdmissionEffects,disabledStudentsReducer,DisabledStudentEffects,bulkDeletesReducer ,BulkDeleteEffects,BulkDeleteService,DisabledStudentService} from '../../../core/student-information';
 import { ModuleGuard } from 'src/app/core/auth';
-import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from 'src/app/core/_base/crud';
+import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService, DynamicSetActionsService } from 'src/app/core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { StudentProfileViewDialogComponent } from './student-details/student-profile-view/student-profile-view.dialog.component';
 import { StudentFeesCollectDialogComponent } from './student-details/student-fees-collect/student-fees-collect.dialog.component';
@@ -44,32 +44,36 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                redirectTo: 'roles',
+                redirectTo: 'student',
                 pathMatch: 'full'
             },
             {
-                path: 'student-details',
+                // path: 'student-details',
+                path:'student',
                 component: StudentDetailsListComponent
             },
-            {
-                path: 'student-details-edit/:id',
-                component: StudentDetailsEditComponent
-            },
+            // {
+            //     // path: 'student-details-edit/:id',
+            //     path:'student/:id',
+            //     component: StudentDetailsEditComponent
+            // },
 
             {
                 path: 'online-admission',
                 component: OnlineAdmissionListComponent
             },
             {
-                path: 'student-categories',
+                path: 'student_categories',
                 component: StudentCategoriesComponent
             },
             {
-                path: 'student-house',
+                // path: 'student-house',
+                path: 'student_houses',
                 component: StudentHouseComponent
             },
             {
-                path: 'disable-reason',
+                // path: 'disable-reason',
+                path: 'disable_reason',
                 component: DisableReasonComponent
             },
             {
@@ -77,7 +81,8 @@ const routes: Routes = [
                 component: BulkDeleteComponent
 			},
 			{
-                path: 'disabled-student',
+                // path: 'disabled-student',
+                path: 'disable_student',
                 component: DisabledStudentComponent
             },
         ]
@@ -151,7 +156,7 @@ const routes: Routes = [
         TypesUtilsService,
         HttpUtilsService,
         LayoutUtilsService,
-    
+        DynamicSetActionsService,
         { provide: HTTP_INTERCEPTORS, useClass: InterceptService, multi: true },
     
         {

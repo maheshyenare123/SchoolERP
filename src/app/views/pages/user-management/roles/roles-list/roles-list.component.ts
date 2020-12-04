@@ -181,7 +181,7 @@ export class RolesListComponent implements OnInit, OnDestroy {
 		const messages = [];
 		this.selection.selected.forEach(elem => {
 			messages.push({
-				text: `${elem.title}`,
+				// text: `${elem.title}`,
 				id: elem.id.toString(),
 				// status: elem.username
 			});

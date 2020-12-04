@@ -11,17 +11,17 @@ import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
 // Auth
-import { AuthNoticeService, AuthService, Login } from '../../../../core/auth';
+import { AuthNoticeService, AuthService, Login, UserLoaded, UserRequested } from '../../../../core/auth';
 import { AuthLoginService } from './auth-login.service';
-import { RolePermissionService } from 'src/app/core/role_permission';
+import { RolePermissionService, RolesModel } from 'src/app/core/role_permission';
 
 /**
  * ! Just example => Should be removed in development
  */
-const DEMO_PARAMS = {
-	EMAIL: 'admin@demo.com',
-	PASSWORD: 'demo'
-};
+// const DEMO_PARAMS = {
+// 	EMAIL: 'admin@demo.com',
+// 	PASSWORD: 'demo'
+// };
 
 @Component({
 	selector: 'kt-login',
@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 		private cdr: ChangeDetectorRef,
 		private route: ActivatedRoute,
 		private authloginservice: AuthLoginService,
-		private rolePermissionService:RolePermissionService,
+		private rolePermissionService: RolePermissionService,
 	) {
 		this.unsubscribe = new Subject();
 	}
@@ -100,22 +100,22 @@ export class LoginComponent implements OnInit, OnDestroy {
 	 */
 	initLoginForm() {
 		// demo message to show
-		if (!this.authNoticeService.onNoticeChanged$.getValue()) {
-			const initialNotice = `Use account
-			<strong>${DEMO_PARAMS.EMAIL}</strong> and password
-			<strong>${DEMO_PARAMS.PASSWORD}</strong> to continue.`;
-			this.authNoticeService.setNotice(initialNotice, 'info');
-		}
+		// if (!this.authNoticeService.onNoticeChanged$.getValue()) {
+		// 	const initialNotice = `Use account
+		// 	<strong>${DEMO_PARAMS.EMAIL}</strong> and password
+		// 	<strong>${DEMO_PARAMS.PASSWORD}</strong> to continue.`;
+		// 	this.authNoticeService.setNotice(initialNotice, 'info');
+		// }
 
 		this.loginForm = this.fb.group({
-			email: [DEMO_PARAMS.EMAIL, Validators.compose([
+			username: ['superadmin@gmail.com', Validators.compose([
 				Validators.required,
 				Validators.email,
 				Validators.minLength(3),
 				Validators.maxLength(320) // https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
 			])
 			],
-			password: [DEMO_PARAMS.PASSWORD, Validators.compose([
+			password: ['123', Validators.compose([
 				Validators.required,
 				Validators.minLength(3),
 				Validators.maxLength(100)
@@ -128,48 +128,98 @@ export class LoginComponent implements OnInit, OnDestroy {
 	 * Form Submit
 	 */
 
-	login() {
+	login(loginData) {
 
-		const authData = {
-			username: 'superadmin@gmail.com',
-			password: '123'
-		}
-		this.authloginservice.isLogin(authData).subscribe((res: any) => {
-			console.log(res);
+		// const authData = {
+		// 	username: 'superadmin@gmail.com',
+		// 	password: '123'
+		// }
+		// 	this.authloginservice.isLogin(loginData).subscribe((res: any) => {
+		// 		console.log(res);
+		// 		this.getDynamicMenuConfig();
+		// 		localStorage.setItem('token', res['accessToken']);
+		// 		const role = res['roles'];
+		// 		localStorage.setItem('schoolRoleConfig', role[0]);
+		// 		//    this.jwtauth.setToken(res.accessToken);
+		// 		//   this.localstorage.set("CurrentRole",res.roles[0]);
+		// 		//   this.localstorage.set("CurrentUsername",res.username);
+		// 		//   this.localstorage.set("access_token",res);
+		// 		//   this.router.navigate(['/admin']);
+		// 		//  console.log(this.jwtauth.getSessionID());
+		// 		console.log('success');
+		// 		alert('Login Successfully');
 
-			localStorage.setItem('token', res['accessToken']);
-			const role= res['roles'];
-			localStorage.setItem('schoolRoleConfig',role[0]);
-			//    this.jwtauth.setToken(res.accessToken);
-			//   this.localstorage.set("CurrentRole",res.roles[0]);
-			//   this.localstorage.set("CurrentUsername",res.username);
-			//   this.localstorage.set("access_token",res);
-			//   this.router.navigate(['/admin']);
-			//  console.log(this.jwtauth.getSessionID());
-			console.log('success');
-			alert('Login Successfully');
-			// this.getDynamicMenuConfig();
-			this.templateLogin();
+		// 		this.store.dispatch(new Login({ authToken: res['accessToken'] }));
+		// 		this.router.navigateByUrl(this.returnUrl); // Main page
 
-		}, (err) => {
-			console.log('Error While Login');
-			alert('Wrong Credentials!!!');
-			console.error(err);
-		});
+
+		// 		// this.templateLogin();
+
+
+		// 	}, (err) => {
+		// 		this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');
+		// 		// console.log('Error While Login');
+		// 		// alert('Wrong Credentials!!!');
+		// 		// console.error(err);
+		// 	});
+
+		this.auth
+			.login(loginData)
+			.pipe(
+				tap(user => {
+					if (user) {
+						// 	this.rolePermissionService.getAllPermissionsByRole().subscribe(res => {
+						// 	const data = res['data'];
+						// 	const content = data['content'];
+						// 	localStorage.setItem('sideMenusConfig', JSON.stringify(content));
+						// }, err => {
+
+						// })
+						// 	this.getDynamicMenuConfig();
+						localStorage.setItem('user', JSON.stringify(user));
+						localStorage.setItem('token', user['accessToken']);
+						const role = user['roles'];
+						localStorage.setItem('schoolRoleConfig', role[0].roleName);
+						// this.store.dispatch(new UserLoaded({ user: user }));
+				
+						this.store.dispatch(new Login({ authToken: user.accessToken }));
+						
+						// this.store.dispatch(new UserRequested());
+						this.router.navigateByUrl(this.returnUrl); // Main page
+						// this.router.navigateByUrl('/dashboard'); // Main page
+
+
+					} else {
+						this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');
+					}
+
+
+
+
+
+				}),
+				takeUntil(this.unsubscribe),
+				finalize(() => {
+					this.loading = false;
+					this.cdr.markForCheck();
+				})
+			)
+			.subscribe();
+		this.getDynamicMenuConfig();
+
 	}
 
 	getDynamicMenuConfig() {
 		// const roleName= localStorage.getItem('schoolRoleConfig');
 		this.rolePermissionService.getAllPermissionsByRole().subscribe(res => {
-		  console.log(res);
-	
-	
-	
+			const data = res['data'];
+			const content = data['content'];
+			localStorage.setItem('sideMenusConfig', JSON.stringify(content));
 		}, err => {
-	
+
 		})
-	
-	  }
+
+	}
 
 
 	submit() {
@@ -183,34 +233,43 @@ export class LoginComponent implements OnInit, OnDestroy {
 		}
 
 		this.loading = true;
-		this.login();
-		
+		this.templateLogin(this.loginForm.value);
+
 	}
-templateLogin(){
-	const controls = this.loginForm.controls;
-	const authData = {
-		email: controls.email.value,
-		password: controls.password.value
-	};
-	this.auth
-		.login(authData.email, authData.password)
-		.pipe(
-			tap(user => {
-				if (user) {
-					this.store.dispatch(new Login({ authToken: user.accessToken }));
-					this.router.navigateByUrl(this.returnUrl); // Main page
-				} else {
-					this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');
-				}
-			}),
-			takeUntil(this.unsubscribe),
-			finalize(() => {
-				this.loading = false;
-				this.cdr.markForCheck();
-			})
-		)
-		.subscribe();
-}
+	templateLogin(loginData) {
+		const controls = this.loginForm.controls;
+		const authData = {
+			email: controls.username.value,
+			password: controls.password.value
+		};
+		this.auth
+			.login(loginData)
+			.pipe(
+				tap(user => {
+					if (user) {
+
+						this.getDynamicMenuConfig();
+						localStorage.setItem('user', JSON.stringify(user));
+						localStorage.setItem('token', user['accessToken']);
+						const role = user['roles'];
+						localStorage.setItem('schoolRoleConfig', role[0].roleName)
+						this.store.dispatch(new Login({ authToken: user.accessToken }));
+						this.router.navigateByUrl(this.returnUrl); // Main page
+					
+				
+					
+					} else {
+						this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');
+					}
+				}),
+				takeUntil(this.unsubscribe),
+				finalize(() => {
+					this.loading = false;
+					this.cdr.markForCheck();
+				})
+			)
+			.subscribe();
+	}
 	/**
 	 * Checking control validation
 	 *

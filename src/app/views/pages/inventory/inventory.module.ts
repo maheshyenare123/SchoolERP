@@ -17,7 +17,7 @@ import { MaterialModule } from '../material/material.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModuleGuard } from 'src/app/core/auth';
-import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from 'src/app/core/_base/crud';
+import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService, DynamicSetActionsService } from 'src/app/core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -45,27 +45,27 @@ const routes: Routes = [
 				pathMatch: 'full'
       },
       {
-				path: 'item-category',
+				path: 'item_category',
 				component: ItemCategoryComponent
       },
       {
-				path: 'add-item',
+				path: 'add_item',
 				component: AddItemComponent
       },
       {
-				path: 'item-store',
+				path: 'item_store',
 				component: ItemStoreComponent
       },
       {
-				path: 'item-supplier',
+				path: 'item_supplier',
 				component: ItemSupplierComponent
       },
       {
-				path: 'item-stock',
+				path: 'item_stock',
 				component: ItemStockComponent
       },
       {
-				path: 'item-issue',
+				path: 'item_issue',
 				component: ItemIssueListComponent
       },
     ] 
@@ -129,6 +129,7 @@ EffectsModule.forFeature([ItemSupplierEffects]),
     TypesUtilsService,
     HttpUtilsService,
     LayoutUtilsService,
+    DynamicSetActionsService,
 		{ provide: MatBottomSheetRef, useValue: {} },
 		{ provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
 		{ provide: MAT_DATE_LOCALE, useValue: 'en-GB'},

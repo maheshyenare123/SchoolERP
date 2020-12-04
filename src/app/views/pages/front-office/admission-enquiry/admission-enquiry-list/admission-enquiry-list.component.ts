@@ -90,7 +90,12 @@ ngOnInit() {
  of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
    this.loadAddmissionEnquirysList();
  }); // Remove this line, just loading imitation
+ 
 }
+
+
+
+
 getAllEnquiryList() {
   // this.admissionenqService.getList().subscribe((res: any) => {
   //   var data = res['data'];

@@ -9,6 +9,8 @@ export class Constants {
 
    public static DISPATCH: string = 'dispatch';
    public static RECEIVE: string = 'receive';
+   public static HOLIDAY: string = 'holiday';
+   public static PRESENT: string = 'present';
 
 
    public static Role_permission: any = {
@@ -16,6 +18,11 @@ export class Constants {
       Permission: 'api/permission/groups-category'
    }
 
+   public static Authentication: any = {
+      Login:'auth/login',
+   
+   
+      }
 
 
    public static Front_Office: any = {
@@ -134,6 +141,14 @@ export class Constants {
    }
 
 
+   public static System_Settings: any = {
+   Session:'api/session',
 
+
+
+   
+   }
+
+  
 
 }

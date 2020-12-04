@@ -73,9 +73,9 @@ export class RoleEditDialogComponent implements OnInit, OnDestroy {
 
 			this.role = new Role();
 			this.role.id = res.id;
-			this.role.title = res.title;
-			this.role.permissions = res.permissions;
-			this.role.isCoreRole = res.isCoreRole;
+			// this.role.title = res.title;
+			// this.role.permissions = res.permissions;
+			// this.role.isCoreRole = res.isCoreRole;
 
 			this.allPermissions$ = this.store.pipe(select(selectAllPermissions));
 			this.loadPermissions();
@@ -102,7 +102,8 @@ export class RoleEditDialogComponent implements OnInit, OnDestroy {
 
 			const mainPermissions = _allPermissions.filter(el => !el.parentId);
 			mainPermissions.forEach((element: Permission) => {
-				const hasUserPermission = this.role.permissions.some(t => t === element.id);
+				// const hasUserPermission = this.role.permissions.some(t => t === element.id);
+				const hasUserPermission = true;
 				const rootPermission = new Permission();
 				rootPermission.clear();
 				rootPermission.isSelected = hasUserPermission;
@@ -113,7 +114,8 @@ export class RoleEditDialogComponent implements OnInit, OnDestroy {
 				rootPermission.title = element.title;
 				const children = _allPermissions.filter(el => el.parentId && el.parentId === element.id);
 				children.forEach(child => {
-					const hasUserChildPermission = this.role.permissions.some(t => t === child.id);
+					// const hasUserChildPermission = this.role.permissions.some(t => t === child.id);
+					const hasUserChildPermission = true;
 					const childPermission = new Permission();
 					childPermission.clear();
 					childPermission.isSelected = hasUserChildPermission;
@@ -154,10 +156,10 @@ export class RoleEditDialogComponent implements OnInit, OnDestroy {
 	prepareRole(): Role {
 		const _role = new Role();
 		_role.id = this.role.id;
-		_role.permissions = this.preparePermissionIds();
+		// _role.permissions = this.preparePermissionIds();
 		// each(this.assignedRoles, (_role: Role) => _user.roles.push(_role.id));
-		_role.title = this.role.title;
-		_role.isCoreRole = this.role.isCoreRole;
+		// _role.title = this.role.title;
+		// _role.isCoreRole = this.role.isCoreRole;
 		return _role;
 	}
 
@@ -286,7 +288,7 @@ export class RoleEditDialogComponent implements OnInit, OnDestroy {
 	getTitle(): string {
 		if (this.role && this.role.id) {
 			// tslint:disable-next-line:no-string-throw
-			return `Edit role '${this.role.title}'`;
+			return 'Edit role';
 		}
 
 		// tslint:disable-next-line:no-string-throw
@@ -297,6 +299,7 @@ export class RoleEditDialogComponent implements OnInit, OnDestroy {
 	 * Returns is title valid
 	 */
 	isTitleValid(): boolean {
-		return (this.role && this.role.title && this.role.title.length > 0);
+		return true;
+		// return (this.role && this.role.title && this.role.title.length > 0);
 	}
 }

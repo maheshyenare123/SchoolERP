@@ -73,11 +73,11 @@ function getPermissionsIdsFrom(userRolesIds: number[] = [], allRoles: Role[] = [
 
   const result: number[] = [];
   each(userRoles, (role: Role) => {
-    each(role.permissions, id => {
-      if (!some(result, gid => gid === id)) {
-        result.push(id);
-      }
-    });
+    // each(role.permissions, id => {
+    //   if (!some(result, gid => gid === id)) {
+    //     result.push(id);
+    //   }
+    // });
   });
   return result;
 }

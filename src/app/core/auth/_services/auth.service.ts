@@ -7,10 +7,13 @@ import { Role } from '../_models/role.model';
 import { catchError, map } from 'rxjs/operators';
 import { QueryParamsModel, QueryResultsModel } from '../../_base/crud';
 import { environment } from '../../../../environments/environment';
+import { Constants } from '../../api_url';
 
 const API_USERS_URL = 'api/users';
 const API_PERMISSION_URL = 'api/permissions';
 const API_ROLES_URL = 'api/roles';
+
+
 
 @Injectable()
 export class AuthService {
@@ -18,15 +21,18 @@ export class AuthService {
   }
 
   // Authentication/Authorization
-  login(email: string, password: string): Observable<User> {
-    return this.http.post<User>(API_USERS_URL, {email, password});
+  login(loginData): Observable<User> {
+    return this.http.post<User>(Constants.URL.HOST_URL+Constants.Authentication.Login, loginData);
   }
 
   getUserByToken(): Observable<User> {
-    const userToken = localStorage.getItem(environment.authTokenKey);
-    let httpHeaders = new HttpHeaders();
-    httpHeaders = httpHeaders.set('Authorization', 'Bearer ' + userToken);
-    return this.http.get<User>(API_USERS_URL, {headers: httpHeaders});
+    // const userToken = localStorage.getItem(environment.authTokenKey);
+    const userToken = localStorage.getItem('user');
+    // localStorage.removeItem('user')
+    // let httpHeaders = new HttpHeaders();
+    // httpHeaders = httpHeaders.set('Authorization', 'Bearer ' + userToken);
+    // return this.http.get<User>(API_USERS_URL, {headers: httpHeaders});
+    return JSON.parse(userToken);
   }
 
   register(user: User): Observable<any> {

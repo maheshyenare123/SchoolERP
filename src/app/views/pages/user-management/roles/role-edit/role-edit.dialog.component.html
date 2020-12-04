@@ -70,7 +70,8 @@
                         matTooltip="Cancel changes">
                         Cancel
                     </button>&nbsp;
-                    <button type="button" [disabled]="!isTitleValid() || role.isCoreRole" mat-raised-button
+                    <!-- [disabled]="!isTitleValid() || role.isCoreRole" -->
+                    <button type="button"  mat-raised-button
                         color="primary" (click)="onSubmit()" [disabled]="viewLoading" matTooltip="Save changes">
                         Save
                     </button>

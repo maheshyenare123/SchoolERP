@@ -7,6 +7,7 @@ import { NgbDropdownModule, NgbTabsetModule, NgbTooltipModule } from '@ng-bootst
 import { CoreModule } from '../../../core/core.module';
 import { PartialsModule } from '../../partials/partials.module';
 import { DashboardComponent } from './dashboard.component';
+import { DynamicSetActionsService } from 'src/app/core/_base/crud';
 
 @NgModule({
   imports: [
@@ -24,7 +25,9 @@ import { DashboardComponent } from './dashboard.component';
     NgbTabsetModule,
     NgbTooltipModule,
   ],
-  providers: [],
+  providers: [
+    DynamicSetActionsService
+  ],
   declarations: [
     DashboardComponent,
   ]

@@ -36,12 +36,12 @@ const routes: Routes = [
       //   loadChildren: () => import('./views/pages/material/material.module').then(m => m.MaterialModule),
       // },
        {
-          path: 'front-office',
+          path: 'front_office',
           loadChildren: () => import('./views/pages/front-office/front-office.module').then(m => m.FrontOfficeModule),
         },
 
         {
-          path: 'student-information',
+          path: 'student_information',
           loadChildren: () => import('./views/pages/student-information/student-information.module').then(m => m.StudentInformationModule),
         },
         {
@@ -61,11 +61,11 @@ const routes: Routes = [
           loadChildren: () => import('./views/pages/library/library.module').then(m => m.LibraryModule),
         },
         {
-          path: 'human-resource',
+          path: 'human_resource',
           loadChildren: () => import('./views/pages/human-resource/human-resource.module').then(m => m.HumanResourceModule),
         },
         {
-          path: 'fees-collection',
+          path: 'fees_collection',
           loadChildren: () => import('./views/pages/fees-collection/fees-collection.module').then(m => m.FeesCollectionModule),
         },
         {
@@ -90,6 +90,10 @@ const routes: Routes = [
         {
           path: 'inventory',
           loadChildren: () => import('./views/pages/inventory/inventory.module').then(m => m.InventoryModule),
+        },
+        {
+          path: 'system-setting',
+          loadChildren: () => import('./views/pages/system-settings/system-settings.module').then(m => m.SystemSettingsModule),
         },
       {
         path: 'user-management',
