@@ -99,6 +99,10 @@ const routes: Routes = [
           path: 'report',
           loadChildren: () => import('./views/pages/report/report.module').then(m => m.ReportModule),
         },
+        {
+          path: 'system-setting',
+          loadChildren: () => import('./views/pages/system-settings/system-settings.module').then(m => m.SystemSettingsModule),
+        },
       {
         path: 'user-management',
         loadChildren: () => import('./views/pages/user-management/user-management.module').then(m => m.UserManagementModule),

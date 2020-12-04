@@ -416,6 +416,31 @@ export class PageConfig {
     },
 
 
+    'system-setting': {
+      'roles': {
+        page: { title: 'Roles Permissions', desc: '' }
+      },
+      'sessions': {
+        page: { title: 'Session Setting', desc: '' }
+      },
+      'email_setting': {
+        page: { title: 'Email Setting', desc: '' }
+      },
+      'sms_setting': {
+        page: { title: 'Sms Setting', desc: '' }
+      },
+      'backup_restore': {
+        page: { title: 'Backup Restore', desc: '' }
+      },
+      'notification_setting': {
+        page: { title: 'Notification Setting', desc: '' }
+      },
+      'users': {
+        page: { title: 'Users', desc: '' }
+      },
+    },
+
+
     ecommerce: {
       customers: {
         page: { title: 'Customers', desc: '' }

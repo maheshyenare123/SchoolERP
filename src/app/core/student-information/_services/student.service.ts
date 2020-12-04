@@ -85,6 +85,26 @@ findDisableStudents(queryParams: QueryParamsModel,classId:number,sectionId:numbe
   });
 }
 
+findDisableStudentusers(queryParams: QueryParamsModel,role:string): Observable<QueryResultsModel> {
+  // Note: Add headers if needed (tokens/bearer)
+  const httpHeaders = this.httpUtils.getHTTPHeaders();
+  // const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
+  // httpParams.set('isActive', 'active')
+
+  const httpParams =new HttpParams()
+   
+    .set('role-name', role.toString())
+    .set('pageNo', queryParams.pageNumber.toString())
+    .set('pageSize', queryParams.pageSize.toString())
+    .set('sortBy', 'id');
+
+  const url =Constants.URL.HOST_URL+Constants.Student_Information.User;
+  
+  return this.http.get<QueryResultsModel>(url, {
+    headers: httpHeaders,
+    params: httpParams
+  });
+}
 
 
   // UPDATE => PUT: update the student on the server

@@ -31,6 +31,8 @@ export class Constants {
       Student_House: 'api/school-house',
       Disable_Student: 'api/student/api/disable-student',
       Online_Addmission: 'api/',
+      User:'api/user'
+
    }
 
    public static Academics: any = {
@@ -79,7 +81,7 @@ export class Constants {
       Staff_Rating: 'api/staff-rating',
       Staff_Attendance: 'api/staff-attendance',
       Roles:'api/role',
-
+      User:'api/user'
    }
 
    public static Fees_Collection: any = {
@@ -137,5 +139,13 @@ export class Constants {
       ExamSubjectMarks: 'api/exam/subjects/marks'
    } 
    
+   public static System_Settings: any = {
+      Session:'api/session',
+      Email:'api/email',
+      Sms:'api/sms',
+   
+   
+      
+      }
 
 }

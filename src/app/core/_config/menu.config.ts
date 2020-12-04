@@ -585,6 +585,45 @@ export class MenuConfig {
         },
         
 
+        {
+          title: 'System Setting',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+            
+            {
+              title: 'Roles Permissions',
+              page: '/system-setting/roles'
+            },
+            {
+              title: 'Session Setting',
+              page: '/system-setting/sessions'
+            },
+            {
+              title: 'Email Setting',
+              page: '/system-setting/email_setting'
+            },  
+            {
+              title: 'Sms Setting',
+              page: '/system-setting/sms_setting'
+            },
+            {
+              title: 'Backup Restore',
+              page: '/system-setting/backup_restore'
+            },  
+            {
+              title: 'Notification Setting',
+              page: '/system-setting/notification_setting'
+            },  
+            {
+              title: 'Users',
+              page: '/system-setting/users'
+            }, 
+          ]
+        },
+
+
+
         // {section: 'Components'},
         // {
         //   title: 'Google Material',

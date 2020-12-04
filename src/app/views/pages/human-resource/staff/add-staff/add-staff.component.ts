@@ -415,6 +415,7 @@ onDepartmentSelectChange(departmentId){
    * On Submit
    */
   onSubmit() {
+    debugger
     this.hasFormErrors = false;
     const controls1 = this.staffInformationFormGroup.controls;
     const controls2 = this.addMoreDetailFormGroup.controls;
