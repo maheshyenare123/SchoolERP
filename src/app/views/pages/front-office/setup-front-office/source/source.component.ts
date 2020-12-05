@@ -213,7 +213,7 @@ createForm() {
 	this.sourceForm = this.fb.group({
 		source: [this.source.source, Validators.required],
 		description: [this.source.description, ],
-		
+		isActive: [this.source.isActive, ],
 	});
 }
 
@@ -239,7 +239,11 @@ prepareSource(): SourceModel {
 	_source.id = this.source.id;
 	_source.source = controls.source.value;
 	_source.description = controls.description.value;
-_source.isActive='yes';
+		if(_source.id>0){
+	_source.isActive = controls.isActive.value;
+}else{
+	_source.isActive = 'yes';
+}
 	return _source;
 }
 

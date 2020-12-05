@@ -235,15 +235,6 @@ this.loadAllRoomType();
 createForm() {
 	debugger;
 	this.hostelRoomForm = this.fb.group({
-    // costPerBed: number;
-    // description: string;
-    // hostelId: number;
-    // id: number;
-    // isActive: string;
-    // noOfBed: number;
-    // roomNo: string;
-    // roomTypeId: number;
-    // title: string;
     costPerBed: [this.hostelRoom.costPerBed, Validators.required],
     description: [this.hostelRoom.description, ],
     hostelId: [this.hostelRoom.hostelId, Validators.required],
@@ -276,21 +267,16 @@ prepareHostelRoom(): HostelRoomModel {
 	const controls = this.hostelRoomForm.controls;
 	const _hostelRoom = new HostelRoomModel();
   _hostelRoom.id = this.hostelRoom.id;
- // costPerBed: number;
-    // description: string;
-    // hostelId: number;
-    // id: number;
-    // isActive: string;
-    // noOfBed: number;
-    // roomNo: string;
-    // roomTypeId: number;
-    // title: string;
 
   _hostelRoom.costPerBed = controls.costPerBed.value;
   _hostelRoom.description = controls.description.value;
   _hostelRoom.hostelId = controls.hostelId.value;
   _hostelRoom.noOfBed = controls.noOfBed.value;
-  _hostelRoom.isActive='yes';
+   if(_hostelRoom.id){
+     _hostelRoom.isActive = controls.isActive.value; 
+  }else{
+      _hostelRoom.isActive='yes';
+  }
 	_hostelRoom.roomNo = controls.roomNo.value;
   _hostelRoom.roomTypeId = controls.roomTypeId.value;
   _hostelRoom.title = controls.title.value;

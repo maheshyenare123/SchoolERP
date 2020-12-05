@@ -156,10 +156,15 @@ export class PhoneCallLogEditDialogComponent implements OnInit, OnDestroy {
 		} else {
 			_phoneCall.followUpDate = '';
 		}
-		_phoneCall.isActive = controls.isActive.value;
+		if(_phoneCall.id > 0){
+			_phoneCall.isActive = controls.isActive.value;
+		}else{
+			_phoneCall.isActive = 'yes';
+		}
+
 		_phoneCall.name = controls.name.value;
 		_phoneCall.note = controls.note.value;
-		_phoneCall.isActive='yes'
+		
 		return _phoneCall;
 	}
 

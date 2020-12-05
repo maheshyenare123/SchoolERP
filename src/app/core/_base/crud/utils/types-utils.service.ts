@@ -39,9 +39,20 @@ export class TypesUtilsService {
    *
    * @param date: Date
    */
-  dateFormat(date: Date): string {
+  // dateFormat(date: Date): string {
+  //   const month = date.getMonth() + 1;
+  //   const day = date.getDate();
+  //   const year = date.getFullYear();
+  //   if (date) {
+  //     return `${year}-${month}-${day}`;
+  //   }
+
+  //   return '';
+  // }
+
+   dateFormat(date: Date): string {
     const month = date.getMonth() + 1;
-    const day = date.getDate();
+    const day = this.padNumber(date.getDate());
     const year = date.getFullYear();
     if (date) {
       return `${year}-${month}-${day}`;

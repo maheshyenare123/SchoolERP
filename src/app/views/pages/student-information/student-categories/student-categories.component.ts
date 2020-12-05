@@ -166,10 +166,10 @@ this.addCategory();
 	 */
 	deleteCategory(_item: CategoryDtoModel) {
 
-		const _title = 'Check Out Policy';
-		const _description = 'Are you sure to permanently delete selected check out policy?';
-		const _waitDesciption = 'Check Out Policy is deleting...';
-		const _deleteMessage = ' Selected check out policy has been deleted';
+		const _title = 'Student Category';
+		const _description = 'Are you sure to permanently delete selected Student Category?';
+		const _waitDesciption = 'Student Category is deleting...';
+		const _deleteMessage = ' Selected Student Category has been deleted';
 
 
 
@@ -273,7 +273,7 @@ onSubmit() {
 		this.createCategory(editedCategory);
 	}
 
-	const	_saveMessage= editedCategory.id > 0 ? 'Check Out Policy  has been updated' : 'Check Out Policy has been created';
+	const	_saveMessage= editedCategory.id > 0 ? 'Student Category  has been updated' : 'Student Category has been created';
 		
 	const _messageType = editedCategory.id > 0 ? MessageType.Update : MessageType.Create;
 	

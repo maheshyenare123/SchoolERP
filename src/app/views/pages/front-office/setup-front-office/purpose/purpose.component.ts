@@ -214,7 +214,7 @@ createForm() {
 	this.visitorPurposeForm = this.fb.group({
 		visitorsPurpose: [this.visitorPurpose.visitorsPurpose, Validators.required],
 		description: [this.visitorPurpose.description, ],
-		
+		isActive: [this.visitorPurpose.isActive, ],
 	});
 }
 
@@ -240,7 +240,11 @@ prepareVisitorPurpose(): VisitorPurposeModel {
 	_visitorPurpose.id = this.visitorPurpose.id;
 	_visitorPurpose.visitorsPurpose = controls.visitorsPurpose.value;
 	_visitorPurpose.description = controls.description.value;
-	_visitorPurpose.isActive='yes';
+		if(_visitorPurpose.id>0){
+	_visitorPurpose.isActive = controls.isActive.value;
+}else{
+	_visitorPurpose.isActive = 'yes';
+}
 	return _visitorPurpose;
 }
 

@@ -17,4 +17,11 @@ export class RolesDtoModel {
         this.roleName = '';
         this.slug = '';
     }
+
+
+    constructor(id:number,name:string){
+        this.id=id;
+        this.name=name;
+       
+    }
 }

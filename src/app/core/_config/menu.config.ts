@@ -540,6 +540,35 @@ export class MenuConfig {
           ]
         },
 
+
+        {
+          title: 'Communication',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+            
+            {
+              title: 'Notice Board',
+              page: '/communication/notice-board'
+            },
+            {
+              title: 'Send Email',
+              page: '/communication/send-email'
+            },
+            {
+              title: 'Send Sms',
+              page: '/communication/send-sms'
+            },  
+            {
+              title: 'Email Sms Log',
+              page: '/communication/email-sms-log'
+            },  
+
+            
+          ]
+        },
+
+
         {
           title: 'Report',
           bullet: 'dot',

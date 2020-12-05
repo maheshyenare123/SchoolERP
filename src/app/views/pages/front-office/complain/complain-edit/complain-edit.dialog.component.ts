@@ -102,21 +102,6 @@ loadAllSources() {
 
 	createForm() {
 		this.complainForm = this.fb.group({
-
-	// 		actionTaken: string;
-    // assigned: string;
-    // complaintType: string;
-    // contact: string;
-    // createdAt:TimestampModel; 
-    // date: string;
-    // description: string;
-    // email: string;
-    // id: number;
-    // image: string;
-    // isActive: string;
-    // name: string;
-    // note: string;
-	// source: string;
 	
 			actionTaken: [this.complain.actionTaken, ''],
 			assigned: [this.complain.assigned, ''],
@@ -124,7 +109,6 @@ loadAllSources() {
 			contact: [this.complain.contact,[Validators.required,
 				Validators.pattern("^[0-9]*$"),
 				Validators.maxLength(10)]],
-			// createdAt: [this.complain.createdAt,''],
 			date: [this.typesUtilsService.getDateFromString(this.complain.date), Validators.compose([Validators.nullValidator])],
 			description: [this.complain.description, ''],
 			email: [this.complain.email, Validators.compose([ Validators.email])],
@@ -133,13 +117,6 @@ loadAllSources() {
 			name: [this.complain.name, Validators.required],
 			note: [this.complain.note, ''],
 			source: [this.complain.source, Validators.required],
-			
-
-			// isActive: string;
-
-
-
-
 
 		});
 	}
@@ -193,7 +170,13 @@ loadAllSources() {
 		_complain.note = controls.note.value;
 		_complain.source = controls.source.value;
 
-		// _complain.isActive='yes'
+		if(_complain.id > 0){
+			_complain.isActive = controls.isActive.value;
+		}else{
+			_complain.isActive = 'yes';
+		}
+
+		
 		return _complain;
 	}
 

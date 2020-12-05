@@ -300,6 +300,23 @@ export class PageConfig {
       
     },
 
+
+    'communication': {
+      'notice-board': {
+        page: { title: 'Notice Board', desc: '' }
+      },
+      'send-email': {
+        page: { title: 'Send Email', desc: '' }
+      },
+      'send-sms': {
+        page: { title: 'Send Sms', desc: '' }
+      },
+      'email-sms-log': {
+        page: { title: 'Email Sms Log', desc: '' }
+      },
+    },
+
+
     'report': {
       'student-information': {
         page: { title: 'Student Information', desc: '' }

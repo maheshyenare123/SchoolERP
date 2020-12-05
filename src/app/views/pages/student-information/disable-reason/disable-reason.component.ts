@@ -165,10 +165,10 @@ this.addDisableReason();
 	 */
 	deleteDisableReason(_item: DisableReasonModel) {
 
-		const _title = 'Check Out Policy';
-		const _description = 'Are you sure to permanently delete selected check out policy?';
-		const _waitDesciption = 'Check Out Policy is deleting...';
-		const _deleteMessage = ' Selected check out policy has been deleted';
+		const _title = 'Disabled Reason';
+		const _description = 'Are you sure to permanently delete selected Disabled Reason?';
+		const _waitDesciption = 'Disabled Reason is deleting...';
+		const _deleteMessage = ' Selected Disabled Reason has been deleted';
 
 
 
@@ -270,7 +270,7 @@ onSubmit() {
 		this.createDisableReason(editedDisableReason);
 	}
 
-	const	_saveMessage= editedDisableReason.id > 0 ? 'Check Out Policy  has been updated' : 'Check Out Policy has been created';
+	const	_saveMessage= editedDisableReason.id > 0 ? 'Disabled Reason  has been updated' : 'Disabled Reason has been created';
 		
 	const _messageType = editedDisableReason.id > 0 ? MessageType.Update : MessageType.Create;
 	

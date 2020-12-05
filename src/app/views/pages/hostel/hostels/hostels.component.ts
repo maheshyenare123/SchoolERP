@@ -262,7 +262,12 @@ export class HostelsComponent implements OnInit {
   _hostel.description = controls.description.value;
   _hostel.hostelName = controls.hostelName.value;
   _hostel.intake = controls.intake.value;
-  _hostel.isActive='yes';
+  if(_hostel.id){
+     _hostel.isActive = controls.isActive.value; 
+  }else{
+      _hostel.isActive='yes';
+  }
+ 
   _hostel.type = controls.type.value;
  
    return _hostel;
