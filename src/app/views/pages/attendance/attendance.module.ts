@@ -29,6 +29,7 @@ import { ApproveLeaveEditDialogComponent } from './approve-leave/approve-leave-e
 import { ApproveLeaveListComponent } from './approve-leave/approve-leave-list/approve-leave-list.component';
 import { StudentAttendenceEffects, approveLeavesReducer, ApproveLeaveEffects, studentAttendencesReducer, StudentAttendenceService, ApproveLeaveService, AttendenceTypeService } from '../../../core/attendance';
 import { TestComponent } from './test/test.component';
+import { UploadFileS3BucketService } from 'src/app/core/upload-file-s3-buket/uploadFileS3Bucket.service';
 
 const routes: Routes = [
 	{
@@ -88,10 +89,6 @@ const routes: Routes = [
     TranslateModule.forChild(),
     NgxPermissionsModule.forChild(),
 
-
-
-
-
 //state manage
 StoreModule.forFeature('studentAttendences', studentAttendencesReducer),
 EffectsModule.forFeature([StudentAttendenceEffects]),
@@ -134,7 +131,7 @@ EffectsModule.forFeature([ApproveLeaveEffects]),
 StudentAttendenceService,
 ApproveLeaveService,
 AttendenceTypeService,
-
+// UploadFileS3BucketService,
 
   ],
    

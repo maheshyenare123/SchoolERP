@@ -245,7 +245,7 @@ export class SessionSettingComponent implements OnInit {
     if (_session.id > 0) {
       _session.isActive = this.session.isActive;
     } else {
-      _session.isActive = 'yes';
+      _session.isActive = 'no';
     }
   
   

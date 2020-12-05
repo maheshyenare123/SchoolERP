@@ -37,8 +37,6 @@ import {
   Subheader2Component,
   Subheader3Component,
   SubheaderSearchComponent,
-  UserProfile2Component,
-  UserProfile3Component,
   UserProfileComponent,
   UserProfile4Component
 } from './layout';
@@ -116,8 +114,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     SearchDefaultComponent,
     SearchDropdownComponent,
     UserProfileComponent,
-    UserProfile2Component,
-    UserProfile3Component,
     UserProfile4Component,
     CartComponent,
     Widget1SalesStatComponent,
@@ -166,8 +162,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     SearchDefaultComponent,
     SearchDropdownComponent,
     UserProfileComponent,
-    UserProfile2Component,
-    UserProfile3Component,
+   
     UserProfile4Component,
     CartComponent,
     Widget1SalesStatComponent,

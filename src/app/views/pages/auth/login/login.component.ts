@@ -14,6 +14,10 @@ import { AppState } from '../../../../core/reducers';
 import { AuthNoticeService, AuthService, Login, UserLoaded, UserRequested } from '../../../../core/auth';
 import { AuthLoginService } from './auth-login.service';
 import { RolePermissionService, RolesModel } from 'src/app/core/role_permission';
+import { UploadFileS3BucketService } from 'src/app/core/upload-file-s3-buket/uploadFileS3Bucket.service';
+import { HttpClient } from '@angular/common/http';
+import { DecodeJWTTokenService } from 'src/app/core/_base/crud/utils/decode-jwt-token.service';
+import { TypesUtilsService } from 'src/app/core/_base/crud';
 
 /**
  * ! Just example => Should be removed in development
@@ -64,6 +68,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 		private route: ActivatedRoute,
 		private authloginservice: AuthLoginService,
 		private rolePermissionService: RolePermissionService,
+		private uploadFileService:UploadFileS3BucketService,
+		private http: HttpClient,
+		// private decodeJwtTokenService:DecodeJWTTokenService,
+	
 	) {
 		this.unsubscribe = new Subject();
 	}
@@ -75,15 +83,45 @@ export class LoginComponent implements OnInit, OnDestroy {
 	/**
 	 * On init
 	 */
-	ngOnInit(): void {
-		this.initLoginForm();
 
+	 
+	ngOnInit(): void {
+
+
+		// this.http.delete("http://192.168.0.15:8282/opdsystem/reception/delete/4").subscribe(res=>{
+		// 	console.log(res);
+		// },err=>{
+		// 	console.log(err)
+		// })
+
+		this.initLoginForm();
 		// redirect back to the returnUrl before login
 		this.route.queryParams.subscribe(params => {
 			this.returnUrl = params.returnUrl || '/';
 		});
-	}
 
+
+
+	}
+	uploadfile(event){
+		let file = event.target.files[0];
+    //  let data=this.uploadFileService.uploadfile(file);
+
+//    console.log(data);
+	}
+	// this.uploadService.upload(this.currentFile).subscribe(
+	// 	event => {
+	// 	  if (event.type === HttpEventType.UploadProgress) {
+	// 		this.progress = Math.round(100 * event.loaded / event.total);
+	// 	  } else if (event instanceof HttpResponse) {
+	// 		this.message = event.body.message;
+	// 		this.fileInfos = this.uploadService.getFiles();
+	// 	  }
+	// 	},
+	// 	err => {
+	// 	  this.progress = 0;
+	// 	  this.message = 'Could not upload the file!';
+	// 	});
 	/**
 	 * On destroy
 	 */
@@ -98,6 +136,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 	 * Form initalization
 	 * Default params, validators
 	 */
+	// sessionId
+
+
 	initLoginForm() {
 		// demo message to show
 		// if (!this.authNoticeService.onNoticeChanged$.getValue()) {
@@ -181,9 +222,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 						const role = user['roles'];
 						localStorage.setItem('schoolRoleConfig', role[0].roleName);
 						// this.store.dispatch(new UserLoaded({ user: user }));
-				
+
 						this.store.dispatch(new Login({ authToken: user.accessToken }));
-						
+
 						// this.store.dispatch(new UserRequested());
 						this.router.navigateByUrl(this.returnUrl); // Main page
 						// this.router.navigateByUrl('/dashboard'); // Main page
@@ -242,22 +283,23 @@ export class LoginComponent implements OnInit, OnDestroy {
 			email: controls.username.value,
 			password: controls.password.value
 		};
+		this.getDynamicMenuConfig();
 		this.auth
 			.login(loginData)
 			.pipe(
 				tap(user => {
 					if (user) {
-
-						this.getDynamicMenuConfig();
 						localStorage.setItem('user', JSON.stringify(user));
-						localStorage.setItem('token', user['accessToken']);
-						const role = user['roles'];
-						localStorage.setItem('schoolRoleConfig', role[0].roleName)
+						// localStorage.setItem('token', user['accessToken']);
+						// const role = user['roles'];
+						// localStorage.setItem('schoolRoleConfig', role[0].roleName);
 						this.store.dispatch(new Login({ authToken: user.accessToken }));
 						this.router.navigateByUrl(this.returnUrl); // Main page
-					
-				
-					
+						// let tokenInfo = this.decodeJwtTokenService.getDecodedAccessToken(user.accessToken ); // decode token
+						// let expireDate = tokenInfo.exp; // get token expiration dateTime
+						// console.log(tokenInfo); // show decoded token object in console
+
+
 					} else {
 						this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');
 					}
@@ -281,7 +323,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 		if (!control) {
 			return false;
 		}
-
+		
 		const result = control.hasError(validationType) && (control.dirty || control.touched);
 		return result;
 	}
