@@ -98,6 +98,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 		// redirect back to the returnUrl before login
 		this.route.queryParams.subscribe(params => {
 			this.returnUrl = params.returnUrl || '/';
+			console.log(this.returnUrl);
 		});
 
 
@@ -253,6 +254,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 	getDynamicMenuConfig() {
 		// const roleName= localStorage.getItem('schoolRoleConfig');
 		this.rolePermissionService.getAllPermissionsByRole().subscribe(res => {
+			debugger;
 			const data = res['data'];
 			const content = data['content'];
 			localStorage.setItem('sideMenusConfig', JSON.stringify(content));
@@ -274,6 +276,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 		}
 
 		this.loading = true;
+		this.getDynamicMenuConfig();
 		this.templateLogin(this.loginForm.value);
 
 	}
@@ -283,12 +286,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 			email: controls.username.value,
 			password: controls.password.value
 		};
-		this.getDynamicMenuConfig();
+	
 		this.auth
 			.login(loginData)
 			.pipe(
 				tap(user => {
 					if (user) {
+						debugger;
+							// this.getDynamicMenuConfig();
 						localStorage.setItem('user', JSON.stringify(user));
 						// localStorage.setItem('token', user['accessToken']);
 						// const role = user['roles'];

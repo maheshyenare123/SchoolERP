@@ -9,6 +9,7 @@ import { AppState } from 'src/app/core/reducers';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Logout } from 'src/app/core/auth';
+import { environment } from 'src/environments/environment';
 /**
  * More information there => https://medium.com/@MetonymyQT/angular-http-interceptors-what-are-they-and-how-to-use-them-52e060321088
  */
@@ -61,9 +62,8 @@ export class InterceptService implements HttpInterceptor {
           if (error.status === 401) {
                 //             // auto logout if 401 response returned from api
                 localStorage.removeItem('token');
-                // localStorage.removeItem(environment.authTokenKey);
+                localStorage.removeItem(environment.authTokenKey);
                 this.store.dispatch(new Logout());
-
                 this.router.navigate(['/auth/login']);
                 document.location.reload();
              
