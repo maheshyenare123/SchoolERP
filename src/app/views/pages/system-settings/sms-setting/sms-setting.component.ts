@@ -21,7 +21,6 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { SmsModel } from 'src/app/core/sysetm_settings/_models/sms.model';
 import { SmsService } from 'src/app/core/sysetm_settings/_services/sms.service';
-import { validators } from 'dist/assets/plugins/formvalidation/src/js';
 
 @Component({
   selector: 'kt-sms-setting',

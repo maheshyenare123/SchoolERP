@@ -21,7 +21,6 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { EmailModel } from 'src/app/core/sysetm_settings/_models/email.model';
 import { EmailService } from 'src/app/core/sysetm_settings/_services/email.service';
-import { validators } from 'dist/assets/plugins/formvalidation/src/js';
 
 
 
