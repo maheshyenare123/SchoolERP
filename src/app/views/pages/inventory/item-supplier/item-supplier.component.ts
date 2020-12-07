@@ -42,7 +42,7 @@ dataSource: ItemSuppliersDataSource;
   // isActive: string;
   // itemSupplier: string;
   // phone: string;
-displayedColumns = ['id', 'itemSupplier','contactPerson', 'address', 'description', 'actions'];
+displayedColumns = ['id', 'itemSupplier','contactPerson', 'address', 'actions'];//'description',
 @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 @ViewChild('sort1', {static: true}) sort: MatSort;
 // Filter fields

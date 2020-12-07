@@ -529,13 +529,21 @@
                                 <hr>
                                 <div class="form-group kt-form__group row">
                                     <div class="col-lg-6 kt-margin-bottom-20-mobile">
-                                        <mat-form-field class="mat-form-field-fluid">
+                                        <!-- <mat-form-field class="mat-form-field-fluid">
                                             <mat-select placeholder="Hostel" formControlName="hostelRoomId">
                                                 <mat-option value="0">Business</mat-option>
                                                 <mat-option value="1">Individual</mat-option>
                                             </mat-select>
+                                        </mat-form-field> -->
 
-                                        </mat-form-field>
+                                            <mat-form-field class="mat-form-field-fluid">
+                                                <mat-select placeholder="Hostel" formControlName="hostelId">
+                                                    <mat-option *ngFor="let hostel of hostelList" [value]="hostel.id" >
+                                                        {{hostel.hostelName}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                     
                                     </div>
                                     <div class="col-lg-6 kt-margin-bottom-20-mobile">
                                         <mat-form-field class="mat-form-field-fluid">

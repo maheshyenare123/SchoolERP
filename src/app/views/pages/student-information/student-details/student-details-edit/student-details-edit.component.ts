@@ -17,6 +17,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { StudentDtoModel, selectStudentsActionLoading, StudentUpdated, StudentOnServerCreated, selectLastCreatedStudentId, StudentService, CategoryService, CategoryDtoModel, SchoolHousModel, StudentHouseService, } from '../../../../../core/student-information';
 import { StudentClassService, SectionService, StudentClassModel, SectionDtoModel } from 'src/app/core/academics';
 import { Router, ActivatedRoute } from '@angular/router';
+import { HostelModel, HostelService } from 'src/app/core/hostel';
 
 
 @Component({
@@ -58,6 +59,7 @@ export class StudentDetailsEditComponent implements OnInit {
   categoryList:CategoryDtoModel[]=[];
   studentHouseList:SchoolHousModel[]=[];
   studentId: any;
+  hostelList: HostelModel[] = [];
   constructor(
     //public dialogRef: MatDialogRef<StudentDetailsEditDialogComponent>,
     //  @Inject(MAT_DIALOG_DATA) public data: any,
@@ -71,7 +73,7 @@ export class StudentDetailsEditComponent implements OnInit {
     private studentHouseService:StudentHouseService,
     private router: Router,
     private route:ActivatedRoute,
-  
+    private hostelService:HostelService,
     ) {
   }
 
@@ -95,6 +97,7 @@ export class StudentDetailsEditComponent implements OnInit {
 this.loadAllClasses();
 this.loadAllStudentCategory();
 this.loadAllStudentHouse()
+this.loadAllHostel();
     //this.studentDetail = this.data.studentDetail;
     const newStudent = new StudentDtoModel();
 		newStudent.clear(); // Set all defaults fields
@@ -148,6 +151,9 @@ loadAllSectionsByClassId(id:number) {
 		}, err => {
 		});
   }
+
+
+
   
 
   	//get All Source List
@@ -159,7 +165,17 @@ loadAllSectionsByClassId(id:number) {
 			console.log(this.studentHouseList)
 		}, err => {
 		});
-	}
+  }
+  
+  loadAllHostel() {
+		debugger
+		this.hostelService.getAllHostels().subscribe(res => {
+			const data = res['data'];
+			this.hostelList = data['content'];
+			console.log(this.hostelList)
+		}, err => {
+		});
+  }
   /**
    * On destroy
    */
