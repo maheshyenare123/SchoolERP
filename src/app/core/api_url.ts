@@ -96,9 +96,11 @@ export class Constants {
       Fees_Discount: 'api/fee-discount',
       Fees_Master: 'api/feemaster',
       AssignStudentFeemaster: 'api/feemaster/assign/student',
+
       AssignStudentFeediscount: 'api/fee-discount/assign/student',
       Student_Fee_Deposite: 'api/student-fee-deposite',
       Student_Discount:'api/student-discount'
+
    }
 
 
@@ -135,6 +137,7 @@ export class Constants {
       ItemStock: 'api/item-stock',
       ItemIssue: 'api/item-issue'
    }
+
    
    public static Exams: any = {
       ExamGroup: 'api/exam-group',
@@ -149,8 +152,10 @@ export class Constants {
       Session:'api/session',
       Email:'api/email',
       Sms:'api/sms',
+
    
    
+
       
       }
 

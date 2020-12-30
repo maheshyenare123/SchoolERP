@@ -138,9 +138,6 @@ const routes: Routes = [
     StoreModule.forFeature('assignStudentFeemasters', assignStudentFeemastersReducer),
     EffectsModule.forFeature([AssignStudentFeemasterEffects]),
 
-    StoreModule.forFeature('assignStudentFeediscounts', assignStudentFeediscountsReducer),
-    EffectsModule.forFeature([AssignStudentFeediscountEffects]),
-
     StoreModule.forFeature('studentFeeDeposites', studentFeeDepositesReducer),
     EffectsModule.forFeature([StudentFeeDepositeEffects]),
     StoreModule.forFeature('studentFeeAmountDetailss', studentFeeAmountDetailssReducer),

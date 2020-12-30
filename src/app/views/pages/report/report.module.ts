@@ -254,7 +254,6 @@ const routes: Routes = [
 				path: 'hostel-report',
 				component:   HostelReportComponent,
       },
-
     ] 
   }
 ]

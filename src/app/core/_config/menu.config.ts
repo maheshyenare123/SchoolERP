@@ -583,7 +583,6 @@ export class MenuConfig {
           ]
         },
 
-
         {
           title: 'Report',
           bullet: 'dot',

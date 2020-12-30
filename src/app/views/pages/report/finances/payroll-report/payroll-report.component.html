@@ -169,13 +169,18 @@
             </div>
             <!-- end::FILTERS -->
 
- 
             <div class="mat-table__wrapper">
                 <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource" matSort #sort1="matSort"
                     matSortActive="id" matSortDirection="asc" matSortDisableClear>
                     <ng-container matColumnDef="id">
                         <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
                         <mat-cell *matCellDef="let staff">{{staff.id}}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="staffId">
+                        <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Staff Id
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let staff">{{staff.staffId}}</mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="name">
                         <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Name
@@ -233,7 +238,7 @@
                         </mat-header-cell>
                         <mat-cell *matCellDef="let staff"> {{staff.staffDesignation}}</mat-cell>
                     </ng-container>
-                    '', '', '', '', '', ''
+                    
 
                     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
