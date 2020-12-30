@@ -42,7 +42,7 @@ export class ComplaintTypeService {
     const url =Constants.URL.HOST_URL+Constants.Front_Office.ComplainType ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
-      // params: httpParams
+     params: httpParams
     });
   }
 
@@ -65,6 +65,8 @@ export class ComplaintTypeService {
 
   // DELETE => delete the complaintType from the server
   deleteComplaintType(complaintTypeId: number): Observable<ComplaintTypeModel> {
+    debugger
+
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const url = `${Constants.URL.HOST_URL+Constants.Front_Office.ComplainType}/${complaintTypeId}`;
     return this.http.delete<ComplaintTypeModel>(url, {headers: httpHeaders});

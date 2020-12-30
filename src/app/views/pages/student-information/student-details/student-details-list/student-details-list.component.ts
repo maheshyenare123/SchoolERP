@@ -12,7 +12,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '../../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { DynamicSetActionsService } from '../../../../../core/_base/crud';
+
 //import { StudentEditDialogComponent } from '../admission-enquiry-edit/admission-enquiry-edit.dialog.component';
 import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from 'src/app/core/academics';
 import { StudentProfileViewDialogComponent } from '../student-profile-view/student-profile-view.dialog.component';
@@ -51,7 +51,6 @@ private subscriptions: Subscription[] = [];
   classList: StudentClassModel[] = [];
 	sectionList: SectionDtoModel[] = [];
 
-actionsData
 constructor(
   public dialog: MatDialog,
              private activatedRoute: ActivatedRoute,
@@ -63,7 +62,6 @@ constructor(
              private studentService: StudentService,
              private studentClassService: StudentClassService,
              private sectionService: SectionService,
-            private dynamicActionsService: DynamicSetActionsService
             
              ) { }
 
@@ -71,21 +69,13 @@ constructor(
 /**
  * On init
  */
-
 ngOnInit() {
 
   this.loadAllClasses();
   // this.loadAllSectionsByClassId(1);
   this.dataSource = new StudentsDataSource(this.store);
   this.createForm();
-//  this.dynamicActions();
-var url;
-  this.activatedRoute.url.subscribe(activeUrl =>{
-    url=window.location.pathname;
-  });
-this.actionsData=this.dynamicActionsService.getPermissionsForActions(url);
 }
-
 
 
 //get All Class List

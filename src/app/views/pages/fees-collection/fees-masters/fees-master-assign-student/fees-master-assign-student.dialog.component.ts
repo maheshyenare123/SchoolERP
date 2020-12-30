@@ -2,7 +2,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { AssignFeesStudentsDataSource, AssignFeesStudentModel, AssignFeesStudentService, FeesMasterModel } from '../../../../../core/fees-collection';
+import { AssignStudentFeemastersDataSource, AssignFeesStudentModel, AssignStudentFeemasterService, FeesMasterModel, AssignStudentFeemasterOnServerCreated } from '../../../../../core/fees-collection';
 import { QueryParamsModel, LayoutUtilsService, MessageType, TypesUtilsService } from '../../../../../core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -20,7 +20,6 @@ import { Update } from '@ngrx/entity';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
-import { AssignFeesStudentsPageRequested, OneAssignFeesStudentDeleted, ManyAssignFeesStudentsDeleted, AssignFeesStudentsStatusUpdated, AssignFeesStudentUpdated, AssignFeesStudentOnServerCreated, selectLastCreatedAssignFeesStudentId } from '../../../../../core/fees-collection';
 import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from 'src/app/core/academics';
 import { CategoryService, CategoryDtoModel } from 'src/app/core/student-information';
 import { selectLastCreatedAssignVehicleId } from 'src/app/core/transport';
@@ -37,7 +36,7 @@ import { selectLastCreatedAssignVehicleId } from 'src/app/core/transport';
 export class FeesMasterAssignStudentDialogComponent implements OnInit {
 
 	// Table fields
-	dataSource: AssignFeesStudentsDataSource;
+	dataSource: AssignStudentFeemastersDataSource;
 	//  dataSource = new MatTableDataSource(ELEMENT_DATA);
 
 
@@ -50,7 +49,7 @@ export class FeesMasterAssignStudentDialogComponent implements OnInit {
 	filterType = '';
 	// Selection
 	selection = new SelectionModel<AssignFeesStudentModel>(true, []);
-	assignFeesStudentsResult: AssignFeesStudentModel[] = [];
+	assignStudentFeemastersResult: AssignFeesStudentModel[] = [];
 	assignFeesStudentForFill: AssignFeesStudentModel[] = [];
 	// Subscriptions
 	private subscriptions: Subscription[] = [];
@@ -66,7 +65,7 @@ export class FeesMasterAssignStudentDialogComponent implements OnInit {
 
 	classId: number  = 0;
 	sectionId: number = 0;
-	category: number;
+	category: number=0;
 	gender: string;
 	rte: string;
 
@@ -92,7 +91,7 @@ export class FeesMasterAssignStudentDialogComponent implements OnInit {
 		private studentClassService: StudentClassService,
 		private sectionService: SectionService,
 		private categoryService:CategoryService,
-		private assignFeesStudentService:AssignFeesStudentService,
+		private assignStudentFeemasterService:AssignStudentFeemasterService,
 		
 		) {
 	}
@@ -103,11 +102,11 @@ export class FeesMasterAssignStudentDialogComponent implements OnInit {
 	ngOnInit() {
 debugger
 		this.loadAllClasses();
-		this.loadAllSectionsByClassId(1);
+		// this.loadAllSectionsByClassId(1);
 		this.addAssignFeesStudent();
 		this.loadAllStudentCategory();
 		// Init DataSource
-		// this.dataSource = new AssignFeesStudentsDataSource(this.store);
+		// this.dataSource = new AssignStudentFeemastersDataSource(this.store);
 
 		this.feesMaster = this.data.assignFeesStudent;
 
@@ -130,18 +129,19 @@ loadAllClasses() {
 	}, err => {
 	});
 }
-onClassSelectChange(classObj:StudentClassModel){
-	// this.loadAllSectionsByClassId(classObj.id);
-}
-loadAllSectionsByClassId(id:number) {
-	debugger
-	this.sectionService.getAllSections().subscribe(res => {
-		const data = res['data'];
-		this.sectionList = data['content'];
-		console.log(this.sectionList)
-	}, err => {
-	});
-}
+onClassSelectChange(classId){
+	this.loadAllSectionsByClassId(classId);
+   
+  }
+  loadAllSectionsByClassId(id:number) {
+	  debugger
+	  this.studentClassService.getAllSectionByClasssId(id).subscribe(res => {
+  
+		  this.sectionList = res['data'];
+		  console.log(this.sectionList)
+	  }, err => {
+	  });
+  }
 
 	//get All Source List
 	loadAllStudentCategory() {
@@ -197,7 +197,7 @@ loadAllSectionsByClassId(id:number) {
 			}
 			
 		
-			this.assignFeesStudentService.findAssignFeesStudents(queryParams, controls.classId.value, controls.sectionId.value,
+			this.assignStudentFeemasterService.findAssignStudentFeemasters(queryParams, controls.classId.value, controls.sectionId.value,
 				 controls.category.value, controls.gender.value,
 				controls.rte.value,this.feesMaster.feeGroupId).subscribe(res => {
 					const data = res['data'];
@@ -221,7 +221,7 @@ loadAllSectionsByClassId(id:number) {
 				'pageNo': pageNo,
 				'itemsPerPage': 10,
 			}
-			this.assignFeesStudentService.findAssignFeesStudents(queryParams, this.classId , this.sectionId,
+			this.assignStudentFeemasterService.findAssignStudentFeemasters(queryParams, this.classId , this.sectionId,
 				this.category , this.gender,
 				this.rte,this.feesMaster.feeGroupId).subscribe(res => {
 					const data = res['data'];
@@ -268,14 +268,14 @@ loadAllSectionsByClassId(id:number) {
 // //  this.subscriptions.push(searchSubscription);
 
 //  // Init DataSource
-//  this.dataSource = new AssignFeesStudentsDataSource(this.store);
+//  this.dataSource = new AssignStudentFeemastersDataSource(this.store);
 //  const entitiesSubscription = this.dataSource.entitySubject.pipe(
 //    skip(1),
 //    distinctUntilChanged()
 //  ).subscribe(res => {
-//    this.assignFeesStudentsResult = res;
-//    console.log(this.assignFeesStudentsResult);
-//    if(this.assignFeesStudentsResult.length==0)this.dataSource.hasItems=false;
+//    this.assignStudentFeemastersResult = res;
+//    console.log(this.assignStudentFeemastersResult);
+//    if(this.assignStudentFeemastersResult.length==0)this.dataSource.hasItems=false;
 //  });
 //  this.subscriptions.push(entitiesSubscription);
 //  // First load
@@ -311,7 +311,7 @@ loadAllSectionsByClassId(id:number) {
 	// 	// this.subscriptions.push(searchSubscription);
 
 	// 	// Init DataSource
-	// 	this.dataSource = new AssignFeesStudentsDataSource(this.store);
+	// 	this.dataSource = new AssignStudentFeemastersDataSource(this.store);
 
 	// 	const entitiesSubscription = this.dataSource.entitySubject.pipe(
 	// 		skip(1),
@@ -319,10 +319,10 @@ loadAllSectionsByClassId(id:number) {
 	// 	).subscribe(res => {
 	// 		// debugger
 	// 		console.log(res);
-	// 		this.AssignFeesStudentsResult = res;
-	// 		console.log(this.AssignFeesStudentsResult);
-	// 		if(this.AssignFeesStudentsResult){
-	// 			this.AssignFeesStudentForFill=this.AssignFeesStudentsResult;
+	// 		this.AssignStudentFeemastersResult = res;
+	// 		console.log(this.AssignStudentFeemastersResult);
+	// 		if(this.AssignStudentFeemastersResult){
+	// 			this.AssignFeesStudentForFill=this.AssignStudentFeemastersResult;
 	// 		}
 		
 	// 	});
@@ -345,7 +345,7 @@ loadAllSectionsByClassId(id:number) {
 	}
 
 	/**
-	 * Load AssignFeesStudents List from service through data-source
+	 * Load AssignStudentFeemasters List from service through data-source
 	 */
 	// loadAssignFeesStudentList(classId, sectionId, category, gender, rte,feeGroupId) {
 	// 	debugger;
@@ -362,7 +362,7 @@ loadAllSectionsByClassId(id:number) {
 
 
 	// 	// Call request from server
-	// 	 this.store.dispatch(new AssignFeesStudentsPageRequested({ page: queryParams, classId: classId, sectionId: sectionId, category: category, gender: gender, rte:rte,feeGroupId:feeGroupId }));
+	// 	 this.store.dispatch(new AssignStudentFeemastersPageRequested({ page: queryParams, classId: classId, sectionId: sectionId, category: category, gender: gender, rte:rte,feeGroupId:feeGroupId }));
 	// 	this.selection.clear();
 	// }
 
@@ -437,17 +437,18 @@ console.log(this.assignFeesStudentForFill);
 	 */
 	onSubmit() {
 		debugger
-		// this.selection.selected.forEach((element, i)=> {
-		// 	element.isSaved = 1;
-		//   });
-		this.selectedList
+		if(this.selectedList.length === 0){
+
+			return
+		}
+		
 	let entity = {
 		"feeGroupId": this.feesMaster.feeGroupId,
 		"feeGroupName": this.feesMaster.feeGroupName,
 		"studentDtos": this.selectedList
 	}	
 
-	this.store.dispatch(new AssignFeesStudentOnServerCreated({ assignFeesStudent: entity }));
+	this.store.dispatch(new AssignStudentFeemasterOnServerCreated({ assignStudentFeemaster: entity }));
 
 	this.dialogRef.close({ entity, isEdit: false });
 
@@ -463,7 +464,7 @@ console.log(this.assignFeesStudentForFill);
  */
 isAllSelected() {
 	const numSelected = this.selection.selected.length;
-	const numRows = this.assignFeesStudentsResult.length;
+	const numRows = this.assignStudentFeemastersResult.length;
 	console.log("selection: "+this.selection)
 	console.log("selectionobj: "+this.selection.selected)
 	return numSelected === numRows;
@@ -478,7 +479,7 @@ isAllSelected() {
 	if (this.isAllSelected()) {
 	  this.selection.clear();
 	} else {
-	  this.assignFeesStudentsResult.forEach(row => this.selection.select(row));
+	  this.assignStudentFeemastersResult.forEach(row => this.selection.select(row));
 	}
 	console.log("selection: "+this.selection)
   }
@@ -521,11 +522,14 @@ isAllSelected() {
 	  }
 	  
 	  onSelectionAll($event){
+		  debugger
 		if( $event.target.checked){
-			this.assignFeesStudentList.map(item =>{
+			let tempList= this.assignFeesStudentList
+			tempList.map(item =>{
 				item.isSaved = 1;
 			})
-			this.selectedList = this.assignFeesStudentList
+			
+			this.selectedList = tempList
 			this.checkboxSingle = true
 			this.checkboxAll = true
 		}else{

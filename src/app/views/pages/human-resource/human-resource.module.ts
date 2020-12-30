@@ -17,7 +17,7 @@ import { MaterialModule } from '../material/material.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModuleGuard } from 'src/app/core/auth';
-import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService, DynamicSetActionsService } from 'src/app/core/_base/crud';
+import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from 'src/app/core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 
@@ -73,23 +73,23 @@ const routes: Routes = [
 			},
 
       {
-        path: 'staff_directory',
+        path: 'staff-directory',
         component: StaffDirectoryComponent
       },
       {
-        path: 'staff_attendance',
+        path: 'staff-attendance',
         component: StaffAttendanceComponent
       },
       {
-        path: 'apply_leave',
+        path: 'apply-leave',
         component: ApplyLeaveComponent
       },
       {
-        path: 'approve_leave_request',
+        path: 'approve-leave-request',
         component: ApproveLeaveRequestComponent
       },
       {
-        path: 'leave_type',
+        path: 'leave-type',
         component: LeaveTypeComponent
       },
       {
@@ -105,11 +105,11 @@ const routes: Routes = [
         component: PayrollComponent
       },
       {
-        path: 'disabled_staff',
+        path: 'disabled-staff',
         component: DisabledStaffComponent
       },
       {
-        path: 'staff_rating',
+        path: 'staff-rating',
         component: StaffRatingComponent
       },
 
@@ -184,7 +184,6 @@ const routes: Routes = [
     TypesUtilsService,
     HttpUtilsService,
     LayoutUtilsService,
-    DynamicSetActionsService,
     { provide: MatBottomSheetRef, useValue: {} },
     { provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },

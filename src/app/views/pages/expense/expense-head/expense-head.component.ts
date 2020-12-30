@@ -215,7 +215,7 @@ createForm() {
     expCategory: [this.expenseHead.expCategory, Validators.required],
     description: [this.expenseHead.description, ],
     isActive: [this.expenseHead.isActive, ],
-		isDeleted: [this.expenseHead.isDeleted, ],
+	isDeleted: [this.expenseHead.isDeleted, ],
 	});
 }
 

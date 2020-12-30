@@ -44,12 +44,13 @@ export class AddItemEffects {
       return forkJoin(requestToServer, lastQuery);
     }),
     map(response => {
+      debugger
       const result: QueryResultsModel = response[0];
       const lastQuery: QueryParamsModel = response[1];
       const data : FindResultsModel= result['data'];
       return new AddItemsPageLoaded({
         addItems: data.content,
-    totalCount: data.totalPages,
+totalCount: data.totalElements,
     page: lastQuery
       });
     })

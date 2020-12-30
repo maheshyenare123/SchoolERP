@@ -31,6 +31,13 @@ export class StudentFeeDepositeService {
     return this.http.get<StudentFeeDepositeModel>(Constants.URL.HOST_URL+Constants.Fees_Collection.Student_Fee_Deposite+ `/${studentFeeDepositeId}`, {headers: httpHeaders});
   }
 
+  getStudentDiscountById(studentFeeDepositeId: number): Observable<StudentFeeDepositeModel> {
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.get<StudentFeeDepositeModel>(Constants.URL.HOST_URL+Constants.Fees_Collection. Student_Discount+ `/${studentFeeDepositeId}`, {headers: httpHeaders});
+  }
+
+ 
+
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
   // items => filtered/sorted result
   // Server should return filtered/sorted result
@@ -42,7 +49,7 @@ export class StudentFeeDepositeService {
     const url =Constants.URL.HOST_URL+Constants.Fees_Collection.Student_Fee_Deposite ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
-      // params: httpParams
+     params: httpParams
     });
   }
 

@@ -17,6 +17,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { StudentDtoModel, selectStudentsActionLoading, StudentUpdated, StudentOnServerCreated, selectLastCreatedStudentId, StudentService, CategoryService, CategoryDtoModel, SchoolHousModel, StudentHouseService, } from '../../../../../core/student-information';
 import { StudentClassService, SectionService, StudentClassModel, SectionDtoModel } from 'src/app/core/academics';
 import { Router, ActivatedRoute } from '@angular/router';
+import { HostelModel, HostelService } from 'src/app/core/hostel';
+import { RouteModel, RouteService } from 'src/app/core/transport';
 
 
 @Component({
@@ -58,6 +60,8 @@ export class StudentDetailsEditComponent implements OnInit {
   categoryList:CategoryDtoModel[]=[];
   studentHouseList:SchoolHousModel[]=[];
   studentId: any;
+  hostelList: HostelModel[] = [];
+  routeList: RouteModel[] = [];
   constructor(
     //public dialogRef: MatDialogRef<StudentDetailsEditDialogComponent>,
     //  @Inject(MAT_DIALOG_DATA) public data: any,
@@ -71,7 +75,8 @@ export class StudentDetailsEditComponent implements OnInit {
     private studentHouseService:StudentHouseService,
     private router: Router,
     private route:ActivatedRoute,
-  
+    private hostelService:HostelService,
+    private routeService: RouteService,
     ) {
   }
 
@@ -95,6 +100,8 @@ export class StudentDetailsEditComponent implements OnInit {
 this.loadAllClasses();
 this.loadAllStudentCategory();
 this.loadAllStudentHouse()
+this.loadAllHostel();
+this.loadAllRoutes()
     //this.studentDetail = this.data.studentDetail;
     const newStudent = new StudentDtoModel();
 		newStudent.clear(); // Set all defaults fields
@@ -148,6 +155,9 @@ loadAllSectionsByClassId(id:number) {
 		}, err => {
 		});
   }
+
+
+
   
 
   	//get All Source List
@@ -159,7 +169,30 @@ loadAllSectionsByClassId(id:number) {
 			console.log(this.studentHouseList)
 		}, err => {
 		});
+  }
+  
+  loadAllHostel() {
+		debugger
+		this.hostelService.getAllHostels().subscribe(res => {
+			const data = res['data'];
+			this.hostelList = data['content'];
+			console.log(this.hostelList)
+		}, err => {
+		});
+  }
+
+
+  loadAllRoutes() {
+		debugger
+		this.routeService.getAllRoutes().subscribe(res => {
+			const data = res['data'];
+			this.routeList = data['content'];
+			console.log(this.routeList)
+		}, err => {
+		});
 	}
+
+
   /**
    * On destroy
    */

@@ -17,7 +17,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModuleGuard } from '../../../core/auth';
-import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService, DynamicSetActionsService } from '../../../core/_base/crud';
+import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from '../../../core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MaterialModule } from '../material/material.module';
 
@@ -47,15 +47,15 @@ const routes: Routes = [
 				pathMatch: 'full'
       },
       {
-				path: 'class_timetable',
+				path: 'class-timetable',
 				component: ClassTimetableListComponent
       },
       {
-				path: 'teacher_timetable',
+				path: 'teacher-timetable',
 				component: TeacherTimetableComponent
       },
       {
-				path: 'assign_class_teacher',
+				path: 'assign-class-teacher',
 				component: AssignClassTeacherComponent
       },
 			{
@@ -71,7 +71,7 @@ const routes: Routes = [
 				component: SubjectComponent
       },
       {
-				path: 'subject_group',
+				path: 'subject-group',
 				component: SubjectGroupComponent
       },
 
@@ -134,7 +134,6 @@ const routes: Routes = [
     TypesUtilsService,
     HttpUtilsService,
     LayoutUtilsService,
-    DynamicSetActionsService,
 		{ provide: MatBottomSheetRef, useValue: {} },
 		{ provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
 		{ provide: MAT_DATE_LOCALE, useValue: 'en-GB'},

@@ -11,21 +11,16 @@ import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
 // Auth
-import { AuthNoticeService, AuthService, Login, UserLoaded, UserRequested } from '../../../../core/auth';
+import { AuthNoticeService, AuthService, Login } from '../../../../core/auth';
 import { AuthLoginService } from './auth-login.service';
-import { RolePermissionService, RolesModel } from 'src/app/core/role_permission';
-import { UploadFileS3BucketService } from 'src/app/core/upload-file-s3-buket/uploadFileS3Bucket.service';
-import { HttpClient } from '@angular/common/http';
-import { DecodeJWTTokenService } from 'src/app/core/_base/crud/utils/decode-jwt-token.service';
-import { TypesUtilsService } from 'src/app/core/_base/crud';
 
 /**
  * ! Just example => Should be removed in development
  */
-// const DEMO_PARAMS = {
-// 	EMAIL: 'admin@demo.com',
-// 	PASSWORD: 'demo'
-// };
+const DEMO_PARAMS = {
+	EMAIL: 'superadmin@gmail.com',
+	PASSWORD: '123'
+};
 
 @Component({
 	selector: 'kt-login',
@@ -67,11 +62,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 		private cdr: ChangeDetectorRef,
 		private route: ActivatedRoute,
 		private authloginservice: AuthLoginService,
-		private rolePermissionService: RolePermissionService,
-		private uploadFileService:UploadFileS3BucketService,
-		private http: HttpClient,
-		// private decodeJwtTokenService:DecodeJWTTokenService,
-	
 	) {
 		this.unsubscribe = new Subject();
 	}
@@ -83,46 +73,15 @@ export class LoginComponent implements OnInit, OnDestroy {
 	/**
 	 * On init
 	 */
-
-	 
 	ngOnInit(): void {
-
-
-		// this.http.delete("http://192.168.0.15:8282/opdsystem/reception/delete/4").subscribe(res=>{
-		// 	console.log(res);
-		// },err=>{
-		// 	console.log(err)
-		// })
-
 		this.initLoginForm();
+
 		// redirect back to the returnUrl before login
 		this.route.queryParams.subscribe(params => {
 			this.returnUrl = params.returnUrl || '/';
-			console.log(this.returnUrl);
 		});
-
-
-
 	}
-	uploadfile(event){
-		let file = event.target.files[0];
-    //  let data=this.uploadFileService.uploadfile(file);
 
-//    console.log(data);
-	}
-	// this.uploadService.upload(this.currentFile).subscribe(
-	// 	event => {
-	// 	  if (event.type === HttpEventType.UploadProgress) {
-	// 		this.progress = Math.round(100 * event.loaded / event.total);
-	// 	  } else if (event instanceof HttpResponse) {
-	// 		this.message = event.body.message;
-	// 		this.fileInfos = this.uploadService.getFiles();
-	// 	  }
-	// 	},
-	// 	err => {
-	// 	  this.progress = 0;
-	// 	  this.message = 'Could not upload the file!';
-	// 	});
 	/**
 	 * On destroy
 	 */
@@ -137,27 +96,24 @@ export class LoginComponent implements OnInit, OnDestroy {
 	 * Form initalization
 	 * Default params, validators
 	 */
-	// sessionId
-
-
 	initLoginForm() {
 		// demo message to show
-		// if (!this.authNoticeService.onNoticeChanged$.getValue()) {
-		// 	const initialNotice = `Use account
-		// 	<strong>${DEMO_PARAMS.EMAIL}</strong> and password
-		// 	<strong>${DEMO_PARAMS.PASSWORD}</strong> to continue.`;
-		// 	this.authNoticeService.setNotice(initialNotice, 'info');
-		// }
+		if (!this.authNoticeService.onNoticeChanged$.getValue()) {
+			const initialNotice = `Use account
+			<strong>${DEMO_PARAMS.EMAIL}</strong> and password
+			<strong>${DEMO_PARAMS.PASSWORD}</strong> to continue.`;
+			this.authNoticeService.setNotice(initialNotice, 'info');
+		}
 
 		this.loginForm = this.fb.group({
-			username: ['superadmin@gmail.com', Validators.compose([
+			email: [DEMO_PARAMS.EMAIL, Validators.compose([
 				Validators.required,
 				Validators.email,
 				Validators.minLength(3),
 				Validators.maxLength(320) // https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
 			])
 			],
-			password: ['123', Validators.compose([
+			password: [DEMO_PARAMS.PASSWORD, Validators.compose([
 				Validators.required,
 				Validators.minLength(3),
 				Validators.maxLength(100)
@@ -170,100 +126,36 @@ export class LoginComponent implements OnInit, OnDestroy {
 	 * Form Submit
 	 */
 
-	login(loginData) {
+	login() {
 
-		// const authData = {
-		// 	username: 'superadmin@gmail.com',
-		// 	password: '123'
-		// }
-		// 	this.authloginservice.isLogin(loginData).subscribe((res: any) => {
-		// 		console.log(res);
-		// 		this.getDynamicMenuConfig();
-		// 		localStorage.setItem('token', res['accessToken']);
-		// 		const role = res['roles'];
-		// 		localStorage.setItem('schoolRoleConfig', role[0]);
-		// 		//    this.jwtauth.setToken(res.accessToken);
-		// 		//   this.localstorage.set("CurrentRole",res.roles[0]);
-		// 		//   this.localstorage.set("CurrentUsername",res.username);
-		// 		//   this.localstorage.set("access_token",res);
-		// 		//   this.router.navigate(['/admin']);
-		// 		//  console.log(this.jwtauth.getSessionID());
-		// 		console.log('success');
-		// 		alert('Login Successfully');
+		const authData = {
+			username: 'superadmin@gmail.com',
+			password: '123'
+		}
+		this.authloginservice.isLogin(authData).subscribe((res: any) => {
+			console.log(res);
 
-		// 		this.store.dispatch(new Login({ authToken: res['accessToken'] }));
-		// 		this.router.navigateByUrl(this.returnUrl); // Main page
+			localStorage.setItem('token', res['accessToken']);
 
+			//    this.jwtauth.setToken(res.accessToken);
+			//   this.localstorage.set("CurrentRole",res.roles[0]);
+			//   this.localstorage.set("CurrentUsername",res.username);
+			//   this.localstorage.set("access_token",res);
+			//   this.router.navigate(['/admin']);
+			//  console.log(this.jwtauth.getSessionID());
+			console.log('success');
+			alert('Login Successfully');
 
-		// 		// this.templateLogin();
-
-
-		// 	}, (err) => {
-		// 		this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');
-		// 		// console.log('Error While Login');
-		// 		// alert('Wrong Credentials!!!');
-		// 		// console.error(err);
-		// 	});
-
-		this.auth
-			.login(loginData)
-			.pipe(
-				tap(user => {
-					if (user) {
-						// 	this.rolePermissionService.getAllPermissionsByRole().subscribe(res => {
-						// 	const data = res['data'];
-						// 	const content = data['content'];
-						// 	localStorage.setItem('sideMenusConfig', JSON.stringify(content));
-						// }, err => {
-
-						// })
-						// 	this.getDynamicMenuConfig();
-						localStorage.setItem('user', JSON.stringify(user));
-						localStorage.setItem('token', user['accessToken']);
-						const role = user['roles'];
-						localStorage.setItem('schoolRoleConfig', role[0].roleName);
-						// this.store.dispatch(new UserLoaded({ user: user }));
-
-						this.store.dispatch(new Login({ authToken: user.accessToken }));
-
-						// this.store.dispatch(new UserRequested());
-						this.router.navigateByUrl(this.returnUrl); // Main page
-						// this.router.navigateByUrl('/dashboard'); // Main page
-
-
-					} else {
-						this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');
-					}
+			this.templateLogin();
 
 
 
-
-
-				}),
-				takeUntil(this.unsubscribe),
-				finalize(() => {
-					this.loading = false;
-					this.cdr.markForCheck();
-				})
-			)
-			.subscribe();
-		this.getDynamicMenuConfig();
-
+		}, (err) => {
+			console.log('Error While Login');
+			alert('Wrong Credentials!!!');
+			console.error(err);
+		});
 	}
-
-	getDynamicMenuConfig() {
-		// const roleName= localStorage.getItem('schoolRoleConfig');
-		this.rolePermissionService.getAllPermissionsByRole().subscribe(res => {
-			debugger;
-			const data = res['data'];
-			const content = data['content'];
-			localStorage.setItem('sideMenusConfig', JSON.stringify(content));
-		}, err => {
-
-		})
-
-	}
-
 
 	submit() {
 		const controls = this.loginForm.controls;
@@ -276,47 +168,35 @@ export class LoginComponent implements OnInit, OnDestroy {
 		}
 
 		this.loading = true;
-		this.getDynamicMenuConfig();
-		this.templateLogin(this.loginForm.value);
-
+		this.login();
+		
 	}
-	templateLogin(loginData) {
-		const controls = this.loginForm.controls;
-		const authData = {
-			email: controls.username.value,
-			password: controls.password.value
-		};
-	
-		this.auth
-			.login(loginData)
-			.pipe(
-				tap(user => {
-					if (user) {
-						debugger;
-							// this.getDynamicMenuConfig();
-						localStorage.setItem('user', JSON.stringify(user));
-						// localStorage.setItem('token', user['accessToken']);
-						// const role = user['roles'];
-						// localStorage.setItem('schoolRoleConfig', role[0].roleName);
-						this.store.dispatch(new Login({ authToken: user.accessToken }));
-						this.router.navigateByUrl(this.returnUrl); // Main page
-						// let tokenInfo = this.decodeJwtTokenService.getDecodedAccessToken(user.accessToken ); // decode token
-						// let expireDate = tokenInfo.exp; // get token expiration dateTime
-						// console.log(tokenInfo); // show decoded token object in console
-
-
-					} else {
-						this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');
-					}
-				}),
-				takeUntil(this.unsubscribe),
-				finalize(() => {
-					this.loading = false;
-					this.cdr.markForCheck();
-				})
-			)
-			.subscribe();
-	}
+templateLogin(){
+	debugger
+	const controls = this.loginForm.controls;
+	const authData = {
+		email: controls.email.value,
+		password: controls.password.value
+	};
+	this.auth
+		.login(authData.email, authData.password)
+		.pipe(
+			tap(user => {
+				if (user) {
+					this.store.dispatch(new Login({ authToken: user.accessToken }));
+					this.router.navigateByUrl(this.returnUrl); // Main page
+				} else {
+					this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');
+				}
+			}),
+			takeUntil(this.unsubscribe),
+			finalize(() => {
+				this.loading = false;
+				this.cdr.markForCheck();
+			})
+		)
+		.subscribe();
+}
 	/**
 	 * Checking control validation
 	 *
@@ -328,7 +208,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 		if (!control) {
 			return false;
 		}
-		
+
 		const result = control.hasError(validationType) && (control.dirty || control.touched);
 		return result;
 	}

@@ -193,10 +193,10 @@ deleteVisitorsBook(_item: VisitorBookModel) {
  * Delete products
  */
 deleteProducts() {
-  const _title = 'Products Delete';
-  const _description = 'Are you sure to permanently delete selected products?';
-  const _waitDesciption = 'Products are deleting...';
-  const _deleteMessage = 'Selected products have been deleted';
+  const _title = 'Visitor Book Delete';
+  const _description = 'Are you sure to permanently delete selected visitor book?';
+  const _waitDesciption = 'Visitor Book are deleting...';
+  const _deleteMessage = 'Selected visitor book have been deleted';
 
   const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
   dialogRef.afterClosed().subscribe(res => {
@@ -289,7 +289,7 @@ deleteProducts() {
 	 */
 	editVisitorsBook(visitorsBook: VisitorBookModel) {
 		let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
-    const _saveMessage = visitorsBook.id > 0 ? 'Edit product' : 'Create product';
+    const _saveMessage = visitorsBook.id > 0 ? 'Edit Visitor Book' : 'Create Visitor Book';
     
 		const _messageType = visitorsBook.id > 0 ? MessageType.Update : MessageType.Create;
 		const dialogRef = this.dialog.open(VisitorBookEditDialogComponent, { data: { visitorsBook } });

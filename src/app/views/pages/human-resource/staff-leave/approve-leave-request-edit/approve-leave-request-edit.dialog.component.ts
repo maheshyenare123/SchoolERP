@@ -14,8 +14,7 @@ import { AppState } from '../../../../../core/reducers';
 // CRUD
 import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { StaffLeaveRequestModel, selectStaffLeaveRequestsActionLoading, StaffLeaveRequestUpdated, selectLastCreatedStaffLeaveRequestId, StaffLeaveRequestOnServerCreated, LeaveTypeModel, LeaveTypeService, RoleService } from '../../../../../core/human-resource';
-import { RolesDtoModel } from 'src/app/core/Models/rolesDto.model';
+import { StaffLeaveRequestModel, selectStaffLeaveRequestsActionLoading, StaffLeaveRequestUpdated, selectLastCreatedStaffLeaveRequestId, StaffLeaveRequestOnServerCreated, LeaveTypeService, LeaveTypeModel } from '../../../../../core/human-resource';
 
 
 
@@ -37,52 +36,27 @@ viewLoading = false;
 // Private properties
 private componentSubscriptions: Subscription;
 files: File[] = [];
-leaveTypeList:LeaveTypeModel[]=[];
-rolesList: RolesDtoModel[] = [];
+leaveTypeList: LeaveTypeModel[] = [];
 constructor(public dialogRef: MatDialogRef<ApproveLeaveRequestEditDialogComponent>,
 	@Inject(MAT_DIALOG_DATA) public data: any,
 	private fb: FormBuilder,
 	private store: Store<AppState>,
 	private typesUtilsService: TypesUtilsService,
-	private leaveTypeService:LeaveTypeService,
-	private roleService:RoleService)
-	 {
+	private leaveTypeService: LeaveTypeService) {
 }
 
 /**
  * On init
  */
 ngOnInit() {
-	this.loadAllLeaveType();
-	this.loadAllRoles();
+	debugger
 	this.store.pipe(select(selectStaffLeaveRequestsActionLoading)).subscribe(res => this.viewLoading = res);
 	// loadding
 	this.staffLeaveRequest = this.data.staffLeaveRequest;
 	this.createForm();
+	this.loadAllLeadType()
 }
 
-loadAllRoles() {
-	debugger
-	this.roleService.getAllRoles().subscribe(res => {
-	  const data = res['data'];
-	  this.rolesList = data['content'];
-	  console.log(this.rolesList)
-	}, err => {
-	});
-  }
-loadAllLeaveType() {
-	debugger
-	this.leaveTypeService.getAllLeaveTypes().subscribe(res => {
-	  const data = res['data'];
-	  this.leaveTypeList = data['content'];
-	  console.log(this.leaveTypeList)
-	}, err => {
-	});
-  }
-  onLeaveTypeSelectChange(leaveId){
-	var leaveObj = this.leaveTypeList.find(x => x.id === leaveId);
-	this.staffLeaveRequestForm.controls.leaveType.setValue(leaveObj.type);
-  }
 /**
  * On destroy
  */
@@ -92,22 +66,32 @@ ngOnDestroy() {
 	}
 }
 
+
+loadAllLeadType() {
+	debugger
+	this.leaveTypeService.getAllLeaveTypes().subscribe(res => {
+		const data = res['data'];
+		this.leaveTypeList = data['content'];
+		console.log(this.leaveTypeList)
+	}, err => {
+	});
+}
+
 createForm() {
 	this.staffLeaveRequestForm = this.fb.group({
 		date: [this.typesUtilsService.getDateFromString(this.staffLeaveRequest.date), Validators.compose([Validators.nullValidator])],
 		leaveFrom: [this.typesUtilsService.getDateFromString(this.staffLeaveRequest.leaveFrom), Validators.compose([Validators.nullValidator])],
 		leaveTo: [this.typesUtilsService.getDateFromString(this.staffLeaveRequest.leaveTo), Validators.compose([Validators.nullValidator])],
 		adminRemark: [this.staffLeaveRequest.adminRemark,],
-		documentFile: [this.staffLeaveRequest.documentFile, ''],
+		documentFile: [this.staffLeaveRequest.documentFile, ],
 		leaveDays: [this.staffLeaveRequest.leaveDays, 0],
 		leaveType: [this.staffLeaveRequest.leaveType,],
 		leaveTypeId: [this.staffLeaveRequest.leaveTypeId,],
-		reason: [this.staffLeaveRequest.reason, ''],
+		reason: [this.staffLeaveRequest.reason, ],
 		sessionID: [this.staffLeaveRequest.sessionID,],
 		staffId: [this.staffLeaveRequest.staffId,],
 		staffName: [this.staffLeaveRequest.staffName,],
-		status: [this.staffLeaveRequest.status,'Pending'],	
-		roleId:['',]
+		status: [this.staffLeaveRequest.status,],	
 	});
 }
 getLeaveType($event){

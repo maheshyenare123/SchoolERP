@@ -39,7 +39,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModuleGuard } from '../../../core/auth';
-import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService, DynamicSetActionsService } from '../../../core/_base/crud';
+import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from '../../../core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 
@@ -81,19 +81,19 @@ const routes: Routes = [
 				component: ComplainListComponent
       },
   {
-    path: 'setup_front_office/purpose',
+    path: 'setup-front-office/purpose',
     component: PurposeComponent
   },
   {
-    path: 'setup_front_office/complaintype',
+    path: 'setup-front-office/complaintype',
     component: ComplainTypeComponent
   },
   {
-    path: 'setup_front_office/source',
+    path: 'setup-front-office/source',
     component: SourceComponent
   },
   {
-    path: 'setup_front_office/reference',
+    path: 'setup-front-office/reference',
     component: ReferenceComponent
   },
     ]
@@ -171,7 +171,6 @@ VisitorBookEditDialogComponent,
     TypesUtilsService,
     HttpUtilsService,
     LayoutUtilsService,
-    DynamicSetActionsService,
 		{ provide: MatBottomSheetRef, useValue: {} },
 		{ provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
 		{ provide: MAT_DATE_LOCALE, useValue: 'en-GB'},

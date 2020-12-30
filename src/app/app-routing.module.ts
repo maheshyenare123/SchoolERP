@@ -36,12 +36,12 @@ const routes: Routes = [
       //   loadChildren: () => import('./views/pages/material/material.module').then(m => m.MaterialModule),
       // },
        {
-          path: 'front_office',
+          path: 'front-office',
           loadChildren: () => import('./views/pages/front-office/front-office.module').then(m => m.FrontOfficeModule),
         },
 
         {
-          path: 'student_information',
+          path: 'student-information',
           loadChildren: () => import('./views/pages/student-information/student-information.module').then(m => m.StudentInformationModule),
         },
         {
@@ -61,11 +61,11 @@ const routes: Routes = [
           loadChildren: () => import('./views/pages/library/library.module').then(m => m.LibraryModule),
         },
         {
-          path: 'human_resource',
+          path: 'human-resource',
           loadChildren: () => import('./views/pages/human-resource/human-resource.module').then(m => m.HumanResourceModule),
         },
         {
-          path: 'fees_collection',
+          path: 'fees-collection',
           loadChildren: () => import('./views/pages/fees-collection/fees-collection.module').then(m => m.FeesCollectionModule),
         },
         {
@@ -90,6 +90,22 @@ const routes: Routes = [
         {
           path: 'inventory',
           loadChildren: () => import('./views/pages/inventory/inventory.module').then(m => m.InventoryModule),
+        },
+        {
+          path: 'examination',
+          loadChildren: () => import('./views/pages/examination/examination.module').then(m => m.ExaminationModule),
+        },
+        {
+          path: 'certificate',
+          loadChildren: () => import('./views/pages/certificate/certificate.module').then(m => m.CertificateModule),
+        },
+        {
+          path: 'communication',
+          loadChildren: () => import('./views/pages/communication/communication.module').then(m => m.CommunicationModule),
+        },
+        {
+          path: 'report',
+          loadChildren: () => import('./views/pages/report/report.module').then(m => m.ReportModule),
         },
         {
           path: 'system-setting',

@@ -164,10 +164,10 @@ this.addStudentHouse();
 	 */
 	deleteStudentHouse(_item: SchoolHousModel) {
 
-		const _title = 'Check Out Policy';
-		const _description = 'Are you sure to permanently delete selected check out policy?';
-		const _waitDesciption = 'Check Out Policy is deleting...';
-		const _deleteMessage = ' Selected check out policy has been deleted';
+		const _title = 'Student House';
+		const _description = 'Are you sure to permanently delete selected Student House?';
+		const _waitDesciption = 'Student House is deleting...';
+		const _deleteMessage = ' Selected Student House has been deleted';
 
 
 
@@ -272,7 +272,7 @@ onSubmit() {
 		this.createStudentHouse(editedStudentHouse);
 	}
 
-	const	_saveMessage= editedStudentHouse.id > 0 ? 'Check Out Policy  has been updated' : 'Check Out Policy has been created';
+	const	_saveMessage= editedStudentHouse.id > 0 ? 'Student House  has been updated' : 'Student House has been created';
 		
 	const _messageType = editedStudentHouse.id > 0 ? MessageType.Update : MessageType.Create;
 	

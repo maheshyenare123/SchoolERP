@@ -106,6 +106,7 @@ private componentSubscriptions: Subscription;
 			debugger
 	console.log(res);
 			this.visitorPurposesResult = res;
+			console.log(this.paginator);
 			if(this.visitorPurposesResult.length==0)this.dataSource.hasItems=false;
 		});
 		this.subscriptions.push(entitiesSubscription);
@@ -214,7 +215,7 @@ createForm() {
 	this.visitorPurposeForm = this.fb.group({
 		visitorsPurpose: [this.visitorPurpose.visitorsPurpose, Validators.required],
 		description: [this.visitorPurpose.description, ],
-		
+		isActive: [this.visitorPurpose.isActive, ],
 	});
 }
 
@@ -240,7 +241,11 @@ prepareVisitorPurpose(): VisitorPurposeModel {
 	_visitorPurpose.id = this.visitorPurpose.id;
 	_visitorPurpose.visitorsPurpose = controls.visitorsPurpose.value;
 	_visitorPurpose.description = controls.description.value;
-	_visitorPurpose.isActive='yes';
+		if(_visitorPurpose.id>0){
+	_visitorPurpose.isActive = controls.isActive.value;
+}else{
+	_visitorPurpose.isActive = 'yes';
+}
 	return _visitorPurpose;
 }
 

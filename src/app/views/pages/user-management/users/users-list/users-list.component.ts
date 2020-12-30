@@ -198,15 +198,15 @@ export class UsersListComponent implements OnInit, OnDestroy {
 	 * Fetch selected rows
 	 */
 	fetchUsers() {
-		// const messages = [];
-		// this.selection.selected.forEach(elem => {
-		// 	messages.push({
-		// 		text: `${elem.fullname}, ${elem.email}`,
-		// 		id: elem.id.toString(),
-		// 		status: elem.username
-		// 	});
-		// });
-		// this.layoutUtilsService.fetchElements(messages);
+		const messages = [];
+		this.selection.selected.forEach(elem => {
+			messages.push({
+				text: `${elem.fullname}, ${elem.email}`,
+				id: elem.id.toString(),
+				status: elem.username
+			});
+		});
+		this.layoutUtilsService.fetchElements(messages);
 	}
 
 	/**
@@ -237,12 +237,12 @@ export class UsersListComponent implements OnInit, OnDestroy {
 	 */
 	getUserRolesStr(user: User): string {
 		const titles: string[] = [];
-		// each(user.roles, (roleId: number) => {
-		// 	const _role = find(this.allRoles, (role: Role) => role.id === roleId);
-		// 	if (_role) {
-		// 		titles.push(_role.title);
-		// 	}
-		// });
+		each(user.roles, (roleId: number) => {
+			const _role = find(this.allRoles, (role: Role) => role.id === roleId);
+			if (_role) {
+				titles.push(_role.title);
+			}
+		});
 		return titles.join(', ');
 	}
 

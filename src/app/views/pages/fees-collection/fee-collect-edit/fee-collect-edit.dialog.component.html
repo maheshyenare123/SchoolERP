@@ -5,7 +5,7 @@
 			<h3 class="card-label">{{getTitle()}}</h3>
 		</div>
 	</div>
-	<form class="form" [formGroup]="studentFeeDepositeForm">
+	<form class="form" [formGroup]="studentFeeAmountDetailsForm">
 		<div class="card-body">
 
 			<div class="card-body-progress">
@@ -33,17 +33,31 @@
 					</div>
 					<div class="col-lg-4 kt-margin-bottom-20-mobile">
 						<mat-form-field class="mat-form-field-fluid">
-							<input matInput placeholder="Enter Amount" formControlName="amount" />
+							<input matInput placeholder="Enter Amount" formControlName="amount" (keypress)=_keyPress($event) (keyup)="amountEnter($event)"/>
 							<mat-error> Amount is
 								<strong>required</strong>
 							</mat-error>
-	
+							<span style="color: red;font-size: 12px">{{errormsg}}</span>
 						</mat-form-field>
 					</div>
-	
 					<div class="col-lg-4 kt-margin-bottom-20-mobile">
 						<mat-form-field class="mat-form-field-fluid">
-							<input matInput placeholder="Enter Amount" formControlName="amountDiscount" />
+							<mat-select placeholder="Select Discount"  (selectionChange)="onFeesDiscountChange($event.value)">
+
+								<mat-option *ngFor="let feesDiscount of feesDiscountList" [value]="feesDiscount.id" >
+									{{feesDiscount.feesDiscountName}}
+								</mat-option>
+							</mat-select>
+							<mat-error>Class
+								<strong>is required</strong>
+							</mat-error>
+						</mat-form-field>
+					</div>
+
+
+					<div class="col-lg-4 kt-margin-bottom-20-mobile">
+						<mat-form-field class="mat-form-field-fluid">
+							<input matInput placeholder="Discount Amount" formControlName="amountDiscount" readonly/>
 							<mat-error> Discount Amount is
 								<strong>required</strong>
 							</mat-error>
@@ -53,7 +67,7 @@
 	
 					<div class="col-lg-4 kt-margin-bottom-20-mobile">
 						<mat-form-field class="mat-form-field-fluid">
-							<input matInput placeholder="Enter Amount" formControlName="amountFine" />
+							<input matInput placeholder="Fine Amount" formControlName="amountFine" readonly/>
 							<mat-error>Fine Amount is
 								<strong>required</strong>
 							</mat-error>
@@ -63,9 +77,9 @@
 					<div class="col-lg-4 kt-margin-bottom-20-mobile">
 						<label >Payment Type</label><br>
 						<mat-radio-group aria-label="Select an option" formControlName="paymentMode">
-							<mat-radio-button value=1>Cash</mat-radio-button>
-							<mat-radio-button value=2>Cheque</mat-radio-button>
-							<mat-radio-button value=3>DD</mat-radio-button>
+							<mat-radio-button value='Cash'>Cash</mat-radio-button>
+							<mat-radio-button value='Cheque'>Cheque</mat-radio-button>
+							<mat-radio-button value='DD'>DD</mat-radio-button>
 						  </mat-radio-group>
 					</div>
 	

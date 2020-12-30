@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient,HttpHeaders } from "@angular/common/http";
 import { Constants } from '../../api_url';
 import { HttpUtilsService, QueryResultsModel, QueryParamsModel } from '../../_base/crud';
 import { StaffAttendanceModel } from '../_models/staff-attendance.model';
@@ -19,12 +19,6 @@ export class StaffAttendanceService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     return this.http.post<StaffAttendanceModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Attendance, staffAttendance, {headers: httpHeaders});
   }
-  createStaffAttendances(staffAttendance: StaffAttendanceModel[]): Observable<StaffAttendanceModel> {
-    // Note: Add headers if needed (tokens/bearer)
-    const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<StaffAttendanceModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Attendance, staffAttendance, {headers: httpHeaders});
-  }
-
 
   // READ
   getAllStaffAttendances(): Observable<StaffAttendanceModel[]> {
@@ -37,21 +31,6 @@ export class StaffAttendanceService {
     return this.http.get<StaffAttendanceModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Attendance+ `/${staffAttendanceId}`, {headers: httpHeaders});
   }
 
-
-
-  getAllStaffAttendance( roleId,date ): Observable<StaffAttendanceModel[]> {
-    const httpParams =new HttpParams()
-    .set('roleId',roleId )
-    .set('date', date)
-    .set('pageNo',"0")
-    .set('pageSize',"10")
-    .set('sortBy', 'id');
-
-    const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<StaffAttendanceModel[]>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Attendance, {headers: httpHeaders,params:httpParams});
-  }
-
-
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
   // items => filtered/sorted result
   // Server should return filtered/sorted result
@@ -63,7 +42,7 @@ export class StaffAttendanceService {
     const url =Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Attendance ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
-      // params: httpParams
+     params: httpParams
     });
   }
 

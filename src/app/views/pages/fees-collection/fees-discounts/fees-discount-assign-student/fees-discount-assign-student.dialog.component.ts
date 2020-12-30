@@ -2,7 +2,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { AssignFeesStudentsDataSource, AssignFeesStudentModel, AssignFeesStudentService, FeesDiscountModel } from '../../../../../core/fees-collection';
+import { AssignStudentFeediscountsDataSource, AssignFeesStudentModel, AssignStudentFeediscountService, FeesDiscountModel, AssignStudentFeediscountOnServerCreated } from '../../../../../core/fees-collection';
 import { QueryParamsModel, LayoutUtilsService, MessageType, TypesUtilsService } from '../../../../../core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -20,7 +20,6 @@ import { Update } from '@ngrx/entity';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
-import { AssignFeesStudentsPageRequested, OneAssignFeesStudentDeleted, ManyAssignFeesStudentsDeleted, AssignFeesStudentsStatusUpdated, AssignFeesStudentUpdated, AssignFeesStudentOnServerCreated, selectLastCreatedAssignFeesStudentId } from '../../../../../core/fees-collection';
 import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from 'src/app/core/academics';
 import { CategoryDtoModel, CategoryService } from 'src/app/core/student-information';
 
@@ -35,7 +34,7 @@ import { CategoryDtoModel, CategoryService } from 'src/app/core/student-informat
 export class FeesDiscountAssignStudentDialogComponent implements OnInit {
 
 	// Table fields
-	dataSource: AssignFeesStudentsDataSource;
+	dataSource: AssignStudentFeediscountsDataSource;
 	//  dataSource = new MatTableDataSource(ELEMENT_DATA);
 
 
@@ -48,7 +47,7 @@ export class FeesDiscountAssignStudentDialogComponent implements OnInit {
 	filterType = '';
 	// Selection
 	selection = new SelectionModel<AssignFeesStudentModel>(true, []);
-	assignFeesStudentsResult: AssignFeesStudentModel[] = [];
+	assignStudentFeediscountsResult: AssignFeesStudentModel[] = [];
 	assignFeesStudentForFill: AssignFeesStudentModel[] = [];
 	// Subscriptions
 	private subscriptions: Subscription[] = [];
@@ -64,7 +63,7 @@ export class FeesDiscountAssignStudentDialogComponent implements OnInit {
 
 	classId: number=0;
 	sectionId: number=0;
-	category: number;
+	category: number=0;
 	gender: string;
 	rte: string;
 	id:number;
@@ -92,7 +91,7 @@ export class FeesDiscountAssignStudentDialogComponent implements OnInit {
 		private studentClassService: StudentClassService,
 		private sectionService: SectionService,
 		private categoryService:CategoryService,
-		private assignFeesStudentService:AssignFeesStudentService
+		private assignStudentFeediscountService:AssignStudentFeediscountService
 		) {
 	}
 
@@ -102,11 +101,11 @@ export class FeesDiscountAssignStudentDialogComponent implements OnInit {
 	ngOnInit() {
 
 		this.loadAllClasses();
-		this.loadAllSectionsByClassId(1);
+		// this.loadAllSectionsByClassId(1);
 		this.addAssignFeesStudent();
 		this.loadAllStudentCategory();
 		// Init DataSource
-	//	this.dataSource = new AssignFeesStudentsDataSource(this.store);
+	//	this.dataSource = new AssignStudentFeediscountsDataSource(this.store);
 		this.feesDiscount = this.data.assignFeesStudent;
 		console.log(this.feesDiscount)
 	}
@@ -125,19 +124,19 @@ loadAllClasses() {
 	}, err => {
 	});
 }
-onClassSelectChange(classObj:StudentClassModel){
-	// this.loadAllSectionsByClassId(classObj.id);
-}
-loadAllSectionsByClassId(id:number) {
-	debugger
-	this.sectionService.getAllSections().subscribe(res => {
-		const data = res['data'];
-		this.sectionList = data['content'];
-		console.log(this.sectionList)
-	}, err => {
-	});
-}
-
+onClassSelectChange(classId){
+	this.loadAllSectionsByClassId(classId);
+   
+  }
+  loadAllSectionsByClassId(id:number) {
+	  debugger
+	  this.studentClassService.getAllSectionByClasssId(id).subscribe(res => {
+  
+		  this.sectionList = res['data'];
+		  console.log(this.sectionList)
+	  }, err => {
+	  });
+  }
 
 		//get All Source List
 		loadAllStudentCategory() {
@@ -185,7 +184,7 @@ loadAllSectionsByClassId(id:number) {
 		}
 		
 	
-		this.assignFeesStudentService.findAssignFeesStudents(queryParams, controls.classId.value, controls.sectionId.value,
+		this.assignStudentFeediscountService.findAssignStudentFeediscounts(queryParams, controls.classId.value, controls.sectionId.value,
 			 controls.category.value, controls.gender.value,
 			controls.rte.value,this.feesDiscount.id).subscribe(res => {
 				const data = res['data'];
@@ -208,7 +207,7 @@ loadAllSectionsByClassId(id:number) {
 				'pageNo': pageNo,
 				'itemsPerPage': 10,
 			}
-			this.assignFeesStudentService.findAssignFeesStudents(queryParams, this.classId , this.sectionId,
+			this.assignStudentFeediscountService.findAssignStudentFeediscounts(queryParams, this.classId , this.sectionId,
 				this.category , this.gender,
 				this.rte,this.feesDiscount.id).subscribe(res => {
 					const data = res['data'];
@@ -251,14 +250,14 @@ loadAllSectionsByClassId(id:number) {
 // //  this.subscriptions.push(searchSubscription);
 
 //  // Init DataSource
-//  this.dataSource = new AssignFeesStudentsDataSource(this.store);
+//  this.dataSource = new AssignStudentFeediscountsDataSource(this.store);
 //  const entitiesSubscription = this.dataSource.entitySubject.pipe(
 //    skip(1),
 //    distinctUntilChanged()
 //  ).subscribe(res => {
-//    this.assignFeesStudentsResult = res;
-//    console.log(this.assignFeesStudentsResult);
-//    if(this.assignFeesStudentsResult.length==0)this.dataSource.hasItems=false;
+//    this.assignStudentFeediscountsResult = res;
+//    console.log(this.assignStudentFeediscountsResult);
+//    if(this.assignStudentFeediscountsResult.length==0)this.dataSource.hasItems=false;
 //  });
 //  this.subscriptions.push(entitiesSubscription);
 //  // First load
@@ -294,7 +293,7 @@ loadAllSectionsByClassId(id:number) {
 	// 	// this.subscriptions.push(searchSubscription);
 
 	// 	// Init DataSource
-	// 	this.dataSource = new AssignFeesStudentsDataSource(this.store);
+	// 	this.dataSource = new AssignStudentFeediscountsDataSource(this.store);
 
 	// 	const entitiesSubscription = this.dataSource.entitySubject.pipe(
 	// 		skip(1),
@@ -302,10 +301,10 @@ loadAllSectionsByClassId(id:number) {
 	// 	).subscribe(res => {
 	// 		// debugger
 	// 		console.log(res);
-	// 		this.AssignFeesStudentsResult = res;
-	// 		console.log(this.AssignFeesStudentsResult);
-	// 		if(this.AssignFeesStudentsResult){
-	// 			this.AssignFeesStudentForFill=this.AssignFeesStudentsResult;
+	// 		this.AssignStudentFeediscountsResult = res;
+	// 		console.log(this.AssignStudentFeediscountsResult);
+	// 		if(this.AssignStudentFeediscountsResult){
+	// 			this.AssignFeesStudentForFill=this.AssignStudentFeediscountsResult;
 	// 		}
 		
 	// 	});
@@ -328,7 +327,7 @@ loadAllSectionsByClassId(id:number) {
 	}
 
 	/**
-	 * Load AssignFeesStudents List from service through data-source
+	 * Load AssignStudentFeediscounts List from service through data-source
 	 */
 	// loadAssignFeesStudentList(classId, sectionId, category, gender, rte) {
 	// 	debugger;
@@ -341,7 +340,7 @@ loadAllSectionsByClassId(id:number) {
 	// 		this.paginator.pageSize
 	// 	);
 	// 	// Call request from server
-	// 	 this.store.dispatch(new AssignFeesStudentsPageRequested({ page: queryParams, classId: classId, sectionId: sectionId, category: category, gender: gender, rte:rte,feeGroupId:this.id }));
+	// 	 this.store.dispatch(new AssignStudentFeediscountsPageRequested({ page: queryParams, classId: classId, sectionId: sectionId, category: category, gender: gender, rte:rte,feeGroupId:this.id }));
 	// 	this.selection.clear();
 	// }
 
@@ -412,7 +411,19 @@ console.log(this.assignFeesStudentForFill);
 	 * On Submit
 	 */
 	onSubmit() {
-	
+		if(this.selectedList.length === 0){
+
+			return
+		}
+	let entity = {
+		"feeDiscountId": this.feesDiscount.id,
+		"studentDtos": this.selectedList
+	}	
+
+	this.store.dispatch(new AssignStudentFeediscountOnServerCreated({ assignStudentFeediscount: entity }));
+
+	this.dialogRef.close({ entity, isEdit: false });
+
 
 	}
 	onCancel() {

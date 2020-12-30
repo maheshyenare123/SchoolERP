@@ -14,9 +14,11 @@ import { AppState } from '../../../../core/reducers';
 // CRUD
 import { TypesUtilsService } from '../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { StudentFeeDepositeModel, selectStudentFeeDepositesActionLoading, StudentFeeDepositeUpdated, selectLastCreatedStudentFeeDepositeId, StudentFeeDepositeOnServerCreated } from '../../../../core/fees-collection';
+import { StudentFeeDepositeModel, selectStudentFeeDepositesActionLoading, StudentFeeDepositeUpdated, selectLastCreatedStudentFeeDepositeId, StudentFeeDepositeOnServerCreated, StudentFeeDepositeService, StudentFeeAmountDetailsService, selectLastCreatedStudentFeeAmountDetailsId, StudentFeeAmountDetailsOnServerCreated, StudentFeeAmountDetailsUpdated } from '../../../../core/fees-collection';
 import { StudentDtoModel, StudentService } from 'src/app/core/student-information';
 import { SectionDtoModel, StudentClassModel, SectionService, StudentClassService } from 'src/app/core/academics';
+import { StudentModel } from 'src/app/core/Models/student.model';
+import { StudentFeeAmountDetailsModel } from 'src/app/core/fees-collection/_models/student-fee-amount-details.model';
 
 @Component({
 	// tslint:disable-next-line:component-selector
@@ -30,7 +32,8 @@ export class FeeCollectEditDialogComponent implements OnInit, OnDestroy {
 	
 // Public properties
 studentFeeDeposite: StudentFeeDepositeModel;
-studentFeeDepositeForm: FormGroup;
+studentFeeAmountDetails: StudentFeeAmountDetailsModel;
+studentFeeAmountDetailsForm: FormGroup;
 hasFormErrors = false;
 viewLoading = false;
 // Private properties
@@ -40,6 +43,9 @@ files: File[] = [];
 classList: StudentClassModel[] = [];
 	sectionList: SectionDtoModel[] = [];
 studentList: StudentDtoModel[] = [];
+	feesDiscountList: any[];
+	student: StudentModel;
+	errormsg: string;
 
 constructor(public dialogRef: MatDialogRef<FeeCollectEditDialogComponent>,
 	@Inject(MAT_DIALOG_DATA) public data: any,
@@ -48,7 +54,9 @@ constructor(public dialogRef: MatDialogRef<FeeCollectEditDialogComponent>,
 	private typesUtilsService: TypesUtilsService,
 	private studentClassService: StudentClassService,
 	private sectionService: SectionService,
-	private studentService: StudentService) {
+	private studentService: StudentService,
+	private studentFeeDepositeService:StudentFeeDepositeService,
+	private studentFeeAmountDetailsService:StudentFeeAmountDetailsService) {
 }
 
 /**
@@ -58,10 +66,53 @@ ngOnInit() {
 	debugger
 	this.store.pipe(select(selectStudentFeeDepositesActionLoading)).subscribe(res => this.viewLoading = res);
 	// loadding
+	const studentFeeAmountDetails = new StudentFeeAmountDetailsModel();
+	studentFeeAmountDetails.clear(); // Set all defaults fields
 	this.studentFeeDeposite = this.data.studentFeeDeposite;
+
+		this.studentFeeAmountDetails = studentFeeAmountDetails
+		this.studentFeeAmountDetails.amount = this.studentFeeDeposite.balance;
+		this.studentFeeAmountDetails.amountFine = this.studentFeeDeposite.fine;
+		this.studentFeeAmountDetails.paymentMode = 'Cash';
+		this.studentFeeAmountDetails.feeMastersId = this.studentFeeDeposite.feeMastersId;
+		this.studentFeeAmountDetails.studentFeeMasterId = this.studentFeeDeposite.studentFeeMasterId;
+	
+
+	this.student =  this.data.student
+	console.log(this.studentFeeDeposite)
 	this.createForm();
+	this.loadAllFeesDiscount();
 }
 	//get All Class List
+
+	
+  
+
+
+	loadAllFeesDiscount() {
+		debugger
+		this.feesDiscountList = []
+	this.studentFeeDepositeService.getStudentDiscountById(this.student.studentSessionId).subscribe(res => {
+	  const data1 = res['data'];
+	  this.feesDiscountList = data1;
+	  console.log(this.feesDiscountList)
+	}, err => {
+	});
+	}
+	onFeesDiscountChange(id){
+		this.feesDiscountList.map(item=>{
+			if(item.id == id){
+				let amount = this.studentFeeAmountDetailsForm.get("amount").value - item.feesDiscountAmount;
+				this.studentFeeAmountDetailsForm.get("amount").setValue(amount)
+				this.studentFeeAmountDetailsForm.get("amountDiscount").setValue(item.feesDiscountAmount)
+			}
+		}) 
+	}
+	amountEnter($event){
+		this.errormsg ="";
+
+	}
+
 	loadAllClasses() {
 		debugger
 		this.studentClassService.getAllStudentClasss().subscribe(res => {
@@ -84,7 +135,8 @@ ngOnInit() {
 
 	loadAllStudent() {
 		debugger
-		this.studentService.getAllStudents().subscribe(res => {
+		//add classid sectionid
+		this.studentService.getAllStudents(0,0).subscribe(res => {
 			const data = res['data'];
 			this.studentList = data['content'];
 			console.log(this.studentList)
@@ -103,29 +155,39 @@ ngOnDestroy() {
 }
 
 createForm() {
-
+	// amount: number;
+    // amountDiscount: number;
+    // amountFine: number;
+    // date: string;
+    // description: string;
+    // feeMastersId: number;
+    // paymentMode: string;
+    // studentFeeMasterId: number;
 	if(this.data.type == 'single'){
-		this.studentFeeDepositeForm = this.fb.group({
+		this.studentFeeAmountDetailsForm = this.fb.group({
 
-			amount: [this.studentFeeDeposite.amountDetails.amount,],
-			amountDiscount: [this.studentFeeDeposite.amountDetails.amountDiscount, ''],
-			amountFine: [this.studentFeeDeposite.amountDetails.amountFine, ''],
-			date: [this.typesUtilsService.getDateFromString(this.studentFeeDeposite.amountDetails.date), Validators.compose([Validators.nullValidator])],
-			description: [this.studentFeeDeposite.amountDetails.description,],
-			paymentMode: [this.studentFeeDeposite.amountDetails.paymentMode,]
-		
+			amount: [this.studentFeeAmountDetails.amount,],
+			amountDiscount: [this.studentFeeAmountDetails.amountDiscount,],
+			amountFine: [this.studentFeeAmountDetails.amountFine,],
+			date: [this.typesUtilsService.getDateFromString(this.studentFeeAmountDetails.date), Validators.compose([Validators.nullValidator])],
+			description: [this.studentFeeAmountDetails.description,],
+			feeMastersId: [this.studentFeeAmountDetails.feeMastersId,],
+			paymentMode: [this.studentFeeAmountDetails.paymentMode,],
+			studentFeeMasterId: [this.studentFeeAmountDetails.studentFeeMasterId,]
 			});
 	}
 
 	if(this.data.type == 'All'){
-		this.studentFeeDepositeForm = this.fb.group({
+		this.studentFeeAmountDetailsForm = this.fb.group({
 
-			amount: [this.studentFeeDeposite.amountDetails.amount,],
-			amountDiscount: [this.studentFeeDeposite.amountDetails.amountDiscount, ''],
-			amountFine: [this.studentFeeDeposite.amountDetails.amountFine, ''],
-			date: [this.typesUtilsService.getDateFromString(this.studentFeeDeposite.amountDetails.date), Validators.compose([Validators.nullValidator])],
-			description: [this.studentFeeDeposite.amountDetails.description,],
-			paymentMode: [this.studentFeeDeposite.amountDetails.paymentMode,]
+			amount: [this.studentFeeAmountDetails.amount,],
+			amountDiscount: [this.studentFeeAmountDetails.amountDiscount,],
+			amountFine: [this.studentFeeAmountDetails.amountFine,],
+			date: [this.typesUtilsService.getDateFromString(this.studentFeeAmountDetails.date), Validators.compose([Validators.nullValidator])],
+			description: [this.studentFeeAmountDetails.description,],
+			feeMastersId: [this.studentFeeAmountDetails.feeMastersId,],
+			paymentMode: [this.studentFeeAmountDetails.paymentMode,],
+			studentFeeMasterId: [this.studentFeeAmountDetails.studentFeeMasterId,]
 		
 			});
 	}
@@ -149,7 +211,7 @@ getTitle(): string {
  * @param controlName: string
  */
 isControlInvalid(controlName: string): boolean {
-	const control = this.studentFeeDepositeForm.controls[controlName];
+	const control = this.studentFeeAmountDetailsForm.controls[controlName];
 	const result = control.invalid && control.touched;
 	return result;
 }
@@ -157,39 +219,48 @@ isControlInvalid(controlName: string): boolean {
 /** ACTIONS */
 
 /**
- * Returns prepared studentFeeDeposite
+ * Returns prepared studentFeeAmountDetails
  */
-preparestudentFeeDeposite(): StudentFeeDepositeModel {
-	const controls = this.studentFeeDepositeForm.controls;
-	const _studentFeeDeposite = new StudentFeeDepositeModel();
-	_studentFeeDeposite.feeGroupId = this.studentFeeDeposite.feeGroupId;
+preparestudentFeeAmountDetails(): StudentFeeAmountDetailsModel {
+	const controls = this.studentFeeAmountDetailsForm.controls;
+	const _studentFeeAmountDetails = new StudentFeeAmountDetailsModel();
 
 		const _date = controls.date.value;
 		if (_date) {
-			_studentFeeDeposite.amountDetails.date = this.typesUtilsService.dateFormat(_date);
+			_studentFeeAmountDetails.date = this.typesUtilsService.dateFormat(_date);
 		} else {
-			_studentFeeDeposite.amountDetails.date = '';
+			_studentFeeAmountDetails.date = '';
 		}
 		
 
-	_studentFeeDeposite.amountDetails.amount = controls.amount.value;
-	_studentFeeDeposite.amountDetails.amountDiscount = controls.amountDiscount.value;
-	_studentFeeDeposite.amountDetails.amountFine = controls.amountFine.value;
-	_studentFeeDeposite.amountDetails.description = controls.description.value;
-	_studentFeeDeposite.amountDetails.paymentMode = controls.paymentMode.value;
-
+	_studentFeeAmountDetails.amount = controls.amount.value;
+	_studentFeeAmountDetails.amountDiscount = controls.amountDiscount.value;
+	_studentFeeAmountDetails.amountFine = controls.amountFine.value;
+	_studentFeeAmountDetails.description = controls.description.value;
+	_studentFeeAmountDetails.feeMastersId = controls.feeMastersId.value;
+	_studentFeeAmountDetails.paymentMode = controls.paymentMode.value;
+	_studentFeeAmountDetails.studentFeeMasterId = controls.studentFeeMasterId.value;
+	// amount: number;
+    // amountDiscount: number;
+    // amountFine: number;
+    // date: string;
+    // description: string;
+    // feeMastersId: number;
+    // paymentMode: string;
+    // studentFeeMasterId: number;
 	
-	return _studentFeeDeposite;
+	return _studentFeeAmountDetails;
 }
 
 /**
  * On Submit
  */
 onSubmit() {
+	debugger
 	this.hasFormErrors = false;
-	const controls = this.studentFeeDepositeForm.controls;
+	const controls = this.studentFeeAmountDetailsForm.controls;
 	/** check form */
-	if (this.studentFeeDepositeForm.invalid) {
+	if (this.studentFeeAmountDetailsForm.invalid) {
 		Object.keys(controls).forEach(controlName =>
 			controls[controlName].markAsTouched()
 		);
@@ -198,56 +269,67 @@ onSubmit() {
 		return;
 	}
 
-	const editedStudentFeeDeposite = this.preparestudentFeeDeposite();
-	if (editedStudentFeeDeposite.feeGroupId > 0) {
-		this.updateStudentFeeDeposite(editedStudentFeeDeposite);
-	} else {
-		this.createStudentFeeDeposite(editedStudentFeeDeposite);
+	
+	if(this.studentFeeAmountDetailsForm.get("amount").value > this.studentFeeDeposite.amount){
+		this.errormsg = "Deposit amount can not be grater than remaining";
+		return
+	}else{
+		this.errormsg ="";
 	}
+
+
+	return
+	const editedStudentFeeAmountDetails = this.preparestudentFeeAmountDetails();
+	// if (editedStudentFeeAmountDetails.feeMastersId > 0) {
+	// 	this.updateStudentFeeAmountDetails(editedStudentFeeAmountDetails);
+	// } else {
+		this.createStudentFeeAmountDetails(editedStudentFeeAmountDetails);
+	// }
 }
 
 /**
- * Update studentFeeDeposite
+ * Update studentFeeAmountDetails
  *
- * @param _studentFeeDeposite: StudentFeeDepositeModel
+ * @param _studentFeeAmountDetails: StudentFeeAmountDetailsModel
  */
-updateStudentFeeDeposite(_studentFeeDeposite: StudentFeeDepositeModel) {
-	const updateStudentFeeDeposite: Update<StudentFeeDepositeModel> = {
-		id: _studentFeeDeposite.feeGroupId,
-		changes: _studentFeeDeposite
+updateStudentFeeAmountDetails(_studentFeeAmountDetails: StudentFeeAmountDetailsModel) {
+	const updateStudentFeeAmountDetails: Update<StudentFeeAmountDetailsModel> = {
+		id: _studentFeeAmountDetails.feeMastersId,
+		changes: _studentFeeAmountDetails
 	};
-	this.store.dispatch(new StudentFeeDepositeUpdated({
-		partialStudentFeeDeposite: updateStudentFeeDeposite,
-		studentFeeDeposite: _studentFeeDeposite
+	this.store.dispatch(new StudentFeeAmountDetailsUpdated({
+		partialStudentFeeAmountDetails: updateStudentFeeAmountDetails,
+		studentFeeAmountDetails: _studentFeeAmountDetails
 	}));
 
-	// integrate StudentFeeDeposite  update api
+	// integrate StudentFeeAmountDetails  update api
 
 	// Remove this line
-	of(undefined).pipe(delay(1000)).subscribe(() => this.dialogRef.close({ _studentFeeDeposite, isEdit: true }));
+	of(undefined).pipe(delay(1000)).subscribe(() => this.dialogRef.close({ _studentFeeAmountDetails, isEdit: true }));
 	// Uncomment this line
-	// this.dialogRef.close({ _studentFeeDeposite, isEdit: true }
+	// this.dialogRef.close({ _studentFeeAmountDetails, isEdit: true }
 }
 
 /**
- * Create StudentFeeDeposite
+ * Create StudentFeeAmountDetails
  *
- * @param _studentFeeDeposite: StudentFeeDepositeModel
+ * @param _studentFeeAmountDetails: StudentFeeAmountDetailsModel
  */
-createStudentFeeDeposite(_studentFeeDeposite: StudentFeeDepositeModel) {
-	this.store.dispatch(new StudentFeeDepositeOnServerCreated({ studentFeeDeposite: _studentFeeDeposite }));
-	this.componentSubscriptions = this.store.pipe(
-		select(selectLastCreatedStudentFeeDepositeId),
-		delay(1000), // Remove this line
-	).subscribe(res => {
-		if (!res) {
-			return;
-		}
+createStudentFeeAmountDetails(_studentFeeAmountDetails: StudentFeeAmountDetailsModel) {
+	this.store.dispatch(new StudentFeeAmountDetailsOnServerCreated({ studentFeeAmountDetails: _studentFeeAmountDetails }));
+	this.dialogRef.close({ _studentFeeAmountDetails, isEdit: false });
+	// this.componentSubscriptions = this.store.pipe(
+	// 	select(selectLastCreatedStudentFeeAmountDetailsId),
+	// 	delay(1000), // Remove this line
+	// ).subscribe(res => {
+	// 	if (!res) {
+	// 		return;
+	// 	}
 
-		this.dialogRef.close({ _studentFeeDeposite, isEdit: false });
-	});
+	// 	this.dialogRef.close({ _studentFeeAmountDetails, isEdit: false });
+	// });
 
-	// integrate studentFeeDeposite  create api
+	// integrate studentFeeAmountDetails  create api
 }
 
 /** Alect Close event */

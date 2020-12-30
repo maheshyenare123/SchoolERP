@@ -5,39 +5,40 @@
     <kt-search-dropdown  [icon]="'./assets/media/svg/icons/General/Search.svg'" [useSVG]="true"></kt-search-dropdown>
     <!--end: Search -->
   </ng-container>
-  
-  <!--begin: Notifications -->
-  <!-- <ng-container *ngIf="notificationsDisplay">
+
+  <ng-container *ngIf="notificationsDisplay">
+    <!--begin: Notifications -->
       <kt-notification [bgImage]="'./assets/media/misc/bg-1.jpg'" [pulse]="true" [skin]="'dark'" [icon]="'./assets/media/svg/icons/Code/Compiling.svg'" [useSVG]="true"></kt-notification>
-  </ng-container> -->
-<!--begin: Quick actions -->
-  <!-- <ng-container *ngIf="quickActionsDisplay">
-	  
+    <!--end: Notifications -->
+  </ng-container>
+
+  <ng-container *ngIf="quickActionsDisplay">
+	  <!--begin: Quick actions -->
 	  <kt-quick-action [bgImage]="'./assets/media/misc/bg-2.jpg'" [skin]="'dark'" [icon]="'./assets/media/svg/icons/Media/Equalizer.svg'" [useSVG]="true"></kt-quick-action>
-	  
-  </ng-container> -->
-<!--begin: My Cart -->
-  <!-- <ng-container *ngIf="cartDisplay">
-    
+	  <!--end: Quick actions -->
+  </ng-container>
+
+  <ng-container *ngIf="cartDisplay">
+    <!--begin: My Cart -->
     <kt-cart [bgImage]="'./assets/media/misc/bg-1.jpg'" [icon]="'./assets/media/svg/icons/Shopping/Cart3.svg'" [useSVG]="true"></kt-cart>
-  
-  </ng-container> -->
-<!--begin: Quick panel toggle -->
-  <!-- <ng-container *ngIf="quickPanelDisplay">
-    
+    <!--end: My Cart -->
+  </ng-container>
+
+  <ng-container *ngIf="quickPanelDisplay">
+    <!--begin: Quick panel toggle -->
     <div class="topbar-item" ngbTooltip="Quick panel">
       <div class="btn btn-icon btn-clean btn-lg mr-1" id="kt_quick_panel_toggle">
           <span class="svg-icon svg-icon-xl svg-icon-primary" [inlineSVG]="'./assets/media/svg/icons/Layout/Layout-4-blocks.svg'"></span>
       </div>
     </div>
+    <!--end: Quick panel toggle -->
+  </ng-container>
 
-  </ng-container> -->
- <!--begin: Language bar -->
-  <!-- <ng-container *ngIf="languagesDisplay">
-   
+  <ng-container *ngIf="languagesDisplay">
+    <!--begin: Language bar -->
     <kt-language-selector></kt-language-selector>
-   
-  </ng-container> -->
+    <!--end: Language bar -->
+  </ng-container>
 
   <ng-container *ngIf="userDisplay">
     <ng-container *ngIf="userLayout === 'dropdown'">
@@ -45,8 +46,7 @@
     </ng-container>
     <ng-container *ngIf="userLayout === 'offcanvas'">
       <!--begin: User bar -->
-      <!-- <kt-user-profile4></kt-user-profile4> -->
-      <kt-user-profile></kt-user-profile>
+      <kt-user-profile4></kt-user-profile4>
       <!--end: User bar -->
     </ng-container>
   </ng-container>

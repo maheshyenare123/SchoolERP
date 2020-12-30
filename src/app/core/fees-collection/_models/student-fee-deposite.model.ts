@@ -15,6 +15,7 @@ export class StudentFeeDepositeModel {
     fine: number;
     paid: number;
     status: string;
+    studentFeeMasterId:number;
     student: StudentModel;
 
 
@@ -32,6 +33,8 @@ export class StudentFeeDepositeModel {
         this.fine = 0;
         this.paid = 0;
         this.status = '';
+        this.studentFeeMasterId = 0;
         this.student = new StudentModel;
     }
 }
+

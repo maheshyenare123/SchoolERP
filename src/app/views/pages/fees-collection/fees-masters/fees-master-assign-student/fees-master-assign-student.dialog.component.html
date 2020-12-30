@@ -25,30 +25,25 @@
 							<div class="col-lg-10 kt-margin-bottom-20-mobile">
 								<div class="form-group row">
 									<div class="col-lg-3 kt-margin-bottom-20-mobile">
-										<mat-form-field class="mat-form-field-fluid">
-											<mat-select placeholder="Select Class" formControlName="classId" >
-	   
-												<mat-option *ngFor="let classData of classList" [value]="classData.id" (change)="onClassSelectChange(classData)">
-													{{classData.classses}}
-												</mat-option>
-											</mat-select>
-											<mat-error>Class
-												<strong>is required</strong>
-											</mat-error>
-										</mat-form-field>
-									</div>
-									<div class="col-lg-3 kt-margin-bottom-20-mobile">
-										<mat-form-field class="mat-form-field-fluid">
-											<mat-select placeholder="Section" formControlName="sectionId">
-												<mat-option *ngFor="let sectionData of sectionList" [value]="sectionData.id">
-													{{sectionData.section}}
-												</mat-option>
-											</mat-select>
-											<mat-error>Section
-												<strong>is required</strong>
-											</mat-error>
-										</mat-form-field>
-									</div>
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <mat-select placeholder="Class" formControlName="classId" (selectionChange)="onClassSelectChange($event.value)">
+                                                <mat-option *ngFor="let classData of classList" [value]="classData.id" >
+                                                    {{classData.classses}}
+                                                </mat-option>
+                                            </mat-select>
+
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                        <mat-form-field class="mat-form-field-fluid">
+                                            <mat-select placeholder="Section" formControlName="sectionId">
+                                                <mat-option *ngFor="let sectionData of sectionList" [value]="sectionData.id">
+                                                    {{sectionData.section}}
+                                                </mat-option>
+                                            </mat-select>
+
+                                        </mat-form-field>
+                                    </div>
 								</div>	
 								<div class="form-group row">	
 								   <!-- <div class="col-lg-3 kt-margin-bottom-20-mobile">
@@ -148,13 +143,13 @@
 	<kt-portlet-body>
 		<table style="width: 100%;">
 			<thead >
-				<ng-container *ngIf="checkboxAll == true;else elsecheckboxAll">
+				<!-- <ng-container *ngIf="checkboxAll == true;else elsecheckboxAll">
 					<th><input type="checkbox" id="checkboxAll" (change)="onSelectionAll($event)" checked/></th>
 				</ng-container>
 				<ng-template #elsecheckboxAll>
 					<th><input type="checkbox" id="checkboxAll" (change)="onSelectionAll($event)" /></th>
-				</ng-template>
-				
+				</ng-template> -->
+				<th></th>
 				<th>Admission No</th>
 				<th>Name</th>
 				<th>Class</th>

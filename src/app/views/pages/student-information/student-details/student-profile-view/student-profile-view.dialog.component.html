@@ -424,9 +424,9 @@
 						</table>
 					</mat-tab>
 					<mat-tab label="Fees">
-
-						<table style="width: 100%;border: 1px solid black;">
-							<thead style="border: 1px solid black;">
+						<table style="width: 100%;">
+							<thead >
+								
 								<th>Fees Group</th>
 								<th>Fees Code</th>
 								<th>Due Date</th>
@@ -439,177 +439,70 @@
 								<th>Fine (₹)</th>
 								<th>Paid (₹)</th>
 								<th>Balance</th>
+								
 							</thead>
-							<tbody style="border: 1px solid black;">
+							<tbody *ngFor="let feesdeposite of feesDepositeList">
 								<tr>
-									<td>General</td>
-									<td>admission-fees</td>
-									<td>30/08/2020</td>
-									<td>Paid</td>
-									<td>5000.00</td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>0.00</td>
-									<td>0.00</td>
-									<td>5000.00</td>
-									<td></td>
+										<td>{{feesdeposite.feeGroupName}}</td>
+										<td>{{feesdeposite.feeCode}}</td>
+										<td>{{feesdeposite.dueDate}}</td>
+										<ng-container *ngIf="feesdeposite.status == 'unpaid'">
+											<td><span class="danger">Unpaid</span></td>
+										</ng-container>
+										<ng-container *ngIf="feesdeposite.status == 'paid'">
+											<td><span class="success">Paid</span></td>
+										</ng-container>
+										<ng-container *ngIf="feesdeposite.status == 'partial'">
+											<td><span class="warning">Partial</span></td>
+										</ng-container>
+										<td>{{feesdeposite.amount}}.00</td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td>{{feesdeposite.discount}}.00</td>
+										<td>{{feesdeposite.fine}}.00</td>
+										<td>{{feesdeposite.paid}}.00</td>
+										<td>{{feesdeposite.balance}}.00</td>
 								</tr>
-								<tr>
+				
+								<tr *ngFor="let feesdeposite1 of feesdeposite.amountDetails">
+									
 									<td></td>
 									<td></td>
 									<td></td>
 									<td></td>
 									<td></td>
-									<td>3/1</td>
-									<td>Cash</td>
-									<td>07/08/2020</td>
-									<td>0.00</td>
-									<td>0.00</td>
-									<td>2000.00</td>
+									<td>{{feesdeposite1.id}}</td>
+									<td>{{feesdeposite1.paymentMode}}</td>
+									<td>{{feesdeposite1.date}}</td>
+									<td>{{feesdeposite1.amountDiscount}}.00</td>
+									<td>{{feesdeposite1.amountFine}}.00</td>
+									<td>{{feesdeposite1.amount}}.00</td>
 									<td></td>
+													
 								</tr>
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>3/2</td>
-									<td>Cheque</td>
-									<td>07/08/2020</td>
-									<td>0.00</td>
-									<td>0.00</td>
-									<td>1000.00</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>3/3</td>
-									<td>Cash</td>
-									<td>03/10/2020</td>
-									<td>0.00</td>
-									<td>0.00</td>
-									<td>2000.00</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>General</td>
-									<td>Bus-fees</td>
-									<td>31/08/2020</td>
-									<td>Paid</td>
-									<td>999.00</td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>99.00</td>
-									<td>0.00</td>
-									<td>900.00</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>4/1</td>
-									<td>Cash</td>
-									<td>07/08/2020</td>
-									<td>99.00</td>
-									<td>0.00</td>
-									<td>400.00</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>4/2</td>
-									<td>Cash</td>
-									<td>03/10/2020</td>
-									<td>0.00</td>
-									<td>0.00</td>
-									<td>500.00</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>General</td>
-									<td>exam-fees</td>
-									<td>31/12/2020</td>
-									<td>Unpaid</td>
-									<td>5000.00</td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>0.00</td>
-									<td>0.00</td>
-									<td>0.00</td>
-									<td>5000.00</td>
-								</tr>
-								<tr>
-									<td>School Sport Event</td>
-									<td>G-SPORT</td>
-									<td>10/10/2020</td>
-									<td>Paid</td>
-									<td>450.00</td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>0.00</td>
-									<td>0.00</td>
-									<td>450.00</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td>6/1</td>
-									<td>Cash</td>
-									<td>16/10/2020</td>
-									<td>0.00</td>
-									<td>0.00</td>
-									<td>450.00</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>Discount</td>
-									<td>Scholar</td>
-									<td></td>
-									<td>Discount of ₹2000.00 Assigned</td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
+				
+									
+				
+				
+							
 							</tbody>
-							<tfoot style="border: 1px solid black;">
+							<tfoot>
 								<tr>
+									
 									<td></td>
 									<td></td>
 									<td></td>
 									<td>Grand Total</td>
-									<td>₹11449.00</td>
+									<td>₹{{totalAmount}}.00</td>
 									<td></td>
 									<td></td>
 									<td></td>
-									<td>₹99.00</td>
-									<td>₹0.00</td>
-									<td>₹6350.00</td>
-									<td>₹5000.00</td>
+									<td>₹{{totalDiscount}}.00</td>
+									<td>₹{{totalFine}}.00</td>
+									<td>₹{{totalPaid}}.00</td>
+									<td>₹{{totalBalance}}.00</td>
+									
 								</tr>
 							</tfoot>
 						</table>
@@ -728,3 +621,39 @@
 		</div> -->
 
 </div>
+
+
+<style>
+	thead th {
+    border-bottom: 1px solid black;
+}
+
+
+tfoot tr td {
+    background-color:  lightgray; 
+}
+
+.success {
+ color: white;
+ background-color: #66aa18 !important;
+ padding: 2px;
+ border-radius: 3px;
+ font-family: Arial, Helvetica, sans-serif;
+}
+
+.danger {
+    color: white;
+    background-color: #cf0303f6 !important;
+    padding: 2px;
+    border-radius: 3px;
+    font-family: Arial, Helvetica, sans-serif;
+   }
+
+.warning{
+    color: white;
+    background-color: #ff9801 !important;
+    padding: 2px;
+    border-radius: 3px;
+    font-family: Arial, Helvetica, sans-serif;
+   }
+</style>

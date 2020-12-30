@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from "@angular/common/http";
+import { HttpClient,HttpHeaders, HttpParams } from "@angular/common/http";
 import { Constants } from '../../api_url';
 import { HttpUtilsService, QueryResultsModel, QueryParamsModel } from '../../_base/crud';
 import { LibraryStaffMemberModel } from '../_models/library-staff-member.model';
@@ -44,10 +44,17 @@ export class LibraryStaffMemberService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
+    // const httpParams = new HttpParams()
+    
+    // .set('sortBy', queryParams.sortField)
+    // .set('pageNo', queryParams.pageNumber.toString())
+    // .set('pageSize', queryParams.pageSize.toString())
+    // .set('pageSize', queryParams.pageSize.toString());
+
     const url =Constants.URL.HOST_URL+Constants.Library.Library_Staff_Member ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
-      // params: httpParams
+     params: httpParams
     });
   }
 

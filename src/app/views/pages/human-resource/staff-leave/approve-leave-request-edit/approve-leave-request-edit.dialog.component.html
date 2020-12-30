@@ -21,13 +21,10 @@
 <!--  not Variavle related Role -->
 					<div class="col-lg-3 kt-margin-bottom-20-mobile">
 						<mat-form-field class="mat-form-field-fluid">
-							<mat-select placeholder="Role" formControlName="roleId">
-								<mat-option [value]="role.id" *ngFor="let role of rolesList">
-									{{role.name}}
-								</mat-option>
+							<mat-select placeholder="Role" >
+								<mat-option value="0">Admin</mat-option>
+								<mat-option value="1">Teacher</mat-option>
 							</mat-select>
-	
-						   
 
 						</mat-form-field>
 					</div>
@@ -54,15 +51,11 @@
 				</div>
 				<div class="col-lg-3 kt-margin-bottom-20-mobile">
 					<mat-form-field class="mat-form-field-fluid">
-						<mat-form-field class="mat-form-field-fluid">
-							<mat-select placeholder="Available Leave" formControlName="leaveTypeId" (selectionChange)="onLeaveTypeSelectChange($event.value)">
-								<mat-option [value]="leave.id" *ngFor="let leave of leaveTypeList">
-									{{leave.type}}
-								</mat-option>
-							</mat-select>
-	
-						</mat-form-field>
-
+						<mat-select placeholder="Available Leave" formControlName="leaveTypeId" (change)="getLeaveType($event)" >
+							<mat-option *ngFor="let leaveType of leaveTypeList" [value]="leaveType.id" >
+								{{leaveType.type}}
+							</mat-option>
+						</mat-select>
 					</mat-form-field>
 				</div>
 				<div class="col-lg-3 kt-margin-bottom-20-mobile">
@@ -90,9 +83,9 @@
 				<div class="col-lg-3 kt-margin-bottom-20-mobile">
 					<label >Status</label><br>
 					<mat-radio-group aria-label="Select an option" formControlName="status" >
-						<mat-radio-button value="Pending">Pending</mat-radio-button>
-						<mat-radio-button value="Approve ">Approve </mat-radio-button>
-						<mat-radio-button value="Disapprove ">Disapprove </mat-radio-button>
+						<mat-radio-button value="pending">Pending</mat-radio-button>
+						<mat-radio-button value="approve ">Approve </mat-radio-button>
+						<mat-radio-button value="disapprove ">Disapprove </mat-radio-button>
 					  </mat-radio-group>
 				</div>
 				<div class="col-lg-12 kt-margin-bottom-20-mobile">

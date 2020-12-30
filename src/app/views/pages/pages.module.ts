@@ -13,7 +13,8 @@ import { UserManagementModule } from './user-management/user-management.module';
 
 import {FrontOfficeModule} from './front-office/front-office.module'
 import { MaterialModule} from './material/material.module';
-import {SystemSettingsModule} from  './system-settings/system-settings.module';
+
+
 
 @NgModule({
   declarations: [],
@@ -30,7 +31,7 @@ import {SystemSettingsModule} from  './system-settings/system-settings.module';
     MaterialModule,
     
     FrontOfficeModule,
-    SystemSettingsModule
+    
   ],
   providers: []
 })

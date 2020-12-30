@@ -7,7 +7,6 @@ import { select, Store } from '@ngrx/store';
 // State
 import { AppState } from '../../../../../core/reducers';
 import { currentUser, Logout, User } from '../../../../../core/auth';
-import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'kt-user-profile4',
@@ -39,8 +38,6 @@ export class UserProfile4Component implements OnInit {
    */
   ngOnInit(): void {
     this.user$ = this.store.pipe(select(currentUser));
-   
-    // console.log(this.user$);
   }
 
   /**

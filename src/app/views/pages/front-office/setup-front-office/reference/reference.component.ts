@@ -213,7 +213,7 @@ createForm() {
 	this.referenceForm = this.fb.group({
 		reference: [this.reference.reference, Validators.required],
 		description: [this.reference.description, ],
-		
+		isActive: [this.reference.isActive, ],
 	});
 }
 
@@ -239,7 +239,11 @@ prepareReference(): ReferenceModel {
 	_reference.id = this.reference.id;
 	_reference.reference = controls.reference.value;
 	_reference.description = controls.description.value;
-	_reference.isActive='yes';
+			if(_reference.id>0){
+	_reference.isActive = controls.isActive.value;
+}else{
+	_reference.isActive = 'yes';
+}
 	return _reference;
 }
 

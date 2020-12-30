@@ -87,6 +87,13 @@ loadAllSources() {
 	}, err => {
 	});
 }
+onSourceSelectChange(sourceId){
+	this.sourceList.map(item=>{
+			if(item.id === sourceId){
+				this.enquiryForm.get("source").setValue(item.source)
+			}
+		})
+	}
 	//get All Class List
 	loadAllClasses() {
 		debugger
@@ -97,6 +104,16 @@ loadAllSources() {
 		}, err => {
 		});
 	}
+
+	onClassSelectChange(classesId){
+	this.classList.map(item=>{
+			if(item.id === classesId){
+				this.enquiryForm.get("classes").setValue(item.classses)
+			}
+		})
+	}
+
+
 	/**
 	 * On destroy
 	 */
@@ -109,30 +126,24 @@ loadAllSources() {
 	createForm() {
 		this.enquiryForm = this.fb.group({
 
-
-			name: [this.enquiry.name, Validators.required],
-			contact: [this.enquiry.contact, [Validators.required,
-				Validators.pattern("^[0-9]*$"),
-				Validators.maxLength(10)]],
-			email: [this.enquiry.email, Validators.compose([Validators.required, Validators.email])],
 			address: [this.enquiry.address, ''],
-			description: [this.enquiry.description, ''],
-			note: [this.enquiry.note, ''],
-			date: [this.typesUtilsService.getDateFromString(this.enquiry.date), Validators.compose([Validators.nullValidator])],
-			followUpDate: [this.typesUtilsService.getDateFromString(this.enquiry.followUpDate), Validators.compose([Validators.nullValidator])],
 			assigned: [this.enquiry.assigned, ''],
+			classes: [this.enquiry.classes, ''],
+			// classId: [this.enquiry.classId, ''],
+			classesId: [this.enquiry.classesId, ''],
+			contact: [this.enquiry.contact, [Validators.required,Validators.pattern("^[0-9]*$"),Validators.maxLength(10)]],
+			date: [this.typesUtilsService.getDateFromString(this.enquiry.date), Validators.compose([Validators.nullValidator])],
+			description: [this.enquiry.description, ''],
+			email: [this.enquiry.email, Validators.compose([Validators.required, Validators.email])],
+			followUpDate: [this.typesUtilsService.getDateFromString(this.enquiry.followUpDate), Validators.compose([Validators.nullValidator])],
+			isActive: [this.enquiry.isActive, ''],
+			name: [this.enquiry.name, Validators.required],
+			noOfChild: [this.enquiry.noOfChild,[Validators.required,Validators.pattern("^[0-9]*$"),Validators.maxLength(10)]],
+			note: [this.enquiry.note, ''],
 			reference: [this.enquiry.reference, ''],
 			source: [this.enquiry.source, Validators.required],
-			classId: [this.enquiry.classId, ''],
-			noOfChild: [this.enquiry.noOfChild,[Validators.required,
-				Validators.pattern("^[0-9]*$"),
-				Validators.maxLength(10)]],
-
-			// isActive: string;
-
-
-
-
+			sourceId: [this.enquiry.sourceId, Validators.required],
+			status: [this.enquiry.status, ''],
 
 		});
 	}
@@ -168,32 +179,40 @@ loadAllSources() {
 		const _enquiry = new EnquiryModel();
 		_enquiry.id = this.enquiry.id;
 
-		_enquiry.name = controls.name.value;
-		_enquiry.contact = controls.contact.value;
-		_enquiry.email = controls.email.value;
-		_enquiry.address = controls.address.value;
-		_enquiry.description = controls.description.value;
-		_enquiry.note = controls.note.value;
 
-		const _date = controls.date.value;
-		if (_date) {
-			_enquiry.date = this.typesUtilsService.dateFormat(_date);
-		} else {
-			_enquiry.date = '';
-		}
-		const _followupdate = controls.followUpDate.value;
-		if (_followupdate) {
-			_enquiry.followUpDate = this.typesUtilsService.dateFormat(_followupdate);
-		} else {
-			_enquiry.followUpDate = '';
-		}
-
-		_enquiry.assigned = controls.assigned.value;
-		_enquiry.reference = controls.reference.value;
-		_enquiry.source = controls.source.value;
-		_enquiry.classId = +controls.classId.value;
-		_enquiry.noOfChild = controls.noOfChild.value;
-		_enquiry.isActive='yes'
+			_enquiry.address = controls.address.value;
+			_enquiry.assigned = controls.assigned.value;
+			_enquiry.classes = controls.classes.value;
+			_enquiry.classesId = controls.classesId.value;
+			_enquiry.contact = controls.contact.value;
+			const _date = controls.date.value;
+			if (_date) {
+				_enquiry.date = this.typesUtilsService.dateFormat(_date);
+			} else {
+				_enquiry.date = '';
+			}
+			_enquiry.description = controls.description.value;
+			_enquiry.email = controls.email.value;
+			const _followupdate = controls.followUpDate.value;
+			if (_followupdate) {
+				_enquiry.followUpDate = this.typesUtilsService.dateFormat(_followupdate);
+			} else {
+				_enquiry.followUpDate = '';
+			}
+			if(_enquiry.id > 0){
+				_enquiry.isActive = controls.isActive.value
+			}else{
+				_enquiry.isActive='yes'
+			}
+			_enquiry.name = controls.name.value;
+			_enquiry.noOfChild = controls.noOfChild.value;
+			_enquiry.note = controls.note.value;
+			_enquiry.reference = controls.reference.value;
+			_enquiry.source = controls.source.value;
+			_enquiry.sourceId = controls.sourceId.value;
+			_enquiry.status = controls.status.value;
+		
+		
 		return _enquiry;
 	}
 
@@ -201,6 +220,7 @@ loadAllSources() {
 	 * On Submit
 	 */
 	onSubmit() {
+		debugger
 		this.hasFormErrors = false;
 		const controls = this.enquiryForm.controls;
 		/** check form */

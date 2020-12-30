@@ -17,7 +17,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModuleGuard } from '../../../core/auth';
-import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService, DynamicSetActionsService } from '../../../core/_base/crud';
+import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from '../../../core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MaterialModule } from '../material/material.module';
 
@@ -29,7 +29,6 @@ import { ApproveLeaveEditDialogComponent } from './approve-leave/approve-leave-e
 import { ApproveLeaveListComponent } from './approve-leave/approve-leave-list/approve-leave-list.component';
 import { StudentAttendenceEffects, approveLeavesReducer, ApproveLeaveEffects, studentAttendencesReducer, StudentAttendenceService, ApproveLeaveService, AttendenceTypeService } from '../../../core/attendance';
 import { TestComponent } from './test/test.component';
-import { UploadFileS3BucketService } from 'src/app/core/upload-file-s3-buket/uploadFileS3Bucket.service';
 
 const routes: Routes = [
 	{
@@ -42,15 +41,15 @@ const routes: Routes = [
 				pathMatch: 'full'
       },
       {
-				path: 'student_attendance',
+				path: 'student-attendance',
 				component: StudentAttendanceComponent
       },
       {
-				path: 'attendance_by_date',
+				path: 'attendance-by-date',
 				component: AttendanceByDateComponent
       },
       {
-				path: 'approve_leave',
+				path: 'approve-leave',
 				component: ApproveLeaveListComponent
       },
       {
@@ -89,6 +88,10 @@ const routes: Routes = [
     TranslateModule.forChild(),
     NgxPermissionsModule.forChild(),
 
+
+
+
+
 //state manage
 StoreModule.forFeature('studentAttendences', studentAttendencesReducer),
 EffectsModule.forFeature([StudentAttendenceEffects]),
@@ -103,7 +106,6 @@ EffectsModule.forFeature([ApproveLeaveEffects]),
     TypesUtilsService,
     HttpUtilsService,
     LayoutUtilsService,
-    DynamicSetActionsService,
 		{ provide: MatBottomSheetRef, useValue: {} },
 		{ provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
 		{ provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
@@ -131,7 +133,7 @@ EffectsModule.forFeature([ApproveLeaveEffects]),
 StudentAttendenceService,
 ApproveLeaveService,
 AttendenceTypeService,
-// UploadFileS3BucketService,
+
 
   ],
    

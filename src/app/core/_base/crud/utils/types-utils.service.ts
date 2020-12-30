@@ -39,7 +39,18 @@ export class TypesUtilsService {
    *
    * @param date: Date
    */
-  dateFormat(date: Date): string {
+  // dateFormat(date: Date): string {
+  //   const month = date.getMonth() + 1;
+  //   const day = date.getDate();
+  //   const year = date.getFullYear();
+  //   if (date) {
+  //     return `${year}-${month}-${day}`;
+  //   }
+
+  //   return '';
+  // }
+
+   dateFormat(date: Date): string {
     const month = date.getMonth() + 1;
     const day = this.padNumber(date.getDate());
     const year = date.getFullYear();
@@ -49,31 +60,19 @@ export class TypesUtilsService {
 
     return '';
   }
-  minTwoDigits(n) {
-    return (n < 10 ? '0' : '') + n;
-  }
+
   /**
    * Convert Date to string with custom format 'MM/dd/yyyy'
    *
    * @param date: any
    */
-  // dateCustomFormat(date: any): string {
-  //   let stringDate = '';
-  //   if (date) {
-  //     stringDate += this.isNumber(date.month) ? this.padNumber(date.month) + '/' : '';
-  //     stringDate += this.isNumber(date.day) ? this.padNumber(date.day) + '/' : '';
-
-  //     stringDate += date.year;
-  //   }
-  //   return stringDate;
-  // }
   dateCustomFormat(date: any): string {
     let stringDate = '';
     if (date) {
-      stringDate += date.getFullYear() + '-';
-      stringDate += this.isNumber(date.getMonth() + 1) ? this.padNumber(date.getMonth() + 1) + '-' : '';
-      stringDate += this.isNumber(date.getDate()) ? this.padNumber(date.getDate()) + '-' : '';
+      stringDate += this.isNumber(date.month) ? this.padNumber(date.month) + '/' : '';
+      stringDate += this.isNumber(date.day) ? this.padNumber(date.day) + '/' : '';
 
+      stringDate += date.year;
     }
     return stringDate;
   }
@@ -118,7 +117,7 @@ export class TypesUtilsService {
       const day = this.toInteger(dateParts[2]);
       // tslint:disable-next-line:prefer-const
       let result = new Date();
-
+   
       result.setMonth(month - 1);
       result.setDate(day);
       result.setFullYear(year);

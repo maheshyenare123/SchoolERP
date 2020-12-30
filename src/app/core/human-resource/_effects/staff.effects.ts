@@ -25,7 +25,9 @@ import {
   StaffsStatusUpdated,
   StaffUpdated,
   ManyStaffsDeleted,
-  OneStaffDeleted
+  OneStaffDeleted,
+  StaffsuserPageRequested,
+  ParentsuserPageRequested
 } from '../_actions/staff.actions';
 
 @Injectable()
@@ -49,11 +51,55 @@ export class StaffEffects {
       const data : FindResultsModel= result['data'];
       return new StaffsPageLoaded({
         staffs: data.content,
-        totalCount: data.totalPages,
+    totalCount: data.totalElements,
         page: lastQuery
       });
     })
   );
+
+  @Effect()
+  loadStaffsuserPage$ = this.actions$.pipe(
+    ofType<StaffsuserPageRequested>(StaffActionTypes.StaffsuserPageRequested),
+    mergeMap(({payload}) => {
+      this.store.dispatch(this.showPageLoadingDistpatcher);
+      const requestToServer = this.staffsService.findStaffsuser(payload.page,payload.role);
+      const lastQuery = of(payload.page);
+      return forkJoin(requestToServer, lastQuery);
+    }),
+    map(response => {
+      debugger
+      const result: QueryResultsModel = response[0];
+      const lastQuery: QueryParamsModel = response[1];
+      const data : FindResultsModel= result['data'];
+      return new StaffsPageLoaded({
+        staffs: data.content,
+    totalCount: data.totalElements,
+        page: lastQuery
+      });
+    })
+  );
+  
+  @Effect()
+  loadParentsuserPage$ = this.actions$.pipe(
+    ofType<ParentsuserPageRequested>(StaffActionTypes.ParentsuserPageRequested),
+    mergeMap(({payload}) => {
+      this.store.dispatch(this.showPageLoadingDistpatcher);
+      const requestToServer = this.staffsService.findParentsuser(payload.page,payload.role);
+      const lastQuery = of(payload.page);
+      return forkJoin(requestToServer, lastQuery);
+    }),
+    map(response => {
+      const result: QueryResultsModel = response[0];
+      const lastQuery: QueryParamsModel = response[1];
+      const data : FindResultsModel= result['data'];
+      return new StaffsPageLoaded({
+        staffs: data.content,
+    totalCount: data.totalElements,
+        page: lastQuery
+      });
+    })
+  );
+  
   
   @Effect()
   deleteStaff$ = this.actions$

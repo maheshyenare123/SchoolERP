@@ -53,6 +53,42 @@ export class StaffService {
     });
   }
 
+  findStaffsuser(queryParams: QueryParamsModel,role): Observable<QueryResultsModel> {
+    // Note: Add headers if needed (tokens/bearer)
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    // const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
+
+    const httpParams =new HttpParams()
+    .set('role-name', role.toString())
+    .set('pageNo', queryParams.pageNumber.toString())
+    .set('pageSize', queryParams.pageSize.toString())
+    .set('sortBy', 'id');
+
+    const url =Constants.URL.HOST_URL+Constants.Human_Resource.User ;
+    return this.http.get<QueryResultsModel>(url, {
+      headers: httpHeaders,
+      params: httpParams
+    });
+  }
+
+  findParentsuser(queryParams: QueryParamsModel,role): Observable<QueryResultsModel> {
+    // Note: Add headers if needed (tokens/bearer)
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    // const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
+
+    const httpParams =new HttpParams()
+    .set('role-name', role.toString())
+    .set('pageNo', queryParams.pageNumber.toString())
+    .set('pageSize', queryParams.pageSize.toString())
+    .set('sortBy', 'id');
+
+    const url =Constants.URL.HOST_URL+Constants.Human_Resource.User ;
+    return this.http.get<QueryResultsModel>(url, {
+      headers: httpHeaders,
+      params: httpParams
+    });
+  }
+
   // UPDATE => PUT: update the Staff on the server
   updateStaff(staff: StaffModel): Observable<any> {
     const httpHeader = this.httpUtils.getHTTPHeaders();

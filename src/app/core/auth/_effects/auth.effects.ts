@@ -21,7 +21,6 @@ export class AuthEffects {
     ofType<Login>(AuthActionTypes.Login),
     tap(action => {
       localStorage.setItem(environment.authTokenKey, action.payload.authToken);
-                          
       this.store.dispatch(new UserRequested());
     }),
   );
@@ -31,7 +30,6 @@ export class AuthEffects {
     ofType<Logout>(AuthActionTypes.Logout),
     tap(() => {
       localStorage.removeItem(environment.authTokenKey);
-
       this.router.navigate(['/auth/login'], {queryParams: {returnUrl: this.returnUrl}});
       document.location.reload();
     })

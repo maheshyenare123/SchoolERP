@@ -132,7 +132,7 @@ preparestaffLeaveRequest(): StaffLeaveRequestModel {
 		
 		_staffLeaveRequest.adminRemark = controls.adminRemark.value;
 		_staffLeaveRequest.documentFile = controls.documentFile.value;
-	
+		_staffLeaveRequest.leaveDays = controls.leaveDays.value;
 		_staffLeaveRequest.leaveType = controls.leaveType.value;
 		_staffLeaveRequest.leaveTypeId = controls.leaveTypeId.value;
 		_staffLeaveRequest.reason = controls.reason.value;
@@ -164,83 +164,10 @@ preparestaffLeaveRequest(): StaffLeaveRequestModel {
 		}
 
 // calculate days for leave
-_staffLeaveRequest.leaveDays = this.getDayDifference(_leaveFrom,_leaveTo);
+
 
 	return _staffLeaveRequest;
 }
-
-getDayDifference(fromDate,toDate,) {
-    if(fromDate!==""){
-    
-
-    // var dob = new Date(fromDate.substring(0, 4),
-	// fromDate.substring(5, 7) - 1,
-	// fromDate.substring(8, 10), toDate.getHours(), toDate.getMonth(), toDate.getSeconds()
-    // );
-
-
-
-    //Get difference between years
-    var years = toDate.getFullYear() - fromDate.getFullYear();
-    var currMonth = toDate.getMonth() + 1;
-    var birthMonth = fromDate.getMonth() + 1;
-    var months = 0;
-    var days = 0;
-    //Get difference between months
-    months = currMonth - birthMonth;
-
-    //if month difference is in negative then reduce years by one 
-    //and calculate the number of months.
-    if (months < 0) {
-      years--;
-      months = 12 - birthMonth + currMonth;
-      if (toDate.getDate() < fromDate.getDate())
-        months--;
-    } else if (months == 0 && toDate.getDate() < fromDate.getDate()) {
-      years--;
-      months = 11;
-    }
-
-    //Calculate the days
-    if (toDate.getDate() > fromDate.getDate())
-      days = toDate.getDate() - fromDate.getDate();
-    else if (toDate.getDate() < fromDate.getDate()) {
-      var today = toDate.getMonth();
-      toDate.getMonth(), -1;
-      days = toDate.getMonth() - fromDate.getMonth() + today;
-    }
-    else {
-      days = 0;
-      if (months == 12) {
-        years++;
-        months = 0;
-      }
-    }
-    //Create new Age object 
-    // return new Age(days, months, years);
-
-
-    // if (years > 0) {
-
-    //   return years + " Years";
-    // } else if (months > 0) {
-
-    //   return months + " Months";
-    // } else {
-
-    //   return days + " Days";
-	// }
-	
-	return days;
-
-  }
-
-
-  }
-
-
-
-
 
 /**
  * On Submit

@@ -15,6 +15,7 @@ export enum StudentActionTypes {
   ManyStudentsDeleted = '[Students List Page] Many Student Deleted',
   StudentsPageRequested = '[Students List Page] Students Page Requested',
   DisableStudentsPageRequested= '[ Disable Students List Page] Students Page Requested',
+  StudentsuserPageRequested= '[Students User List Page] Students Page Requested',
   StudentsPageLoaded = '[Students API] Students Page Loaded',
   StudentsPageCancelled = '[Students API] Students Page Cancelled',
   StudentsPageToggleLoading = '[Students] Students Page Toggle Loading',
@@ -74,6 +75,14 @@ export class StudentsPageRequested implements Action {
   constructor(public payload: { page: QueryParamsModel,classId:number,sectionId:number  }) {
   }
 }
+
+export class StudentsuserPageRequested implements Action {
+  readonly type = StudentActionTypes.StudentsuserPageRequested;
+  
+  constructor(public payload: { page: QueryParamsModel,role:string  }) {
+  }
+}
+
 export class DisableStudentsPageRequested implements Action {
   readonly type = StudentActionTypes.DisableStudentsPageRequested;
 

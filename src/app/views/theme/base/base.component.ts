@@ -15,7 +15,6 @@ import { NgxPermissionsService } from 'ngx-permissions';
 import { currentUserPermissions, Permission } from '../../../core/auth';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '../../../core/reducers';
-import { RolePermissionService } from 'src/app/core/role_permission';
 
 @Component({
   selector: 'kt-base',
@@ -53,15 +52,12 @@ export class BaseComponent implements OnInit, OnDestroy {
     private pageConfigService: PageConfigService,
     private htmlClassService: HtmlClassService,
     private store: Store<AppState>,
-    private permissionsService: NgxPermissionsService,
-    private rolePermissionService: RolePermissionService) {
+    private permissionsService: NgxPermissionsService) {
     this.loadRolesWithPermissions();
 
     // register configs by demos
     this.layoutConfigService.loadConfigs(new LayoutConfig().configs);
     this.menuConfigService.loadConfigs(new MenuConfig().configs);
-
-
     this.pageConfigService.loadConfigs(new PageConfig().configs);
 
     // setup element classes
@@ -83,8 +79,6 @@ export class BaseComponent implements OnInit, OnDestroy {
    * On init
    */
   ngOnInit(): void {
-
-    // this.getDynamicMenuConfig();
     const config = this.layoutConfigService.getConfig();
     // Load UI from Layout settings
     this.selfLayout = objectPath.get(config, 'self.layout');
@@ -102,9 +96,6 @@ export class BaseComponent implements OnInit, OnDestroy {
     });
     this.unsubscribe.push(subscription);
   }
-
-
-
 
   /**
    * On destroy

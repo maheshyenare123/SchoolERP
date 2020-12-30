@@ -23,8 +23,7 @@ import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { StudentAttendencesPageRequested, OneStudentAttendenceDeleted, ManyStudentAttendencesDeleted, StudentAttendencesStatusUpdated, StudentAttendenceUpdated, StudentAttendenceOnServerCreated, selectLastCreatedStudentAttendenceId } from '../../../../core/attendance';
 import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from 'src/app/core/academics';
 import { StudentModel } from 'src/app/core/Models/student.model';
-import { Constants } from 'src/app/core/api_url';
-
+import { Constants } from '../../../../core/api_url';
 @Component({
 	selector: 'kt-student-attendance',
 	templateUrl: './student-attendance.component.html',
@@ -162,13 +161,6 @@ loadAllSectionsByClassId(id:number) {
 		// studentAttendencesResult
 		const data   =res['data'];
 		this.dataSource=data['content'];
-		if(!this.dataSource[0].attendence){
-		var attendanceTypeObj = this.attendanceTypeList.find(x => x.type.toLowerCase() === Constants.PRESENT.toLowerCase());
-    this.dataSource.forEach((ele,index)=>{	
-	this.dataSource[index].attendenceTypeId=attendanceTypeObj.id;
-	this.dataSource[index].attendenceType=attendanceTypeObj.type;
-	})
-}
 	})
 
 }
@@ -280,7 +272,7 @@ this.markAsHoliday=false;
 
 	}
 	onMarkAsHoliday(){
-	// this.markAsHoliday=true;
+	this.markAsHoliday=true;
 
 	var attendanceTypeObj = this.attendanceTypeList.find(x => x.type.toLowerCase() === Constants.HOLIDAY.toLowerCase());
     this.dataSource.forEach((ele,index)=>{	
@@ -288,10 +280,9 @@ this.markAsHoliday=false;
 	this.dataSource[index].attendenceType=attendanceTypeObj.type;
 
 	})
-
+	
 
 }
-
 	onChangeAttendanceType(index,attendanceType){
 	
 		var attendanceTypeObj = this.attendanceTypeList.find(x => x.type === attendanceType);

@@ -14,7 +14,6 @@ import * as objectPath from 'object-path';
 // Layout
 import { LayoutConfigService, MenuAsideService, MenuOptions, OffcanvasOptions } from '../../../core/_base/layout';
 import { HtmlClassService } from '../html-class.service';
-import { RolePermissionService } from 'src/app/core/role_permission';
 
 @Component({
   selector: 'kt-aside-left',
@@ -77,8 +76,7 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
     public layoutConfigService: LayoutConfigService,
     private router: Router,
     private render: Renderer2,
-    private cdr: ChangeDetectorRef,
-    private rolePermissionService: RolePermissionService
+    private cdr: ChangeDetectorRef
   ) {
   }
 
@@ -86,8 +84,6 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-debugger;
-  // this.getDynamicMenuConfig();
     this.currentRouteUrl = this.router.url.split(/[?#]/)[0];
 
     this.router.events
@@ -124,38 +120,13 @@ debugger;
     return `./assets/media/logos/${result}`;
   }
 
-
-  menusList:any;
-  getDynamicMenuConfig() {
-    // const roleName= localStorage.getItem('schoolRoleConfig');
-    this.rolePermissionService.getAllPermissionsByRole().subscribe(res => {
-      // console.log(res);
-      const data=res['data'];
-      this.menusList=data['content'];
-      // console.log(this.menusList);
-    }, err => {
-
-    })
-
-  }
-
-
-
-
-
-
-
-
   /**
    * Check Menu is active
    * @param item: any
    */
   isMenuItemIsActive(item): boolean {
     if (item.submenu) {
-  var flag=this.isMenuRootItemIsActive(item);
-  // console.log(item)
-  // console.log(flag)
-      return flag
+      return this.isMenuRootItemIsActive(item);
     }
 
     if (!item.page) {
@@ -165,19 +136,6 @@ debugger;
     return this.currentRouteUrl.indexOf(item.page) !== -1;
   }
 
-  
-  // isMenuItemIsActive(item): boolean {
-  //   if (item.submenu) {
-  //     return this.isMenuRootItemIsActive(item);
-  //   }
-
-  //   if (!item.page) {
-  //     return false;
-  //   }
-
-  //   return this.currentRouteUrl.indexOf(item.page) !== -1;
-  // }
-
   /**
    * Check Menu Root Item is active
    * @param item: any
@@ -185,10 +143,8 @@ debugger;
   isMenuRootItemIsActive(item): boolean {
     let result = false;
 
-    for (const subMenuItem of item.submenu) {
-      result = this.isMenuItemIsActive(subMenuItem);
-      // console.log(item)
-      // console.log(result)
+    for (const subItem of item.submenu) {
+      result = this.isMenuItemIsActive(subItem);
       if (result) {
         return true;
       }
@@ -196,26 +152,6 @@ debugger;
 
     return false;
   }
-
- 
-  // isMenuRootItemIsActive(item): boolean {
-  //   let result = false;
-
-  //   for (const subItem of item.submenu) {
-  //     result = this.isMenuItemIsActive(subItem);
-  //     if (result) {
-  //       return true;
-  //     }
-  //   }
-
-  //   return false;
-  // }
-
-
-
-
-
-
 
   /**
    * Use for fixed left aside menu, to show menu on mouseenter event.
@@ -261,24 +197,23 @@ debugger;
       }, 100);
     }
   }
- 
+
   /**
    * Returns Submenu CSS Class Name
    * @param item: any
    */
   getItemCssClasses(item) {
-    // console.log(item);
     let classes = 'menu-item';
 
     if (objectPath.get(item, 'submenu')) {
       classes += ' menu-item-submenu';
     }
 
-    if (!item.permissionCategories && this.isMenuItemIsActive(item)) {
+    if (!item.submenu && this.isMenuItemIsActive(item)) {
       classes += ' menu-item-active menu-item-here';
     }
 
-    if (item.permissionCategories && this.isMenuItemIsActive(item)) {
+    if (item.submenu && this.isMenuItemIsActive(item)) {
       classes += ' menu-item-open menu-item-here';
     }
 
@@ -296,7 +231,6 @@ debugger;
   }
 
   getItemAttrSubmenuToggle(item) {
-    // console.log(item)
     let toggle = 'hover';
     if (objectPath.get(item, 'toggle') === 'click') {
       toggle = 'click';

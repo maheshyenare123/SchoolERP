@@ -15,6 +15,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 //import { StudentEditDialogComponent } from '../admission-enquiry-edit/admission-enquiry-edit.dialog.component';
 import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from 'src/app/core/academics';
+import { StaffsDataSource, StaffModel, StaffsPageRequested } from 'src/app/core/human-resource';
+import { StudentsuserPageRequested } from 'src/app/core/student-information/_actions/student.actions';
+import { ParentsuserPageRequested, StaffsuserPageRequested } from 'src/app/core/human-resource/_actions/staff.actions';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'kt-users',
@@ -23,8 +27,9 @@ import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService
 })
 export class UsersComponent implements OnInit {
 
+  // Student
   dataSource: StudentsDataSource;
-  displayedColumns = ['admissionNo', 'name', 'class', 'fatherName', 'dob', 'gender', 'category', 'contact', 'actions'];
+  displayedColumns = [ 'name','username', 'email', 'actions'];
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('sort1', {static: true}) sort: MatSort;
   // Filter fields
@@ -35,6 +40,36 @@ export class UsersComponent implements OnInit {
   // Selection
   selection = new SelectionModel<StudentDtoModel>(true, []);
   studentsResult: StudentDtoModel[] = [];
+
+
+ // Staff
+ dataSource1: StaffsDataSource; 
+ displayedColumns1 = [ 'name','username', 'email', 'actions'];
+ @ViewChild(MatPaginator, {static: true}) paginator1: MatPaginator;
+ @ViewChild('sort2', {static: true}) sort2: MatSort;
+ // Filter fields
+ @ViewChild('searchInput', {static: true}) searchInput1: ElementRef;
+ filterStatus1 = '';
+ filterType = '';
+ // Selection
+ selection1 = new SelectionModel<StaffModel>(true, []);
+ staffsResult: StaffModel[] = [];
+
+
+ // Parent
+ dataSource2: StaffsDataSource; 
+ displayedColumns2 = [ 'name','username', 'email', 'actions'];
+ @ViewChild(MatPaginator, {static: true}) paginator2: MatPaginator;
+ @ViewChild('sort3', {static: true}) sort3: MatSort;
+ // Filter fields
+ @ViewChild('searchInput', {static: true}) searchInput2: ElementRef;
+ filterStatus2 = '';
+ filterType2 = '';
+ // Selection
+ selection2 = new SelectionModel<StaffModel>(true, []);
+parentsResult: StaffModel[] = [];
+
+
   private subscriptions: Subscription[] = [];
   
     searchForm: FormGroup;
@@ -69,59 +104,36 @@ export class UsersComponent implements OnInit {
   
   ngOnInit() {
    
-    this.loadAllClasses();
-    // this.loadAllSectionsByClassId(1);
     this.dataSource = new StudentsDataSource(this.store);
+    this.dataSource1 = new StaffsDataSource(this.store);
+    this.dataSource2 = new StaffsDataSource(this.store);
     this.createForm();
+    this.getAllStudentList('ROLE_STUDENT');
   }
-  
-  
-  
-  //get All Class List
-  
-  
-  loadAllClasses() {
-    debugger
-    this.studentClassService.getAllStudentClasss().subscribe(res => {
-      const data = res['data'];
-      this.classList = data['content'];
-      console.log(this.classList)
-    }, err => {
-    });
+
+   /**
+   * On Destroy
+   */
+  ngOnDestroy() {
+    this.subscriptions.forEach(el => el.unsubscribe());
   }
-  onClassSelectChange(classId){
-    this.loadAllSectionsByClassId(classId);
-   
-  }
-  loadAllSectionsByClassId(id:number) {
-    debugger
-    this.studentClassService.getAllSectionByClasssId(id).subscribe(res => {
-  
-      this.sectionList = res['data'];
-      console.log(this.sectionList)
-    }, err => {
-    });
-  }
-    onSearch() {
-      debugger;
-      this.hasFormErrors = false;
-      const controls = this.searchForm.controls;
-      /** check form */
-      if (this.searchForm.invalid) {
-        Object.keys(controls).forEach(controlName =>
-          controls[controlName].markAsTouched()
-        );
-  
-        this.hasFormErrors = true;
-        return;
-      }
-      this.getAllStudentList(controls.classId.value, controls.sectionId.value);
-  
-  
+  tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
+		console.log('tabChangeEvent => ', tabChangeEvent);
+		console.log(tabChangeEvent.tab.textLabel);
+    console.log('index => ', tabChangeEvent.index);
+    
+    if(tabChangeEvent.tab.textLabel == 'Student'){
+      this.getAllStudentList('ROLE_STUDENT');
     }
+    if(tabChangeEvent.tab.textLabel == 'Parent'){
+      this.getAllStaff('ROLE_PARENT')
+    }
+    if(tabChangeEvent.tab.textLabel == 'Staff'){
+      this.getAllStaff('ROLE_STAFF')
+    }
+	}
   
-  
-    getAllStudentList(classId,sectionId){
+  getAllStudentList(role){
   
   
       // If the user changes the sort order, reset back to the first page.
@@ -133,7 +145,7 @@ export class UsersComponent implements OnInit {
       - when a sort event occurs => this.sort.sortChange
       **/
       const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-        tap(() => this.loadStudentsList(classId,sectionId))
+        tap(() => this.loadStudentsList(role))
       )
       .subscribe();
       this.subscriptions.push(paginatorSubscriptions);
@@ -163,22 +175,15 @@ export class UsersComponent implements OnInit {
       this.subscriptions.push(entitiesSubscription);
       // First load
       of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-        this.loadStudentsList(classId,sectionId);
+        this.loadStudentsList(role);
       }); // Remove this line, just loading imitation
      
-    }
-  
-  /**
-   * On Destroy
-   */
-  ngOnDestroy() {
-    this.subscriptions.forEach(el => el.unsubscribe());
   }
   
   /**
    * Load Products List
    */
-  loadStudentsList(classId,sectionId) {
+  loadStudentsList(role) {
     this.selection.clear();
     const queryParams = new QueryParamsModel(
       this.filterConfiguration(),
@@ -188,27 +193,12 @@ export class UsersComponent implements OnInit {
       this.paginator.pageSize
     );
     // Call request from server
-    this.store.dispatch(new StudentsPageRequested({ page: queryParams ,classId,sectionId}));
+   this.store.dispatch(new StudentsuserPageRequested({ page: queryParams ,role:role}));
    
     this.selection.clear();
   }
   
-  
-  
-  createForm() {
-    debugger;
-    this.searchForm = this.fb.group({
-      classId: [this.classId, Validators.required],
-      sectionId: [this.sectionId, Validators.required],
-      // searchText: [this.searchText, ],21
-  
-    })
-  
-    
-  }
-  
-  
-  /**
+   /**
    * Returns object for filter
    */
   filterConfiguration(): any {
@@ -256,6 +246,192 @@ export class UsersComponent implements OnInit {
       this.searchInput.nativeElement.value = queryParams.filter.model;
     }
   }
+  
+
+
+  getAllStaff(role){
+    const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    this.subscriptions.push(sortSubscription);
+  
+    /* Data load will be triggered in two cases:
+    - when a pagination event occurs => this.paginator.page
+    - when a sort event occurs => this.sort.sortChange
+    **/
+    const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
+      tap(() => this.loadStaffList(role))
+    )
+    .subscribe();
+    this.subscriptions.push(paginatorSubscriptions);
+  
+    // Filtration, bind to searchInput
+    const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
+      // tslint:disable-next-line:max-line-length
+      debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
+      distinctUntilChanged(), // This operator will eliminate duplicate values
+      tap(() => {
+        this.paginator.pageIndex = 0;
+        this.loadStaffList(role);
+      })
+    )
+    .subscribe();
+    this.subscriptions.push(searchSubscription);
+  
+    // Init DataSource
+    this.dataSource1 = new StaffsDataSource(this.store);
+  
+    const entitiesSubscription = this.dataSource1.entitySubject.pipe(
+      skip(1),
+      distinctUntilChanged()
+    ).subscribe(res => {
+      debugger
+  console.log(res);
+      this.staffsResult = res;
+    });
+    this.subscriptions.push(entitiesSubscription);
+    // First load
+    of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
+      this.loadStaffList(role);
+    }); // Remove this line, just loading imitation
+  
+  }
+  
+	/**
+	 * Load Staffs List from service through data-source
+	 */
+	loadStaffList(role) {
+		debugger;
+		this.selection1.clear();
+		const queryParams = new QueryParamsModel(
+			this.filterConfiguration1(),
+			this.sort.direction,
+			this.sort.active,
+			this.paginator.pageIndex,
+			this.paginator.pageSize
+		);
+		// Call request from server
+		this.store.dispatch(new StaffsuserPageRequested({ page: queryParams,role:role }));
+		this.selection1.clear();
+	}
+
+	/**
+	 * Returns object for filter
+	 */
+	filterConfiguration1(): any {
+		const filter: any = {};
+		const searchText: string = this.searchInput1.nativeElement.value;
+
+		filter.class = searchText;
+		if (!searchText) {
+			return filter;
+		}
+		filter.staff = searchText;
+		return filter;
+	}
+
+
+  getAllParent(role){
+    const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    this.subscriptions.push(sortSubscription);
+  
+    /* Data load will be triggered in two cases:
+    - when a pagination event occurs => this.paginator.page
+    - when a sort event occurs => this.sort.sortChange
+    **/
+    const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
+      tap(() => this.loadParentList(role))
+    )
+    .subscribe();
+    this.subscriptions.push(paginatorSubscriptions);
+  
+    // Filtration, bind to searchInput
+    const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
+      // tslint:disable-next-line:max-line-length
+      debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
+      distinctUntilChanged(), // This operator will eliminate duplicate values
+      tap(() => {
+        this.paginator.pageIndex = 0;
+        this.loadParentList(role);
+      })
+    )
+    .subscribe();
+    this.subscriptions.push(searchSubscription);
+  
+    // Init DataSource
+    this.dataSource2 = new StaffsDataSource(this.store);
+  
+    const entitiesSubscription = this.dataSource2.entitySubject.pipe(
+      skip(1),
+      distinctUntilChanged()
+    ).subscribe(res => {
+      debugger
+  console.log(res);
+      this.parentsResult = res;
+    });
+    this.subscriptions.push(entitiesSubscription);
+    // First load
+    of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
+      this.loadParentList(role);
+    }); // Remove this line, just loading imitation
+  
+  }
+  
+	/**
+	 * Load Parents List from service through data-source
+	 */
+	loadParentList(role) {
+		debugger;
+		this.selection2.clear();
+		const queryParams = new QueryParamsModel(
+			this.filterConfiguration2(),
+			this.sort.direction,
+			this.sort.active,
+			this.paginator.pageIndex,
+			this.paginator.pageSize
+		);
+		// Call request from server
+		this.store.dispatch(new ParentsuserPageRequested({ page: queryParams,role:role }));
+		this.selection2.clear();
+	}
+
+	/**
+	 * Returns object for filter
+	 */
+	filterConfiguration2(): any {
+		const filter: any = {};
+		const searchText: string = this.searchInput1.nativeElement.value;
+
+		filter.class = searchText;
+		if (!searchText) {
+			return filter;
+		}
+		filter.parent = searchText;
+		return filter;
+	}
+
+  
+
+
+
+
+
+
+
+
+
+  createForm() {
+    debugger;
+    this.searchForm = this.fb.group({
+      classId: [this.classId, Validators.required],
+      sectionId: [this.sectionId, Validators.required],
+      // searchText: [this.searchText, ],21
+  
+    })
+  
+    
+  }
+  
+  
+ 
   
   /** ACTIONS */
   /**

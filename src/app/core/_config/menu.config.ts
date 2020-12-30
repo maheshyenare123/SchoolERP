@@ -1,5 +1,3 @@
-import { homedir } from 'os';
-
 export class MenuConfig {
   public defaults: any = {
     // header: {
@@ -19,7 +17,6 @@ export class MenuConfig {
     //     //   submenu: [
     //     //     {
     //     //       title: 'Admission Enquiry',
-   
     //     //       page: '/frontoffice/admissionenqury'
     //     //     },
     //     //     {
@@ -89,7 +86,6 @@ export class MenuConfig {
           icon: 'flaticon-interface-7',
           submenu: [
             {
-              
               title: 'Admission Enquiry',
               page: '/front-office/admissionenqury'
             },
@@ -146,7 +142,7 @@ export class MenuConfig {
           icon: 'flaticon-interface-7',
           submenu: [
             {
-              title: 'Student ',
+              title: 'Student Details ',
               page: '/student-information/student-details'
             },
             {
@@ -512,6 +508,164 @@ export class MenuConfig {
             
           ]
         },
+
+        {
+          title: 'Examination',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+            
+            {
+              title: 'Exam Group',
+              page: '/examination/exam-group'
+            },
+            // {
+            //   title: 'Exam',
+            //   page: '/examination/exam/:id'
+            // },
+            {
+              title: 'Exam Schedule',
+              page: '/examination/exam-schedule'
+            },  
+            {
+              title: 'Exam Subject Marks',
+              page: '/examination/examSubjectMarks/:examId/:examSubjectId/:examGroupId'
+            },
+            {
+              title: 'Exam Result',
+              page: '/examination/exam-result'
+            },  
+
+            
+          ]
+        },
+
+        
+
+        {
+          title: 'Certificate',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+            {
+              title: 'Certificate Design',
+              page: '/certificate/certificate-design'
+            },
+          ]
+        },
+
+
+
+        {
+          title: 'Communication',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+            
+            {
+              title: 'Notice Board',
+              page: '/communication/notice-board'
+            },
+            {
+              title: 'Send Email',
+              page: '/communication/send-email'
+            },
+            {
+              title: 'Send Sms',
+              page: '/communication/send-sms'
+            },  
+            {
+              title: 'Email Sms Log',
+              page: '/communication/email-sms-log'
+            },  
+
+            
+          ]
+        },
+
+
+        {
+          title: 'Report',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+            
+            {
+              title: 'Student Information',
+              page: '/report/student-information'
+            },
+            {
+              title: 'Finance',
+              page: '/report/finance'
+            },
+
+            
+            
+            {
+              title: 'Human Resource',
+              page: '/report/human-resource-report'
+            },
+
+            {
+              title: 'Library',
+              page: '/report/library-report'
+            },
+
+            {
+              title: 'Inventory',
+              page: '/report/inventory-report'
+            },
+
+            {
+              title: 'Transport',
+              page: '/report/transport-report'
+            },
+            {
+              title: 'Hostel',
+              page: '/report/hostel-report'
+            },
+            
+          ]
+        },
+        
+
+        {
+          title: 'System Setting',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+            
+            {
+              title: 'Roles Permissions',
+              page: '/system-setting/roles'
+            },
+            {
+              title: 'Session Setting',
+              page: '/system-setting/sessions'
+            },
+            {
+              title: 'Email Setting',
+              page: '/system-setting/email_setting'
+            },  
+            {
+              title: 'Sms Setting',
+              page: '/system-setting/sms_setting'
+            },
+            {
+              title: 'Backup Restore',
+              page: '/system-setting/backup_restore'
+            },  
+            {
+              title: 'Notification Setting',
+              page: '/system-setting/notification_setting'
+            },  
+            {
+              title: 'Users',
+              page: '/system-setting/users'
+            }, 
+          ]
+        },
+
 
 
         // {section: 'Components'},

@@ -214,7 +214,7 @@ createForm() {
 	this.complaintTypeForm = this.fb.group({
 		complaintType: [this.complaintType.complaintType, Validators.required],
 		description: [this.complaintType.description, ],
-		
+		isActive: [this.complaintType.isActive, ],
 	});
 }
 
@@ -240,7 +240,11 @@ prepareComplaintType(): ComplaintTypeModel {
 	_complaintType.id = this.complaintType.id;
 	_complaintType.complaintType = controls.complaintType.value;
 	_complaintType.description = controls.description.value;
-	_complaintType.isActive='yes';
+	if(_complaintType.id>0){
+	_complaintType.isActive = controls.isActive.value;
+}else{
+	_complaintType.isActive = 'yes';
+}
 	return _complaintType;
 }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { StudentFeeDepositesDataSource, StudentFeeDepositeModel, StudentFeeDepositesPageRequested, OneStudentFeeDepositeDeleted, ManyStudentFeeDepositesDeleted } from '../../../../core/fees-collection';
+import { StudentFeeDepositesDataSource, StudentFeeDepositeModel, StudentFeeDepositesPageRequested, OneStudentFeeDepositeDeleted, ManyStudentFeeDepositesDeleted, StudentFeeDepositeService ,  } from '../../../../core/fees-collection';
 import { QueryParamsModel, LayoutUtilsService, MessageType } from '../../../../core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -15,6 +15,7 @@ import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { StudentClassModel, SectionDtoModel, StudentClassService } from 'src/app/core/academics';
 import { FeeCollectEditDialogComponent } from '../fee-collect-edit/fee-collect-edit.dialog.component';
+import { StudentModel } from 'src/app/core/Models/student.model';
 
 @Component({
   selector: 'kt-fees-collect',
@@ -45,8 +46,16 @@ studentfeedeposite
   classList: StudentClassModel[] = [];
 	sectionList: SectionDtoModel[] = [];
   collectionFeeShowFlag: boolean = false;
-  student: StudentFeeDepositeModel;
+  student: StudentModel;
   studentListFlag: boolean = true;
+  feesDepositeList: any;
+  feesDiscountList: any;
+
+  totalAmount: number = 0;
+  totalDiscount: number = 0;
+  totalFine: number = 0;
+  totalPaid: number = 0; 
+  totalBalance: number = 0;
 constructor(public dialog: MatDialog,
              private activatedRoute: ActivatedRoute,
              private router: Router,
@@ -55,6 +64,7 @@ constructor(public dialog: MatDialog,
              private layoutUtilsService: LayoutUtilsService,
              private store: Store<AppState>,
              private studentClassService: StudentClassService,
+             private studentFeeDepositeService:StudentFeeDepositeService
              ) { }
 
 
@@ -372,21 +382,61 @@ deleteProducts() {
 		// });
   }
   
-  collectionFeeShow(studentFeeDeposite: StudentFeeDepositeModel){
+  collectionFeeShow(studentFeeDeposite: StudentModel){
     this.student = studentFeeDeposite
     this.collectionFeeShowFlag = true;
     this.studentListFlag = false;
-
+    this.getStudentFeeDepositeById();
+    this.loadAllFeesDiscount();
   }
+
+  getStudentFeeDepositeById(){
+    debugger
+    this.feesDepositeList = []
+    this.studentFeeDepositeService.getStudentFeeDepositeById(this.student.studentSessionId).subscribe(res => {
+      const data = res['data'];
+      this.feesDepositeList = data['studentFeeDetails'];
+      console.log(this.feesDepositeList)
+      this.totalAmount= 0;
+      this.totalDiscount= 0;
+      this.totalFine= 0;
+      this.totalPaid= 0; 
+      this.totalBalance= 0;
+
+      this.feesDepositeList.map(item=>{
+        this.totalAmount += item.amount;
+        this.totalDiscount += item.discount;
+        this.totalFine += item.fine;
+        this.totalPaid += item.paid;
+        this.totalBalance += item.balance;
+
+      })
+
+    }, err => {
+    });
+  }
+
+  loadAllFeesDiscount() {
+		debugger
+		this.feesDiscountList = []
+	this.studentFeeDepositeService.getStudentDiscountById(this.student.studentSessionId).subscribe(res => {
+	  const data1 = res['data'];
+	  this.feesDiscountList = data1;
+	  console.log(this.feesDiscountList)
+	}, err => {
+	});
+	}
 
   collectStudentFee(studentFeeDeposite: StudentFeeDepositeModel,type:string) {
     debugger
+   let student = this.student
 		let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
     // const _saveMessage = student.id > 0 ? 'Student Fees Collect' : 'Create product';
     
 		// const _messageType = student.id > 0 ? MessageType.Update : MessageType.Create;
-		const dialogRef = this.dialog.open(FeeCollectEditDialogComponent, { data: { studentFeeDeposite,type } });
+		const dialogRef = this.dialog.open(FeeCollectEditDialogComponent, { data: { studentFeeDeposite,type,student } });
 		dialogRef.afterClosed().subscribe(res => {
+      this.getStudentFeeDepositeById()
 			if (!res) {
 				return;
 			}

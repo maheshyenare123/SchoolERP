@@ -2,7 +2,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { BookIssueReturnsDataSource, BookIssueReturnModel, selectBookIssueReturnsActionLoading, BookService, BookModel } from 'src/app/core/library';
+import { BookIssueReturnsDataSource, BookIssueReturnModel, selectBookIssueReturnsActionLoading, BookService, BookModel, LibraryMemberIssueModel, } from 'src/app/core/library';
 import { QueryParamsModel, LayoutUtilsService, MessageType, TypesUtilsService } from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -56,8 +56,11 @@ export class BookIssueReturnDialogComponent implements OnInit {
 	viewLoading = false;
 	// Private properties
 	private componentSubscriptions: Subscription;
-	libraryMember: BookIssueReturnModel;
+	libraryMember: LibraryMemberIssueModel;
+
 	showReturnDate: boolean = false;
+
+
 
 
 	bookList: BookModel[] = [];
@@ -119,6 +122,10 @@ export class BookIssueReturnDialogComponent implements OnInit {
 		of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
 			this.loadBookIssueReturnList(this.libraryMember.memberId);
 		}); // Remove this line, just loading imitation
+
+
+		console.log(this.data);
+
 
 		this.libraryMember = this.data.librarymember;
 		console.log(this.libraryMember);
@@ -244,12 +251,16 @@ export class BookIssueReturnDialogComponent implements OnInit {
 	createForm() {
 		debugger;
 		this.bookIssueReturnForm = this.fb.group({
+
+
+			id: [this.bookIssueReturn.id, Validators.required],
+			bookNo: [this.bookIssueReturn.bookNo, Validators.required],
 			bookId: [this.bookIssueReturn.bookId, Validators.required],
 			duereturnDate: [this.typesUtilsService.getDateFromString(this.bookIssueReturn.duereturnDate), Validators.compose([Validators.nullValidator])],
 			memberId: [this.libraryMember.memberId, Validators.required],
 			// issueDate: [this.typesUtilsService.getDateFromString(this.bookIssueReturn.issueDate), Validators.compose([Validators.nullValidator])],
 			returnDate: [this.typesUtilsService.getDateFromString(this.bookIssueReturn.returnDate), Validators.compose([Validators.nullValidator])],
-			bookNo: [this.bookIssueReturn.bookNo, Validators.required],
+
 			bookTitle: [this.bookIssueReturn.bookTitle, Validators.required],
 
 
@@ -275,9 +286,13 @@ export class BookIssueReturnDialogComponent implements OnInit {
 	prepareBookIssueReturn(): BookIssueReturnModel {
 		const controls = this.bookIssueReturnForm.controls;
 		const _bookIssueReturn = new BookIssueReturnModel();
-		// _bookIssueReturn.id = this.bookIssueReturn.id;
+		_bookIssueReturn.id = this.bookIssueReturn.id;
 		_bookIssueReturn.bookId = controls.bookId.value;
-		_bookIssueReturn.memberId = controls.memberId.value;
+		_bookIssueReturn.bookNo = controls.bookNo.value;
+		_bookIssueReturn.bookTitle = controls.bookTitle.value;
+
+		_bookIssueReturn.libararyMemberId = controls.memberId.value;
+
 		const _duereturnDate = controls.duereturnDate.value;
 		if (_duereturnDate) {
 			_bookIssueReturn.duereturnDate = this.typesUtilsService.dateFormat(_duereturnDate);
@@ -285,30 +300,24 @@ export class BookIssueReturnDialogComponent implements OnInit {
 			_bookIssueReturn.duereturnDate = '';
 		}
 
-		// const _issueDate = controls.issueDate.value;
 
+		//return book isue book
 		const issueDate = new Date();
 		_bookIssueReturn.issueDate = this.typesUtilsService.dateFormat(issueDate);
+
 		if (this.bookIssueReturn.id > 0) {
 			_bookIssueReturn.isActive = this.bookIssueReturn.isActive;
-			_bookIssueReturn.isReturned = this.bookIssueReturn.isReturned;
+			_bookIssueReturn.isReturned = 1;
 			const _returnDate = controls.returnDate.value;
 			if (_returnDate) {
 				_bookIssueReturn.returnDate = this.typesUtilsService.dateFormat(_returnDate);
 			} else {
 				_bookIssueReturn.returnDate = '';
 			}
+		} else {
+			_bookIssueReturn.isActive = 'yes';
+			_bookIssueReturn.isReturned = 0;
 		}
-
-		_bookIssueReturn.bookNo = controls.bookNo.value;
-		_bookIssueReturn.bookTitle = controls.bookTitle.value;
-
-		_bookIssueReturn.isActive = 'yes';
-		_bookIssueReturn.isReturned = 0;
-
-
-
-
 
 
 		return _bookIssueReturn;

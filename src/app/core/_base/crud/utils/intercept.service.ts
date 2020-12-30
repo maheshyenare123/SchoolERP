@@ -4,19 +4,19 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse } fr
 // RxJS
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-
-import { AppState } from 'src/app/core/reducers';
+import { environment } from 'src/environments/environment';
+import { Logout } from 'src/app/core/auth';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Logout } from 'src/app/core/auth';
-import { environment } from 'src/environments/environment';
+import { AppState } from 'src/app/core/reducers';
+
 /**
  * More information there => https://medium.com/@MetonymyQT/angular-http-interceptors-what-are-they-and-how-to-use-them-52e060321088
  */
 @Injectable()
 export class InterceptService implements HttpInterceptor {
   // intercept request and add token
- constructor(private router: Router,private store: Store<AppState>) {}
+  constructor(private router: Router,private store: Store<AppState>) {}
 
  
  
@@ -66,7 +66,6 @@ export class InterceptService implements HttpInterceptor {
                 this.store.dispatch(new Logout());
                 this.router.navigate(['/auth/login']);
                 document.location.reload();
-             
              }
 
 

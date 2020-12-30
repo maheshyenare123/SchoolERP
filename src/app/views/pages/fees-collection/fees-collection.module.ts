@@ -17,7 +17,7 @@ import { MaterialModule } from '../material/material.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModuleGuard } from 'src/app/core/auth';
-import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService, DynamicSetActionsService } from 'src/app/core/_base/crud';
+import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from 'src/app/core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 
@@ -33,7 +33,7 @@ import { FeesCarryForwordComponent } from './fees-carry-forword/fees-carry-forwo
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { AdmissionEnquiryEffects } from 'src/app/core/front-office';
-import { feesTypesReducer, FeesTypeEffects, FeesTypeService, feesGroupsReducer, FeesGroupEffects, FeesGroupService, feesDiscountsReducer, FeesDiscountService, feesMastersReducer, FeesMasterEffects, FeesMasterService, FeesDiscountEffects, assignFeesStudentsReducer, AssignFeesStudentEffects, AssignFeesStudentService, StudentFeeDepositeService, studentFeeDepositesReducer, StudentFeeDepositeEffects } from 'src/app/core/fees-collection';
+import { feesTypesReducer, FeesTypeEffects, FeesTypeService, feesGroupsReducer, FeesGroupEffects, FeesGroupService, feesDiscountsReducer, FeesDiscountService, feesMastersReducer, FeesMasterEffects, FeesMasterService, FeesDiscountEffects, assignStudentFeemastersReducer, AssignStudentFeemasterService, StudentFeeDepositeService, studentFeeDepositesReducer, StudentFeeDepositeEffects, AssignStudentFeemasterActionTypes, AssignStudentFeemasterEffects, AssignStudentFeediscountEffects, AssignStudentFeediscountService, assignStudentFeediscountsReducer, StudentFeeAmountDetailsEffects, StudentFeeAmountDetailsService, studentFeeAmountDetailssReducer } from 'src/app/core/fees-collection';
 import { FeesCollectComponent } from './fees-collect/fees-collect.component';
 import { FeeCollectEditDialogComponent } from './fee-collect-edit/fee-collect-edit.dialog.component';
 import { SearchFeesPaymentComponent } from './search-fees-payment/search-fees-payment.component';
@@ -50,41 +50,38 @@ const routes: Routes = [
 				pathMatch: 'full'
       },
       {
-				path: 'fees_type',
+				path: 'fees-type',
 				component: FeesTypeComponent
       },
       {
-				path: 'fees_group',
+				path: 'fees-group',
 				component: FeesGroupComponent
       },
       {
-				path: 'fees_discount',
+				path: 'fees-discount',
 				component: FeesDiscountComponent
       },
       {
-				path: 'fees_master',
+				path: 'fees-master',
 				component: FeesMasterComponent
       },
       {
-				path: 'collect_fees',
+				path: 'fees-collect',
 				component: FeesCollectComponent
       },
       {
-				path: 'search_fees_payment',
+				path: 'search-fees-payment',
 				component: SearchFeesPaymentComponent
       },
       {
-				path: 'search_due_fees',
+				path: 'search-due-fees',
 				component: SearchDueFeesComponent
       },
       {
-				path: 'fees_reminder',
+				path: 'fees-reminder',
 				component: FeesReminderComponent
       },
-      {
-				path: 'fees_carry_forward',
-				component: FeesCarryForwordComponent
-      },
+
       
     ] 
   }
@@ -138,11 +135,16 @@ const routes: Routes = [
     EffectsModule.forFeature([FeesMasterEffects]),
 
 
-    StoreModule.forFeature('assignFeesStudents', assignFeesStudentsReducer),
-    EffectsModule.forFeature([AssignFeesStudentEffects]),
+    StoreModule.forFeature('assignStudentFeemasters', assignStudentFeemastersReducer),
+    EffectsModule.forFeature([AssignStudentFeemasterEffects]),
+
+    StoreModule.forFeature('assignStudentFeediscounts', assignStudentFeediscountsReducer),
+    EffectsModule.forFeature([AssignStudentFeediscountEffects]),
 
     StoreModule.forFeature('studentFeeDeposites', studentFeeDepositesReducer),
     EffectsModule.forFeature([StudentFeeDepositeEffects]),
+    StoreModule.forFeature('studentFeeAmountDetailss', studentFeeAmountDetailssReducer),
+    EffectsModule.forFeature([StudentFeeAmountDetailsEffects]),
 
   ],
   providers: [
@@ -153,7 +155,6 @@ const routes: Routes = [
     TypesUtilsService,
     HttpUtilsService,
     LayoutUtilsService,
-    DynamicSetActionsService,
 		{ provide: MatBottomSheetRef, useValue: {} },
 		{ provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
 		{ provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
@@ -180,8 +181,10 @@ FeesTypeService,
 FeesGroupService,
 FeesDiscountService,
 FeesMasterService,
-AssignFeesStudentService,
-StudentFeeDepositeService
+AssignStudentFeemasterService,
+AssignStudentFeediscountService,
+StudentFeeDepositeService,
+StudentFeeAmountDetailsService
   ],
     entryComponents: [
       FeesDiscountAssignStudentDialogComponent,

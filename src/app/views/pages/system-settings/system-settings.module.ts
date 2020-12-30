@@ -23,7 +23,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { SystemSettingsComponent } from './system-settings.component';
 import { RolesPermissionsComponent } from './roles-permissions/roles-permissions.component';
 import { ModuleGuard } from 'src/app/core/auth';
-import { DynamicSetActionsService, HttpUtilsService, InterceptService, LayoutUtilsService, TypesUtilsService } from 'src/app/core/_base/crud';
+import { HttpUtilsService, InterceptService, LayoutUtilsService, TypesUtilsService } from 'src/app/core/_base/crud';//DynamicSetActionsService
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { UsersComponent } from './users/users.component';
 import { EmailSettingComponent } from './email-setting/email-setting.component';
@@ -34,6 +34,9 @@ import { BackupRestoreComponent } from './backup-restore/backup-restore.componen
 import { SessionService } from 'src/app/core/sysetm_settings/_services/session.service';
 import { sessionsReducer } from 'src/app/core/sysetm_settings/_reducers/session.reducers';
 import { SessionEffects } from 'src/app/core/sysetm_settings/_effects/session.effects';
+import { staffsReducer, StaffService } from 'src/app/core/human-resource';
+import { StaffEffects } from 'src/app/core/human-resource/_effects/staff.effects';
+import { studentsReducer, StudentEffects, StudentService } from 'src/app/core/student-information';
 
 
 const routes: Routes = [
@@ -113,6 +116,12 @@ const routes: Routes = [
     //state manage
     StoreModule.forFeature('sessions', sessionsReducer),
     EffectsModule.forFeature([SessionEffects]),
+
+    StoreModule.forFeature('students', studentsReducer),
+    EffectsModule.forFeature([StudentEffects]),
+
+    StoreModule.forFeature('staffs', staffsReducer),
+    EffectsModule.forFeature([StaffEffects]),
   ],
   providers: [
     NgbAlertConfig,
@@ -128,7 +137,7 @@ const routes: Routes = [
     TypesUtilsService,
     HttpUtilsService,
     LayoutUtilsService,
-    DynamicSetActionsService,
+    // DynamicSetActionsService,
     { provide: HTTP_INTERCEPTORS, useClass: InterceptService, multi: true },
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
@@ -141,7 +150,9 @@ const routes: Routes = [
     },
 
     //custom service
-    SessionService
+    SessionService,
+    StudentService,
+    StaffService,
   ],
 
 

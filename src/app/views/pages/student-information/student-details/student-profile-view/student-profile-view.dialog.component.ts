@@ -16,6 +16,7 @@ import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { StudentDtoModel, selectStudentsActionLoading, StudentUpdated, selectLastCreatedStudentId, StudentOnServerCreated } from '../../../../../core/student-information';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
+import { StudentFeeDepositeService } from 'src/app/core/fees-collection';
 
 
 
@@ -30,7 +31,7 @@ export class StudentProfileViewDialogComponent implements OnInit, OnDestroy {
 	
 	
 // Public properties
-student: StudentDtoModel;
+student: any;
 searchFormData :any;
 documentForm: FormGroup;
 
@@ -43,11 +44,27 @@ files: File[] = [];
 	document: any;
 	formShow: boolean= false;
 
+
+	studentfeedeposite
+
+	collectionFeeShowFlag: boolean = false;
+	studentListFlag: boolean = true;
+	feesDepositeList: any;
+	feesDiscountList: any;
+  
+	totalAmount: number = 0;
+	totalDiscount: number = 0;
+	totalFine: number = 0;
+	totalPaid: number = 0; 
+	totalBalance: number = 0;
+
+
 constructor(public dialogRef: MatDialogRef<StudentProfileViewDialogComponent>,
 	@Inject(MAT_DIALOG_DATA) public data: any,
 	private fb: FormBuilder,
 	private store: Store<AppState>,
-	private typesUtilsService: TypesUtilsService) {
+	private typesUtilsService: TypesUtilsService,
+	private studentFeeDepositeService:StudentFeeDepositeService) {
 }
 
 /**
@@ -60,9 +77,55 @@ ngOnInit() {
 	debugger
 	this.student = this.data.student;
 	this.createForm();
-
+	this.getStudentFeesDetails();
 
 }
+
+getStudentFeesDetails(){
+	this.student 
+
+    this.getStudentFeeDepositeById();
+    this.loadAllFeesDiscount();
+  }
+
+  getStudentFeeDepositeById(){
+    debugger
+    this.feesDepositeList = []
+    this.studentFeeDepositeService.getStudentFeeDepositeById(this.student.studentSessionId).subscribe(res => {
+      const data = res['data'];
+      this.feesDepositeList = data['studentFeeDetails'];
+      console.log(this.feesDepositeList)
+      this.totalAmount= 0;
+      this.totalDiscount= 0;
+      this.totalFine= 0;
+      this.totalPaid= 0; 
+      this.totalBalance= 0;
+
+      this.feesDepositeList.map(item=>{
+        this.totalAmount += item.amount;
+        this.totalDiscount += item.discount;
+        this.totalFine += item.fine;
+        this.totalPaid += item.paid;
+        this.totalBalance += item.balance;
+
+      })
+
+    }, err => {
+    });
+}
+
+loadAllFeesDiscount() {
+	debugger
+	this.feesDiscountList = []
+this.studentFeeDepositeService.getStudentDiscountById(this.student.studentSessionId).subscribe(res => {
+  const data1 = res['data'];
+  this.feesDiscountList = data1;
+  console.log(this.feesDiscountList)
+}, err => {
+});
+}
+
+
 
 /**
  * On destroy

@@ -47,12 +47,12 @@ export class PageConfig {
     },
     'student-information': {
 
-      'student': {
-        page: { title: 'Student', desc: '' }
+      'student-details': {
+        page: { title: 'Student Details', desc: '' }
       },
-      // 'student/:id': {
-      //   page: { title: 'Student Admission', desc: '' }
-      // },
+      'student-details-edit/:id': {
+        page: { title: 'Student Admission', desc: '' }
+      },
       // 'online-admission': {
       //   page: { title: 'Online Admission', desc: '' }
       // },
@@ -65,8 +65,8 @@ export class PageConfig {
       'student-categories': {
         page: { title: 'Student Categories', desc: '' }
       },
-      'student-houses': {
-        page: { title: 'Student Houses', desc: '' }
+      'student-house': {
+        page: { title: 'Student House', desc: '' }
       },
       'disable-reason': {
         page: { title: 'Disable Reason', desc: '' }
@@ -278,7 +278,189 @@ export class PageConfig {
       'item-issue': {
         page: { title: 'Item Issue', desc: '' }
       },
+    },
+    
+    'examination': {
+      'exam-group': {
+        page: { title: 'Exam Group', desc: '' }
+      },
+      'exam-schedule': {
+        page: { title: 'Exam Schedule', desc: '' }
+      },
+      'exam/:id': {
+        page: { title: 'Exam', desc: '' }
+      },
+      'examSubjectMarks/:examId/:examSubjectId/:examGroupId': {
+        page: { title: 'Exam Subject Marks', desc: '' }
+      },
+      'exam-result': {
+        page: { title: 'Exam Result', desc: '' }
+      },
+
       
+    },
+
+    'certificate': {
+      'certificate-design': {
+        page: { title: 'Certificate Design', desc: '' }
+      },
+      
+    },
+
+    'communication': {
+      'notice-board': {
+        page: { title: 'Notice Board', desc: '' }
+      },
+      'send-email': {
+        page: { title: 'Send Email', desc: '' }
+      },
+      'send-sms': {
+        page: { title: 'Send Sms', desc: '' }
+      },
+      'email-sms-log': {
+        page: { title: 'Email Sms Log', desc: '' }
+      },
+    },
+
+
+    'report': {
+      'student-information': {
+        page: { title: 'Student Information', desc: '' }
+      },
+      'student-report': {
+        page: { title: 'Student Report', desc: '' }
+      },
+      'guardian-report': {
+        page: { title: 'Guardian Report', desc: '' }
+      },
+      'student-history': {
+        page: { title: 'Student History', desc: '' }
+      },
+      'student-login-credential': {
+        page: { title: 'Student Login Credential', desc: '' }
+      },
+      'class-subject-report': {
+        page: { title: 'Class Subject Report', desc: '' }
+      },
+      'admission-report': {
+        page: { title: 'Admission Report', desc: '' }
+      },
+      'sibling-report': {
+        page: { title: 'Sibling Report', desc: '' }
+      },
+      'student-profile': {
+        page: { title: 'Student Profile', desc: '' }
+      },
+      'homework-evaluation-report': {
+        page: { title: 'Homework Evaluation Report', desc: '' }
+      },
+      'finance': {
+        page: { title: 'Finance', desc: '' }
+      },
+
+
+      'fees-statement': {
+        page: { title: 'Fees Statement', desc: '' }
+      },
+      'balance-fees-report': {
+        page: { title: 'Balance Fees Report', desc: '' }
+      },
+      'fees-collection-report': {
+        page: { title: 'Fees Collection Report', desc: '' }
+      },
+      'online-fees-collection-report': {
+        page: { title: 'Online Fees Collection Report', desc: '' }
+      },
+      'income-report': {
+        page: { title: 'Income Report', desc: '' }
+      },
+      'expense-report': {
+        page: { title: 'Expense Report', desc: '' }
+      },
+      'payroll-report': {
+        page: { title: 'Payroll Report', desc: '' }
+      },
+      'income-group-report': {
+        page: { title: 'Income Group Report', desc: '' }
+      },
+      'expense-group-report': {
+        page: { title: 'Expense Group Report', desc: '' }
+      },
+
+
+      'human-resource-report': {
+        page: { title: 'Human Resource', desc: '' }
+      },
+      'staff-report': {
+        page: { title: 'Staff Report', desc: '' }
+      },
+      'payrolls-report': {
+        page: { title: 'Payrolls Report', desc: '' }
+      },
+
+
+      'library-report': {
+        page: { title: 'Library', desc: '' }
+      },
+      'book-issue-report': {
+        page: { title: 'Book Issue Report', desc: '' }
+      },
+      'book-due-report': {
+        page: { title: 'Book Due Report', desc: '' }
+      },
+      'book-inventory-report': {
+        page: { title: 'Book Inventory Report', desc: '' }
+      },
+      'book-issue-return-report': {
+        page: { title: 'Book Issue Return Report', desc: '' }
+      },
+
+
+      'inventory-report': {
+        page: { title: 'Inventory', desc: '' }
+      },
+      'stock-report': {
+        page: { title: 'Stock Report', desc: '' }
+      },
+      'add-item-report': {
+        page: { title: 'Add Item Report', desc: '' }
+      },
+      'issue-item-report': {
+        page: { title: 'Issue Item Report', desc: '' }
+      },
+
+
+      'transport-report': {
+        page: { title: 'Transport', desc: '' }
+      },
+      'hostel-report': {
+        page: { title: 'Hostel', desc: '' }
+      },
+    },
+
+
+    'system-setting': {
+      'roles': {
+        page: { title: 'Roles Permissions', desc: '' }
+      },
+      'sessions': {
+        page: { title: 'Session Setting', desc: '' }
+      },
+      'email_setting': {
+        page: { title: 'Email Setting', desc: '' }
+      },
+      'sms_setting': {
+        page: { title: 'Sms Setting', desc: '' }
+      },
+      'backup_restore': {
+        page: { title: 'Backup Restore', desc: '' }
+      },
+      'notification_setting': {
+        page: { title: 'Notification Setting', desc: '' }
+      },
+      'users': {
+        page: { title: 'Users', desc: '' }
+      },
     },
 
 

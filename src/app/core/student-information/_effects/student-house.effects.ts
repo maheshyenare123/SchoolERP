@@ -49,7 +49,7 @@ export class StudentHouseEffects {
       const data : FindResultsModel= result['data'];
       return new StudentHousesPageLoaded({
         studentHouses: data.content,
-        totalCount: result.totalCount,
+        totalCount:  data.totalElements,
         page: lastQuery
       });
     })
