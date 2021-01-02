@@ -3,14 +3,14 @@ import { FormBuilder, FormGroup, Validators,FormArray} from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { HomeworksDataSource, HomeworkDtoModel, HomeworksPageRequested, OneHomeworkDeleted, ManyHomeworksDeleted } from 'src/app/core/homework';
-import { QueryParamsModel, LayoutUtilsService, MessageType } from '../../../../core/_base/crud';
+import { QueryParamsModel, LayoutUtilsService, MessageType } from '../../../../../core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SubheaderService } from '../../../../core/_base/layout';
+import { SubheaderService } from '../../../../../core/_base/layout';
 import { Store, select } from '@ngrx/store';
-import { AppState } from '../../../../core/reducers';
+import { AppState } from '../../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
 import { StudentClassService, SubjectService, SubjectGroupService, SectionDtoModel, StudentClassModel, SubjectDtoModel, SubjectGroupDtoModel } from 'src/app/core/academics';
 
@@ -78,39 +78,39 @@ this.dataSource = new HomeworksDataSource(this.store);
 }
 
   studentReport() {
-		this.router.navigate(["/report/student-report"])
+		this.router.navigate(["/report/student_report"])
   }
   
   guardianReport() {
-			this.router.navigate(["/report/guardian-report"])
+			this.router.navigate(["/report/guardian_report"])
   }
 
   studentHistory() {
-		this.router.navigate(["/report/student-history"])
+		this.router.navigate(["/report/student_history"])
   }
 
   studentLoginCredential() {
-		this.router.navigate(["/report/student-login-credential"])
+		this.router.navigate(["/report/student_login_credential"])
   }
 
   classSubjectReport() {
-		this.router.navigate(["/report/class-subject-report"])
+		this.router.navigate(["/report/class_subject_report"])
   }
 
   admissionReport() {
-		this.router.navigate(["/report/admission-report"])
+		this.router.navigate(["/report/admission_report"])
   }
 
   siblingReport() {
-		this.router.navigate(["/report/sibling-report"])
+		this.router.navigate(["/report/sibling_report"])
   }
 
   studentProfile() {
-		this.router.navigate(["/report/student-profile"])
+		this.router.navigate(["/report/student_profile"])
   }
 
   homeworkEvaluationReport() {
-		this.router.navigate(["/report/homework-evaluation-report"])
+		this.router.navigate(["/report/homework_evaluation_report"])
   }
 
 	loadAllClasses() {

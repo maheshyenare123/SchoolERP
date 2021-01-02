@@ -17,7 +17,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModuleGuard } from '../../../core/auth';
-import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from '../../../core/_base/crud';
+import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService , DynamicSetActionsService,} from '../../../core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MaterialModule } from '../material/material.module';
 
@@ -41,15 +41,15 @@ const routes: Routes = [
 				pathMatch: 'full'
       },
       {
-				path: 'student-attendance',
+				path: 'student_attendance',
 				component: StudentAttendanceComponent
       },
       {
-				path: 'attendance-by-date',
+				path: 'attendance_by_date',
 				component: AttendanceByDateComponent
       },
       {
-				path: 'approve-leave',
+				path: 'approve_leave',
 				component: ApproveLeaveListComponent
       },
       {
@@ -106,6 +106,7 @@ EffectsModule.forFeature([ApproveLeaveEffects]),
     TypesUtilsService,
     HttpUtilsService,
     LayoutUtilsService,
+    DynamicSetActionsService,
 		{ provide: MatBottomSheetRef, useValue: {} },
 		{ provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
 		{ provide: MAT_DATE_LOCALE, useValue: 'en-GB'},

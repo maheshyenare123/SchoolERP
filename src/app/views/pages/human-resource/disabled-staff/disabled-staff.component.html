@@ -1,8 +1,8 @@
-<div class="form-group kt-form__group row">
-    <div class="col-lg-12 kt-margin-bottom-20-mobile">
+<!-- <div class="form-group kt-form__group row">
+    <div class="col-lg-12 kt-margin-bottom-20-mobile"> -->
         <kt-portlet>
             <!-- See prop => '../../_core/models/data-sources/_base.datasource.ts' (loading$) -->
-            <kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Staff'" [viewLoading$]="dataSource.loading$">
+            <kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Disable Staff'" [viewLoading$]="dataSource.loading$">
             </kt-portlet-header>
             <!-- end::Header -->
             <kt-portlet-body>
@@ -21,7 +21,7 @@
                             <div class="form-group row">
                                 <div class="col-lg-4 kt-margin-bottom-20-mobile">
                                     <mat-form-field class="mat-form-field-fluid">
-                                        <mat-select placeholder="Role" formControlName="RoleId">
+                                        <mat-select placeholder="Role" formControlName="roleId">
                                             <mat-option value="3">Role 1</mat-option>
                                             <mat-option value="4">Role 2</mat-option>
                                         </mat-select>
@@ -46,31 +46,11 @@
                             </div>
                 
                         </div>
-                        <!-- <div class="card-footer">
-                            <div class="d-flex justify-content-between">
-                                <div class="mr-2"></div>
-                                <div>
-                                    <button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
-                                        Search
-                                    </button>
-                                </div>
-                            </div>
-                        </div> -->
+                       
                     </form>
                    
                 </div>
-            </kt-portlet-body>
-            <!-- end::Body -->
-        </kt-portlet>
-    </div>
-    <div class="col-lg-12 kt-margin-bottom-20-mobile">
-        <kt-portlet>
-            <!-- See prop => '../../_core/models/data-sources/_base.datasource.ts' (loading$) -->
-            <!-- <kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Staff List'"
-                [viewLoading$]="dataSource.loading$">
-            </kt-portlet-header> -->
-            <!-- end::Header -->
-            <kt-portlet-body>
+    
                 <!-- start::FILTERS -->
                 <div class="kt-form__filtration">
                     <div class="row align-items-center">
@@ -178,5 +158,5 @@
             <!-- end::Body -->
 
         </kt-portlet>
-    </div>
-</div>
+    <!-- </div>
+</div> -->

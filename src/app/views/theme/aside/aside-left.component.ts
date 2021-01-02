@@ -14,7 +14,7 @@ import * as objectPath from 'object-path';
 // Layout
 import { LayoutConfigService, MenuAsideService, MenuOptions, OffcanvasOptions } from '../../../core/_base/layout';
 import { HtmlClassService } from '../html-class.service';
-
+import { RolePermissionService } from 'src/app/core/role_permission';
 @Component({
   selector: 'kt-aside-left',
   templateUrl: './aside-left.component.html',
@@ -60,6 +60,8 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
     }
   };
 
+  
+  // menuList:any;
   /**
    * Component Constructor
    *
@@ -76,14 +78,18 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
     public layoutConfigService: LayoutConfigService,
     private router: Router,
     private render: Renderer2,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private rolePermissionService: RolePermissionService
   ) {
+    console.log("Menus List");
+    console.log(this.menuAsideService.menuList$);
   }
 
   ngAfterViewInit(): void {    
   }
 
   ngOnInit() {
+    // this.getDynamicMenuConfig();
     this.currentRouteUrl = this.router.url.split(/[?#]/)[0];
 
     this.router.events
@@ -110,6 +116,20 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
       this.offcanvas = new KTOffcanvas(this.asideMenuOffcanvas.nativeElement, this.menuCanvasOptions);
     });
   }
+
+  // getDynamicMenuConfig() {
+  //   // const roleName= localStorage.getItem('schoolRoleConfig');
+  //   this.rolePermissionService.getAllPermissionsByRole().subscribe(res => {
+  //     // console.log(res);
+  //     const data=res['data'];
+  //     this.menusList=data['content'];
+  //     console.log(this.menusList);
+  //   }, err => {
+
+  //   })
+
+  // }
+
 
   getAsideLogo() {
     let result = 'logo-light.png';
@@ -249,4 +269,55 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
       this.offcanvas.hide(); // Hide offcanvas after general link click
     }
   }
+
+
+
+
+// Dyanmic 
+// isMenuItemIsActive(item): boolean {
+//   if (item.submenu) {	   
+//     return this.isMenuRootItemIsActive(item);	  
+// // console.log(item)
+// // console.log(flag)
+//     return flag
+//   }	    
+
+//   if (!item.page) {	   
+
+//   return this.currentRouteUrl.indexOf(item.page) !== -1;	  
+// }	  
+// }
+// isMenuRootItemIsActive(item): boolean {
+//   let result = false;	   
+
+//   for (const subItem of item.submenu) {	   
+//     result = this.isMenuItemIsActive(subItem);	     
+//     // console.log(item)
+//     // console.log(result)
+//     if (result) {	     
+//       return true;	        
+//     }	      
+
+//   return false;	    
+// }	  
+// }
+
+//   getItemCssClasses(item) {
+//     // console.log(item);
+//     let classes = 'menu-item';	   
+//     if (objectPath.get(item, 'submenu')) {	   
+//       classes += ' menu-item-submenu';	    
+//     }	    
+//     if (!item.submenu && this.isMenuItemIsActive(item)) {	   
+//       classes += ' menu-item-active menu-item-here';	      
+//     }	    
+//     if (item.submenu && this.isMenuItemIsActive(item)) {	    
+//       classes += ' menu-item-open menu-item-here';	     
+//     }	    
+
+//   }
+
+
+
+
 }

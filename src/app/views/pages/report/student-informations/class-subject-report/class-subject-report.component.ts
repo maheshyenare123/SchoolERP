@@ -9,19 +9,20 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SubheaderService } from 'src/app/core/_base/layout';
 import { Store, select } from '@ngrx/store';
-import { AppState } from '../../../../core/reducers';
+import { AppState } from '../../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from 'src/app/core/academics';
+
 @Component({
-  selector: 'kt-sibling-report',
-  templateUrl: './sibling-report.component.html',
-  styleUrls: ['./sibling-report.component.scss']
+  selector: 'kt-class-subject-report',
+  templateUrl: './class-subject-report.component.html',
+  styleUrls: ['./class-subject-report.component.scss']
 })
-export class SiblingReportComponent implements OnInit {
+export class ClassSubjectReportComponent implements OnInit {
 // Table fields
 dataSource: StudentsDataSource;
-displayedColumns = ['fatherName', 'motherName', 'guardianName', 'guardianPhone', 'name', 'classSection', 'admissionDate', 'gender'];
+displayedColumns = ['class', 'section','subject', 'teacher' , 'time','roomNo'];
 @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 @ViewChild('sort1', {static: true}) sort: MatSort;
 // Filter fields
@@ -106,9 +107,9 @@ this.createForm();
 		this.router.navigate(["/report/homework-evaluation-report"])
   }
 
-//get All Class List
+ //get All Class List
  
-loadAllClasses() {
+ loadAllClasses() {
   debugger
   this.studentClassService.getAllStudentClasss().subscribe(res => {
     const data = res['data'];
@@ -286,4 +287,3 @@ restoreState(queryParams: QueryParamsModel, id: number) {
 }
 
 }
-

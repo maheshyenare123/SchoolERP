@@ -14,19 +14,19 @@ export class LibraryReportComponent implements OnInit {
   }
 
   bookIssueReport() {
-		this.router.navigate(["/report/book-issue-report"])
+		this.router.navigate(["/report/book_issue_report"])
   }
 
   bookDueReport() {
-		this.router.navigate(["/report/book-due-report"])
+		this.router.navigate(["/report/book_due_report"])
   }
 
   bookInventoryReport() {
-		this.router.navigate(["/report/book-inventory-report"])
+		this.router.navigate(["/report/book_inventory_report"])
   }
 
   bookIssueReturnReport() {
-		this.router.navigate(["/report/book-issue-return-report"])
+		this.router.navigate(["/report/book-issue_return_report"])
   }
 
 }

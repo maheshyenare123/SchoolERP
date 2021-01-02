@@ -14,7 +14,16 @@ export class Constants {
    public static HOLIDAY: string = 'holiday';
    public static PRESENT: string = 'present';
 
-
+   public static Authentication: any = {
+      Login: 'auth/login',
+   }
+   public static  Role_permission: any = {
+      // by rolename
+      // Permission:'api/permission', 
+      Role:'api/role',
+      Permission:'api/permission/groups-category'
+   }
+  
    public static Front_Office: any = {
       Admission_Enquiry: 'api/enquiry',
       Complain: 'api/complaint',
@@ -153,10 +162,6 @@ export class Constants {
       Email:'api/email',
       Sms:'api/sms',
 
-   
-   
-
-      
       }
 
 }

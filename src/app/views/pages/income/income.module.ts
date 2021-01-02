@@ -40,15 +40,15 @@ const routes: Routes = [
 				pathMatch: 'full'
       },
       {
-				path: 'add-income',
+				path: 'add_income',
 				component: AddIncomeComponent
       },
       {
-				path: 'search-income',
+				path: 'search_income',
 				component: SearchIncomeComponent
       },
       {
-				path: 'income-head',
+				path: 'income_head',
 				component: IncomeHeadComponent
       },
       

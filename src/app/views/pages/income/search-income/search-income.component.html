@@ -39,16 +39,7 @@
                                             </mat-error>
                                         </mat-form-field>
                                     </div>
-                                    <!-- OR
-                                    <div class="col-lg-4 kt-margin-bottom-20-mobile">
-                                        <mat-form-field class="mat-form-field-fluid">
-                                            <input matInput placeholder="Enter Search Text" formControlName="searchText" />
-                                            <mat-error> Search Text is
-                                                <strong>required</strong>
-                                            </mat-error>
-                                            
-                                        </mat-form-field>
-                                    </div> -->
+                                
                                     <div class="col-lg-4 kt-margin-bottom-20-mobile">
                                         <button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
                                             Search
@@ -57,34 +48,12 @@
                                 </div>
                     
                             </div>
-                            <!-- <div class="card-footer">
-                                <div class="d-flex justify-content-between">
-                                    <div class="mr-2"></div>
-                                    <div>
-                                        <button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
-                                            Search
-                                        </button>
-                                    </div>
-                                </div>
-                            </div> -->
+                            
                         </form>
                     
     
                     </div>
-                </kt-portlet-body>
-
-
-
-
-
-
-
-            <!-- See prop => '../../_core/models/data-sources/_base.datasource.ts' (loading$) -->
-            <!-- <kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Income List'"
-                >
-            </kt-portlet-header> -->
-            <!-- end::Header -->
-            <kt-portlet-body>
+               
                 <!-- start::FILTERS -->
                 <!-- <div class="kt-form__filtration">
                     <div class="row align-items-center">

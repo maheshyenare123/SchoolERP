@@ -45,27 +45,27 @@ const routes: Routes = [
 				pathMatch: 'full'
       },
       {
-				path: 'item-category',
+				path: 'item_category',
 				component: ItemCategoryComponent
       },
       {
-				path: 'add-item',
+				path: 'add_item',
 				component: AddItemComponent
       },
       {
-				path: 'item-store',
+				path: 'item_store',
 				component: ItemStoreComponent
       },
       {
-				path: 'item-supplier',
+				path: 'item_supplier',
 				component: ItemSupplierComponent
       },
       {
-				path: 'item-stock',
+				path: 'item_stock',
 				component: ItemStockComponent
       },
       {
-				path: 'item-issue',
+				path: 'item_issue',
 				component: ItemIssueListComponent
       },
     ] 

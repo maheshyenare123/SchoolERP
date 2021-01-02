@@ -1,89 +1,59 @@
 <div class="form-group kt-form__group row">
-    
+
     <div class="col-lg-12 kt-margin-bottom-20-mobile">
         <kt-portlet>
 
-               <kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Expense Search'"  [viewLoading$]="dataSource.loading$">
-                </kt-portlet-header>
-                <!-- end::Header -->
-                <kt-portlet-body>
-                    <div class="kt-form kt-margin-b-30">
-                        <form class="form" [formGroup]="searchForm">
-                            <div class="card-body">
-                    
-                                <div class="card-body-progress">
-                                    <mat-spinner [diameter]="20"></mat-spinner>
-                                </div>
-                    
-                                <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
-                                    Oh snap! Change a few things up and try submitting again.
-                                </kt-alert>
-                    
-                                <div class="form-group row">
-                                    <div class="col-lg-4 kt-margin-bottom-20-mobile">
-                                        <mat-form-field class="mat-form-field-fluid">
-                                            <mat-select placeholder="Select Search Type" formControlName="searchType" >
-                                                <mat-option value="Today">Today</mat-option>
-                                                <mat-option value="This Week">This Week</mat-option>
-                                                <mat-option value="Last Week">Last Week</mat-option>
-                                                <mat-option value="This Month">This Month</mat-option>
-                                                <mat-option value="Last Month">Last Month</mat-option>
-                                                <mat-option value="Last 3 Months">Last 3 Months</mat-option>
-                                                <mat-option value="Last 6 Months">Last 6 Months</mat-option>
-                                                <mat-option value="Last 12 Months">Last 12 Months</mat-option>
-                                                <mat-option value="This Year">This Year</mat-option>
-                                                <mat-option value="Last Year">Last Year</mat-option>
-                                            </mat-select>
-                                            <mat-error>Search Type
-                                                <strong>is required</strong>
-                                            </mat-error>
-                                        </mat-form-field>
-                                    </div>
-                                    <!-- OR
-                                    <div class="col-lg-4 kt-margin-bottom-20-mobile">
-                                        <mat-form-field class="mat-form-field-fluid">
-                                            <input matInput placeholder="Enter Search Text" formControlName="searchText" />
-                                            <mat-error> Search Text is
-                                                <strong>required</strong>
-                                            </mat-error>
-                                            
-                                        </mat-form-field>
-                                    </div> -->
-                                    <div class="col-lg-4 kt-margin-bottom-20-mobile">
-                                        <button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
-                                            Search
-                                        </button>
-                                    </div>
-                                </div>
-                    
-                            </div>
-                            <!-- <div class="card-footer">
-                                <div class="d-flex justify-content-between">
-                                    <div class="mr-2"></div>
-                                    <div>
-                                        <button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
-                                            Search
-                                        </button>
-                                    </div>
-                                </div>
-                            </div> -->
-                        </form>
-                    
-    
-                    </div>
-                </kt-portlet-body>
-
-
-
-
-
-
-
-            <!-- See prop => '../../_core/models/data-sources/_base.datasource.ts' (loading$) -->
-            <!-- <kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Expense List'">
-            </kt-portlet-header> -->
+            <kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Expense Search'"
+                [viewLoading$]="dataSource.loading$">
+            </kt-portlet-header>
             <!-- end::Header -->
             <kt-portlet-body>
+                <div class="kt-form kt-margin-b-30">
+                    <form class="form" [formGroup]="searchForm">
+                        <div class="card-body">
+                            <div class="card-body-progress">
+                                <mat-spinner [diameter]="20"></mat-spinner>
+                            </div>
+                            <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true"
+                                (close)="onAlertClose($event)">
+                                Oh snap! Change a few things up and try submitting again.
+                            </kt-alert>
+                            <div class="form-group row">
+                                <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-select placeholder="Select Search Type" formControlName="searchType">
+                                            <mat-option value="Today">Today</mat-option>
+                                            <mat-option value="This Week">This Week</mat-option>
+                                            <mat-option value="Last Week">Last Week</mat-option>
+                                            <mat-option value="This Month">This Month</mat-option>
+                                            <mat-option value="Last Month">Last Month</mat-option>
+                                            <mat-option value="Last 3 Months">Last 3 Months</mat-option>
+                                            <mat-option value="Last 6 Months">Last 6 Months</mat-option>
+                                            <mat-option value="Last 12 Months">Last 12 Months</mat-option>
+                                            <mat-option value="This Year">This Year</mat-option>
+                                            <mat-option value="Last Year">Last Year</mat-option>
+                                        </mat-select>
+                                        <mat-error>Search Type
+                                            <strong>is required</strong>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                    <button type="button" mat-raised-button color="primary" (click)="onSearch()"
+                                        [disabled]="viewLoading" matTooltip="Save changes">
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </form>
+
+
+                </div>
+
                 <!-- start::FILTERS -->
                 <!-- <div class="kt-form__filtration">
                     <div class="row align-items-center">
@@ -101,7 +71,7 @@
                     </div>
                 </div> -->
                 <!-- end::FILTERS -->
-               
+
                 <div class="mat-table__wrapper">
                     <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource" matSort #sort1="matSort"
                         matSortActive="id" matSortDirection="asc" matSortDisableClear>
@@ -109,7 +79,7 @@
                             <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
                             <mat-cell *matCellDef="let expense;let i=index">{{i+1}}</mat-cell>
                         </ng-container>
-                       
+
                         <ng-container matColumnDef="name">
                             <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Name
                             </mat-header-cell>
@@ -130,14 +100,14 @@
                             </mat-header-cell>
                             <mat-cell *matCellDef="let expense">{{expense.date}}</mat-cell>
                         </ng-container>
-                        
+
                         <ng-container matColumnDef="amount">
                             <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Amount
                             </mat-header-cell>
                             <mat-cell *matCellDef="let expense">{{expense.amount}}</mat-cell>
                         </ng-container>
-                        
-                       
+
+
 
 
 

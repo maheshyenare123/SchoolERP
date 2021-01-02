@@ -87,27 +87,27 @@ export class MenuConfig {
           submenu: [
             {
               title: 'Admission Enquiry',
-              page: '/front-office/admissionenqury'
+              page: '/front_office/admissionenqury'
             },
             {
               title: 'Visitor Book',
-              page: '/front-office/visitorbook'
+              page: '/front_office/visitorbook'
             },
             {
               title: 'Phone Call Log',
-              page: '/front-office/phonecalllog'
+              page: '/front_office/phonecalllog'
             },
             {
               title: 'Postal Dispatch',
-              page: '/front-office/postaldispatch'
+              page: '/front_office/postaldispatch'
             },{
               title: 'Postal Receive',
-              page: '/front-office/postalreceive'
+              page: '/front_office/postalreceive'
             },
             
             {
               title: 'Complain',
-              page: '/front-office/complain'
+              page: '/front_office/complain'
             },
             {
               title: 'Setup Front Office ',
@@ -115,20 +115,20 @@ export class MenuConfig {
               submenu: [
                 {
                   title: 'Purpose',
-                  page: '/front-office/setup-front-office/purpose',
+                  page: '/front_office/setup_front_office/purpose',
                   // permission: 'accessToECommerceModule'
                 },
                 {
                   title: 'Complain Type',
-                  page: '/front-office/setup-front-office/complaintype',
+                  page: '/front_office/setup_front_office/complaintype',
                 },
                 {
                   title: 'Source',
-                  page: '/front-office/setup-front-office/source',
+                  page: '/front_office/setup_front_office/source',
                 },
                 {
                   title: 'Reference',
-                  page: '/front-office/setup-front-office/reference',
+                  page: '/front_office/setup_front_office/reference',
                 },
                 
               ]
@@ -143,11 +143,11 @@ export class MenuConfig {
           submenu: [
             {
               title: 'Student Details ',
-              page: '/student-information/student-details'
+              page: '/student_information/student_details'
             },
             {
               title: 'Student Admission',
-              page: '/student-information/student-details-edit/:id'
+              page: '/student_information/student_details_edit/:id'
             },
             // {
             //   title: 'Online Admission',
@@ -163,15 +163,15 @@ export class MenuConfig {
             // },
             {
               title: 'Student Categories',
-              page: '/student-information/student-categories'
+              page: '/student_information/student_categories'
             },
             {
               title: 'Student House',
-              page: '/student-information/student-house'
+              page: '/student_information/student_house'
             },
             {
               title: 'Disable Reason',
-              page: '/student-information/disable-reason'
+              page: '/student_information/disable_reason'
             },
            
             
@@ -185,16 +185,16 @@ export class MenuConfig {
             
             {
               title: 'Class Timetable',
-              page: '/academics/class-timetable'
+              page: '/academics/class_timetable'
             },
 
             {
               title: 'Teacher Timetable',
-              page: '/academics/teacher-timetable'
+              page: '/academics/teacher_timetable'
             },
             {
               title: 'Assign Class Teacher',
-              page: '/academics/assign-class-teacher'
+              page: '/academics/assign_class_teacher'
             },
             
             {
@@ -211,7 +211,7 @@ export class MenuConfig {
             },
             {
               title: 'Subject Group',
-              page: '/academics/subject-group'
+              page: '/academics/subject_group'
             },
             
           ]
@@ -224,15 +224,15 @@ export class MenuConfig {
             
             {
               title: 'Student Attendance',
-              page: '/attendance/student-attendance'
+              page: '/attendance/student_attendance'
             },
             {
               title: 'Attendance By Date',
-              page: '/attendance/attendance-by-date'
+              page: '/attendance/attendance_by_date'
             },
             {
               title: 'Approve Leave',
-              page: '/attendance/approve-leave'
+              page: '/attendance/approve_leave'
             },
             
           ]
@@ -246,7 +246,7 @@ export class MenuConfig {
             
             {
               title: 'Homework',
-              page: '/homework/homework-list'
+              page: '/homework/homework_list'
             },
             
           ]
@@ -260,19 +260,19 @@ export class MenuConfig {
             
             {
               title: 'Book List',
-              page: '/library/book-list'
+              page: '/library/book_list'
             },
             {
               title: 'Issue Return',
-              page: '/library/library-member-list'
+              page: '/library/library_member_list'
             },
             {
               title: 'Library Student Member',
-              page: '/library/library-student-member'
+              page: '/library/library_student_member'
             },
             {
               title: 'Library Staff Member',
-              page: '/library/library-staff-member'
+              page: '/library/library_staff_member'
             },
             
 
@@ -289,49 +289,49 @@ export class MenuConfig {
            
             {
               title: 'Add Staff',
-              page: '/human-resource/staff'
+              page: '/human_resource/staff'
             },
             {
               title: 'Staff Directory',
-              page: '/human-resource/staff-directory'
+              page: '/human_resource/staff_directory'
             },
             {
               title: 'Staff Attendance',
-              page: '/human-resource/staff-attendance'
+              page: '/human_resource/staff_attendance'
             },
             {
               title: 'Apply Leave',
-              page: '/human-resource/apply-leave'
+              page: '/human_resource/apply_leave'
             },
             {
               title: 'Approve Leave Request',
-              page: '/human-resource/approve-leave-request'
+              page: '/human_resource/approve_leave_request'
             },
             
             {
               title: 'Leave Type',
-              page: '/human-resource/leave-type'
+              page: '/human_resource/leave_type'
             },
             {
               title: 'Department',
-              page: '/human-resource/department'
+              page: '/human_resource/department'
             },
             {
               title: 'Designation',
-              page: '/human-resource/designation'
+              page: '/human_resource/designation'
             },
             {
               title: 'Payroll',
-              page: '/human-resource/payroll'
+              page: '/human_resource/payroll'
             },
             
             {
               title: 'Disabled Staff',
-              page: '/human-resource/disabled-staff'
+              page: '/human_resource/disabled_staff'
             },
             {
               title: 'Staff Rating',
-              page: '/human-resource/staff-rating'
+              page: '/human_resource/staff_rating'
             },
 
             
@@ -347,38 +347,38 @@ export class MenuConfig {
             
             {
               title: 'Fees Type',
-              page: '/fees-collection/fees-type'
+              page: '/fees_collection/fees_type'
             },
             {
               title: 'Fees Group',
-              page: '/fees-collection/fees-group'
+              page: '/fees_collection/fees_group'
             },
             {
               title: 'Fees Discount',
-              page: '/fees-collection/fees-discount'
+              page: '/fees_collection/fees_discount'
             },
             {
               title: 'Fees Master',
-              page: '/fees-collection/fees-master'
+              page: '/fees_collection/fees_master'
             },
             
             {
               title: 'Fees Collect',
-              page: '/fees-collection/fees-collect'
+              page: '/fees_collection/fees_collect'
             },
 
             {
               title: 'Search Fees Payment',
-              page: '/fees-collection/search-fees-payment'
+              page: '/fees_collection/search_fees_payment'
             },
 
             {
               title: 'Search Due Fees',
-              page: '/fees-collection/search-due-fees'
+              page: '/fees_collection/search_due_fees'
             },
             {
               title: 'Fees Reminder',
-              page: '/fees-collection/fees-reminder'
+              page: '/fees_collection/fees_reminder'
             },
             
           ]
@@ -393,15 +393,15 @@ export class MenuConfig {
             
             {
               title: 'Add Income',
-              page: '/income/add-income'
+              page: '/income/add_income'
             },
             {
               title: 'Search Income',
-              page: '/income/search-income'
+              page: '/income/search_income'
             },
             {
               title: 'Income Head',
-              page: '/income/income-head'
+              page: '/income/income_head'
             },
             
           ]
@@ -415,15 +415,15 @@ export class MenuConfig {
             
             {
               title: 'Add Expense',
-              page: '/expense/add-expense'
+              page: '/expense/add_expense'
             },
             {
               title: 'Search Expense',
-              page: '/expense/search-expense'
+              page: '/expense/search_expense'
             },
             {
               title: 'Expense Head',
-              page: '/expense/expense-head'
+              page: '/expense/expense_head'
             },
             
           ]
@@ -446,7 +446,7 @@ export class MenuConfig {
             },
             {
               title: 'Assign Vehicle',
-              page: '/transport/assign-vehicle'
+              page: '/transport/assign_vehicle'
             },
             
           ]
@@ -465,11 +465,11 @@ export class MenuConfig {
             },
             {
               title: 'Room Type',
-              page: '/hostel/room-type'
+              page: '/hostel/room_type'
             },
             {
               title: 'Hostel Room',
-              page: '/hostel/hostel-room'
+              page: '/hostel/hostel_room'
             },
             
           ]
@@ -483,27 +483,27 @@ export class MenuConfig {
             
             {
               title: 'Item Category',
-              page: '/inventory/item-category'
+              page: '/inventory/item_category'
             },
             {
               title: 'Add Item',
-              page: '/inventory/add-item'
+              page: '/inventory/add_item'
             },
             {
               title: 'Item Store',
-              page: '/inventory/item-store'
+              page: '/inventory/item_store'
             },
             {
               title: 'Item Supplier',
-              page: '/inventory/item-supplier'
+              page: '/inventory/item_supplier'
             },
             {
               title: 'Item Stock',
-              page: '/inventory/item-stock'
+              page: '/inventory/item_stock'
             },
             {
               title: 'Item Issue',
-              page: '/inventory/item-issue'
+              page: '/inventory/item_issue'
             },
             
           ]
@@ -517,7 +517,7 @@ export class MenuConfig {
             
             {
               title: 'Exam Group',
-              page: '/examination/exam-group'
+              page: '/examination/exam_group'
             },
             // {
             //   title: 'Exam',
@@ -525,15 +525,15 @@ export class MenuConfig {
             // },
             {
               title: 'Exam Schedule',
-              page: '/examination/exam-schedule'
+              page: '/examination/exam_schedule'
             },  
             {
               title: 'Exam Subject Marks',
-              page: '/examination/examSubjectMarks/:examId/:examSubjectId/:examGroupId'
+              page: '/examination/exam_subject_marks/:examId/:examSubjectId/:examGroupId'
             },
             {
               title: 'Exam Result',
-              page: '/examination/exam-result'
+              page: '/examination/exam_result'
             },  
 
             
@@ -549,7 +549,7 @@ export class MenuConfig {
           submenu: [
             {
               title: 'Certificate Design',
-              page: '/certificate/certificate-design'
+              page: '/certificate/certificate_design'
             },
           ]
         },
@@ -564,19 +564,19 @@ export class MenuConfig {
             
             {
               title: 'Notice Board',
-              page: '/communication/notice-board'
+              page: '/communication/notice_board'
             },
             {
               title: 'Send Email',
-              page: '/communication/send-email'
+              page: '/communication/send_email'
             },
             {
               title: 'Send Sms',
-              page: '/communication/send-sms'
+              page: '/communication/send_sms'
             },  
             {
               title: 'Email Sms Log',
-              page: '/communication/email-sms-log'
+              page: '/communication/email_sms_log'
             },  
 
             
@@ -591,7 +591,7 @@ export class MenuConfig {
             
             {
               title: 'Student Information',
-              page: '/report/student-information'
+              page: '/report/student_information'
             },
             {
               title: 'Finance',
@@ -602,26 +602,26 @@ export class MenuConfig {
             
             {
               title: 'Human Resource',
-              page: '/report/human-resource-report'
+              page: '/report/human_resource_report'
             },
 
             {
               title: 'Library',
-              page: '/report/library-report'
+              page: '/report/library_report'
             },
 
             {
               title: 'Inventory',
-              page: '/report/inventory-report'
+              page: '/report/inventory_report'
             },
 
             {
               title: 'Transport',
-              page: '/report/transport-report'
+              page: '/report/transport_report'
             },
             {
               title: 'Hostel',
-              page: '/report/hostel-report'
+              page: '/report/hostel_report'
             },
             
           ]
@@ -636,31 +636,31 @@ export class MenuConfig {
             
             {
               title: 'Roles Permissions',
-              page: '/system-setting/roles'
+              page: '/system_setting/roles'
             },
             {
               title: 'Session Setting',
-              page: '/system-setting/sessions'
+              page: '/system_setting/sessions'
             },
             {
               title: 'Email Setting',
-              page: '/system-setting/email_setting'
+              page: '/system_setting/email_setting'
             },  
             {
               title: 'Sms Setting',
-              page: '/system-setting/sms_setting'
+              page: '/system_setting/sms_setting'
             },
             {
               title: 'Backup Restore',
-              page: '/system-setting/backup_restore'
+              page: '/system_setting/backup_restore'
             },  
             {
               title: 'Notification Setting',
-              page: '/system-setting/notification_setting'
+              page: '/system_setting/notification_setting'
             },  
             {
               title: 'Users',
-              page: '/system-setting/users'
+              page: '/system_setting/users'
             }, 
           ]
         },

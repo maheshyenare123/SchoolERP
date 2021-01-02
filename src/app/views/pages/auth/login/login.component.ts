@@ -11,8 +11,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
 // Auth
-import { AuthNoticeService, AuthService, Login } from '../../../../core/auth';
+import { AuthNoticeService, AuthService, Login, UserLoaded, UserRequested  } from '../../../../core/auth';
 import { AuthLoginService } from './auth-login.service';
+import { RolePermissionService, RolesModel } from 'src/app/core/role_permission';
+
 
 /**
  * ! Just example => Should be removed in development
@@ -62,6 +64,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 		private cdr: ChangeDetectorRef,
 		private route: ActivatedRoute,
 		private authloginservice: AuthLoginService,
+		private rolePermissionService:RolePermissionService,
 	) {
 		this.unsubscribe = new Subject();
 	}
@@ -145,7 +148,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 			//  console.log(this.jwtauth.getSessionID());
 			console.log('success');
 			alert('Login Successfully');
-
+			this.getDynamicMenuConfig();
 			this.templateLogin();
 
 
@@ -171,6 +174,20 @@ export class LoginComponent implements OnInit, OnDestroy {
 		this.login();
 		
 	}
+	getDynamicMenuConfig() {
+		// const roleName= localStorage.getItem('schoolRoleConfig');
+		this.rolePermissionService.getAllPermissionsByRole().subscribe(res => {
+			debugger;
+			const data = res['data'];
+			const content = data['content'];
+			localStorage.setItem('sideMenusConfig', JSON.stringify(content));
+			console.log(content);
+		}, err => {
+
+		})
+
+	}
+
 templateLogin(){
 	debugger
 	const controls = this.loginForm.controls;

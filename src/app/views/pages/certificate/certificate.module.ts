@@ -39,7 +39,7 @@ const routes: Routes = [
 				pathMatch: 'full'
       },
       {
-				path: 'certificate-design',
+				path: 'certificate_design',
 				component: CertificateDesignComponent,
       },
       

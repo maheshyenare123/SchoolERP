@@ -7,7 +7,7 @@ import { Role } from '../_models/role.model';
 import { catchError, map } from 'rxjs/operators';
 import { QueryParamsModel, QueryResultsModel } from '../../_base/crud';
 import { environment } from '../../../../environments/environment';
-
+import { Constants } from '../../api_url';
 const API_USERS_URL = 'api/users';
 const API_PERMISSION_URL = 'api/permissions';
 const API_ROLES_URL = 'api/roles';
@@ -17,10 +17,20 @@ export class AuthService {
   constructor(private http: HttpClient) {
   }
 
-  // Authentication/Authorization
+
+
+
+  // static Authentication/Authorization
   login(email: string, password: string): Observable<User> {
     return this.http.post<User>(API_USERS_URL, {email, password});
   }
+  // dyanamic login Authentication/Authorization
+  // login(email: string, password: string): Observable<User> {	 
+  //   return this.http.post<User>(API_USERS_URL, {email, password});	    
+  // }	  
+
+
+
 
   getUserByToken(): Observable<User> {
     const userToken = localStorage.getItem(environment.authTokenKey);

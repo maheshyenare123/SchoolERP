@@ -7,8 +7,7 @@ export class PageConfig {
       },
     },
 
-    'front-office': {
-
+    'front_office': {
       admissionenqury: {
         page: { title: 'Admission Enquiry', desc: '' }
       },
@@ -29,7 +28,7 @@ export class PageConfig {
         page: { title: 'Complain', desc: '' }
       },
 
-      'setup-front-office': {
+      'setup_front_office': {
         purpose: {
           page: { title: 'Purpose', desc: '' }
         },
@@ -45,12 +44,12 @@ export class PageConfig {
       },
 
     },
-    'student-information': {
+    'student_information': {
 
-      'student-details': {
+      'student_details': {
         page: { title: 'Student Details', desc: '' }
       },
-      'student-details-edit/:id': {
+      'student_details_edit/:id': {
         page: { title: 'Student Admission', desc: '' }
       },
       // 'online-admission': {
@@ -62,13 +61,13 @@ export class PageConfig {
       // 'bulk-delete': {
       //   page: { title: 'Bulk Delete', desc: '' }
       // },
-      'student-categories': {
+      'student_categories': {
         page: { title: 'Student Categories', desc: '' }
       },
-      'student-house': {
+      'student_house': {
         page: { title: 'Student House', desc: '' }
       },
-      'disable-reason': {
+      'disable_reason': {
         page: { title: 'Disable Reason', desc: '' }
       },
       
@@ -77,13 +76,13 @@ export class PageConfig {
     },
     'academics': {
       
-      'class-timetable': {
+      'class_timetable': {
         page: { title: 'Class Timetable', desc: '' }
       },
-      'teacher-timetable': {
+      'teacher_timetable': {
         page: { title: 'Teacher Timetable', desc: '' }
       },
-      'assign-class-teacher': {
+      'assign_class_teacher': {
         page: { title: 'Assign Class Teacher', desc: '' }
       },
       'class': {
@@ -95,46 +94,46 @@ export class PageConfig {
       'subject': {
         page: { title: 'Subject', desc: '' }
       },
-      'subject-group': {
+      'subject_group': {
         page: { title: 'Subject Group', desc: '' }
       },
          
     },
     'attendance': {
-      'student-attendance': {
+      'student_attendance': {
         page: { title: 'Student Attendance', desc: '' }
       },
-      'attendance-by-date': {
+      'attendance_by_date': {
         page: { title: 'Attendance By Date', desc: '' }
       },
-      'approve-leave': {
+      'approve_leave': {
         page: { title: 'Approve Leave', desc: '' }
       },
     },
     'homework': {
-      'homework-list': {
+      'homework_list': {
         page: { title: 'Home Work', desc: '' }
       },
       
     },
     'library': {
-      'book-list': {
+      'book_list': {
         page: { title: 'Book List', desc: '' }
       },
-      'library-member-list': {
+      'library_member_list': {
         page: { title: 'Issue Return', desc: '' }
       },
-      'library-student-member': {
+      'library_student_member': {
         page: { title: 'Library Student Member', desc: '' }
       },
-      'library-staff-member': {
+      'library_staff_member': {
         page: { title: 'Library Staff Member', desc: '' }
       },
     
       
     },
 
-    'human-resource': {
+    'human_resource': {
       staff: {
         edit: {
           page: { title: 'Edit Staff', desc: '' }
@@ -147,19 +146,19 @@ export class PageConfig {
       // 'staff': {
       //   page: { title: 'Add Staff', desc: '' }
       // },
-      'staff-directory': {
+      'staff_directory': {
         page: { title: 'Staff Directory', desc: '' }
       },
-      'staff-attendance': {
+      'staff_attendance': {
         page: { title: 'Staff Attendance', desc: '' }
       },
-      'apply-leave': {
+      'apply_leave': {
         page: { title: 'Apply Leave', desc: '' }
       },
-      'approve-leave-request': {
+      'approve_leave_request': {
         page: { title: 'Approve Leave Request', desc: '' }
       },
-      'leave-type': {
+      'leave_type': {
         page: { title: 'Leave Type', desc: '' }
       },
       'department': {
@@ -171,66 +170,66 @@ export class PageConfig {
       'payroll': {
         page: { title: 'Payroll', desc: '' }
       },
-      'disabled-staff': {
+      'disabled_staff': {
         page: { title: 'Disabled Staff', desc: '' }
       },
-      'staff-rating': {
+      'staff_rating': {
         page: { title: 'Staff Rating', desc: '' }
       },
       
     },
 
-    'fees-collection': {
+    'fees_collection': {
       
-      'fees-type': {
+      'fees_type': {
         page: { title: 'Fees Type', desc: '' }
       },
-      'fees-group': {
+      'fees_group': {
         page: { title: 'Fees Group', desc: '' }
       },
-      'fees-discount': {
+      'fees_discount': {
         page: { title: 'Fees Discount', desc: '' }
       },
-      'fees-master': {
+      'fees_master': {
         page: { title: 'Fees Master', desc: '' }
       },
-      'fees-collect': {
+      'fees_collect': {
         page: { title: 'Fees Collect', desc: '' }
       },
-      'search-fees-payment': {
+      'search_fees_payment': {
         page: { title: 'Search Fees Payment', desc: '' }
       },
-      'search-due-fees': {
+      'search_due_fees': {
         page: { title: 'Search Due Fees', desc: '' }
       },
       
       
-      'fees-reminder': {
+      'fees_reminder': {
         page: { title: 'Fees Reminder', desc: '' }
       },
       
     },
 
     'income': {
-      'add-income': {
+      'add_income': {
         page: { title: 'Add Income', desc: '' }
       },
-      'search-income': {
+      'search_income': {
         page: { title: 'Search Income', desc: '' }
       },
-      'income-head': {
+      'income_head': {
         page: { title: 'Income Head', desc: '' }
       },
     },
 
     'expense': {
-      'add-expense': {
+      'add_expense': {
         page: { title: 'Add Expense', desc: '' }
       },
-      'search-expense': {
+      'search_expense': {
         page: { title: 'Search Expense', desc: '' }
       },
-      'expense-head': {
+      'expense_head': {
         page: { title: 'Expense Head', desc: '' }
       },
     },
@@ -242,7 +241,7 @@ export class PageConfig {
       'vehicles': {
         page: { title: 'Vehicles', desc: '' }
       },
-      'assign-vehicle': {
+      'assign_vehicle': {
         page: { title: 'Assign Vehicle', desc: '' }
       },
     },
@@ -252,48 +251,48 @@ export class PageConfig {
       'hostel': {
         page: { title: 'Hostel', desc: '' }
       },
-      'room-type': {
+      'room_type': {
         page: { title: 'Room Type', desc: '' }
       },
-      'hostel-room': {
+      'hostel_room': {
         page: { title: 'Hostel Room', desc: '' }
       },
     },
     'inventory': {
-      'item-category': {
+      'item_category': {
         page: { title: 'Item Category', desc: '' }
       },
-      'add-item': {
+      'add_item': {
         page: { title: 'Add Item', desc: '' }
       },
-      'item-store': {
+      'item_store': {
         page: { title: 'Item Store', desc: '' }
       },
-      'item-supplier': {
+      'item_supplier': {
         page: { title: 'Item Supplier', desc: '' }
       },
-      'item-stock': {
+      'item_stock': {
         page: { title: 'Item Stock', desc: '' }
       },
-      'item-issue': {
+      'item_issue': {
         page: { title: 'Item Issue', desc: '' }
       },
     },
     
     'examination': {
-      'exam-group': {
+      'exam_group': {
         page: { title: 'Exam Group', desc: '' }
       },
-      'exam-schedule': {
+      'exam_schedule': {
         page: { title: 'Exam Schedule', desc: '' }
       },
       'exam/:id': {
         page: { title: 'Exam', desc: '' }
       },
-      'examSubjectMarks/:examId/:examSubjectId/:examGroupId': {
+      'exam_subject_marks/:examId/:examSubjectId/:examGroupId': {
         page: { title: 'Exam Subject Marks', desc: '' }
       },
-      'exam-result': {
+      'exam_result': {
         page: { title: 'Exam Result', desc: '' }
       },
 
@@ -301,57 +300,57 @@ export class PageConfig {
     },
 
     'certificate': {
-      'certificate-design': {
+      'certificate_design': {
         page: { title: 'Certificate Design', desc: '' }
       },
       
     },
 
     'communication': {
-      'notice-board': {
+      'notice_board': {
         page: { title: 'Notice Board', desc: '' }
       },
-      'send-email': {
+      'send_email': {
         page: { title: 'Send Email', desc: '' }
       },
-      'send-sms': {
+      'send_sms': {
         page: { title: 'Send Sms', desc: '' }
       },
-      'email-sms-log': {
+      'email_sms_log': {
         page: { title: 'Email Sms Log', desc: '' }
       },
     },
 
 
     'report': {
-      'student-information': {
+      'student_information': {
         page: { title: 'Student Information', desc: '' }
       },
-      'student-report': {
+      'student_report': {
         page: { title: 'Student Report', desc: '' }
       },
-      'guardian-report': {
+      'guardian_report': {
         page: { title: 'Guardian Report', desc: '' }
       },
-      'student-history': {
+      'student_history': {
         page: { title: 'Student History', desc: '' }
       },
-      'student-login-credential': {
+      'student_login_credential': {
         page: { title: 'Student Login Credential', desc: '' }
       },
-      'class-subject-report': {
+      'class_subject_report': {
         page: { title: 'Class Subject Report', desc: '' }
       },
-      'admission-report': {
+      'admission_report': {
         page: { title: 'Admission Report', desc: '' }
       },
-      'sibling-report': {
+      'sibling_report': {
         page: { title: 'Sibling Report', desc: '' }
       },
-      'student-profile': {
+      'student_profile': {
         page: { title: 'Student Profile', desc: '' }
       },
-      'homework-evaluation-report': {
+      'homework_evaluation_report': {
         page: { title: 'Homework Evaluation Report', desc: '' }
       },
       'finance': {
@@ -359,28 +358,28 @@ export class PageConfig {
       },
 
 
-      'fees-statement': {
+      'fees_statement': {
         page: { title: 'Fees Statement', desc: '' }
       },
-      'balance-fees-report': {
+      'balance_fees_report': {
         page: { title: 'Balance Fees Report', desc: '' }
       },
-      'fees-collection-report': {
+      'fees_collection_report': {
         page: { title: 'Fees Collection Report', desc: '' }
       },
-      'online-fees-collection-report': {
+      'online_fees_collection_report': {
         page: { title: 'Online Fees Collection Report', desc: '' }
       },
-      'income-report': {
+      'income_report': {
         page: { title: 'Income Report', desc: '' }
       },
-      'expense-report': {
+      'expense_report': {
         page: { title: 'Expense Report', desc: '' }
       },
-      'payroll-report': {
+      'payroll_report': {
         page: { title: 'Payroll Report', desc: '' }
       },
-      'income-group-report': {
+      'income_group_report': {
         page: { title: 'Income Group Report', desc: '' }
       },
       'expense-group-report': {
@@ -388,58 +387,58 @@ export class PageConfig {
       },
 
 
-      'human-resource-report': {
+      'human_resource_report': {
         page: { title: 'Human Resource', desc: '' }
       },
-      'staff-report': {
+      'staff_report': {
         page: { title: 'Staff Report', desc: '' }
       },
-      'payrolls-report': {
+      'payrolls_report': {
         page: { title: 'Payrolls Report', desc: '' }
       },
 
 
-      'library-report': {
+      'library_report': {
         page: { title: 'Library', desc: '' }
       },
-      'book-issue-report': {
+      'book_issue_report': {
         page: { title: 'Book Issue Report', desc: '' }
       },
-      'book-due-report': {
+      'book_due_report': {
         page: { title: 'Book Due Report', desc: '' }
       },
-      'book-inventory-report': {
+      'book_inventory_report': {
         page: { title: 'Book Inventory Report', desc: '' }
       },
-      'book-issue-return-report': {
+      'book_issue_return_report': {
         page: { title: 'Book Issue Return Report', desc: '' }
       },
 
 
-      'inventory-report': {
+      'inventory_report': {
         page: { title: 'Inventory', desc: '' }
       },
-      'stock-report': {
+      'stock_report': {
         page: { title: 'Stock Report', desc: '' }
       },
-      'add-item-report': {
+      'add_item_report': {
         page: { title: 'Add Item Report', desc: '' }
       },
-      'issue-item-report': {
+      'issue_item_report': {
         page: { title: 'Issue Item Report', desc: '' }
       },
 
 
-      'transport-report': {
+      'transport_report': {
         page: { title: 'Transport', desc: '' }
       },
-      'hostel-report': {
+      'hostel_report': {
         page: { title: 'Hostel', desc: '' }
       },
     },
 
 
-    'system-setting': {
+    'system_setting': {
       'roles': {
         page: { title: 'Roles Permissions', desc: '' }
       },
@@ -480,7 +479,7 @@ export class PageConfig {
         page: { title: 'Orders', desc: '' }
       }
     },
-    'user-management': {
+    'user_management': {
       users: {
         page: { title: 'Users', desc: '' }
       },

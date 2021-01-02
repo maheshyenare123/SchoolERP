@@ -23,7 +23,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { SystemSettingsComponent } from './system-settings.component';
 import { RolesPermissionsComponent } from './roles-permissions/roles-permissions.component';
 import { ModuleGuard } from 'src/app/core/auth';
-import { HttpUtilsService, InterceptService, LayoutUtilsService, TypesUtilsService } from 'src/app/core/_base/crud';//DynamicSetActionsService
+import { DynamicSetActionsService, HttpUtilsService, InterceptService, LayoutUtilsService, TypesUtilsService } from 'src/app/core/_base/crud';//DynamicSetActionsService
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { UsersComponent } from './users/users.component';
 import { EmailSettingComponent } from './email-setting/email-setting.component';
@@ -137,7 +137,7 @@ const routes: Routes = [
     TypesUtilsService,
     HttpUtilsService,
     LayoutUtilsService,
-    // DynamicSetActionsService,
+    DynamicSetActionsService,
     { provide: HTTP_INTERCEPTORS, useClass: InterceptService, multi: true },
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,

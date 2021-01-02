@@ -9,66 +9,66 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SubheaderService } from 'src/app/core/_base/layout';
 import { Store, select } from '@ngrx/store';
-import { AppState } from '../../../../core/reducers';
+import { AppState } from '../../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from 'src/app/core/academics';
 
 @Component({
-  selector: 'kt-admission-report',
-  templateUrl: './admission-report.component.html',
-  styleUrls: ['./admission-report.component.scss']
+  selector: 'kt-student-profile',
+  templateUrl: './student-profile.component.html',
+  styleUrls: ['./student-profile.component.scss']
 })
-export class AdmissionReportComponent implements OnInit {
-// Table fields
-dataSource: StudentsDataSource;
-displayedColumns = ['admissionNo', 'name', 'classSection', 'fatherName', 'dob', 'admissionDate', 'gender','category','contact'];
-@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-@ViewChild('sort1', {static: true}) sort: MatSort;
-// Filter fields
-@ViewChild('searchInput', {static: true}) searchInput: ElementRef;
-filterStatus = '';
-filterCondition = '';
-lastQuery: QueryParamsModel;
-// Selection
-selection = new SelectionModel<StudentDtoModel>(true, []);
-studentsResult: StudentDtoModel[] = [];
-private subscriptions: Subscription[] = [];
-
-  searchForm: FormGroup;
-  hasFormErrors = false;
-  viewLoading = false;
-
-  classId: number;
-  sectionId: number;
-  searchText: string;
-
-  classList: StudentClassModel[] = [];
-  sectionList: SectionDtoModel[] = [];
-
-constructor(
-  public dialog: MatDialog,
-             private activatedRoute: ActivatedRoute,
-             private router: Router,
-             private subheaderService: SubheaderService,
-             private layoutUtilsService: LayoutUtilsService,
-             private store: Store<AppState>,
-             private fb: FormBuilder,
-             private studentService: StudentService,
-             private studentClassService: StudentClassService,
-             private sectionService: SectionService,
-            
-             ) { }
+export class StudentProfileComponent implements OnInit {
+ // Table fields
+ dataSource: StudentsDataSource;
+ displayedColumns = ['rollNo','class','section', 'firstName',  'lastName', 'gender', 'dob','admissionNo', 'contact','guardianName', 'guardianRelation', 'guardianPhone', 'fatherName', 'fatherPhone', 'motherName', 'motherPhone'];
+ @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+ @ViewChild('sort1', {static: true}) sort: MatSort;
+ // Filter fields
+ @ViewChild('searchInput', {static: true}) searchInput: ElementRef;
+ filterStatus = '';
+ filterCondition = '';
+ lastQuery: QueryParamsModel;
+ // Selection
+ selection = new SelectionModel<StudentDtoModel>(true, []);
+ studentsResult: StudentDtoModel[] = [];
+ private subscriptions: Subscription[] = [];
+ 
+   searchForm: FormGroup;
+   hasFormErrors = false;
+   viewLoading = false;
+ 
+   classId: number;
+   sectionId: number;
+   searchText: string;
+ 
+   classList: StudentClassModel[] = [];
+   sectionList: SectionDtoModel[] = [];
+ 
+ constructor(
+   public dialog: MatDialog,
+              private activatedRoute: ActivatedRoute,
+              private router: Router,
+              private subheaderService: SubheaderService,
+              private layoutUtilsService: LayoutUtilsService,
+              private store: Store<AppState>,
+              private fb: FormBuilder,
+              private studentService: StudentService,
+              private studentClassService: StudentClassService,
+              private sectionService: SectionService,
+             
+              ) { }
 
 /**
-* On init
-*/
+ * On init
+ */
 ngOnInit() {
 
-this.loadAllClasses();
-// this.loadAllSectionsByClassId(1);
-this.dataSource = new StudentsDataSource(this.store);
-this.createForm();
+ this.loadAllClasses();
+ // this.loadAllSectionsByClassId(1);
+ this.dataSource = new StudentsDataSource(this.store);
+ this.createForm();
 }
 
   studentReport() {
@@ -287,3 +287,4 @@ restoreState(queryParams: QueryParamsModel, id: number) {
 }
 
 }
+

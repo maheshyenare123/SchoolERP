@@ -14,15 +14,15 @@ export class InventoryReportComponent implements OnInit {
   }
 
   stockReport() {
-		this.router.navigate(["/report/stock-report"])
+		this.router.navigate(["/report/stock_report"])
   }
   
   addItemReport() {
-		this.router.navigate(["/report/add-item-report"])
+		this.router.navigate(["/report/add_item_report"])
   }
 
   issueItemReport() {
-		this.router.navigate(["/report/issue-item-report"])
+		this.router.navigate(["/report/issue_item_report"])
   }
 
 }

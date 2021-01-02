@@ -27,23 +27,24 @@ const routes: Routes = [
         path: 'ecommerce',
         loadChildren: () => import('./views/pages/apps/e-commerce/e-commerce.module').then(m => m.ECommerceModule),
       },
-      // {
-      //   path: 'ngbootstrap',
-      //   loadChildren: () => import('./views/pages/ngbootstrap/ngbootstrap.module').then(m => m.NgbootstrapModule),
-      // },
-      // {
-      //   path: 'material',
-      //   loadChildren: () => import('./views/pages/material/material.module').then(m => m.MaterialModule),
-      // },
-       {
-          path: 'front-office',
-          loadChildren: () => import('./views/pages/front-office/front-office.module').then(m => m.FrontOfficeModule),
-        },
+      
+      //  {
+      //     path: 'front-office',
+      //     loadChildren: () => import('./views/pages/front-office/front-office.module').then(m => m.FrontOfficeModule),
+      //   },
+        {
+          path: 'front_office',	 
+          loadChildren: () => import('./views/pages/front-office/front-office.module').then(m => m.FrontOfficeModule),	       
+        },	        
+        // {
+        //   path: 'student-information',
+        //   loadChildren: () => import('./views/pages/student-information/student-information.module').then(m => m.StudentInformationModule),
+        // },
 
         {
-          path: 'student-information',
-          loadChildren: () => import('./views/pages/student-information/student-information.module').then(m => m.StudentInformationModule),
-        },
+          path: 'student_information',	         
+          loadChildren: () => import('./views/pages/student-information/student-information.module').then(m => m.StudentInformationModule),	         
+        },	        
         {
           path: 'academics',
           loadChildren: () => import('./views/pages/academics/academics.module').then(m => m.AcademicsModule),
@@ -60,14 +61,29 @@ const routes: Routes = [
           path: 'library',
           loadChildren: () => import('./views/pages/library/library.module').then(m => m.LibraryModule),
         },
+        // {
+        //   path: 'human-resource',
+        //   loadChildren: () => import('./views/pages/human-resource/human-resource.module').then(m => m.HumanResourceModule),
+        // },
+
         {
-          path: 'human-resource',
-          loadChildren: () => import('./views/pages/human-resource/human-resource.module').then(m => m.HumanResourceModule),
-        },
+          path: 'human_resource',	     
+          loadChildren: () => import('./views/pages/human-resource/human-resource.module').then(m => m.HumanResourceModule),	     
+        },	        
+
+
+        // {
+        //   path: 'fees-collection',
+        //   loadChildren: () => import('./views/pages/fees-collection/fees-collection.module').then(m => m.FeesCollectionModule),
+        // },
         {
-          path: 'fees-collection',
-          loadChildren: () => import('./views/pages/fees-collection/fees-collection.module').then(m => m.FeesCollectionModule),
-        },
+          path: 'fees_collection',	        
+          loadChildren: () => import('./views/pages/fees-collection/fees-collection.module').then(m => m.FeesCollectionModule),	      
+        },	     
+
+
+
+
         {
           path: 'income',
           loadChildren: () => import('./views/pages/income/income.module').then(m => m.IncomeModule),
@@ -108,11 +124,12 @@ const routes: Routes = [
           loadChildren: () => import('./views/pages/report/report.module').then(m => m.ReportModule),
         },
         {
-          path: 'system-setting',
+          path: 'system_setting',
           loadChildren: () => import('./views/pages/system-settings/system-settings.module').then(m => m.SystemSettingsModule),
         },
+        
       {
-        path: 'user-management',
+        path: 'user_management',
         loadChildren: () => import('./views/pages/user-management/user-management.module').then(m => m.UserManagementModule),
       },
       {

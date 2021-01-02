@@ -34,68 +34,14 @@
 					</div>
 		
 				</div>
-				<!-- <div class="card-footer">
-					<div class="d-flex justify-content-between">
-						<div class="mr-2"></div>
-						<div>
-							<button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
-								Search
-							</button>
-						</div>
-					</div>
-				</div> -->
+				
 			</form>
 		
-
 		</div>
-	</kt-portlet-body>
-
-
-
-
-
-
-
-	<!-- <kt-portlet-header [sticky]="true" [title]="'Payment Details List'" [class]="'card-head-lg'"> -->
-		<!-- <ng-container ktPortletTools>
-			<button (click)="addStudentfeedeposite()" mat-raised-button color="primary" matTooltip="Create new Studentfeedeposite">New
-				Studentfeedeposite</button>
-		</ng-container> -->
-	<!-- </kt-portlet-header> -->
-	<!-- end::Header -->
-
-	<kt-portlet-body>
 		<!-- start::FILTERS & GROUP ACTIONS -->
 		<div class="form mb-3">
-			<!-- start::FILTERS -->
 			<div class="form-filtration">
-				<!-- <div class="row align-items-center">
-					<div class="col-md-2 kt-margin-bottom-10-mobile">
-						<mat-form-field>
-							<mat-select [(value)]="filterStatus" (selectionChange)="loadProductsList()"
-								class="mat-form-field mat-form-field-fluid">
-								<mat-option value="">All</mat-option>
-								<mat-option value="0">Selling</mat-option>
-								<mat-option value="1">Sold</mat-option>
-							</mat-select>
-							<mat-hint align="start">
-								<strong>Filter by Status</strong>
-							</mat-hint>
-						</mat-form-field>
-					</div>
-					<div class="col-md-2 kt-margin-bottom-10-mobile">
-						<mat-form-field>
-							<mat-select [(value)]="filterCondition" (selectionChange)="loadProductsList()"
-								class="mat-form-field mat-form-field-fluid">
-								<mat-option value="">All</mat-option>
-								<mat-option value="0">New</mat-option>
-								<mat-option value="1">Used</mat-option>
-							</mat-select>
-							<mat-hint align="start">
-								<strong>Filter by Contidion</strong>
-							</mat-hint>
-						</mat-form-field>
-					</div> -->
+			
 					<div class="col-md-4 kt-margin-bottom-10-mobile">
 						<mat-form-field>
 							<input matInput placeholder="Search product" #searchInput placeholder="Search"
@@ -108,38 +54,6 @@
 				</div>
 			</div>
         
-            <!-- <div class="row align-items-center collapse form-group-actions kt-margin-top-20 kt-margin-bottom-20"
-				[ngClass]="{'show' : selection.selected.length > 0}">
-				<div class="col-xl-12">
-					<div class="form-group form-group-inline">
-						<div class="form-label form-label-no-wrap">
-							<label class="font-bold font-danger-">Selected records count:
-								{{ selection.selected.length }}</label>
-						</div>
-						<div>
-							<button mat-raised-button color="warn" (click)="deleteProducts()"
-								matTooltip="Delete selected products" class="mat-button-mt-4">
-								<mat-icon>delete</mat-icon>
-								Delete All
-							</button>&nbsp;
-						
-							<button mat-raised-button (click)="fetchProducts()" matTooltip="Fetch selected products"
-								class="mat-button-mt-4">
-								<mat-icon>clear_all</mat-icon>
-								Fetch Selected Records
-							</button>&nbsp;
-						
-							<button mat-raised-button (click)="updateStatusForProducts()"
-								matTooltip="Update status for selected products" class="mat-button-mt-4">
-								<mat-icon>update</mat-icon>
-								Update status
-							</button>
-						</div>
-					</div>
-				</div>
-			</div> -->
-			
-		<!-- </div> -->
 		<!-- end::FILTERS & GROUP ACTIONS -->
 
 	<div class="mat-table-wrapper">

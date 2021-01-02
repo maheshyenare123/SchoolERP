@@ -21,10 +21,6 @@ import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsServi
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 
-
-
-
-
 import { HumanResourceComponent } from './human-resource.component';
 import { DesignationComponent } from './designation/designation.component';
 import { DepartmentComponent } from './department/department.component';
@@ -73,23 +69,23 @@ const routes: Routes = [
 			},
 
       {
-        path: 'staff-directory',
+        path: 'staff_directory',
         component: StaffDirectoryComponent
       },
       {
-        path: 'staff-attendance',
+        path: 'staff_attendance',
         component: StaffAttendanceComponent
       },
       {
-        path: 'apply-leave',
+        path: 'apply_leave',
         component: ApplyLeaveComponent
       },
       {
-        path: 'approve-leave-request',
+        path: 'approve_leave_request',
         component: ApproveLeaveRequestComponent
       },
       {
-        path: 'leave-type',
+        path: 'leave_type',
         component: LeaveTypeComponent
       },
       {
@@ -105,11 +101,11 @@ const routes: Routes = [
         component: PayrollComponent
       },
       {
-        path: 'disabled-staff',
+        path: 'disabled_staff',
         component: DisabledStaffComponent
       },
       {
-        path: 'staff-rating',
+        path: 'staff_rating',
         component: StaffRatingComponent
       },
 

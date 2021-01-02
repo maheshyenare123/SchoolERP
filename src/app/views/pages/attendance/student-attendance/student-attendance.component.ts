@@ -161,6 +161,13 @@ loadAllSectionsByClassId(id:number) {
 		// studentAttendencesResult
 		const data   =res['data'];
 		this.dataSource=data['content'];
+		if(!this.dataSource[0].attendence){
+			var attendanceTypeObj = this.attendanceTypeList.find(x => x.type.toLowerCase() === Constants.PRESENT.toLowerCase());
+		this.dataSource.forEach((ele,index)=>{	
+		this.dataSource[index].attendenceTypeId=attendanceTypeObj.id;
+		this.dataSource[index].attendenceType=attendanceTypeObj.type;
+		})
+	}
 	})
 
 }

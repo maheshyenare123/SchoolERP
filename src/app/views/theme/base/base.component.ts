@@ -28,7 +28,7 @@ export class BaseComponent implements OnInit, OnDestroy {
   asideSelfDisplay: true;
   contentClasses = '';
   contentContainerClasses = '';
-  subheaderDisplay = true;
+  subheaderDisplay = false;
   contentExtended: false;
 
   // Private properties
@@ -83,7 +83,7 @@ export class BaseComponent implements OnInit, OnDestroy {
     // Load UI from Layout settings
     this.selfLayout = objectPath.get(config, 'self.layout');
     this.asideSelfDisplay = objectPath.get(config, 'aside.self.display');
-    this.subheaderDisplay = objectPath.get(config, 'subheader.display');
+    // this.subheaderDisplay = objectPath.get(config, 'subheader.display');
     this.contentClasses = this.htmlClassService.getClasses('content', true).toString();
     this.contentContainerClasses = this.htmlClassService.getClasses('content_container', true).toString();
     this.contentExtended = objectPath.get(config, 'content.extended');

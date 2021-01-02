@@ -17,7 +17,7 @@ import { MaterialModule } from '../material/material.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModuleGuard } from 'src/app/core/auth';
-import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from 'src/app/core/_base/crud';
+import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService,DynamicSetActionsService } from 'src/app/core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 
@@ -50,35 +50,35 @@ const routes: Routes = [
 				pathMatch: 'full'
       },
       {
-				path: 'fees-type',
+				path: 'fees_type',
 				component: FeesTypeComponent
       },
       {
-				path: 'fees-group',
+				path: 'fees_group',
 				component: FeesGroupComponent
       },
       {
-				path: 'fees-discount',
+				path: 'fees_discount',
 				component: FeesDiscountComponent
       },
       {
-				path: 'fees-master',
+				path: 'fees_master',
 				component: FeesMasterComponent
       },
       {
-				path: 'fees-collect',
+				path: 'fees_collect',
 				component: FeesCollectComponent
       },
       {
-				path: 'search-fees-payment',
+				path: 'search_fees_payment',
 				component: SearchFeesPaymentComponent
       },
       {
-				path: 'search-due-fees',
+				path: 'search_due_fees',
 				component: SearchDueFeesComponent
       },
       {
-				path: 'fees-reminder',
+				path: 'fees_reminder',
 				component: FeesReminderComponent
       },
 
@@ -152,6 +152,7 @@ const routes: Routes = [
     TypesUtilsService,
     HttpUtilsService,
     LayoutUtilsService,
+    DynamicSetActionsService,
 		{ provide: MatBottomSheetRef, useValue: {} },
 		{ provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
 		{ provide: MAT_DATE_LOCALE, useValue: 'en-GB'},

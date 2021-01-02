@@ -4,8 +4,10 @@
 	</kt-portlet-header>
 	<!-- end::Header -->
 
-    <kt-portlet-body>
-        <div class="kt-form kt-margin-b-30">
+   
+	<kt-portlet-body>
+
+		<div class="kt-form kt-margin-b-30">
             <form class="form" [formGroup]="searchForm">
                 <div class="card-body">
         
@@ -51,56 +53,16 @@
                     </div>
         
                 </div>
-                <!-- <div class="card-footer">
-                    <div class="d-flex justify-content-between">
-                        <div class="mr-2"></div>
-                        <div>
-                            <button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
-                                Search
-                            </button>
-                        </div>
-                    </div>
-                </div> -->
+               
             </form>
         
 
         </div>
-    </kt-portlet-body>
-	<!-- <kt-portlet-header [sticky]="true" [title]="'Students List'" [class]="'card-head-lg'"
-	[viewLoading$]="dataSource.loading$">
-</kt-portlet-header> -->
-	<kt-portlet-body>
+
 		<!-- start::FILTERS & GROUP ACTIONS -->
 		<div class="form mb-3">
 			<!-- start::FILTERS -->
 			<div class="form-filtration">
-				<!-- <div class="row align-items-center">
-					<div class="col-md-2 kt-margin-bottom-10-mobile">
-						<mat-form-field>
-							<mat-select [(value)]="filterStatus" (selectionChange)="loadProductsList()"
-								class="mat-form-field mat-form-field-fluid">
-								<mat-option value="">All</mat-option>
-								<mat-option value="0">Selling</mat-option>
-								<mat-option value="1">Sold</mat-option>
-							</mat-select>
-							<mat-hint align="start">
-								<strong>Filter by Status</strong>
-							</mat-hint>
-						</mat-form-field>
-					</div>
-					<div class="col-md-2 kt-margin-bottom-10-mobile">
-						<mat-form-field>
-							<mat-select [(value)]="filterCondition" (selectionChange)="loadProductsList()"
-								class="mat-form-field mat-form-field-fluid">
-								<mat-option value="">All</mat-option>
-								<mat-option value="0">New</mat-option>
-								<mat-option value="1">Used</mat-option>
-							</mat-select>
-							<mat-hint align="start">
-								<strong>Filter by Contidion</strong>
-							</mat-hint>
-						</mat-form-field>
-					</div> -->
 					<div class="col-md-4 kt-margin-bottom-10-mobile">
 						<mat-form-field>
 							<input matInput placeholder="Search product" #searchInput placeholder="Search"

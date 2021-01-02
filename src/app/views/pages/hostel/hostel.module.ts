@@ -43,11 +43,11 @@ const routes: Routes = [
 				component: HostelsComponent
       },
       {
-				path: 'room-type',
+				path: 'room_type',
 				component: RoomTypeComponent
       },
       {
-				path: 'hostel-room',
+				path: 'hostel_room',
 				component: HostelRoomComponent
       },
     ] 

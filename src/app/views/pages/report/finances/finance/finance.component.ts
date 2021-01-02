@@ -14,39 +14,39 @@ export class FinanceComponent implements OnInit {
   }
 
   feesStatement() {
-		this.router.navigate(["/report/fees-statement"])
+		this.router.navigate(["/report/fees_statement"])
   }
   
   balanceFeesReport() {
-		this.router.navigate(["/report/balance-fees-report"])
+		this.router.navigate(["/report/balance_fees_report"])
   }
 
   feesCollectionReport() {
-		this.router.navigate(["/report/fees-collection-report"])
+		this.router.navigate(["/report/fees_collection_report"])
   }
 
   onlineFeesCollectionReport() {
-		this.router.navigate(["/report/online-fees-collection-report"])
+		this.router.navigate(["/report/online_fees_collection_report"])
   }
 
   incomeReport() {
-		this.router.navigate(["/report/income-report"])
+		this.router.navigate(["/report/income_report"])
   }
 
   expenseReport() {
-		this.router.navigate(["/report/expense-report"])
+		this.router.navigate(["/report/expense_report"])
   }
 
   payrollReport() {
-		this.router.navigate(["/report/payroll-report"])
+		this.router.navigate(["/report/payroll_report"])
   }
 
   incomeGroupReport() {
-		this.router.navigate(["/report/income-group-report"])
+		this.router.navigate(["/report/income_group_report"])
   }
 
   expenseGroupReport() {
-		this.router.navigate(["/report/expense-group-report"])
+		this.router.navigate(["/report/expense_group_report"])
   }
 
 }

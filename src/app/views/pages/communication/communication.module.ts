@@ -43,19 +43,19 @@ const routes: Routes = [
 				pathMatch: 'full'
       },
       {
-				path: 'notice-board',
+				path: 'notice_board',
 				component: NoticeBoardComponent
       },
       {
-				path: 'send-email',
+				path: 'send_email',
 				component: SendEmailComponent
       },
       {
-				path: 'send-sms',
+				path: 'send_sms',
 				component: SendSmsComponent
       },
       {
-				path: 'email-sms-log',
+				path: 'email_sms_log',
 				component: EmailSmsLogComponent
       },
     ] 

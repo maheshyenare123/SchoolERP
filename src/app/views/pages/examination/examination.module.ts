@@ -50,11 +50,11 @@ const routes: Routes = [
 				pathMatch: 'full'
       },
       {
-				path: 'exam-group',
+				path: 'exam_group',
 				component: ExamGroupComponent
       },
       {
-				path: 'exam-schedule',
+				path: 'exam_schedule',
 				component: ExamScheduleComponent
       },
       {
@@ -62,11 +62,11 @@ const routes: Routes = [
 				component: ExamComponent
       },
       {
-				path: 'examSubjectMarks/:examId/:examSubjectId',
+				path: 'exam_subject_marks/:examId/:examSubjectId/:examGroupId',
 				component: ExamSubjectMarksComponent
       },
       {
-				path: 'exam-result',
+				path: 'exam_result',
 				component: ExamResultComponent
       },
       

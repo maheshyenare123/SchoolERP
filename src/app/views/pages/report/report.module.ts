@@ -25,15 +25,15 @@ import {NgxPaginationModule} from 'ngx-pagination';
 
 import { ReportComponent } from './report.component';
 import { StudentInformationsComponent } from './student-informations/student-informations.component';
-import { AdmissionReportComponent } from './admission-report/admission-report.component';
-import { ClassSubjectReportComponent } from './class-subject-report/class-subject-report.component';
-import { GuardianReportComponent } from './guardian-report/guardian-report.component';
-import { HomeworkEvaluationReportComponent } from './homework-evaluation-report/homework-evaluation-report.component';
-import { SiblingReportComponent } from './sibling-report/sibling-report.component';
-import { StudentHistoryComponent } from './student-history/student-history.component';
-import { StudentLoginCredentialComponent } from './student-login-credential/student-login-credential.component';
-import { StudentProfileComponent } from './student-profile/student-profile.component';
-import { StudentReportComponent } from './student-report/student-report.component';
+import { AdmissionReportComponent } from './student-informations/admission-report/admission-report.component';
+import { ClassSubjectReportComponent } from './student-informations/class-subject-report/class-subject-report.component';
+import { GuardianReportComponent } from './student-informations/guardian-report/guardian-report.component';
+import { HomeworkEvaluationReportComponent } from './student-informations/homework-evaluation-report/homework-evaluation-report.component';
+import { SiblingReportComponent } from './student-informations/sibling-report/sibling-report.component';
+import { StudentHistoryComponent } from './student-informations/student-history/student-history.component';
+import { StudentLoginCredentialComponent } from './student-informations/student-login-credential/student-login-credential.component';
+import { StudentProfileComponent } from './student-informations/student-profile/student-profile.component';
+import { StudentReportComponent } from './student-informations/student-report/student-report.component';
 import { studentsReducer, StudentEffects, StudentService } from 'src/app/core/student-information';
 import { homeworksReducer, HomeworkEffects, HomeworkService } from 'src/app/core/homework';
 import { FinanceComponent } from './finances/finance/finance.component';
@@ -86,44 +86,44 @@ const routes: Routes = [
 				pathMatch: 'full'
       },
       {
-				path: 'student-information',
+				path: 'student_information',
 				component: StudentInformationsComponent
       },
       {
-				path: 'student-report',
+				path: 'student_report',
 				component: StudentReportComponent
       },
       {
-				path: 'guardian-report',
+				path: 'guardian_report',
 				component:  GuardianReportComponent
       },
       {
-				path: 'student-history',
+				path: 'student_history',
 				component:  StudentHistoryComponent
       },
       {
-				path: 'student-login-credential',
+				path: 'student_login_credential',
 				component:  StudentLoginCredentialComponent
       },
       {
-				path: 'class-subject-report',
+				path: 'class_subject_report',
 				component:  ClassSubjectReportComponent
       },
       {
-				path: 'admission-report',
+				path: 'admission_report',
 				component: AdmissionReportComponent
       },
       {
-				path: 'sibling-report',
+				path: 'sibling_report',
 				component:  SiblingReportComponent, 
     
       },
       {
-				path: 'student-profile',
+				path: 'student_profile',
 				component:  StudentProfileComponent, 
       },
       {
-				path: 'homework-evaluation-report',
+				path: 'homework_evaluation_report',
 				component:  HomeworkEvaluationReportComponent
       },
       {
@@ -132,53 +132,53 @@ const routes: Routes = [
       },
 
       {
-				path: 'fees-statement',
+				path: 'fees_statement',
 				component:  FeesStatementComponent, 
       },
       {
-				path: 'balance-fees-report',
+				path: 'balance_fees_report',
 				component:  BalanceFeesReportComponent, 
       },
       {
-				path: 'fees-collection-report',
+				path: 'fees_collection_report',
 				component:   FeesCollectionReportComponent, 
       },
       {
-				path: 'online-fees-collection-report',
+				path: 'online_fees_collection_report',
 				component:   OnlineFeesCollectionReportComponent, 
       },
       {
-				path: 'income-report',
+				path: 'income_report',
         component:   IncomeReportComponent, 
       },
       {
-				path: 'expense-report',
+				path: 'expense_report',
 				component:   ExpenseReportComponent, 
       },
       {
-				path: 'payroll-report',
+				path: 'payroll_report',
 				component:   PayrollReportComponent, 
       },
       {
-				path: 'income-group-report',
+				path: 'income_group_report',
 				component:   IncomeGroupReportComponent,
       },
       {
-				path: 'expense-group-report',
+				path: 'expense_group_report',
 				component:   ExpenseGroupReportComponent,
       },
 
 
       {
-				path: 'human-resource-report',
+				path: 'human_resource_report',
 				component:   HumanResourceReportComponent, 
       },
       {
-				path: 'staff-report',
+				path: 'staff_report',
 				component:   StaffReportComponent, 
       },
       {
-				path: 'payrolls-report',
+				path: 'payrolls_report',
 				component:   PayrollsReportComponent, 
       },
 
@@ -207,51 +207,51 @@ const routes: Routes = [
 
     
       {
-				path: 'library-report',
+				path: 'library_report',
 				component:   LibraryReportComponent, 
       },
       {
-				path: 'book-issue-report',
+				path: 'book_issue_report',
 				component:   BookIssueReportComponent, 
       },
       {
-				path: 'book-due-report',
+				path: 'book_due_report',
 				component:   BookDueReportComponent, 
       },
       {
-				path: 'book-inventory-report',
+				path: 'book_inventory_report',
 				component:  BookInventoryReportComponent,
       },
       {
-				path: 'book-issue-return-report',
+				path: 'book_issue_return_report',
 				component:  BookIssueReturnReportComponent,
       },
 
 
       {
-				path: 'inventory-report',
+				path: 'inventory_report',
 				component:   InventoryReportComponent, 
       },
       {
-				path: 'stock-report',
+				path: 'stock_report',
 				component:   StockReportComponent, 
       },
       {
-				path: 'add-item-report',
+				path: 'add_item_report',
 				component:   AddItemReportComponent, 
       },
       {
-				path: 'issue-item-report',
+				path: 'issue_item_report',
 				component:  IssueItemReportComponent,
       },
 
 
       {
-				path: 'transport-report',
+				path: 'transport_report',
 				component:   TransportReportComponent,
       },
       {
-				path: 'hostel-report',
+				path: 'hostel_report',
 				component:   HostelReportComponent,
       },
     ] 

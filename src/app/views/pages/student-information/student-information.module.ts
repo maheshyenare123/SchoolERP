@@ -48,36 +48,36 @@ const routes: Routes = [
                 pathMatch: 'full'
             },
             {
-                path: 'student-details',
+                path: 'student_details',
                 component: StudentDetailsListComponent
             },
             {
-                path: 'student-details-edit/:id',
+                path: 'student_details_edit/:id',
                 component: StudentDetailsEditComponent
             },
 
             {
-                path: 'online-admission',
+                path: 'online_admission',
                 component: OnlineAdmissionListComponent
             },
             {
-                path: 'student-categories',
+                path: 'student_categories',
                 component: StudentCategoriesComponent
             },
             {
-                path: 'student-house',
+                path: 'student_house',
                 component: StudentHouseComponent
             },
             {
-                path: 'disable-reason',
+                path: 'disable_reason',
                 component: DisableReasonComponent
             },
             {
-                path: 'bulk-delete',
+                path: 'bulk_delete',
                 component: BulkDeleteComponent
 			},
 			{
-                path: 'disabled-student',
+                path: 'disabled_student',
                 component: DisabledStudentComponent
             },
         ]

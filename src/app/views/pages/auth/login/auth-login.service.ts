@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Constants } from 'src/app/core/api_url';
 
 
 @Injectable({
@@ -9,7 +10,7 @@ export class AuthLoginService {
   
 //  url=`http://yamistha.cloudjiffy.net/auth/login/`;
 
- url=`http://3.140.52.88:8080/auth/login/`;
+ url= Constants.URL.HOST_URL+Constants. Authentication.Login;
 
  
 

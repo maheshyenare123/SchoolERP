@@ -14,11 +14,11 @@ export class HumanResourceReportComponent implements OnInit {
   }
 
   staffReport() {
-		this.router.navigate(["/report/staff-report"])
+		this.router.navigate(["/report/staff_report"])
   }
   
   payrollsReport() {
-		this.router.navigate(["/report/payrolls-report"])
+		this.router.navigate(["/report/payrolls_report"])
   }
 
 }

@@ -36,4 +36,36 @@ export class User extends BaseModel {
     this.socialNetworks = new SocialNetworks();
     this.socialNetworks.clear();
   }
+
+
+
+  // id: number;
+  // username: string;	 
+  // password: string;	  
+  // email: string;	  
+  // roles: RolesModel[];
+  // tokenType: string;
+  // accessToken: string;	 
+  // refreshToken: string;	
+  // roles: number[];	
+  // pic: string;	  
+
+  // clear(): void {
+    
+
+  //   this.id = undefined;	   
+  //   this.username = '';	   
+  //   this.password = '';	  
+  //   this.email = '';	   
+  //   this.roles = [];	
+  //   this.fullname = '';	   
+  // this.accessToken ='';
+
+  //   this.pic = './assets/media/users/default.jpg';	    
+
+
+  // }
+
+
+
 }

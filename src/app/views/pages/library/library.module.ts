@@ -44,19 +44,19 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'book-list',
+        path: 'book_list',
         component: BookListComponent
       },
       {
-        path: 'library-student-member',
+        path: 'library_student_member',
         component: LibraryStudentMemberComponent
       },
       {
-        path: 'library-staff-member',
+        path: 'library_staff_member',
         component: LibraryStaffMemberComponent
       },
       {
-        path: 'library-member-list',
+        path: 'library_member_list',
         component: LibraryMemberListComponent
       },
     ]

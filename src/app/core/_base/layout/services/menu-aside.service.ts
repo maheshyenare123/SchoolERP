@@ -26,7 +26,12 @@ export class MenuAsideService {
    */
   loadMenu() {
     // get menu list
+     // static menu bar
     const menuItems: any[] = objectPath.get(this.menuConfigService.getMenus(), 'aside.items');
     this.menuList$.next(menuItems);
+
+    // dynamic menu bar
+    // const menuItems: any =JSON.parse(localStorage.getItem("sideMenusConfig"));
+    // this.menuList$.next(menuItems);
   }
 }

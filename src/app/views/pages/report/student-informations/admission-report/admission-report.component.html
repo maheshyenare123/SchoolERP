@@ -1,10 +1,18 @@
+
 <kt-portlet>
-    <kt-portlet-header [sticky]="true" [title]="'Student Login Credential'" [class]="'card-head-lg'">
+    <kt-student-information  [tabName]="'Admission Report'"></kt-student-information>
+  </kt-portlet>
+ 
+<br>
+
+
+<kt-portlet>
+    <kt-portlet-header [sticky]="true" [title]="'Admission Report'" [class]="'card-head-lg'">
 
     </kt-portlet-header>
     <!-- end::Header -->
 
-    <kt-portlet-body>
+    <!-- <kt-portlet-body>
         <div class="form-group kt-form__group row">
             <div class="col-lg-4 kt-margin-bottom-20-mobile">
                 <a class="cursor" (click)="studentReport()">
@@ -21,7 +29,7 @@
                     <mat-icon>description</mat-icon> Student History
                 </a>
             </div>
-            <div class="col-lg-4 kt-margin-bottom-20-mobile active">
+            <div class="col-lg-4 kt-margin-bottom-20-mobile">
                 <a class="cursor" (click)="studentLoginCredential()">
                     <mat-icon>description</mat-icon> Student Login Credential
                 </a>
@@ -31,7 +39,7 @@
                     <mat-icon>description</mat-icon> Class Subject Report
                 </a>
             </div>
-            <div class="col-lg-4 kt-margin-bottom-20-mobile">
+            <div class="col-lg-4 kt-margin-bottom-20-mobile active">
                 <a class="cursor" (click)="admissionReport()">
                     <mat-icon>description</mat-icon> Admission Report
                 </a>
@@ -53,11 +61,12 @@
             </div>
         </div>
     </kt-portlet-body>
-    <!-- end::Body -->
+    
 </kt-portlet>
+
 <kt-portlet>
 	<kt-portlet-header [class]="'kt-portlet__head--lg'">
-	</kt-portlet-header>
+	</kt-portlet-header> -->
 	<!-- end::Header -->
 	<kt-portlet-body>
 		<div class="kt-form kt-margin-b-30">
@@ -97,11 +106,6 @@
 									<strong>is required</strong>
 								</mat-error>
 							</mat-form-field>
-							<div class="col-lg-3 kt-margin-bottom-20-mobile">
-								<button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
-									Search
-								</button>
-							</div>
 						</div>
 						<!-- OR
 						<div class="col-lg-3 kt-margin-bottom-20-mobile">
@@ -113,6 +117,11 @@
 								
 							</mat-form-field>
 						</div> -->
+						<div class="col-lg-3 kt-margin-bottom-20-mobile">
+							<button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
+								Search
+							</button>
+						</div>
 					</div>
 		
 				</div>
@@ -243,37 +252,48 @@
 						</mat-checkbox>
 					</mat-cell>
 				</ng-container> -->
-                
                 <ng-container matColumnDef="admissionNo">
 					<mat-header-cell *matHeaderCellDef mat-sort-header >Admission No
 					</mat-header-cell>
 					<mat-cell *matCellDef="let student" >{{student.admissionNo}}</mat-cell>
-				</ng-container>
+                </ng-container>
                 <ng-container matColumnDef="name">
 					<mat-header-cell *matHeaderCellDef mat-sort-header >Name
 					</mat-header-cell>
 					<mat-cell *matCellDef="let student" >{{student.firstname}} {{student.lastname}}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="userName">
-					<mat-header-cell *matHeaderCellDef mat-sort-header>User Name</mat-header-cell>
-					<mat-cell *matCellDef="let student">{{student.userName}}</mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="password">
-					<mat-header-cell *matHeaderCellDef mat-sort-header >Password
+                <ng-container matColumnDef="classSection">
+					<mat-header-cell *matHeaderCellDef mat-sort-header >Class(Section)
 					</mat-header-cell>
-					<mat-cell *matCellDef="let student" >{{student.password}}</mat-cell>
+					<mat-cell *matCellDef="let student" >{{student.classId}} ({{student.sectionId}})</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="parentUserName">
-					<mat-header-cell *matHeaderCellDef mat-sort-header >Parent User Name
+                <ng-container matColumnDef="fatherName">
+					<mat-header-cell *matHeaderCellDef mat-sort-header >Father Name
 					</mat-header-cell>
-					<mat-cell *matCellDef="let student" >{{student.parentUserName}}</mat-cell>
+					<mat-cell *matCellDef="let student" >{{student.fatherName}}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="parentPassword">
-					<mat-header-cell *matHeaderCellDef mat-sort-header >Parent Password
+                <ng-container matColumnDef="dob">
+					<mat-header-cell *matHeaderCellDef mat-sort-header>Date of Birth</mat-header-cell>
+					<mat-cell *matCellDef="let student">{{student.dob}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="admissionDate">
+					<mat-header-cell *matHeaderCellDef mat-sort-header >Admission Date
 					</mat-header-cell>
-					<mat-cell *matCellDef="let student" >{{student.parentPassword}}</mat-cell>
+					<mat-cell *matCellDef="let student" >{{student.admissionDate}}</mat-cell>
                 </ng-container>
-        
+                <ng-container matColumnDef="gender">
+					<mat-header-cell *matHeaderCellDef mat-sort-header>Gender</mat-header-cell>
+					<mat-cell *matCellDef="let student">{{student.gender}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="category">
+					<mat-header-cell *matHeaderCellDef mat-sort-header>Category</mat-header-cell>
+					<mat-cell *matCellDef="let student">{{student.categoryId}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="contact">
+					<mat-header-cell *matHeaderCellDef mat-sort-header>Contact</mat-header-cell>
+					<mat-cell *matCellDef="let student">{{student.mobileno}}</mat-cell>
+                </ng-container>
+               
 				<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 				<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 			</mat-table>
