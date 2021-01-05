@@ -2,7 +2,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { StaffsDataSource, StaffModel,selectStaffsActionLoading, RoleService, StaffPayslipsDataSource, StaffPayslipsPageRequested } from '../../../../../core/human-resource';
+import { StaffsDataSource, StaffModel,selectStaffsActionLoading, RoleService, StaffPayslipsDataSource, StaffPayslipsPageRequested, StaffPayslipModel, StaffPayrollModel } from '../../../../../core/human-resource';
 import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from '../../../../../core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -40,7 +40,7 @@ dataSource: StaffPayslipsDataSource;
 //  dataSource = new MatTableDataSource(ELEMENT_DATA);
 
    
-displayedColumns = ['id', 'staffId','name','role','department','designation','mobileNo','actions'];
+displayedColumns = ['id', 'staffId','name','role','department','designation','mobileNo','status','actions'];
 @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 @ViewChild('sort1', {static: true}) sort: MatSort;
 // Filter fields
@@ -357,13 +357,13 @@ deleteProducts() {
 		// });
 	}
 
-  onGeneratePaySlip(staff: StaffModel){
-    let searchForm =  this.searchForm 
+  onGeneratePaySlip(staffPayslip: StaffPayrollModel){
+    let searchData =  this.searchForm.value
     let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
     // const _saveMessage = staff.id > 0 ? 'Edit  Staff' : 'Create  Staff';
     
 		// const _messageType = staff.id > 0 ? MessageType.Update : MessageType.Create;
-		const dialogRef = this.dialog.open(GeneratePayrollEditDialogComponent, { data: { staff , searchForm} });
+		const dialogRef = this.dialog.open(GeneratePayrollEditDialogComponent, { data: { staffPayslip , searchData} });
 		dialogRef.afterClosed().subscribe(res => {
 			if (!res) {
 				return;
@@ -382,7 +382,7 @@ deleteProducts() {
 		const dialogRef = this.dialog.open(ProceedPayEditDialogComponent, { data: { staff , searchForm} });
 		dialogRef.afterClosed().subscribe(res => {
 			if (!res) {
-				return;
+				return;   
 			}
 
 			// this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);

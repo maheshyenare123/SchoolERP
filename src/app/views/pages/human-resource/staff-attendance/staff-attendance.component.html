@@ -3,9 +3,9 @@
         <kt-portlet>
           
 
-               <kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Staff Attendance'" [viewLoading$]="dataSource.loading$">
+               <kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Staff Attendance'" >
                 </kt-portlet-header>
-              
+                <!-- [viewLoading$]="dataSource.loading$" -->
 
 
             <kt-portlet-body>
@@ -33,7 +33,7 @@
                 
                                     </mat-form-field>
                                 </div>
-                                <div class="col-lg-4 kt-margin-bottom-20-mobile">
+                                <!-- <div class="col-lg-4 kt-margin-bottom-20-mobile">
                                     <mat-form-field class="mat-form-field-fluid">
                                         <input matInput placeholder="Enter Text"
                                             formControlName="searchText" />
@@ -42,6 +42,20 @@
                                         </mat-error>
 
                                     </mat-form-field>
+                                </div> -->
+                                <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <input matInput [matDatepicker]="picker"
+                                            placeholder="Choose a Date "
+                                            formControlName="attendanceDate" />
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                        <mat-hint align="start">Please enter
+                                            <strong>Date </strong> in 'mm/dd/yyyy' format</mat-hint>
+                                            <mat-error>Date
+                                                <strong>is required</strong>
+                                            </mat-error>
+                                        </mat-form-field>
                                 </div>
                                 <div class="col-lg-4 kt-margin-bottom-20-mobile">
 
@@ -79,7 +93,7 @@
                     <div class="mr-2"></div>
                     <div>
                         <!-- make table row disable for this event -->
-                        <button type="button" mat-raised-button color="primary" (click)="markAsHoliday()" [disabled]="viewLoading" matTooltip="Save changes">
+                        <button type="button" mat-raised-button color="primary" (click)="onMarkAsHoliday()" [disabled]="viewLoading" matTooltip="Save changes">
                             Mark As Holiday
                         </button> &nbsp;
                         <button type="button" mat-raised-button color="primary" (click)="onSaveAttendance()" [disabled]="viewLoading" matTooltip="Save changes">
@@ -114,28 +128,40 @@
                         <ng-container matColumnDef="attendance">
                             <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Attendance
                             </mat-header-cell>
-                            <mat-cell *matCellDef="let staffAttendance">
-                                <!-- <mat-radio-group aria-label="Select an option" value="{{staffAttendance.attendenceType}}" >
-                                    <mat-radio-button value="Present">Present</mat-radio-button>
-                                    <mat-radio-button value="Late">Late</mat-radio-button>
-                                    <mat-radio-button value="Absent">Absent</mat-radio-button>
-                                    <mat-radio-button value="HalfDay">HalfDay</mat-radio-button>
-                                  </mat-radio-group> attendanceTypeList  [checked]="attendanceType.type === 'absent'"-->
-                                  <mat-radio-group  [(ngModel)]="staffAttendance.attendenceType">
+                            <mat-cell *matCellDef="let staffAttendance;let i=index">
+                                
+                                  <!-- <mat-radio-group  [(ngModel)]="staffAttendance.attendenceType">
                                 <mat-radio-button  *ngFor="let attendanceType of attendanceTypeList" [value]="attendanceType.type"  [checked]="attendanceType.type === 'absent'"   >
                                   {{attendanceType.type}}
                                 </mat-radio-button>
-                              </mat-radio-group>
+                              </mat-radio-group> -->
+
+                              <mat-radio-group [(ngModel)]="staffAttendance.attendenceType"  (change)="onChangeAttendanceType(i,$event.value)"    >
+                                <ng-container *ngIf="staffAttendance.attendenceType==null ">
+
+                                </ng-container>
+                                <ng-container  *ngFor="let attendanceType of attendanceTypeList">
+                                    <!-- <ng-container *ngIf="attendanceType.type!='holiday'"> -->
+                                <mat-radio-button  [value]="attendanceType.type">
+                              {{attendanceType.type}}
+                            </mat-radio-button>
+                            <!-- </ng-container> -->
+                            </ng-container>
+                        </mat-radio-group>
+
+
+
+
+
+
                             </mat-cell>
 
 
-                            <!-- <mat-radio-group  [(ngModel)]="element.language">
-                                <mat-radio-button  *ngFor="let lang of mylanguages" [value]="lang">
-                                  {{lang}}
-                                </mat-radio-button>
-                              </mat-radio-group> -->
-                              <!-- <mat-form-field><input matInput color="warn" *ngIf="!element.trainer"></mat-form-field> {{element.trainer}}</td> -->
-                        
+
+
+
+
+                         
                             </ng-container>
 
                         <ng-container matColumnDef="note">
@@ -158,20 +184,17 @@
                         <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
                     </mat-table>
                     <!-- Message for empty data  -->
-                    <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
-                    <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....
-                    </div>
+                    <!-- <div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div> -->
+                    <!-- <div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait.... -->
+                    <!-- </div> -->
                 </div>
 
                 <!-- start: BOTTOM -->
-                <div class="mat-table__bottom">
-                    <!-- MATERIAL SPINNER | Url: 'https://material.angular.io/components/progress-spinner/overview' -->
+                <!-- <div class="mat-table__bottom">
                     <mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner>
-                    <!-- MATERIAL PAGINATOR | Binded to dasources -->
-                    <!-- See off.documentations 'https://material.angular.io/components/paginator/overview' -->
-                    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 15, 20, 30]"
+                   <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 15, 20, 30]"
                         [length]="dataSource.paginatorTotal$ | async" [showFirstLastButtons]="true"></mat-paginator>
-                </div>
+                </div> -->
                 <!-- end: BOTTOM -->
 
             </kt-portlet-body>

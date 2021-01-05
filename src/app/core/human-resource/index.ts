@@ -8,7 +8,7 @@ export {StaffAttendanceModel} from './_models/staff-attendance.model';
 export {StaffRatingModel} from './_models/staff-rating.model';
 export {StaffLeaveRequestModel} from './_models/staff-leave-request.model';
 export {StaffPayslipModel} from './_models/staff-payslip.model';
-
+export {StaffPayrollModel} from './_models/staff-payroll.model';
 
 
 //datasource

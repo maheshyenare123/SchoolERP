@@ -14,7 +14,8 @@ import { AppState } from '../../../../../core/reducers';
 // CRUD
 import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { StaffModel, StaffPayslipModel, selectStaffPayslipsActionLoading, StaffPayslipUpdated, selectLastCreatedStaffPayslipId, StaffPayslipOnServerCreated } from '../../../../../core/human-resource';
+import { StaffModel, StaffPayslipModel, selectStaffPayslipsActionLoading, StaffPayslipUpdated, selectLastCreatedStaffPayslipId, StaffPayslipOnServerCreated, StaffPayrollModel } from '../../../../../core/human-resource';
+import { validators } from 'dist/assets/plugins/formvalidation/src/js';
 
 
 
@@ -29,7 +30,7 @@ export class GeneratePayrollEditDialogComponent implements OnInit, OnDestroy {
 	
 	
 // Public properties
-staff: StaffModel;
+staffPayroll: StaffPayrollModel;
 staffPayslip: StaffPayslipModel;
 searchFormData :any;
 staffPayslipForm: FormGroup;
@@ -60,9 +61,9 @@ ngOnInit() {
 	// loadding
 	debugger
 	//staff details show purpose and from staff.id call api for attendance for staff for showing
-	this.staff = this.data.staff;
+	this.staffPayroll = this.data.staffPayslip;
 	 
-	this.searchFormData = this.data.searchForm.value
+	this.searchFormData = this.data.searchData
 
 	// for save payment 
 	const newStaffPayslip = new StaffPayslipModel();
@@ -96,20 +97,20 @@ createForm() {
 
 	this.staffPayslipForm = this.fb.group({	
 	
-		basic: [this.staffPayslip.basic,0],
-		leaveDeduction: [this.staffPayslip.leaveDeduction, 0],
-		month: [this.staffPayslip.month, this.searchFormData.month],
-		netSalary: [this.staffPayslip.netSalary, 0],
-		grossSalary: [this.staffPayslip.grossSalary, 0],//new Variable
+		basic: [this.staffPayslip.basic,Validators.required],
+		leaveDeduction: [this.staffPayslip.leaveDeduction, Validators.required],
+		month: [ this.searchFormData.month,''],
+		netSalary: [this.staffPayslip.netSalary,''],
+		grossSalary: [this.staffPayslip.grossSalary,''],//new Variable
 		paymentDate: [this.typesUtilsService.getDateFromString(this.staffPayslip.paymentDate), Validators.compose([Validators.nullValidator])],
 		paymentMode: [this.staffPayslip.paymentMode,''],
 		remark: [this.staffPayslip.remark,''],
-		staffId: [this.staffPayslip.staffId,''],//this.staff.userId
-		status: [this.staffPayslip.status, ''],
+		staffId: [this.staffPayroll.staffId,''],//this.staff.userId
+		status: [this.staffPayroll.staffPayslipsStatus, ''],
 		tax: [this.staffPayslip.tax, ''],
-		totalAllowance: [this.staffPayslip.totalAllowance, 0],
-		totalDeduction: [this.staffPayslip.totalDeduction,0],
-		year: [this.staffPayslip.year,this.searchFormData.year],
+		totalAllowance: [this.staffPayslip.totalAllowance, ''],
+		totalDeduction: [this.staffPayslip.totalDeduction,''],
+		year: [this.searchFormData.year,],
 		
 	});
 }
@@ -118,7 +119,7 @@ createItemRowEarning() {
 	return this.fb.group({
 	
 		type: [this.type, ],
-		earningItemAmount: [this.earningItemAmount, 0 ],
+		earningItemAmount: [this.earningItemAmount, ''],
 		// earningTotalAmount: [this.earningTotalAmount, 0 ],
 	});
   }
@@ -127,7 +128,7 @@ createItemRowEarning() {
 	return this.fb.group({
 	
 		type: [this.type, ],
-		deductionItemAmount: [this.deductionItemAmount, 0 ],
+		deductionItemAmount: [this.deductionItemAmount, '' ],
 		// deductionTotalAmount: [this.deductionTotalAmount, 0 ],
 	});
   }

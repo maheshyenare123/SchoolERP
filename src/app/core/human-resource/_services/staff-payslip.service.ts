@@ -44,7 +44,6 @@ export class StaffPayslipService {
     .set('year', year)
     .set('pageNo', queryParams.pageNumber.toString())
     .set('pageSize', queryParams.pageSize.toString())
-    
     .set('sortBy', 'id');
 
 

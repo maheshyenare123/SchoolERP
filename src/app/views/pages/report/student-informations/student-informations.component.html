@@ -6,29 +6,31 @@
 
     <kt-portlet-body>
 
-        <!-- <div class="form-group kt-form__group row" *ngFor='let data of studentReportsData'>
-            <ng-container *ngIf='data===tabName'>
+        <div class="form-group kt-form__group row" >
+          <ng-container *ngFor='let data of studentReportsData'>
+            <ng-container *ngIf='data===tabName;else elseData'>
                 <div class="col-lg-4 kt-margin-bottom-20-mobile  active">
                     <a class="cursor" (click)="studentReport()">
-                        <mat-icon>description</mat-icon>data
+                        <mat-icon>description</mat-icon>{{data}}
                     </a>
                 </div>
             </ng-container>
-            <ng-template>
+            <ng-template #elseData>
                 <div class="col-lg-4 kt-margin-bottom-20-mobile ">
                     <a class="cursor" (click)="studentReport()">
-                        <mat-icon>description</mat-icon>data
+                        <mat-icon>description</mat-icon>{{data}}
                     </a>
                 </div>
             </ng-template>
+        </ng-container>
 
-        </div> -->
-
+        </div>
+<!-- 
         <div class="form-group kt-form__group row" >
-
+            
             <div class="col-lg-4 kt-margin-bottom-20-mobile" [ngClass]="'Student Report===tabName' ? 'disable' : 'active' "  >
                 <a class="cursor" (click)="studentReport()">
-                    <mat-icon>description</mat-icon>Student Report
+                    <mat-icon>description</mat-icon>Student Report 
                 </a>
             </div>
             <div class="col-lg-4 kt-margin-bottom-20-mobile" [ngClass]="'Guardian Report===tabName' ? 'disable' : 'active' ">
@@ -71,7 +73,7 @@
                     <mat-icon>description</mat-icon> Homework Evaluation Report
                 </a>
             </div>
-        </div>
+        </div> -->
     </kt-portlet-body>
     <!-- end::Body -->
 </kt-portlet>

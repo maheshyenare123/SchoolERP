@@ -583,6 +583,46 @@ export class MenuConfig {
           ]
         },
 
+ 
+        {
+          title: 'System Setting',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+            
+            {
+              title: 'Roles Permissions',
+              page: '/system_setting/roles'
+            },
+            {
+              title: 'Session Setting',
+              page: '/system_setting/sessions'
+            },
+            {
+              title: 'Email Setting',
+              page: '/system_setting/email_setting'
+            },  
+            {
+              title: 'Sms Setting',
+              page: '/system_setting/sms_setting'
+            },
+            {
+              title: 'Backup Restore',
+              page: '/system_setting/backup_restore'
+            },  
+            {
+              title: 'Notification Setting',
+              page: '/system_setting/notification_setting'
+            },  
+            {
+              title: 'Users',
+              page: '/system_setting/users'
+            }, 
+          ]
+        },
+
+
+
         {
           title: 'Report',
           bullet: 'dot',
@@ -626,44 +666,10 @@ export class MenuConfig {
             
           ]
         },
-        
+       
 
-        {
-          title: 'System Setting',
-          bullet: 'dot',
-          icon: 'flaticon-interface-7',
-          submenu: [
-            
-            {
-              title: 'Roles Permissions',
-              page: '/system_setting/roles'
-            },
-            {
-              title: 'Session Setting',
-              page: '/system_setting/sessions'
-            },
-            {
-              title: 'Email Setting',
-              page: '/system_setting/email_setting'
-            },  
-            {
-              title: 'Sms Setting',
-              page: '/system_setting/sms_setting'
-            },
-            {
-              title: 'Backup Restore',
-              page: '/system_setting/backup_restore'
-            },  
-            {
-              title: 'Notification Setting',
-              page: '/system_setting/notification_setting'
-            },  
-            {
-              title: 'Users',
-              page: '/system_setting/users'
-            }, 
-          ]
-        },
+
+        
 
 
 

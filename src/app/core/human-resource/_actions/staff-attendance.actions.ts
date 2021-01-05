@@ -70,7 +70,7 @@ export class ManyStaffAttendancesDeleted implements Action {
 export class StaffAttendancesPageRequested implements Action {
   readonly type = StaffAttendanceActionTypes.StaffAttendancesPageRequested;
 
-  constructor(public payload: { page: QueryParamsModel }) {
+  constructor(public payload: { page: QueryParamsModel,roleId:number,date:string }) {
   }
 }
 

@@ -217,15 +217,6 @@ export class NoticeBoardEditDialogComponent implements OnInit, OnDestroy {
 		const _noticeboard = new NoticeBoardModel();
 		_noticeboard.id = this.noticeboard.id;
 
-		// title: string;
-			// message: string;
-			// messageTo: string;
-			// id: number;
-			// isActive: string;
-			// noticeDate: string;
-			// publishOn: string;
-
-
 		_noticeboard.title = controls.title.value;
 		_noticeboard.message = controls.message.value;
 		_noticeboard.messageTo = controls.messageTo.value;

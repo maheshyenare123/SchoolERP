@@ -23,7 +23,7 @@ export class LayoutConfig {
             danger: '#F64E60',
             light: '#F3F6F9',
             dark: '#212121',
-          },
+          },     
           light: {
             white: '#ffffff',
             primary: '#E1E9FF',

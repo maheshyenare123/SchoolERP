@@ -2,7 +2,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { StaffAttendancesDataSource, StaffAttendanceModel, selectStaffAttendancesActionLoading, RoleService } from '../../../../core/human-resource';
+import { StaffAttendancesDataSource, StaffAttendanceModel, selectStaffAttendancesActionLoading, RoleService, StaffAttendanceService } from '../../../../core/human-resource';
 import { AttendenceTypeService, AttendenceTypeModel } from '../../../../core/attendance';
 import { QueryParamsModel, LayoutUtilsService, MessageType, TypesUtilsService } from '../../../../core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -23,21 +23,22 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { StaffAttendancesPageRequested, OneStaffAttendanceDeleted, ManyStaffAttendancesDeleted, StaffAttendancesStatusUpdated, StaffAttendanceUpdated, StaffAttendanceOnServerCreated, selectLastCreatedStaffAttendanceId } from '../../../../core/human-resource';
 import { RolesDtoModel } from 'src/app/core/Models/rolesDto.model';
+import { Constants } from 'src/app/core/api_url';
 // import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from 'src/app/core/academics';
 
 
 @Component({
-  selector: 'kt-staff-attendance',
-  templateUrl: './staff-attendance.component.html',
-  styleUrls: ['./staff-attendance.component.scss']
+	selector: 'kt-staff-attendance',
+	templateUrl: './staff-attendance.component.html',
+	styleUrls: ['./staff-attendance.component.scss']
 })
 export class StaffAttendanceComponent implements OnInit {
 
-  // Table fields
-	dataSource: StaffAttendancesDataSource;
+	// Table fields
+	// dataSource: StaffAttendancesDataSource;
 	//  dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-
+	dataSource: StaffAttendanceModel[] = [];
 	displayedColumns = ['id', 'staffId', 'name', 'role', 'attendance', 'note'];
 	@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 	@ViewChild('sort1', { static: true }) sort: MatSort;
@@ -60,13 +61,13 @@ export class StaffAttendanceComponent implements OnInit {
 	// Private properties
 	private componentSubscriptions: Subscription;
 
-	searchText : number;
-  roleId : number;
+	searchText: number;
+	roleId: number;
 
-
+	markAsHoliday = false;
 	// classList: StudentClassModel[] = [];
 	// sectionList: SectionDtoModel[] = [];
-	attendanceTypeList:AttendenceTypeModel[]=[];
+	attendanceTypeList: AttendenceTypeModel[] = [];
 	rolesList: RolesDtoModel[] = [];
 	constructor(public dialog: MatDialog,
 		public snackBar: MatSnackBar,
@@ -77,8 +78,9 @@ export class StaffAttendanceComponent implements OnInit {
 		private typesUtilsService: TypesUtilsService,
 		// private studentClassService: StudentClassService,
 		// private sectionService: SectionService,
-		private attendanceTypeService:AttendenceTypeService,
-		private roleService:RoleService,) { }
+		private attendanceTypeService: AttendenceTypeService,
+		private roleService: RoleService,
+		private staffAttendanceService: StaffAttendanceService) { }
 
 	ngOnInit() {
 
@@ -88,53 +90,33 @@ export class StaffAttendanceComponent implements OnInit {
 		this.loadAllAttendanceType();
 		this.addStaffAttendance();
 		// Init DataSource
-		this.dataSource = new StaffAttendancesDataSource(this.store);
+		// this.dataSource = new StaffAttendancesDataSource(this.store);
 
 	}
 
-//get All Class List
+	//get All Class List
 
-loadAllAttendanceType(){
-	debugger
-	this.attendanceTypeService.getAllAttendanceType().subscribe(res => {
-		const data = res['data'];
-		this.attendanceTypeList = data['content'];
-		console.log(this.attendanceTypeList)
-	}, err => {
-	});
-}
-// loadAllClasses() {
-// 	debugger
-// 	this.studentClassService.getAllStudentClasss().subscribe(res => {
-// 		const data = res['data'];
-// 		this.classList = data['content'];
-// 		console.log(this.classList)
-// 	}, err => {
-// 	});
-// }
-// onClassSelectChange(classObj:StudentClassModel){
-// 	// this.loadAllSectionsByClassId(classObj.id);
-// }
-// loadAllSectionsByClassId(id:number) {
-// 	debugger
-// 	this.sectionService.getAllSections().subscribe(res => {
-// 		const data = res['data'];
-// 		this.sectionList = data['content'];
-// 		console.log(this.sectionList)
-// 	}, err => {
-// 	});
-// }
+	loadAllAttendanceType() {
+		debugger
+		this.attendanceTypeService.getAllAttendanceType().subscribe(res => {
+			const data = res['data'];
+			this.attendanceTypeList = data['content'];
+			console.log(this.attendanceTypeList)
+		}, err => {
+		});
+	}
 
 
-loadAllRoles() {
-	debugger
-	this.roleService.getAllRoles().subscribe(res => {
-	  const data = res['data'];
-	  this.rolesList = data['content'];
-	  console.log(this.rolesList)
-	}, err => {
-	});
-  }
+
+	loadAllRoles() {
+		debugger
+		this.roleService.getAllRoles().subscribe(res => {
+			const data = res['data'];
+			this.rolesList = data['content'];
+			console.log(this.rolesList)
+		}, err => {
+		});
+	}
 
 	onSearch() {
 		debugger;
@@ -149,57 +131,77 @@ loadAllRoles() {
 			this.hasFormErrors = true;
 			return;
 		}
-	const	date = this.typesUtilsService.dateFormat(new Date());
-		this.getAllStudentAttendanceList(controls.roleId.value, date);
+		const date = this.typesUtilsService.dateFormat(controls.attendanceDate.value);
+		this.getAllStudentAttendanceList(controls.roleId.value,date);
 
 
 	}
 
-	getAllStudentAttendanceList(roleId,date) {
-
-		const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-		this.subscriptions.push(sortSubscription);
-
-		const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-			tap(() => this.loadStaffAttendanceList(this.roleId, this.searchText))
-		)
-			.subscribe();
-		this.subscriptions.push(paginatorSubscriptions);
-
-		// // Filtration, bind to searchInput
-		// const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
-		// 	// tslint:disable-next-line:max-line-length
-		// 	debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
-		// 	distinctUntilChanged(), // This operator will eliminate duplicate values
-		// 	tap(() => {
-		// 		this.paginator.pageIndex = 0;
-		// 		this.loadStaffAttendanceList();
-		// 	})
-		// )
-		// .subscribe();
-		// this.subscriptions.push(searchSubscription);
-
-		// Init DataSource
-		this.dataSource = new StaffAttendancesDataSource(this.store);
-
-		const entitiesSubscription = this.dataSource.entitySubject.pipe(
-			skip(1),
-			distinctUntilChanged()
-		).subscribe(res => {
-			// debugger
+	getAllStudentAttendanceList(roleId, date) {
+		this.staffAttendanceService.getAllStaffAttendances(roleId, date).subscribe(res => {
 			console.log(res);
-			this.staffAttendancesResult = res;
-			console.log(this.staffAttendancesResult);
-		});
-		this.subscriptions.push(entitiesSubscription);
-		// First load
-		of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-			this.loadStaffAttendanceList(this.roleId, this.searchText);
-		}); // Remove this line, just loading imitation
-
-
+			// studentAttendencesResult
+			const data = res['data'];
+			this.dataSource = data['content'];
+			if (!this.dataSource[0].attendence) {
+				var attendanceTypeObj = this.attendanceTypeList.find(x => x.type.toLowerCase() === Constants.PRESENT.toLowerCase());
+				this.dataSource.forEach((ele, index) => {
+					this.dataSource[index].attendenceTypeId = attendanceTypeObj.id;
+					this.dataSource[index].attendenceType = attendanceTypeObj.type;
+				})
+			}
+		})
 
 	}
+
+
+
+
+	// getAllStudentAttendanceList(roleId,date) {
+
+	// 	const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+	// 	this.subscriptions.push(sortSubscription);
+
+	// 	const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
+	// 		tap(() => this.loadStaffAttendanceList(roleId, date))
+	// 	)
+	// 		.subscribe();
+	// 	this.subscriptions.push(paginatorSubscriptions);
+
+	// 	// // Filtration, bind to searchInput
+	// 	// const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
+	// 	// 	// tslint:disable-next-line:max-line-length
+	// 	// 	debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
+	// 	// 	distinctUntilChanged(), // This operator will eliminate duplicate values
+	// 	// 	tap(() => {
+	// 	// 		this.paginator.pageIndex = 0;
+	// 	// 		this.loadStaffAttendanceList();
+	// 	// 	})
+	// 	// )
+	// 	// .subscribe();
+	// 	// this.subscriptions.push(searchSubscription);
+
+	// 	// Init DataSource
+	// 	this.dataSource = new StaffAttendancesDataSource(this.store);
+
+	// 	const entitiesSubscription = this.dataSource.entitySubject.pipe(
+	// 		skip(1),
+	// 		distinctUntilChanged()
+	// 	).subscribe(res => {
+	// 		// debugger
+	// 		console.log(res);
+	// 		this.staffAttendancesResult = res;
+	// 		console.log(this.staffAttendancesResult);
+	// 	});
+	// 	this.subscriptions.push(entitiesSubscription);
+	// 	// First load
+	// 	of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
+	// 		this.loadStaffAttendanceList(this.roleId, this.searchText);
+	// 	}); // Remove this line, just loading imitation
+
+
+
+	// }
 
 
 	/**
@@ -212,7 +214,7 @@ loadAllRoles() {
 	/**
 	 * Load StaffAttendances List from service through data-source
 	 */
-	loadStaffAttendanceList(roleId, searchText) {
+	loadStaffAttendanceList(roleId, date) {
 		debugger;
 		this.selection.clear();
 		const queryParams = new QueryParamsModel(
@@ -223,13 +225,52 @@ loadAllRoles() {
 			this.paginator.pageSize
 		);
 		// Call request from server
-	//	this.store.dispatch(new StaffAttendancesPageRequested({ page: queryParams, roleId: roleId, searchText: searchText }));
+		this.store.dispatch(new StaffAttendancesPageRequested({ page: queryParams, roleId: roleId, date: date }));
 		this.selection.clear();
 	}
 
-//save Attendance button 
-	onSaveAttendance(){
-console.log(this.staffAttendancesResult);
+	//save Attendance button 
+	onSaveAttendance() {
+		console.log(this.dataSource);
+		this.markAsHoliday = false;
+
+
+
+		this.createStaffAttendance(this.dataSource);
+		// }
+
+		const _saveMessage = 'Attendance has been created';
+
+		const _messageType = MessageType.Create;
+
+		this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
+
+		this.staffAttendanceForm.reset();
+
+		this.addStaffAttendance();
+
+	}
+
+
+	onMarkAsHoliday() {
+		this.markAsHoliday = true;
+
+		var attendanceTypeObj = this.attendanceTypeList.find(x => x.type.toLowerCase() === Constants.HOLIDAY.toLowerCase());
+		this.dataSource.forEach((ele, index) => {
+			this.dataSource[index].attendenceTypeId = attendanceTypeObj.id;
+			this.dataSource[index].attendenceType = attendanceTypeObj.type;
+
+		})
+	}
+
+
+	onChangeAttendanceType(index, attendanceType) {
+
+		var attendanceTypeObj = this.attendanceTypeList.find(x => x.type === attendanceType);
+		console.log(attendanceTypeObj)
+		this.dataSource[index].attendenceTypeId = attendanceTypeObj.id;
+		console.log(this.dataSource[index].attendenceTypeId = attendanceTypeObj.id)
+
 	}
 
 
@@ -304,9 +345,10 @@ console.log(this.staffAttendancesResult);
 	createForm() {
 		debugger;
 		this.searchForm = this.fb.group({
-			roleId: [this.roleId, ],
-      		searchText: [this.searchText, ],
-   
+			roleId: [this.roleId,Validators.required],
+			searchText: [this.searchText,],
+			attendanceDate: [this.typesUtilsService.getDateFromString(this.typesUtilsService.dateFormat(new Date())),Validators.required],
+
 		})
 
 		this.staffAttendanceForm = this.fb.group({
@@ -353,13 +395,14 @@ console.log(this.staffAttendancesResult);
 		_staffAttendance.attendenceTypeId = controls.attendenceTypeId.value;
 		_staffAttendance.biometricAttendence = controls.biometricAttendence.value;
 		_staffAttendance.biometricDeviceData = controls.biometricDeviceData.value;
-    _staffAttendance.date = controls.date.value;
-    _staffAttendance.employeeId = controls.employeeId.value;
+		_staffAttendance.date = controls.date.value;
+		_staffAttendance.employeeId = controls.employeeId.value;
 		_staffAttendance.name = controls.name.value;
-    _staffAttendance.note = controls.note.value;
-    _staffAttendance.role = controls.role.value;
+		_staffAttendance.note = controls.note.value;
+		_staffAttendance.role = controls.role.value;
 		_staffAttendance.roleId = controls.roleId.value;
 		_staffAttendance.staffId = controls.staffId.value;
+
 
 		return _staffAttendance;
 	}
@@ -368,34 +411,34 @@ console.log(this.staffAttendancesResult);
 	 * On Submit
 	 */
 	onSubmit() {
-		this.hasFormErrors = false;
-		const controls = this.staffAttendanceForm.controls;
-		/** check form */
-		if (this.staffAttendanceForm.invalid) {
-			Object.keys(controls).forEach(controlName =>
-				controls[controlName].markAsTouched()
-			);
+		// this.hasFormErrors = false;
+		// const controls = this.staffAttendanceForm.controls;
+		// /** check form */
+		// if (this.staffAttendanceForm.invalid) {
+		// 	Object.keys(controls).forEach(controlName =>
+		// 		controls[controlName].markAsTouched()
+		// 	);
 
-			this.hasFormErrors = true;
-			return;
-		}
+		// 	this.hasFormErrors = true;
+		// 	return;
+		// }
 
-		const editedStaffAttendance = this.prepareStaffAttendance();
-		if (editedStaffAttendance.id > 0) {
-			this.updateStaffAttendance(editedStaffAttendance);
-		} else {
-			this.createStaffAttendance(editedStaffAttendance);
-		}
+		// const editedStaffAttendance = this.prepareStaffAttendance();
+		// if (editedStaffAttendance.id > 0) {
+		// 	this.updateStaffAttendance(editedStaffAttendance);
+		// } else {
+		// 	this.createStaffAttendance(editedStaffAttendance);
+		// }
 
-		const _saveMessage = editedStaffAttendance.id > 0 ? 'Purpose  has been updated' : 'Purpose has been created';
+		// const _saveMessage = editedStaffAttendance.id > 0 ? 'Staff Attendance has been updated' : 'Staff Attendance has been created';
 
-		const _messageType = editedStaffAttendance.id > 0 ? MessageType.Update : MessageType.Create;
+		// const _messageType = editedStaffAttendance.id > 0 ? MessageType.Update : MessageType.Create;
 
-		this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
+		// this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
 
-		this.staffAttendanceForm.reset();
+		// this.staffAttendanceForm.reset();
 
-		this.addStaffAttendance();
+		// this.addStaffAttendance();
 		// this.staffAttendance.clear();
 		// this.createForm();
 
@@ -408,29 +451,6 @@ console.log(this.staffAttendancesResult);
 	}
 
 
-
-	/**
- * Mark As Holiday
- */
-	markAsHoliday() {
-
-		//search api
-
-	}
-
-	/**
- * On Save
- */
-	onSave() {
-
-
-
-	}
-	/**
-	 * Update StaffAttendance
-	 *
-	 * @param _staffAttendance: StaffAttendanceModel
-	 */
 	updateStaffAttendance(_staffAttendance: StaffAttendanceModel) {
 		const updateStaffAttendance: Update<StaffAttendanceModel> = {
 			id: _staffAttendance.id,
@@ -449,18 +469,36 @@ console.log(this.staffAttendancesResult);
 	 *
 	 * @param _staffAttendance: StaffAttendanceModel
 	 */
-	createStaffAttendance(_staffAttendance: StaffAttendanceModel) {
-		this.store.dispatch(new StaffAttendanceOnServerCreated({ staffAttendance: _staffAttendance }));
-		this.componentSubscriptions = this.store.pipe(
-			select(selectLastCreatedStaffAttendanceId),
-			// delay(1000), // Remove this line
-		).subscribe(res => {
-			if (!res) {
-				return;
-			}
+	createStaffAttendance(_staffAttendance: StaffAttendanceModel[]) {
 
-			// this.dialogRef.close({ _staffAttendance, isEdit: false });
+
+
+		const controls = this.searchForm.controls;
+		const date = this.typesUtilsService.dateFormat(controls.attendanceDate.value);
+		_staffAttendance.forEach(ele => {
+			ele.date = date;
+			ele.attendence = true;
+		})
+
+
+		this.staffAttendanceService.createStaffAttendances(_staffAttendance).subscribe(res => {
+
+		}, err => {
+
 		});
+
+
+		// this.store.dispatch(new StaffAttendanceOnServerCreated({ staffAttendance: _staffAttendance }));
+		// this.componentSubscriptions = this.store.pipe(
+		// 	select(selectLastCreatedStaffAttendanceId),
+		// 	// delay(1000), // Remove this line
+		// ).subscribe(res => {
+		// 	if (!res) {
+		// 		return;
+		// 	}
+
+		// 	// this.dialogRef.close({ _staffAttendance, isEdit: false });
+		// });
 	}
 
 	/** Alect Close event */
@@ -475,4 +513,3 @@ console.log(this.staffAttendancesResult);
 //     minuteStep = 15;
 //     secondStep = 30;
 // }
-

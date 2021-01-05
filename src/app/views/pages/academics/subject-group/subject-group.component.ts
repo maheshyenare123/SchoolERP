@@ -70,7 +70,7 @@ classList: StudentClassModel[] = [];
 		private fb: FormBuilder,
 		private typesUtilsService: TypesUtilsService,
 		private studentClassService: StudentClassService,
-		private sectionService: SectionService,
+		
 		private subjectService: SubjectService) { }
 
   ngOnInit() {

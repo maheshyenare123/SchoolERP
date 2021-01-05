@@ -89,77 +89,79 @@
             <!-- end::Header -->
             <kt-portlet-body>
 
-                    <div class="kt-form kt-margin-b-30">
-                            <form class="form" [formGroup]="searchForm">
-                                <div class="card-body">
-                        
-                                    <div class="card-body-progress">
-                                        <mat-spinner [diameter]="20"></mat-spinner>
-                                    </div>
-                        
-                                    <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
-                                        Oh snap! Change a few things up and try submitting again.
-                                    </kt-alert>
-                        
-                                    <div class="form-group row">
-                                        <div class="col-lg-3 kt-margin-bottom-20-mobile">
-                                       
-        
-                                            <mat-form-field class="mat-form-field-fluid">
-                                                <mat-select placeholder="Select Role" formControlName="roleId"  >
-                                                        <ng-container *ngFor="let role of rolesList">
-                                                                <ng-container *ngIf="role.name!='Student' && role.name!='Parent'">
-                                                                    <mat-option [value]="role.roleName">
-                                                                        {{role.name}}
-                                                                    </mat-option>
-                                                                </ng-container>
-                                                            </ng-container>
-                                                </mat-select>
-                        
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-lg-3 kt-margin-bottom-20-mobile">
-                                            <mat-form-field class="mat-form-field-fluid">
-                                                <mat-select placeholder="Month" formControlName="month">
-                                                    <mat-option value="January">January</mat-option>
-                                                    <mat-option value="February">February</mat-option>
-                                                    <mat-option value="March">March</mat-option>
-                                                    <mat-option value="April">April</mat-option>
-                                                    <mat-option value="May">May</mat-option>
-                                                    <mat-option value="June">June</mat-option>
-                                                    <mat-option value="July">July</mat-option>
-                                                    <mat-option value="August">August</mat-option>
-                                                    <mat-option value="September">September</mat-option>
-                                                    <mat-option value="October">October</mat-option>
-                                                    <mat-option value="November">November</mat-option>
-                                                    <mat-option value="December">December</mat-option>
-                                                </mat-select>
-                        
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-lg-3 kt-margin-bottom-20-mobile">
-                                            <mat-form-field class="mat-form-field-fluid">
-                                                <mat-select placeholder="Year" formControlName="year">
-                                                    <mat-option value="2020">2020</mat-option>
-                                                    <mat-option value="2021">2021</mat-option>
-                                                </mat-select>
-                        
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-lg-2 kt-margin-bottom-20-mobile">
-                                        <div class="d-flex justify-content-between">
-                                            <div class="mr-2"></div>
-                                            <div>
-                                                <button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
-                                                    Search
-                                                </button>
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </div>
-                        
+                <div class="kt-form kt-margin-b-30">
+                    <form class="form" [formGroup]="searchForm">
+                        <div class="card-body">
+
+                            <div class="card-body-progress">
+                                <mat-spinner [diameter]="20"></mat-spinner>
+                            </div>
+
+                            <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true"
+                                (close)="onAlertClose($event)">
+                                Oh snap! Change a few things up and try submitting again.
+                            </kt-alert>
+
+                            <div class="form-group row">
+                                <div class="col-lg-3 kt-margin-bottom-20-mobile">
+
+
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-select placeholder="Select Role" formControlName="roleId">
+                                            <ng-container *ngFor="let role of rolesList">
+                                                <ng-container *ngIf="role.name!='Student' && role.name!='Parent'">
+                                                    <mat-option [value]="role.roleName">
+                                                        {{role.name}}
+                                                    </mat-option>
+                                                </ng-container>
+                                            </ng-container>
+                                        </mat-select>
+
+                                    </mat-form-field>
                                 </div>
-                                <!-- <div class="card-footer">
+                                <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-select placeholder="Month" formControlName="month">
+                                            <mat-option value="January">January</mat-option>
+                                            <mat-option value="February">February</mat-option>
+                                            <mat-option value="March">March</mat-option>
+                                            <mat-option value="April">April</mat-option>
+                                            <mat-option value="May">May</mat-option>
+                                            <mat-option value="June">June</mat-option>
+                                            <mat-option value="July">July</mat-option>
+                                            <mat-option value="August">August</mat-option>
+                                            <mat-option value="September">September</mat-option>
+                                            <mat-option value="October">October</mat-option>
+                                            <mat-option value="November">November</mat-option>
+                                            <mat-option value="December">December</mat-option>
+                                        </mat-select>
+
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-select placeholder="Year" formControlName="year">
+                                            <mat-option value="2020">2020</mat-option>
+                                            <mat-option value="2021">2021</mat-option>
+                                        </mat-select>
+
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-lg-2 kt-margin-bottom-20-mobile">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="mr-2"></div>
+                                        <div>
+                                            <button type="button" mat-raised-button color="primary" (click)="onSearch()"
+                                                [disabled]="viewLoading" matTooltip="Save changes">
+                                                Search
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- <div class="card-footer">
                                     <div class="d-flex justify-content-between">
                                         <div class="mr-2"></div>
                                         <div>
@@ -169,10 +171,10 @@
                                         </div>
                                     </div>
                                 </div> -->
-                            </form>
-                            <div class="kt-separator kt-separator--dashed"></div>
+                    </form>
+                    <div class="kt-separator kt-separator--dashed"></div>
 
-</div>
+                </div>
 
 
 
@@ -197,7 +199,7 @@
                     </div>
                 </div>
                 <!-- end::FILTERS -->
-                
+
                 <div class="mat-table__wrapper">
                     <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource" matSort #sort1="matSort"
                         matSortActive="id" matSortDirection="asc" matSortDisableClear>
@@ -237,6 +239,13 @@
                             </mat-header-cell>
                             <mat-cell *matCellDef="let staff">{{staff.contactNo}}</mat-cell>
                         </ng-container>
+                        <ng-container matColumnDef="status">
+                            <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Status
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let staff">{{staff.staffPayslipsStatus}}</mat-cell>
+                        </ng-container>
+
+
                         <ng-container matColumnDef="actions">
                             <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                             <mat-cell *matCellDef="let staff">
@@ -250,8 +259,28 @@
                                 <button type="button" mat-raised-button color="primary" (click)="onViewPaySlip(staff)" [disabled]="viewLoading" matTooltip="View PaySlip">
                                     View PaySlip
                                 </button> -->
-            
-                                <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="More actions">
+                                <ng-container *ngIf="staff.staffPayslipsStatus==='generated' ">
+                                   
+
+                                    <button mat-icon-button color="primary" matTooltip="Revert"
+                                    >
+                                    <mat-icon>refresh</mat-icon>
+                                    </button>&nbsp;
+
+                                   
+                                    <button mat-icon-button type="button" (click)="onProceedPay(staff)">
+                                        <mat-icon>assignment</mat-icon>
+                                        <span>Proceed Pay</span>
+                                    </button>
+
+                                </ng-container>
+                                <ng-container *ngIf="staff.staffPayslipsStatus===null ">
+                                    <button mat-icon-button type="button" (click)="onGeneratePaySlip(staff)">
+                                        <mat-icon>subject</mat-icon>
+                                        <span>Generate PaySlip</span>
+                                    </button>
+                                </ng-container>
+                                <!-- <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="More actions">
                                     <mat-icon>more_vert</mat-icon>
                                 </button>
                                 <mat-menu #menu="matMenu">
@@ -263,11 +292,11 @@
                                         <mat-icon>assignment</mat-icon>
                                         <span>Proceed Pay</span>
                                     </button>
-                                    <button mat-menu-item type="button" (click)="onViewPaySlip(staff)" >
+                                    <button mat-menu-item type="button" (click)="onViewPaySlip(staff)">
                                         <mat-icon>assignment</mat-icon>
                                         <span>View PaySlip</span>
                                     </button>
-                                </mat-menu>
+                                </mat-menu> -->
 
 
                                 <!-- <button mat-icon-button color="primary" matTooltip="Edit Staff"
