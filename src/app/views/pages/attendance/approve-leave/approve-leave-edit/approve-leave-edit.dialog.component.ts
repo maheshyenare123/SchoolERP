@@ -17,6 +17,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ApproveLeaveDtoModel, selectApproveLeavesActionLoading, ApproveLeaveUpdated, selectLastCreatedApproveLeaveId, ApproveLeaveOnServerCreated } from '../../../../../core/attendance';
 import { StudentDtoModel, StudentService } from 'src/app/core/student-information';
 import { SectionDtoModel, StudentClassModel, SectionService, StudentClassService } from 'src/app/core/academics';
+import { LeaveTypeModel, LeaveTypeService } from 'src/app/core/human-resource';
+import { constants } from 'buffer';
+import { Constants } from 'src/app/core/api_url';
 
 
 
@@ -43,6 +46,7 @@ export class ApproveLeaveEditDialogComponent implements OnInit, OnDestroy {
 	sectionList: SectionDtoModel[] = [];
 	studentList: StudentDtoModel[] = [];
 
+	leaveTypeList: LeaveTypeModel[] = [];
 	constructor(public dialogRef: MatDialogRef<ApproveLeaveEditDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		private fb: FormBuilder,
@@ -50,7 +54,8 @@ export class ApproveLeaveEditDialogComponent implements OnInit, OnDestroy {
 		private typesUtilsService: TypesUtilsService,
 		private studentClassService: StudentClassService,
 		private sectionService: SectionService,
-		private studentService: StudentService) {
+		private studentService: StudentService,
+		private leaveTypeService: LeaveTypeService) {
 	}
 
 	/**
@@ -59,7 +64,7 @@ export class ApproveLeaveEditDialogComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 
 		this.loadAllClasses();
-
+		this.loadAllLeaveType();
 		this.store.pipe(select(selectApproveLeavesActionLoading)).subscribe(res => this.viewLoading = res);
 		// loadding
 		this.approveLeave = this.data.approveLeave;
@@ -75,8 +80,11 @@ export class ApproveLeaveEditDialogComponent implements OnInit, OnDestroy {
 		}, err => {
 		});
 	}
-	onClassSelectChange(classId) {
-		this.loadAllSectionsByClassId(classId);
+	onClassSelectChange(classes) {
+		debugger
+		var leaveObj = this.classList.find(x => x.classses === classes);
+		this.approveLeaveForm.controls['classId'].setValue(leaveObj.id);
+		this.loadAllSectionsByClassId(leaveObj.id);
 	}
 	loadAllSectionsByClassId(id: number) {
 		debugger
@@ -87,9 +95,10 @@ export class ApproveLeaveEditDialogComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	onSectionSelectChange(sectionId) {
-
-		this.loadAllStudent(this.approveLeaveForm.controls['classId'].value, sectionId)
+	onSectionSelectChange(section) {
+		debugger
+		var leaveObj = this.sectionList.find(x => x.section === section);
+		this.loadAllStudent(this.approveLeaveForm.controls['classId'].value, leaveObj.id)
 	}
 
 
@@ -103,6 +112,19 @@ export class ApproveLeaveEditDialogComponent implements OnInit, OnDestroy {
 		}, err => {
 		});
 	}
+	loadAllLeaveType() {
+		debugger
+		this.leaveTypeService.getAllLeaveTypes().subscribe(res => {
+			const data = res['data'];
+			this.leaveTypeList = data['content'];
+			console.log(this.leaveTypeList)
+		}, err => {
+		});
+	}
+	onLeaveTypeSelectChange(leaveId) {
+		var leaveObj = this.leaveTypeList.find(x => x.id === leaveId);
+		this.approveLeaveForm.controls.leaveType.setValue(leaveObj.type);
+	}
 	/**
 	 * On destroy
 	 */
@@ -115,17 +137,6 @@ export class ApproveLeaveEditDialogComponent implements OnInit, OnDestroy {
 	createForm() {
 		this.approveLeaveForm = this.fb.group({
 
-			// 	applyDate: string;
-			// approveBy: number;
-			// docs: string;
-			// fromDate: string;
-			// id: number;
-			// isActive: string;
-			// reason: string;
-			// requestType: number;
-			// status: number;
-			// studentSessionId: number;
-			// toDate: string;
 			classId: ['',],
 			sectionId: ['',],
 			studentId: ['',],
@@ -139,6 +150,13 @@ export class ApproveLeaveEditDialogComponent implements OnInit, OnDestroy {
 			requestType: [this.approveLeave.requestType,],
 			status: [this.approveLeave.status,],
 			studentSessionId: [this.approveLeave.studentSessionId,],
+
+			leaveType: [this.approveLeave.leaveType, Validators.required],
+			leaveTypeId: [this.approveLeave.leaveTypeId, Validators.required],
+			approveOrRejectReason: [this.approveLeave.approveOrRejectReason, ''],
+			classes: [this.approveLeave.classes, Validators.required],
+			section: [this.approveLeave.section, Validators.required],
+			staff: [this.approveLeave.staff, '']
 
 
 
@@ -175,6 +193,13 @@ export class ApproveLeaveEditDialogComponent implements OnInit, OnDestroy {
 		const controls = this.approveLeaveForm.controls;
 		const _approveLeave = new ApproveLeaveDtoModel();
 		_approveLeave.id = this.approveLeave.id;
+		if (_approveLeave.id > 0) {
+			_approveLeave.isActive = controls.isActive.value;
+			_approveLeave.status = controls.status.value;
+		} else {
+			_approveLeave.isActive = "yes";
+			_approveLeave.status = Constants.StudentLeaveStatus.Pending
+		}
 
 		const _applyDate = controls.applyDate.value;
 		if (_applyDate) {
@@ -197,14 +222,50 @@ export class ApproveLeaveEditDialogComponent implements OnInit, OnDestroy {
 
 		_approveLeave.approveBy = controls.approveBy.value;
 		_approveLeave.docs = controls.docs.value;
-		_approveLeave.isActive = controls.isActive.value;
 		_approveLeave.reason = controls.reason.value;
 		_approveLeave.requestType = controls.requestType.value;
-		_approveLeave.status = controls.status.value;
-		_approveLeave.studentSessionId = controls.studentSessionId.value;
+		
+		// _approveLeave.studentSessionId = controls.studentSessionId.value;
+		_approveLeave.studentSessionId =1;
 
-		_approveLeave.isActive = 'yes'
+		_approveLeave.leaveType = controls.leaveType.value;
+		_approveLeave.leaveTypeId = controls.leaveTypeId.value;
+		_approveLeave.approveOrRejectReason = controls.approveOrRejectReason.value;
+		_approveLeave.classes = controls.classes.value;
+		_approveLeave.section = controls.section.value;
+		_approveLeave.staff = controls.staff.value;
+
+
 		return _approveLeave;
+
+
+		// {
+		// 	"
+
+		// 	"approveOrRejectReason": "string",
+		// 	"classes": "string",
+		// 	"leaveType": "string",
+		// 	"leaveTypeId": 0,
+		// 	"section": "string",
+		// 	"staff": "string",
+
+
+
+		//   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	}
 
 	/**

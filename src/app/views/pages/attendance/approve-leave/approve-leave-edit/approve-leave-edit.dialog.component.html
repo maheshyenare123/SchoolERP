@@ -17,10 +17,10 @@
 			</kt-alert>
 
 			<div class="form-group row">
-				<div class="col-lg-4 kt-margin-bottom-20-mobile">
+				<div class="col-lg-3 kt-margin-bottom-20-mobile">
 					<mat-form-field class="mat-form-field-fluid">
-					<mat-select placeholder="Select Class" formControlName="classId" >
-						<mat-option *ngFor="let classData of classList" [value]="classData.id" (selectionChange)="onClassSelectChange($event.value)">
+					<mat-select placeholder="Select Class" formControlName="classes" (selectionChange)="onClassSelectChange($event.value)">
+						<mat-option *ngFor="let classData of classList" [value]="classData.classses" >
 							{{classData.classses}}
 						</mat-option>
 					</mat-select>
@@ -29,8 +29,8 @@
 				<div class="col-lg-3 kt-margin-bottom-20-mobile">
 					<mat-form-field class="mat-form-field-fluid">
 					
-						<mat-select placeholder="Select Section" formControlName="sectionId">
-							<mat-option *ngFor="let sectionData of sectionList" [value]="sectionData.id">
+						<mat-select placeholder="Select Section" formControlName="section" (selectionChange)="onSectionSelectChange($event.value)">
+							<mat-option *ngFor="let sectionData of sectionList" [value]="sectionData.section" >
 								{{sectionData.section}}
 							</mat-option>
 
@@ -44,11 +44,22 @@
 						<!-- formControlName="studentId" there is no such variable  -->
 						<mat-select placeholder="Select Student" formControlName="studentId">
 							<mat-option *ngFor="let student of studentList" [value]="student.id">
-								{{student.name}}
+								{{student.firstname}}{{student.lastname}}
 							</mat-option>
 
 
 						</mat-select>
+					</mat-form-field>
+				</div>
+
+				<div class="col-lg-3 kt-margin-bottom-20-mobile">
+					<mat-form-field class="mat-form-field-fluid">
+						<mat-select placeholder=" Leave Type" formControlName="leaveTypeId" (selectionChange)="onLeaveTypeSelectChange($event.value)">
+							<mat-option [value]="role.id" *ngFor="let role of leaveTypeList">
+								{{role.type}}
+							</mat-option>
+						</mat-select>
+
 					</mat-form-field>
 				</div>
 			</div>

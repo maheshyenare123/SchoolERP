@@ -1,8 +1,8 @@
 export class Constants {
    public static URL: any = {
       // HOST_URL: 'http://yamistha.cloudjiffy.net/',
-      // HOST_URL: 'http://3.140.52.88:8080/',
-      HOST_URL: 'http://localhost:8080/',
+      HOST_URL: 'http://3.140.52.88:8080/',
+      // HOST_URL: 'http://localhost:8080/',
       accessToken: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdXBlcmFkbWluQGdtYWlsLmNvbSIsIlNlc3Npb25JRCI6MSwiaWF0IjoxNjA1NjgwNTE4LCJleHAiOjE2MDU3NjY5MTh9.ylU_vhIgkXCnK_JPjpzUB2o-if_vtSf0eSTu4t-XQnk-MuolPdbe1W7rQvYagANBzlU3efKk8U57FqfMqiIFOg',
       sessionId: '1',
 // http://3.140.52.88:8080/swagger-ui.html#
@@ -13,6 +13,18 @@ export class Constants {
    public static RECEIVE: string = 'receive';
    public static HOLIDAY: string = 'holiday';
    public static PRESENT: string = 'present';
+
+   public static StudentLeaveStatus:any={
+      All:'all',
+      Pending:'0',
+      Approve:'1',
+      Reject:'2'
+   }
+   // Note: Defined values for leave status 0 - Pending, 1 - Approve, 2 - Reject
+
+
+
+
 
    public static Authentication: any = {
       Login: 'auth/login',
@@ -64,7 +76,8 @@ export class Constants {
       Approve_Leave: 'api/student-apply-leave',
       //   Attendance_By_Date:'',
       Student_Attendance: 'api/student-attendance',
-      Attendance_Type: 'api/attendance-type'
+      Attendance_Type: 'api/attendance-type',
+      Approve_Disapprove_Leave:'api/student-approve-leave'
    }
 
 

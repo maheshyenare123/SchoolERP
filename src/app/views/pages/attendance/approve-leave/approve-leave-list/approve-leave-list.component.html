@@ -2,7 +2,8 @@
 	<kt-portlet-header [sticky]="true" [title]="'Approve Leave List'" [class]="'card-head-lg'"
 		[viewLoading$]="dataSource.loading$">
 		<ng-container ktPortletTools>
-			<button (click)="addApproveLeave()" mat-raised-button color="primary" matTooltip="Create new Approve Leave">New
+			<button (click)="addApproveLeave()" mat-raised-button color="primary"
+				matTooltip="Create new Approve Leave">New
 				Approve Leave</button>
 		</ng-container>
 	</kt-portlet-header>
@@ -40,19 +41,19 @@
 							</mat-hint>
 						</mat-form-field>
 					</div> -->
-					<div class="col-md-4 kt-margin-bottom-10-mobile">
-						<mat-form-field>
-							<input matInput placeholder="Search product" #searchInput placeholder="Search"
-								class="mat-form-field mat-form-field-fluid">
-							<mat-hint align="start">
-								<strong>Search in all fields</strong>
-							</mat-hint>
-						</mat-form-field>
-					</div>
+				<div class="col-md-4 kt-margin-bottom-10-mobile">
+					<mat-form-field>
+						<input matInput placeholder="Search product" #searchInput placeholder="Search"
+							class="mat-form-field mat-form-field-fluid">
+						<mat-hint align="start">
+							<strong>Search in all fields</strong>
+						</mat-hint>
+					</mat-form-field>
 				</div>
 			</div>
-        
-            <!-- <div class="row align-items-center collapse form-group-actions kt-margin-top-20 kt-margin-bottom-20"
+		</div>
+
+		<!-- <div class="row align-items-center collapse form-group-actions kt-margin-top-20 kt-margin-bottom-20"
 				[ngClass]="{'show' : selection.selected.length > 0}">
 				<div class="col-xl-12">
 					<div class="form-group form-group-inline">
@@ -82,11 +83,11 @@
 					</div>
 				</div>
 			</div> -->
-			
+
 		<!-- </div> -->
 		<!-- end::FILTERS & GROUP ACTIONS -->
 
-	<div class="mat-table-wrapper">
+		<div class="mat-table-wrapper">
 			<mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource" matSort #sort1="matSort"
 				matSortActive="id" matSortDirection="asc" matSortDisableClear>
 				<!-- Checkbox Column -->
@@ -104,59 +105,82 @@
 						</mat-checkbox>
 					</mat-cell>
 				</ng-container> -->
-                
+
 				<ng-container matColumnDef="studentName">
-					<mat-header-cell *matHeaderCellDef mat-sort-header >Student Name
+					<mat-header-cell *matHeaderCellDef mat-sort-header>Student Name
 					</mat-header-cell>
-					<mat-cell *matCellDef="let approveLeave" >{{approveLeave.toTitle}}</mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="class">
-					<mat-header-cell *matHeaderCellDef mat-sort-header >Class
-					</mat-header-cell>
-					<mat-cell *matCellDef="let approveLeave" >{{approveLeave.class}}</mat-cell>
-				</ng-container><ng-container matColumnDef="section">
-					<mat-header-cell *matHeaderCellDef mat-sort-header >Section
-					</mat-header-cell>
-					<mat-cell *matCellDef="let approveLeave" >{{approveLeave.section}}</mat-cell>
-				</ng-container><ng-container matColumnDef="applyDate">
-					<mat-header-cell *matHeaderCellDef mat-sort-header >Apply Date
-					</mat-header-cell>
-					<mat-cell *matCellDef="let approveLeave" >{{approveLeave.applyDate}}</mat-cell>
+					<mat-cell *matCellDef="let approveLeave">{{approveLeave.toTitle}}</mat-cell>
 				</ng-container>
-               
+				<ng-container matColumnDef="class">
+					<mat-header-cell *matHeaderCellDef mat-sort-header>Class
+					</mat-header-cell>
+					<mat-cell *matCellDef="let approveLeave">{{approveLeave.classes}}</mat-cell>
+				</ng-container>
+				<ng-container matColumnDef="section">
+					<mat-header-cell *matHeaderCellDef mat-sort-header>Section
+					</mat-header-cell>
+					<mat-cell *matCellDef="let approveLeave">{{approveLeave.section}}</mat-cell>
+				</ng-container>
+				<ng-container matColumnDef="applyDate">
+					<mat-header-cell *matHeaderCellDef mat-sort-header>Apply Date
+					</mat-header-cell>
+					<mat-cell *matCellDef="let approveLeave">{{approveLeave.applyDate}}</mat-cell>
+				</ng-container>
+
 				<ng-container matColumnDef="fromDate">
 					<mat-header-cell *matHeaderCellDef mat-sort-header>From Date</mat-header-cell>
 					<mat-cell *matCellDef="let approveLeave">{{approveLeave.fromDate}}</mat-cell>
-                </ng-container>
-                
-                <ng-container matColumnDef="toDate">
+				</ng-container>
+
+				<ng-container matColumnDef="toDate">
 					<mat-header-cell *matHeaderCellDef mat-sort-header>To Title</mat-header-cell>
 					<mat-cell *matCellDef="let approveLeave">{{approveLeave.toDate}}</mat-cell>
-                </ng-container>
-                
-                <ng-container matColumnDef="status">
+				</ng-container>
+
+				<ng-container matColumnDef="status">
 					<mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
-					<mat-cell *matCellDef="let approveLeave">{{approveLeave.status}}</mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="approvedBy">
+					<mat-cell *matCellDef="let approveLeave">
+						<ng-container *ngIf="approveLeave.status===0">
+							Pending
+						</ng-container>
+						<ng-container *ngIf="approveLeave.status===1">
+							Approve
+						</ng-container>
+						<ng-container *ngIf="approveLeave.status===2">
+							Reject
+						</ng-container>
+
+
+					</mat-cell>
+				</ng-container>
+				<ng-container matColumnDef="approvedBy">
 					<mat-header-cell *matHeaderCellDef mat-sort-header>Approved By</mat-header-cell>
 					<mat-cell *matCellDef="let approveLeave">{{approveLeave.approvedBy}}</mat-cell>
-                </ng-container>
+				</ng-container>
 
 				<ng-container matColumnDef="actions">
 					<mat-header-cell *matHeaderCellDef>
 						Actions
-                    </mat-header-cell>
-                    <!-- make condision base upon status -->
+					</mat-header-cell>
+					<!-- make condision base upon status -->
 					<mat-cell *matCellDef="let approveLeave">
-                        <button type="button" (click)="disapproveLeave(approveLeave)" mat-icon-button color="primary"
-							matTooltip="Disapprove">
-							<mat-icon>delete</mat-icon>
-                        </button>&nbsp;
-                        <button type="button" (click)="approveLeave(approveLeave)" mat-icon-button color="primary"
-                        matTooltip="Approve">
-                        <mat-icon>check</mat-icon>
-                    </button>&nbsp;
+
+						<ng-container *ngIf="approveLeave.status===1">
+							<button type="button" (click)="rejectLeave(approveLeave)" mat-icon-button
+								color="primary" matTooltip="Reject">
+								<mat-icon>close</mat-icon>
+							</button>&nbsp;
+						</ng-container>
+
+						<ng-container *ngIf="approveLeave.status===0">
+
+							<button type="button" (click)="approveLeaveRequest(approveLeave)" mat-icon-button color="primary"
+								matTooltip="Approve">
+								<mat-icon>check</mat-icon>
+							</button>
+						</ng-container>
+
+
 						<button type="button" (click)="editApproveLeave(approveLeave)" mat-icon-button color="primary"
 							matTooltip="Edit Approve Leave">
 							<mat-icon>create</mat-icon>

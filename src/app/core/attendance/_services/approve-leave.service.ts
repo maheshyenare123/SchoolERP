@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from "@angular/common/http";
+import { HttpClient,HttpHeaders, HttpParams } from "@angular/common/http";
 import { Constants } from '../../api_url';
 import { HttpUtilsService, QueryResultsModel, QueryParamsModel } from '../../_base/crud';
 import { ApproveLeaveDtoModel } from '../_models/approve-leave.model';
 import { Observable } from 'rxjs';
+import { ApproveRejectLeaveModel } from '../_models/approve-reject-leave.model';
 
 
 @Injectable({
@@ -19,6 +20,15 @@ export class ApproveLeaveService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     return this.http.post<ApproveLeaveDtoModel>(Constants.URL.HOST_URL+Constants.Attendance.Approve_Leave, approveLeave, {headers: httpHeaders});
   }
+
+  // /api/student-approve-leave
+
+  approveRejectLeaveStatusChange(approveLeave: ApproveRejectLeaveModel) {
+    // Note: Add headers if needed (tokens/bearer)
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.post(Constants.URL.HOST_URL+Constants.Attendance.Approve_Disapprove_Leave, approveLeave, {headers: httpHeaders});
+  }
+
 
   // READ
   getAllApproveLeaves(): Observable<ApproveLeaveDtoModel[]> {
@@ -37,7 +47,15 @@ export class ApproveLeaveService {
   findApproveLeaves(queryParams: QueryParamsModel): Observable<QueryResultsModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
+    // const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
+
+
+    const httpParams =  new HttpParams()
+        .set('sortBy', queryParams.sortField)
+        .set('pageNo', queryParams.pageNumber.toString())
+        .set('pageSize', queryParams.pageSize.toString())
+        .set('status', 'all')
+        .set('studentsessionId','0');
 
     const url =Constants.URL.HOST_URL+Constants.Attendance.Approve_Leave ;
     return this.http.get<QueryResultsModel>(url, {

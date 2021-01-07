@@ -14,7 +14,7 @@ import { AppState } from '../../../../../core/reducers';
 // CRUD
 import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { StaffModel, StaffPayslipModel, selectStaffPayslipsActionLoading, StaffPayslipUpdated, selectLastCreatedStaffPayslipId, StaffPayslipOnServerCreated } from '../../../../../core/human-resource';
+import { StaffModel, StaffPayslipModel, selectStaffPayslipsActionLoading, StaffPayslipUpdated, selectLastCreatedStaffPayslipId, StaffPayslipOnServerCreated, StaffPayrollModel } from '../../../../../core/human-resource';
 
 
 
@@ -29,9 +29,10 @@ export class ProceedPayEditDialogComponent implements OnInit, OnDestroy {
 	
 	
 // Public properties
+
 staff: StaffModel;
 staffPayslip: StaffPayslipModel;
-searchFormData :any;
+
 staffPayslipForm: FormGroup;
 earningForm: FormGroup;
 deductionForm: FormGroup;
@@ -60,14 +61,9 @@ ngOnInit() {
 	// loadding
 	debugger
 	//staff details show purpose 
-	this.staff = this.data.staff;
-	 
-	this.searchFormData = this.data.searchForm.value
-
-	// for save payment 
-	const newStaffPayslip = new StaffPayslipModel();
-	newStaffPayslip.clear(); // Set all defaults fields
-	this.staffPayslip = newStaffPayslip;
+	this.staff=this.data.staff;
+	this.staffPayslip = this.data.payslip; 
+ 
 
 	this.createForm();
 }
@@ -86,20 +82,20 @@ createForm() {
 
 	this.staffPayslipForm = this.fb.group({	
 	
-		basic: [this.staffPayslip.basic,0],
-		leaveDeduction: [this.staffPayslip.leaveDeduction, 0],
-		month: [this.staffPayslip.month, this.searchFormData.month],
-		netSalary: [this.staffPayslip.netSalary, 0],
-		grossSalary: [this.staffPayslip.grossSalary, 0],//new Variable
+		basic: [this.staffPayslip.basic,''],
+		leaveDeduction: [this.staffPayslip.leaveDeduction, ''],
+		month: [ this.staffPayslip.month,''],
+		netSalary: [this.staffPayslip.netSalary, ''],
+		grossSalary: [this.staffPayslip.grossSalary, ''],//new Variable
 		paymentDate: [this.typesUtilsService.getDateFromString(this.staffPayslip.paymentDate), Validators.compose([Validators.nullValidator])],
 		paymentMode: [this.staffPayslip.paymentMode,''],
 		remark: [this.staffPayslip.remark,''],
 		staffId: [this.staffPayslip.staffId,''],//this.staff.userId
 		status: [this.staffPayslip.status, ''],
 		tax: [this.staffPayslip.tax, ''],
-		totalAllowance: [this.staffPayslip.totalAllowance, 0],
-		totalDeduction: [this.staffPayslip.totalDeduction,0],
-		year: [this.staffPayslip.year,this.searchFormData.year],
+		totalAllowance: [this.staffPayslip.totalAllowance, ''],
+		totalDeduction: [this.staffPayslip.totalDeduction,''],
+		year: [this.staffPayslip.year,''],
 		
 	});
 }

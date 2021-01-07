@@ -32,6 +32,8 @@ export class GeneratePayrollEditDialogComponent implements OnInit, OnDestroy {
 // Public properties
 staffPayroll: StaffPayrollModel;
 staffPayslip: StaffPayslipModel;
+staff:StaffModel;
+
 searchFormData :any;
 staffPayslipForm: FormGroup;
 earningForm: FormGroup;
@@ -61,10 +63,9 @@ ngOnInit() {
 	// loadding
 	debugger
 	//staff details show purpose and from staff.id call api for attendance for staff for showing
-	this.staffPayroll = this.data.staffPayslip;
-	 
+	this.staffPayroll = this.data.staffPayslip; 
 	this.searchFormData = this.data.searchData
-
+	this.staff=this.data.staff;
 	// for save payment 
 	const newStaffPayslip = new StaffPayslipModel();
 	newStaffPayslip.clear(); // Set all defaults fields

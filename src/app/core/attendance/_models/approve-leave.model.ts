@@ -1,3 +1,5 @@
+import { Constants } from "../../api_url";
+
 export class ApproveLeaveDtoModel {
 
     applyDate: string;
@@ -12,12 +14,21 @@ export class ApproveLeaveDtoModel {
     studentSessionId: number;
     toDate: string;
 
+
+    approveOrRejectReason: string;
+    classes: string;
+    leaveType: string;
+    leaveTypeId: number;
+    section: string;
+    staff: string;
+
+
+
     classId: number;
     sectionId: number;
     studentId: number;
 
     clear() {
-
         this.applyDate = '';
         this.approveBy = 0;
         this.docs = '';
@@ -26,11 +37,21 @@ export class ApproveLeaveDtoModel {
         this.isActive = '';
         this.reason = '';
         this.requestType = 0;
-        this.status = 0;
+        this.status = Constants.StudentLeaveStatus.Pending;
         this.studentSessionId = 0;
         this.toDate = '';
-        this.classId=0;
-        this.sectionId=0;
-        this.studentId=0;
+
+
+        this.approveOrRejectReason = '';
+        this.classes = '';
+        this.leaveType = '';
+        this.leaveTypeId = 0;
+        this.section = '';
+        this.staff = '';
+
+
+        this.classId = 0;
+        this.sectionId = 0;
+        this.studentId = 0;
     }
 }

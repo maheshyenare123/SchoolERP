@@ -259,27 +259,38 @@
                                 <button type="button" mat-raised-button color="primary" (click)="onViewPaySlip(staff)" [disabled]="viewLoading" matTooltip="View PaySlip">
                                     View PaySlip
                                 </button> -->
-                                <ng-container *ngIf="staff.staffPayslipsStatus==='generated' ">
-                                   
-
-                                    <button mat-icon-button color="primary" matTooltip="Revert"
-                                    >
-                                    <mat-icon>refresh</mat-icon>
-                                    </button>&nbsp;
-
-                                   
-                                    <button mat-icon-button type="button" (click)="onProceedPay(staff)">
-                                        <mat-icon>assignment</mat-icon>
-                                        <span>Proceed Pay</span>
-                                    </button>
-
-                                </ng-container>
                                 <ng-container *ngIf="staff.staffPayslipsStatus===null ">
                                     <button mat-icon-button type="button" (click)="onGeneratePaySlip(staff)">
                                         <mat-icon>subject</mat-icon>
                                         <span>Generate PaySlip</span>
                                     </button>
                                 </ng-container>
+                               
+                                <ng-container *ngIf="staff.staffPayslipsStatus==='generated' ">
+                                    <button mat-icon-button color="primary" matTooltip="Revert">
+                                    <mat-icon>refresh</mat-icon>
+                                    </button>&nbsp;
+
+                                    <button mat-icon-button type="button" (click)="onProceedPay(staff)">
+                                        <mat-icon>assignment</mat-icon>
+                                        <span>Proceed Pay</span>
+                                    </button>
+
+                                </ng-container>
+                               
+                                <ng-container *ngIf="staff.staffPayslipsStatus==='paid' ">
+                                    <button mat-icon-button color="primary" matTooltip="Revert">
+                                        <mat-icon>refresh</mat-icon>
+                                        </button>&nbsp;
+
+                                    <button mat-icon-button  type="button" (click)="onViewPaySlip(staff)">
+                                        <mat-icon>assignment</mat-icon>
+                                        <span>View PaySlip</span>
+                                    </button>
+                                </ng-container>
+
+
+
                                 <!-- <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="More actions">
                                     <mat-icon>more_vert</mat-icon>
                                 </button>

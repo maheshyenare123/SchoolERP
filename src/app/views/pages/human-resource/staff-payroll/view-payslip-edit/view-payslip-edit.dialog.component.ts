@@ -31,20 +31,13 @@ export class ViewPayslipEditDialogComponent implements OnInit, OnDestroy {
 // Public properties
 staff: StaffModel;
 staffPayslip: StaffPayslipModel;
-searchFormData :any;
-staffPayslipForm: FormGroup;
-earningForm: FormGroup;
-deductionForm: FormGroup;
-hasFormErrors = false;
+
+
+
 viewLoading = false;
 // Private properties
 private componentSubscriptions: Subscription;
-files: File[] = [];
-earningItemAmount
-deductionItemAmount
-earningTotalAmount
-deductionTotalAmount
-type
+
 constructor(public dialogRef: MatDialogRef<ViewPayslipEditDialogComponent>,
 	@Inject(MAT_DIALOG_DATA) public data: any,
 	private fb: FormBuilder,
@@ -61,13 +54,12 @@ ngOnInit() {
 	debugger
 	//staff details show purpose and from staff.id call api for PaymentSlip for details  showing
 	this.staff = this.data.staff;
-	 
-	this.searchFormData = this.data.searchForm.value
+	this.staffPayslip = this.data.payslip
 
-	// for save payment 
-	const newStaffPayslip = new StaffPayslipModel();
-	newStaffPayslip.clear(); // Set all defaults fields
-	this.staffPayslip = newStaffPayslip;
+
+	this.staffPayslip.grossSalary=this.staffPayslip.basic+this.staffPayslip.totalAllowance;
+
+	console.log(this.staffPayslip.grossSalary);
 }
 
 /**
@@ -78,7 +70,7 @@ ngOnDestroy() {
 		this.componentSubscriptions.unsubscribe();
 	}
 }
-print1(): void {
+print(): void {
     let printContents, popupWin;
     printContents = document.getElementById('content').innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
@@ -101,11 +93,11 @@ print1(): void {
  * Returns page title
  */
 getTitle(): string {
-	if (this.staffPayslip.id > 0) {
-		return `PaySlip'${this.staffPayslip.id}'`;
-	}
+	// if (this.staffPayslip.id > 0) {
+	// 	return ` view PaySlip'${this.staffPayslip.id}'`;
+	// }
 
-	return 'PaySlip';
+	return 'View PaySlip';
 }
 
 

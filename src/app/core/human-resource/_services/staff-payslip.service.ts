@@ -17,9 +17,10 @@ export class StaffPayslipService {
   createStaffPayslip(staffPayslip: StaffPayslipModel): Observable<StaffPayslipModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<StaffPayslipModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Payroll, staffPayslip, {headers: httpHeaders});
+    return this.http.post<StaffPayslipModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Payroll+"/generate-payslip", staffPayslip, {headers: httpHeaders});
   }
 
+  
   // READ
   getAllStaffPayslips(): Observable<StaffPayslipModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
@@ -59,7 +60,7 @@ export class StaffPayslipService {
   // UPDATE => PUT: update the StaffPayslip on the server
   updateStaffPayslip(staffPayslip: StaffPayslipModel): Observable<any> {
     const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Payroll+'/'+staffPayslip.id, staffPayslip, {headers: httpHeader});
+    return this.http.put(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Payroll+'/proceed-payslip/'+staffPayslip.id, staffPayslip, {headers: httpHeader});
   }
 
   // UPDATE Status
