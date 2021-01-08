@@ -26,7 +26,7 @@ import { SectionService, StudentClassService, StudentClassModel, SectionDtoModel
 @Component({
   selector: 'kt-attendance-by-date',
   templateUrl: './attendance-by-date.component.html',
-  styleUrls: ['./attendance-by-date.component.scss'
+  styleUrls: ['./attendance-by-date.component.scss']
 })
 export class AttendanceByDateComponent implements OnInit {
 
