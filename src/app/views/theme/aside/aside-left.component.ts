@@ -14,7 +14,7 @@ import * as objectPath from 'object-path';
 // Layout
 import { LayoutConfigService, MenuAsideService, MenuOptions, OffcanvasOptions } from '../../../core/_base/layout';
 import { HtmlClassService } from '../html-class.service';
-import { RolePermissionService } from 'src/app/core/role_permission';
+import { RolePermissionService } from '../../../core/role_permission';
 @Component({
   selector: 'kt-aside-left',
   templateUrl: './aside-left.component.html',

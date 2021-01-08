@@ -21,7 +21,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AssignVehiclesPageRequested, OneAssignVehicleDeleted, ManyAssignVehiclesDeleted, AssignVehiclesStatusUpdated, AssignVehicleUpdated, AssignVehicleOnServerCreated, selectLastCreatedAssignVehicleId } from '../../../../core/transport';
-import { VehiclesModel } from 'src/app/core/transport/_models/vehicle.model';
+import { VehiclesModel } from '../../../../core/transport/_models/vehicle.model';
+
 
 
 @Component({

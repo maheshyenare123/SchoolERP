@@ -16,8 +16,8 @@ import { MaterialModule } from '../material/material.module';
 
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { TranslateModule } from '@ngx-translate/core';
-import { ModuleGuard } from 'src/app/core/auth';
-import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from 'src/app/core/_base/crud';
+import { ModuleGuard } from '../../../core/auth';
+import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from '../../../core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -30,7 +30,7 @@ import { SendEmailComponent } from './send-email/send-email.component';
 import { SendSmsComponent } from './send-sms/send-sms.component';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { NoticeBoardEditDialogComponent } from './notice-board/notice-board-edit/notice-board-edit.dialog.component';
-import { noticeBoardsReducer, NoticeBoardEffects, NoticeBoardService } from 'src/app/core/communication';
+import { noticeBoardsReducer, NoticeBoardEffects, NoticeBoardService } from '../../../core/communication';
 
 const routes: Routes = [
 	{

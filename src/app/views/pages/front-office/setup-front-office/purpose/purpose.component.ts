@@ -181,7 +181,7 @@ this.addVisitorPurpose();
 
 			this.store.dispatch(new OneVisitorPurposeDeleted({ id: _item.id }));
 			this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
-			this.loadVisitorPurposeList();
+			// this.loadVisitorPurposeList();
 		});
 		
 

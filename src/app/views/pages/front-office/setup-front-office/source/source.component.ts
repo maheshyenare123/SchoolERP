@@ -179,7 +179,7 @@ this.addSource();
 
 			this.store.dispatch(new OneSourceDeleted({ id: _item.id }));
 			this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
-			this.loadSourceList();
+			// this.loadSourceList();
 		});
 		
 

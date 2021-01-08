@@ -15,16 +15,14 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Update } from '@ngrx/entity';
 
-import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
-import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from 'src/app/core/academics';
-import { CategoryService, CategoryDtoModel } from 'src/app/core/student-information';
-import { selectLastCreatedAssignVehicleId } from 'src/app/core/transport';
-import { ExamModel, ExamService } from 'src/app/core/examination';
-import { AssignExamStudentModel } from 'src/app/core/examination/_models/assign-exam-student.model';
+
+import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from '../../../../core/academics';
+import { CategoryService, CategoryDtoModel } from '../../../../core/student-information';
+
+import { ExamModel,AssignExamStudentModel } from '../../../../core/examination';
+
 
 
 

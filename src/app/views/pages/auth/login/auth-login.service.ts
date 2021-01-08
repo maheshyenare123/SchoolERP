@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Constants } from 'src/app/core/api_url';
+import { Constants } from '../../../../core/api_url';
 
 
 @Injectable({

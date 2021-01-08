@@ -1,5 +1,6 @@
 // SERVICES
 export { AuthService } from './_services';
+
 export { AuthNoticeService } from './auth-notice/auth-notice.service';
 
 // DATA SOURCERS
@@ -73,7 +74,8 @@ export {
     currentUserRoleIds,
     currentUserPermissionsIds,
     currentUserPermissions,
-    checkHasUserPermission
+    checkHasUserPermission,
+    
 } from './_selectors/auth.selectors';
 export {
     selectPermissionById,

@@ -10,4 +10,4 @@ export { HttpUtilsService } from './utils/http-utils.service';
 export { TypesUtilsService } from './utils/types-utils.service';
 export { InterceptService } from './utils/intercept.service';
 export { LayoutUtilsService, MessageType } from './utils/layout-utils.service';
-export {DynamicSetActionsService} from './utils/dynamic-set-action.service';
+export { DynamicSetActionsService} from './utils/dynamic-set-action.service';

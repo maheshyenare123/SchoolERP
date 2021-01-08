@@ -16,8 +16,8 @@ import { MaterialModule } from '../material/material.module';
 
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { TranslateModule } from '@ngx-translate/core';
-import { ModuleGuard } from 'src/app/core/auth';
-import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from 'src/app/core/_base/crud';
+import { ModuleGuard } from '../../../core/auth';
+import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from '../../../core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 
@@ -31,7 +31,7 @@ import { VehiclesComponent } from './vehicles/vehicles.component';
 import { AssignVehicleComponent } from './assign-vehicle/assign-vehicle.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { RouteEffects, routesReducer, RouteService, vehiclesReducer, VehicleEffects, VehicleService, assignVehiclesReducer, AssignVehicleEffects, AssignVehicleService } from 'src/app/core/transport';
+import { RouteEffects, routesReducer, RouteService, vehiclesReducer, VehicleEffects, VehicleService, assignVehiclesReducer, AssignVehicleEffects, AssignVehicleService } from '../../../core/transport';
 
 
 const routes: Routes = [

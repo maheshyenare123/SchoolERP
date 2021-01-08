@@ -11,9 +11,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
 // Auth
-import { AuthNoticeService, AuthService, Login, UserLoaded, UserRequested  } from '../../../../core/auth';
-import { AuthLoginService } from './auth-login.service';
-import { RolePermissionService, RolesModel } from 'src/app/core/role_permission';
+import { AuthNoticeService, AuthService, Login } from '../../../../core/auth';
+import { AuthLoginService } from'./auth-login.service';
+import { RolePermissionService, RolesModel } from '../../../../core/role_permission';
 
 
 /**
