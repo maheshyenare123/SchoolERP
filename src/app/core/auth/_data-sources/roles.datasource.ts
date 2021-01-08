@@ -8,7 +8,7 @@ import { BaseDataSource, QueryResultsModel } from '../../_base/crud';
 // State
 import { AppState } from '../../../core/reducers';
 // Selectors
-import { selectQueryResult, selectRolesPageLoading, selectRolesShowInitWaitingMessage } from '../_selectors/role.selectors';
+import { selectQueryResult, selectRolesPageLoading, selectRolesShowInitWaitingMessage } from '../../auth';
 
 export class RolesDataSource extends BaseDataSource {
   constructor(private store: Store<AppState>) {

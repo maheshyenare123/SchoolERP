@@ -8,26 +8,23 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Store, select, Action } from '@ngrx/store';
 // CRUD
 import { QueryResultsModel, QueryParamsModel } from '../../_base/crud';
-// Services
-import { AuthService } from '../_services';
+// 
 // State
 import { AppState } from '../../../core/reducers';
-// Selectors
-import { allRolesLoaded } from '../_selectors/role.selectors';
-// Actions
-import {
-    AllRolesLoaded,
-    AllRolesRequested,
-    RoleActionTypes,
-    RolesPageRequested,
-    RolesPageLoaded,
-    RoleUpdated,
-    RolesPageToggleLoading,
-    RoleDeleted,
-    RoleOnServerCreated,
-    RoleCreated,
-    RolesActionToggleLoading
-} from '../_actions/role.actions';
+// Selectors Services Actions
+import { allRolesLoaded,AuthService, AllRolesLoaded,
+  AllRolesRequested,
+  RoleActionTypes,
+  RolesPageRequested,
+  RolesPageLoaded,
+  RoleUpdated,
+  RolesPageToggleLoading,
+  RoleDeleted,
+  RoleOnServerCreated,
+  RoleCreated,
+  RolesActionToggleLoading } from '../../auth';
+
+
 
 @Injectable()
 export class RoleEffects {

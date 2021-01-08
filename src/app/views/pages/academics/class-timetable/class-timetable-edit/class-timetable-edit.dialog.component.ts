@@ -16,8 +16,8 @@ import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ClassTimetableModel, selectClassTimetablesActionLoading, ClassTimetableUpdated, ClassTimetableOnServerCreated, selectLastCreatedClassTimetableId, ClassTimetableService, StudentClassService, SectionService, AssignClassTeacherService, StudentClassModel, SectionDtoModel, SubjectGroupService, SubjectDtoModel, SubjectGroupDtoModel, SubjectService, TimetableDayModel } from '../../../../../core/academics';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
-import { StaffDtoModel } from 'src/app/core/academics/_models/staffDto.model';
-import { selectAdmissionEnquirysActionLoading } from 'src/app/core/front-office';
+import { StaffModel } from '../../../../../core/human-resource';
+
 // // Services and Models
 // import { DeliveryPersonModel, DeliveryPersonUpdated, DeliveryPersonOnServerCreated, selectLastCreatedDeliveryPersonId, selectDeliveryPersonsActionLoading } from '../../../../../core/master-entry';
 // import { EmployeeModel } from '../../../../../core/payroll/_models/employee.model';
@@ -44,7 +44,7 @@ export class ClassTimetableEditDialogComponent implements OnInit, OnDestroy {
 
 	classList: StudentClassModel[] = [];
 	sectionList: SectionDtoModel[] = [];
-	staffList: StaffDtoModel[] = [];
+	staffList: StaffModel[] = [];
 	subjectList: SubjectDtoModel[] = [];
 	subjectGroupList: SubjectGroupDtoModel[] = [];
 	day: string = "Monday";
@@ -91,8 +91,8 @@ export class ClassTimetableEditDialogComponent implements OnInit, OnDestroy {
 	loadAllClasses() {
 		debugger
 		this.studentClassService.getAllStudentClasss().subscribe(res => {
-			const data = res['data'];
-			this.classList = data['content'];
+			this.classList =res['data'];
+			// this.classList = res['data'];;
 			console.log(this.classList)
 		}, err => {
 		});
@@ -111,8 +111,8 @@ export class ClassTimetableEditDialogComponent implements OnInit, OnDestroy {
 	loadAllSubject() {
 		debugger
 		this.subjectService.getAllSubjects().subscribe(res => {
-			const data = res['data'];
-			this.subjectList = data['content'];
+			this.subjectList = res['data'];
+			// this.subjectList = data['content'];
 			console.log(this.subjectList)
 
 
@@ -135,8 +135,8 @@ export class ClassTimetableEditDialogComponent implements OnInit, OnDestroy {
 		this.assignClassTeacherService.getAllStaffs().subscribe(res => {
 			console.log("response collage List")
 			console.log(res)
-			const data = res['data'];
-			this.staffList = data['content'];
+			this.staffList =  res['data'];
+			// this.staffList = data['content'];
 			console.log(this.staffList)
 			// this.setDataInChecboxList();
 

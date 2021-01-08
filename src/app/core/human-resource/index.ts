@@ -31,7 +31,7 @@ export { StaffAttendanceEffects  } from './_effects/staff-attendance.effects';
 export { StaffRatingEffects  } from './_effects/staff-rating.effects';
 export { StaffLeaveRequestEffects  } from './_effects/staff-leave-request.effects';
 export { StaffPayslipEffects  } from './_effects/staff-payslip.effects';
-
+export {StaffEffects } from './_effects/staff.effects';
 // Actions
 // Customer Actions =>
 export {

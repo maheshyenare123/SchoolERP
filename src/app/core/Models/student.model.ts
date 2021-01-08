@@ -12,7 +12,7 @@ export class StudentModel {
     studentSessionId: number;
 
     clear() {
-       
+         
         this.admissionNo = '';
         this.category = '';
         this.examStudentId = 0;

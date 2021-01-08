@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from "@angular/common/http";
+import { HttpClient,HttpHeaders, HttpParams } from "@angular/common/http";
 import { Constants } from '../../api_url';
 import { HttpUtilsService, QueryResultsModel, QueryParamsModel } from '../../_base/crud';
 import { IncomeHeadModel } from '../_models/income-head.model';
@@ -23,7 +23,9 @@ export class IncomeHeadService {
   // READ
   getAllIncomeHeads(): Observable<IncomeHeadModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<IncomeHeadModel[]>(Constants.URL.HOST_URL+Constants.Incomes.IncomeHead, {headers: httpHeaders});
+    const httpParams =   new HttpParams()
+    .set('IsPagination',Constants.Pagination.withoutPagination);
+    return this.http.get<IncomeHeadModel[]>(Constants.URL.HOST_URL+Constants.Incomes.IncomeHead, {headers: httpHeaders,  params: httpParams});
   }
 
   getIncomeHeadById(incomeHeadId: number): Observable<IncomeHeadModel> {

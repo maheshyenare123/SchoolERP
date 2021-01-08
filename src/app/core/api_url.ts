@@ -20,6 +20,11 @@ export class Constants {
       Approve:'1',
       Reject:'2'
    }
+
+   public static Pagination:any={
+      withPagination:'1',
+      withoutPagination:'0'
+   }
    // Note: Defined values for leave status 0 - Pending, 1 - Approve, 2 - Reject
 
 

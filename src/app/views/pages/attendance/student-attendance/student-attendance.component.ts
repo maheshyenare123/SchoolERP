@@ -21,7 +21,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { StudentAttendencesPageRequested, OneStudentAttendenceDeleted, ManyStudentAttendencesDeleted, StudentAttendencesStatusUpdated, StudentAttendenceUpdated, StudentAttendenceOnServerCreated, selectLastCreatedStudentAttendenceId } from '../../../../core/attendance';
-import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from 'src/app/core/academics';
+import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from '../../../../core/academics';
 import { StudentModel } from 'src/app/core/Models/student.model';
 import { Constants } from '../../../../core/api_url';
 @Component({
@@ -108,8 +108,8 @@ loadAllAttendanceType(){
 loadAllClasses() {
 	debugger
 	this.studentClassService.getAllStudentClasss().subscribe(res => {
-		const data = res['data'];
-		this.classList = data['content'];
+		this.classList = res['data'];
+		// this.classList = res['data'];;
 		console.log(this.classList)
 	}, err => {
 	});

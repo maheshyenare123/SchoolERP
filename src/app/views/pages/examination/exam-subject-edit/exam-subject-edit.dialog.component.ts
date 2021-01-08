@@ -81,8 +81,8 @@ export class ExamSubjectDialogComponent implements OnInit, OnDestroy {
 	loadAllSubject() {
 		debugger
 		this.subjectService.getAllSubjects().subscribe(res => {
-			const data = res['data'];
-			this.subjectList = data['content'];
+			this.subjectList = res['data'];
+			// this.subjectList = data['content'];
 			console.log(this.subjectList)
 
 

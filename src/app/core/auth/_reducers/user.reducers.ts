@@ -1,12 +1,11 @@
 // NGRX
 import { createFeatureSelector } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-// Actions
-import { UserActions, UserActionTypes } from '../_actions/user.actions';
+
 // CRUD
 import { QueryParamsModel } from '../../_base/crud';
 // Models
-import { User } from '../_models/user.model';
+import { User,UserActions, UserActionTypes  } from '../../auth';
 
 // tslint:disable-next-line:no-empty-interface
 export interface UsersState extends EntityState<User> {

@@ -26,7 +26,7 @@ export {
 } from './_actions/session.actions';
 
 // Reducers
-export { sessionsReducer } from './_reducers/session.reducers';
+export { sessionsReducer,SessionsState,  } from './_reducers/session.reducers';
 
 // Selectors
 export {

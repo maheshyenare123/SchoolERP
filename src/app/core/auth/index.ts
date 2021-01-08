@@ -33,7 +33,9 @@ export {
     AllRolesLoaded,
     AllRolesRequested,
     RoleActionTypes,
-    RoleActions
+    RoleActions,
+    RolesPageToggleLoading,
+    RolesActionToggleLoading
 } from './_actions/role.actions';
 export {
     UserCreated,
@@ -44,7 +46,9 @@ export {
     UsersPageCancelled,
     UsersPageToggleLoading,
     UsersPageRequested,
-    UsersActionToggleLoading
+    UsersActionToggleLoading,
+    UserActions,
+    UserActionTypes
 } from './_actions/user.actions';
 
 // EFFECTS
@@ -56,8 +60,8 @@ export { UserEffects } from './_effects/user.effects';
 // REDUCERS
 export { authReducer } from './_reducers/auth.reducers';
 export { permissionsReducer } from './_reducers/permission.reducers';
-export { rolesReducer } from './_reducers/role.reducers';
-export { usersReducer } from './_reducers/user.reducers';
+export { rolesReducer,RolesState } from './_reducers/role.reducers';
+export { usersReducer,UsersState } from './_reducers/user.reducers';
 
 // SELECTORS
 export {

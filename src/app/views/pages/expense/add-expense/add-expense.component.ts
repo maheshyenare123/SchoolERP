@@ -126,8 +126,8 @@ this.loadAllExpenseHead()
 	loadAllExpenseHead() {
 		debugger
 		this.expenseHeadService.getAllExpenseHeads().subscribe(res => {
-			const data = res['data'];
-			this.expenseHeadList = data['content'];
+			this.expenseHeadList = res['data'];
+			// this.expenseHeadList = data['content'];
 			console.log(this.expenseHeadList)
 		}, err => {
 		});

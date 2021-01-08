@@ -125,8 +125,8 @@ this.loadAllIncomeHead();
 	loadAllIncomeHead() {
 		debugger
 		this.incomeHeadService.getAllIncomeHeads().subscribe(res => {
-			const data = res['data'];
-			this.incomeHeadList = data['content'];
+			this.incomeHeadList = res['data'];
+			// this.incomeHeadList = data['content'];
 			console.log(this.incomeHeadList)
 		}, err => {
 		});

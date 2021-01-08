@@ -10,13 +10,13 @@ export class AuthLoginService {
   
 //  url=`http://yamistha.cloudjiffy.net/auth/login/`;
 
- url= Constants.URL.HOST_URL+Constants. Authentication.Login;
+//  url= Constants.URL.HOST_URL+Constants. Authentication.Login;
 
  
 
   constructor(private  http:HttpClient) { }
   isLogin(loginRequest): any {
-    return this.http.post(this.url, loginRequest);
+    return this.http.post(Constants.URL.HOST_URL+Constants. Authentication.Login, loginRequest);
   }
   
  
