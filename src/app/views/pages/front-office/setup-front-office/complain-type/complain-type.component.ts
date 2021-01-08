@@ -180,7 +180,7 @@ this.addComplaintType();
 
 			this.store.dispatch(new OneComplaintTypeDeleted({ id: _item.id }));
 			this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
-			// this.loadComplaintTypeList();
+			this.loadComplaintTypeList();
 		});
 		
 

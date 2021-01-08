@@ -16,8 +16,8 @@ import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NoticeBoardModel, selectNoticeBoardsActionLoading, NoticeBoardUpdated, NoticeBoardOnServerCreated, selectLastCreatedNoticeBoardId, NoticeBoardService } from '../../../../../core/communication';
 import { StudentClassService } from '../../../../../core/academics';
-import { RolesDtoModel } from '../../../../../core/Models/rolesDto.model';
-import { RoleService } from '../../../../../core/human-resource';
+import { RolesDtoModel } from 'src/app/core/Models/rolesDto.model';
+import { RoleService } from 'src/app/core/human-resource';
 // // Services and Models
 // import { DeliveryPersonModel, DeliveryPersonUpdated, DeliveryPersonOnServerCreated, selectLastCreatedDeliveryPersonId, selectDeliveryPersonsActionLoading } from '../../../../../core/master-entry';
 // import { EmployeeModel } from '../../../../../core/payroll/_models/employee.model';

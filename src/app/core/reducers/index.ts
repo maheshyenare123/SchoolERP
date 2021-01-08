@@ -1,5 +1,5 @@
 // NGRX
- ;import { routerReducer } from '@ngrx/router-store';
+import { routerReducer } from '@ngrx/router-store';
 import { ActionReducerMap, MetaReducer, State } from '@ngrx/store';
 import { storeFreeze } from 'ngrx-store-freeze';
 

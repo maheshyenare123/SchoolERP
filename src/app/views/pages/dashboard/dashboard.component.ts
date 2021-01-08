@@ -1,7 +1,7 @@
 // Angular
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DynamicSetActionsService } from '../../../core/_base/crud';
+import { DynamicSetActionsService } from 'src/app/core/_base/crud';
 
 @Component({
   selector: 'kt-dashboard',

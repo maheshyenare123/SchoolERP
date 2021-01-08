@@ -16,8 +16,8 @@ import { MaterialModule } from '../material/material.module';
 
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { TranslateModule } from '@ngx-translate/core';
-import { ModuleGuard } from '../../../core/auth';
-import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from '../../../core/_base/crud';
+import { ModuleGuard } from 'src/app/core/auth';
+import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService } from 'src/app/core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -26,8 +26,8 @@ import {NgxPaginationModule} from 'ngx-pagination';
 
 import { ExaminationComponent } from './examination.component';
 import { ExamGroupComponent } from './exam-group/exam-group.component';
-import {ExamGroupService, examGroupsReducer, ExamGroupEffects, ExamEffects, ExamService, examsReducer, AssignStudentExamEffects, AssignStudentExamService, assignStudentExamsReducer, ExamSubjectEffects, ExamSubjectService, examSubjectsReducer, ExamSubjectMarksEffects, ExamSubjectMarksService, examSubjectMarkssReducer } from '../../../core/examination';
-
+import { examGroupsReducer, ExamGroupEffects, ExamEffects, ExamService, examsReducer, AssignStudentExamEffects, AssignStudentExamService, assignStudentExamsReducer, ExamSubjectEffects, ExamSubjectService, examSubjectsReducer, ExamSubjectMarksEffects, ExamSubjectMarksService, examSubjectMarkssReducer } from 'src/app/core/examination';
+import { ExamGroupService } from 'src/app/core/examination/_services/exam-group.service';
 import { ExamEditDialogComponent } from './exams/exam-edit/exam-edit.dialog.component';
 import { ExamComponent } from './exams/exam/exam.component';
 import { ExamScheduleComponent } from './exam-schedule/exam-schedule.component';

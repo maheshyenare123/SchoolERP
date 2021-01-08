@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { StudentAttendenceDtoModel,StudentAttendenceService } from '../../../../core/attendance';
-
+import { StudentAttendenceDtoModel,StudentAttendenceService } from 'src/app/core/attendance';
+import { QueryParamsModel } from 'src/app/core/_base/crud';
 export interface PeriodicElement {
   name: string;
   position: number;

@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Store } from '@ngrx/store';
-import { SectionDtoModel, SectionModel, StudentClassModel, StudentClassService } from '../../../../core/academics';
-import { RolesDtoModel } from '../../../../core/Models/rolesDto.model';
-import { AppState } from '../../../../core/reducers';
-import { RoleService } from '../../../../core/role_permission';
+import { SectionDtoModel, SectionModel, StudentClassModel, StudentClassService } from 'src/app/core/academics';
+import { RolesDtoModel } from 'src/app/core/Models/rolesDto.model';
+import { AppState } from 'src/app/core/reducers';
+import { RoleService } from 'src/app/core/role_permission';
 
 @Component({
   selector: 'kt-send-email',

@@ -6,8 +6,7 @@ export {HostelRoomModel} from './_models/hostel-room.model';
 export {ExamGroupModel} from './_models/exam-group.model';
 export {ExamSubjectModel} from './_models/exam-subject.model';
 export {ExamSubjectMarksModel} from './_models/exam-subject-marks.model';
-export {AssignExamStudentModel} from './_models/assign-exam-student.model';
-export {AssignExamStudentRequestDtoModel} from './_models/assign-exam-student-request-dto.model';
+
 //datasource
 
 export {ExamsDataSource} from './_data-sources/exam.datasource';

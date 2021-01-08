@@ -1,25 +1,25 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-
-import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from '../../../../core/_base/crud';
+import { ExamGroupsDataSource, ExamGroupModel,selectExamGroupsActionLoading, } from 'src/app/core/examination';
+import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { SubheaderService } from 'src/app/core/_base/layout';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
-
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Update } from '@ngrx/entity';
 
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-
-import {  ExamGroupsDataSource, ExamGroupModel,ExamGroupsPageRequested, OneExamGroupDeleted, ManyExamGroupsDeleted, ExamGroupsStatusUpdated, ExamGroupUpdated, ExamGroupOnServerCreated, selectLastCreatedExamGroupId } from '../../../../core/examination';
-import { Router } from '@angular/router';
+import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
+import { ExamGroupsPageRequested, OneExamGroupDeleted, ManyExamGroupsDeleted, ExamGroupsStatusUpdated, ExamGroupUpdated, ExamGroupOnServerCreated, selectLastCreatedExamGroupId } from '../../../../core/examination';
 
 
 @Component({

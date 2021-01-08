@@ -22,7 +22,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { StudentAttendencesPageRequested, OneStudentAttendenceDeleted, ManyStudentAttendencesDeleted, StudentAttendencesStatusUpdated, StudentAttendenceUpdated, StudentAttendenceOnServerCreated, selectLastCreatedStudentAttendenceId } from '../../../../core/attendance';
 import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from '../../../../core/academics';
-import { StudentModel } from '../../../../core/Models/student.model';
+import { StudentModel } from 'src/app/core/Models/student.model';
 import { Constants } from '../../../../core/api_url';
 @Component({
 	selector: 'kt-student-attendance',

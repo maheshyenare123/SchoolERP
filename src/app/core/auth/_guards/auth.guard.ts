@@ -8,7 +8,7 @@ import { tap } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 // Auth reducers and selectors
 import { AppState} from '../../../core/reducers/';
-import { isLoggedIn } from '../../../core/auth';
+import { isLoggedIn } from '../_selectors/auth.selectors';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
