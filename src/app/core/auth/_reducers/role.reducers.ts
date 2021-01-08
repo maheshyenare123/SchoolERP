@@ -1,8 +1,9 @@
 // NGRX
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-
-// Models Actions
-import { Role, RoleActions, RoleActionTypes } from '../../auth';
+// Actions
+import { RoleActions, RoleActionTypes } from '../_actions/role.actions';
+// Models
+import { Role } from '../_models/role.model';
 import { QueryParamsModel } from '../../_base/crud';
 
 export interface RolesState extends EntityState<Role> {

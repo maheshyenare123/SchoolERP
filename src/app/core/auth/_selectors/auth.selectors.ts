@@ -2,10 +2,12 @@
 import {createSelector} from '@ngrx/store';
 // Lodash
 import {each, find, some} from 'lodash';
-
-// Models Selectors
-
-import {Permission,Role,selectAllRoles,selectAllPermissions} from '../../auth';
+// Selectors
+import {selectAllRoles} from './role.selectors';
+import {selectAllPermissions} from './permission.selectors';
+// Models
+import {Role} from '../_models/role.model';
+import {Permission} from '../_models/permission.model';
 
 export const selectAuthState = state => state.auth;
 

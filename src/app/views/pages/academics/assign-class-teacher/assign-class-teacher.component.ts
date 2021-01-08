@@ -18,7 +18,8 @@ import { FormGroup, Validators, FormBuilder, FormArray, FormControl, ValidatorFn
 
 import { AssignClassTeachersPageRequested, OneAssignClassTeacherDeleted, ManyAssignClassTeachersDeleted, AssignClassTeachersStatusUpdated, AssignClassTeacherUpdated, AssignClassTeacherOnServerCreated, selectLastCreatedAssignClassTeacherId } from '../../../../core/academics';
 import { StaffDtoModel } from '../../../../core/academics/_models/staffDto.model';
-
+import { element } from 'protractor';
+import { ClassDtoModel } from 'src/app/core/academics/_models/classDto.model';
 
 @Component({
 	selector: 'kt-assign-class-teacher',
@@ -126,8 +127,8 @@ export class AssignClassTeacherComponent implements OnInit {
 	loadAllClasses() {
 		debugger
 		this.studentClassService.getAllStudentClasss().subscribe(res => {
-			this.classList = res['data'];
-			// this.classList = res['data'];;
+			const data = res['data'];
+			this.classList = data['content'];
 			console.log(this.classList)
 		}, err => {
 		});
@@ -147,8 +148,8 @@ export class AssignClassTeacherComponent implements OnInit {
 		this.assignClassTeacherService.getAllStaffs().subscribe(res => {
 			console.log("response collage List")
 			console.log(res)
-			this.staffList = res['data'];
-			// this.staffList = data['content'];
+			const data = res['data'];
+			this.staffList = data['content'];
 			console.log(this.staffList)
 			// this.setDataInChecboxList();
 		

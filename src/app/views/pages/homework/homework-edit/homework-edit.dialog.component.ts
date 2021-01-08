@@ -77,7 +77,7 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 		debugger
 		this.studentClassService.getAllStudentClasss().subscribe(res => {
 			const data = res['data'];
-			this.classList = res['data'];;
+			this.classList = data['content'];
 			console.log(this.classList)
 		}, err => {
 		});
@@ -96,8 +96,8 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 	loadAllSubject() {
 		debugger
 		this.subjectService.getAllSubjects().subscribe(res => {
-			this.subjectList = res['data'];
-			// this.subjectList = data['content'];
+			const data = res['data'];
+			this.subjectList = data['content'];
 			console.log(this.subjectList)
 
 

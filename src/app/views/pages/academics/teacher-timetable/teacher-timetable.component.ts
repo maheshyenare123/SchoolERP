@@ -5,17 +5,23 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ClassTimetablesDataSource, ClassTimetableModel,selectClassTimetablesActionLoading, StaffTimetableService, TimetableDayModel } from '../../../../core/academics';
 import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from '../../../../core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Subscription } from 'rxjs';
+import { Subscription, merge, fromEvent, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { Store } from '@ngrx/store';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SubheaderService } from '../../../../core/_base/layout';
+import { Store, select } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
-
+import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Update } from '@ngrx/entity';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-
-import { StaffModel,StaffService } from '../../../../core/human-resource';
+import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
+import { ClassTimetablesPageRequested, OneClassTimetableDeleted, ManyClassTimetablesDeleted, ClassTimetablesStatusUpdated, ClassTimetableUpdated, ClassTimetableOnServerCreated, selectLastCreatedClassTimetableId } from '../../../../core/academics';
+import { StaffService } from 'src/app/core/human-resource';
+import { StaffDtoModel } from 'src/app/core/academics/_models/staffDto.model';
 
 
 @Component({
@@ -49,7 +55,7 @@ hasFormErrors = false;
 viewLoading = false;
 // Private properties
 loading:boolean=false;
-staffList: StaffModel[] = [];
+staffList: StaffDtoModel[] = [];
 private componentSubscriptions: Subscription;
 
 classTimetablesData:TimetableDayModel;
@@ -84,8 +90,8 @@ classTimetablesData:TimetableDayModel;
 loadAllTeachers() {
 	debugger
 	this.staffService.getAllStaffs().subscribe(res => {
-		this.staffList=res['data'];
-		// this.staffList=data['content'];
+		const data=res['data'];
+		this.staffList=data['content'];
 	}, err => {
 	});
 }

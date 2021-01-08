@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient,HttpHeaders } from "@angular/common/http";
 import { Constants } from '../../api_url';
 import { HttpUtilsService, QueryResultsModel, QueryParamsModel } from '../../_base/crud';
 import { RouteModel } from '../_models/route.model';
@@ -23,9 +23,7 @@ export class RouteService {
   // READ
   getAllRoutes(): Observable<RouteModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const httpParams =   new HttpParams()
-    .set('IsPagination',Constants.Pagination.withoutPagination);
-    return this.http.get<RouteModel[]>(Constants.URL.HOST_URL+Constants.Transports.Route, {headers: httpHeaders, params: httpParams});
+    return this.http.get<RouteModel[]>(Constants.URL.HOST_URL+Constants.Transports.Route, {headers: httpHeaders});
   }
 
   getRouteById(routeId: number): Observable<RouteModel> {

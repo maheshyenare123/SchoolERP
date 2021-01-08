@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient,HttpHeaders } from "@angular/common/http";
 import { Constants } from '../../api_url';
 import { HttpUtilsService, QueryResultsModel, QueryParamsModel } from '../../_base/crud';
 import { VehicleModel } from '../_models/vehicle.model';
@@ -23,9 +23,7 @@ export class VehicleService {
   // READ
   getAllVehicles(): Observable<VehicleModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const httpParams =   new HttpParams()
-    .set('IsPagination',Constants.Pagination.withoutPagination);
-    return this.http.get<VehicleModel[]>(Constants.URL.HOST_URL+Constants.Transports.Vehicle, {headers: httpHeaders,   params: httpParams});
+    return this.http.get<VehicleModel[]>(Constants.URL.HOST_URL+Constants.Transports.Vehicle, {headers: httpHeaders});
   }
 
   getVehicleById(vehicleId: number): Observable<VehicleModel> {

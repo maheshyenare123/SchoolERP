@@ -1,13 +1,11 @@
-
+import { Role } from './../_models/role.model';
 
 // NGRX
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 // CRUD
 import { QueryResultsModel, HttpExtenstionsModel } from '../../_base/crud';
 // State
-import { RolesState,Role } from '../../auth';
-
-
+import { RolesState } from '../_reducers/role.reducers';
 import * as fromRole from '../_reducers/role.reducers';
 import { each } from 'lodash';
 

@@ -31,11 +31,12 @@ import { SmsSettingComponent } from './sms-setting/sms-setting.component';
 import { NotificationSettingComponent } from './notification-setting/notification-setting.component';
 import { SessionSettingComponent } from './session-setting/session-setting.component';
 import { BackupRestoreComponent } from './backup-restore/backup-restore.component';
-
-
-import { staffsReducer, StaffService ,StaffEffects  } from '../../../core/human-resource';
-import { studentsReducer, StudentEffects, StudentService } from '../../../core/student-information';
-import { sessionsReducer, SessionService,SessionEffects  } from '../../../core/sysetm_settings';
+import { SessionService } from 'src/app/core/sysetm_settings/_services/session.service';
+import { sessionsReducer } from 'src/app/core/sysetm_settings/_reducers/session.reducers';
+import { SessionEffects } from 'src/app/core/sysetm_settings/_effects/session.effects';
+import { staffsReducer, StaffService } from 'src/app/core/human-resource';
+import { StaffEffects } from 'src/app/core/human-resource/_effects/staff.effects';
+import { studentsReducer, StudentEffects, StudentService } from 'src/app/core/student-information';
 
 
 const routes: Routes = [

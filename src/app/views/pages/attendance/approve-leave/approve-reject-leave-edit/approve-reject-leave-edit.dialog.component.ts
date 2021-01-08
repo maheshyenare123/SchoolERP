@@ -14,7 +14,7 @@ import { AppState } from '../../../../../core/reducers';
 // CRUD
 import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ApproveLeaveDtoModel, ApproveLeaveService, ApproveRejectLeaveModel } from '../../../../../core/attendance';
+import { ApproveLeaveDtoModel, ApproveLeaveService, ApproveRejectLeaveModel } from 'src/app/core/attendance';
 
 // // Services and Models
 // import { DeliveryPersonModel, DeliveryPersonUpdated, DeliveryPersonOnServerCreated, selectLastCreatedDeliveryPersonId, selectDeliveryPersonsActionLoading } from '../../../../../core/master-entry';

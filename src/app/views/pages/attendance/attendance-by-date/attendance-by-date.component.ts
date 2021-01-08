@@ -21,7 +21,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { StudentAttendencesPageRequested, OneStudentAttendenceDeleted, ManyStudentAttendencesDeleted, StudentAttendencesStatusUpdated, StudentAttendenceUpdated, StudentAttendenceOnServerCreated, selectLastCreatedStudentAttendenceId } from '../../../../core/attendance';
-import { SectionService, StudentClassService, StudentClassModel, SectionDtoModel } from '../../../../core/academics';
+import { SectionService, StudentClassService, StudentClassModel, SectionDtoModel } from 'src/app/core/academics';
 
 @Component({
   selector: 'kt-attendance-by-date',
@@ -90,8 +90,8 @@ sectionList: SectionDtoModel[] = [];
   loadAllClasses() {
 	debugger
 	this.studentClassService.getAllStudentClasss().subscribe(res => {
-		this.classList = res['data'];
-		// this.classList = res['data'];;
+		const data = res['data'];
+		this.classList = data['content'];
 		console.log(this.classList)
 	}, err => {
 	});

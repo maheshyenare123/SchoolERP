@@ -115,7 +115,7 @@ export class StudentLoginCredentialComponent implements OnInit {
   debugger
   this.studentClassService.getAllStudentClasss().subscribe(res => {
     const data = res['data'];
-    this.classList = res['data'];;
+    this.classList = data['content'];
     console.log(this.classList)
   }, err => {
   });

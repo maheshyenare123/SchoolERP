@@ -8,16 +8,18 @@ import { Subscription, merge, fromEvent, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+import { ActivatedRoute, Router } from '@angular/router';
+import { SubheaderService } from '../../../../core/_base/layout';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
-
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Update } from '@ngrx/entity';
 
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-
-import { SessionModel,SessionsPageRequested, OneSessionDeleted,SessionUpdated, SessionOnServerCreated, selectLastCreatedSessionId, SessionsDataSource } from '../../../../core/sysetm_settings';
+import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
+import { SessionModel,SessionsPageRequested, OneSessionDeleted, ManySessionsDeleted, SessionsStatusUpdated, SessionUpdated, SessionOnServerCreated, selectLastCreatedSessionId, SessionsDataSource } from '../../../../core/sysetm_settings';
 
 
 @Component({

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient,HttpHeaders } from "@angular/common/http";
 import { Constants } from '../../api_url';
 import { HttpUtilsService, QueryResultsModel, QueryParamsModel } from '../../_base/crud';
 import { SubjectDtoModel } from '../_models/subjectDto.model';
@@ -23,9 +23,7 @@ export class SubjectService {
   // READ
   getAllSubjects(): Observable<SubjectDtoModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const httpParams =   new HttpParams()
-    .set('IsPagination',Constants.Pagination.withoutPagination);
-    return this.http.get<SubjectDtoModel[]>(Constants.URL.HOST_URL+Constants.Academics.Subject, {headers: httpHeaders,params: httpParams});
+    return this.http.get<SubjectDtoModel[]>(Constants.URL.HOST_URL+Constants.Academics.Subject, {headers: httpHeaders});
   }
 
   getSubjectById(subjectId: number): Observable<SubjectDtoModel> {

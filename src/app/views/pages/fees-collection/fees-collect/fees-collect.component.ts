@@ -82,8 +82,8 @@ ngOnInit() {
 loadAllClasses() {
 	debugger
 	this.studentClassService.getAllStudentClasss().subscribe(res => {
-		this.classList = res['data'];
-		// this.classList = res['data'];;
+		const data = res['data'];
+		this.classList = data['content'];
 		console.log(this.classList)
 	}, err => {
 	});

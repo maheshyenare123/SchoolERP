@@ -83,7 +83,7 @@ loadAllClasses() {
   debugger
   this.studentClassService.getAllStudentClasss().subscribe(res => {
     const data = res['data'];
-    this.classList = res['data'];;
+    this.classList = data['content'];
     console.log(this.classList)
   }, err => {
   });
@@ -105,8 +105,8 @@ loadAllSectionsByClassId(id:number) {
 loadAllRoutes() {
   debugger
   this.routeService.getAllRoutes().subscribe(res => {
-    this.routeList = res['data'];
-    // this.routeList = data['content'];
+    const data = res['data'];
+    this.routeList = data['content'];
     console.log(this.routeList)
   }, err => {
   });
@@ -116,8 +116,8 @@ loadAllRoutes() {
 loadAllVehicle() {
   debugger
   this.vehicleService.getAllVehicles().subscribe(res => {
-    this.vehicleList = res['data'];
-    // this.vehicleList = data['content'];
+    const data = res['data'];
+    this.vehicleList = data['content'];
     console.log(this.vehicleList)
     
   }, err => {

@@ -5,7 +5,8 @@ import { each } from 'lodash';
 // CRUD
 import { QueryResultsModel, HttpExtenstionsModel } from '../../_base/crud';
 // State
-import { SessionModel,SessionsState } from '../../sysetm_settings';
+import {  SessionsState} from '../_reducers/session.reducers';
+import { SessionModel } from '../_models/session.model';
 
 export const selectSessionState = createFeatureSelector<SessionsState>('sessions');
 

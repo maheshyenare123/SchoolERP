@@ -118,8 +118,8 @@ export class IncomeReportComponent implements OnInit {
   loadAllIncomeHead() {
     debugger
     this.incomeHeadService.getAllIncomeHeads().subscribe(res => {
-      this.incomeHeadList = res['data'];
-      // this.incomeHeadList = data['content'];
+      const data = res['data'];
+      this.incomeHeadList = data['content'];
       console.log(this.incomeHeadList)
     }, err => {
     });

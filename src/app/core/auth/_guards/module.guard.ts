@@ -8,7 +8,8 @@ import { tap, map } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 // Module reducers and selectors
 import { AppState} from '../../../core/reducers/';
-import { Permission,currentUserPermissions } from '../../auth';
+import { currentUserPermissions } from '../_selectors/auth.selectors';
+import { Permission } from '../_models/permission.model';
 import { find } from 'lodash';
 
 @Injectable()

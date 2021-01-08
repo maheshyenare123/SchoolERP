@@ -131,8 +131,8 @@ this.addAssignVehicle();
 	loadAllRoutes() {
 		debugger
 		this.routeService.getAllRoutes().subscribe(res => {
-			this.routeList = res['data'];
-			// this.routeList = data['content'];
+			const data = res['data'];
+			this.routeList = data['content'];
 			console.log(this.routeList)
 		}, err => {
 		});
@@ -142,8 +142,8 @@ this.addAssignVehicle();
 	loadAllVehicle() {
 		debugger
 		this.vehicleService.getAllVehicles().subscribe(res => {
-			this.vehicleList = res['data'];
-			// this.vehicleList = data['content'];
+			const data = res['data'];
+			this.vehicleList = data['content'];
 			console.log(this.vehicleList)
 			this.setVehicleDataInChecboxList();
 		

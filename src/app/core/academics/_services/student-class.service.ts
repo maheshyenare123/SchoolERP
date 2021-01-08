@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders, HttpParams, } from "@angular/common/http";
+import { HttpClient,HttpHeaders } from "@angular/common/http";
 import { Constants } from '../../api_url';
 import { HttpUtilsService, QueryResultsModel, QueryParamsModel } from '../../_base/crud';
 import { StudentClassModel } from '../_models/student-class.model';
@@ -23,18 +23,11 @@ export class StudentClassService {
   // READ
   getAllStudentClasss(): Observable<StudentClassModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const httpParams =   new HttpParams()
-    .set('IsPagination',Constants.Pagination.withoutPagination);
-
-    return this.http.get<StudentClassModel[]>(Constants.URL.HOST_URL+Constants.Academics.Class, {headers: httpHeaders,  params: httpParams});
+    return this.http.get<StudentClassModel[]>(Constants.URL.HOST_URL+Constants.Academics.Class, {headers: httpHeaders});
   }
-
-
   getAllSectionByClasssId(id): Observable<StudentClassModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const httpParams =   new HttpParams()
-    .set('IsPagination',Constants.Pagination.withoutPagination);
-    return this.http.get<StudentClassModel[]>(Constants.URL.HOST_URL+Constants.Academics.Class+"/"+id+"/sections", {headers: httpHeaders,params: httpParams});
+    return this.http.get<StudentClassModel[]>(Constants.URL.HOST_URL+Constants.Academics.Class+"/"+id+"/sections", {headers: httpHeaders});
   }
   getStudentClassById(studentClassId: number): Observable<StudentClassModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
@@ -47,15 +40,7 @@ export class StudentClassService {
   findStudentClasss(queryParams: QueryParamsModel): Observable<QueryResultsModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    // const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
-
-    const httpParams =   new HttpParams()
-    .set('sortBy', queryParams.sortField)
-    .set('pageNo', queryParams.pageNumber.toString())
-    .set('pageSize', queryParams.pageSize.toString())
-    .set('IsPagination',Constants.Pagination.withPagination);
- 
-
+    const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
     const url =Constants.URL.HOST_URL+Constants.Academics.Class ;
     return this.http.get<QueryResultsModel>(url, {

@@ -30,10 +30,7 @@ export class AssignClassTeacherService {
 // READ
 getAllStaffs(): Observable<StaffDtoModel[]> {
   const httpHeaders = this.httpUtils.getHTTPHeaders();
-  
-  const httpParams =   new HttpParams()
-  .set('IsPagination',Constants.Pagination.withoutPagination);
-  return this.http.get<StaffDtoModel[]>(Constants.URL.HOST_URL+'api/staff', {headers: httpHeaders,params: httpParams});
+  return this.http.get<StaffDtoModel[]>(Constants.URL.HOST_URL+'api/staff', {headers: httpHeaders});
  
 }
 

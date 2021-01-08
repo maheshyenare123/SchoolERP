@@ -4,11 +4,11 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse } fr
 // RxJS
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { environment } from '../../../../../environments/environment';
-import { Logout } from '../../../auth';
+import { environment } from 'src/environments/environment';
+import { Logout } from 'src/app/core/auth';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../../reducers';
+import { AppState } from 'src/app/core/reducers';
 
 /**
  * More information there => https://medium.com/@MetonymyQT/angular-http-interceptors-what-are-they-and-how-to-use-them-52e060321088

@@ -117,8 +117,8 @@ ngOnInit() {
   loadAllExpenseHead() {
     debugger
     this.expenseHeadService.getAllExpenseHeads().subscribe(res => {
-      this.expenseHeadList =res['data'];
-      // this.expenseHeadList = data['content'];
+      const data = res['data'];
+      this.expenseHeadList = data['content'];
       console.log(this.expenseHeadList)
     }, err => {
     });

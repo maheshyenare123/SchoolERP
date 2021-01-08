@@ -15,11 +15,11 @@ import { AppState } from '../../../../../core/reducers';
 import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ApproveLeaveDtoModel, selectApproveLeavesActionLoading, ApproveLeaveUpdated, selectLastCreatedApproveLeaveId, ApproveLeaveOnServerCreated } from '../../../../../core/attendance';
-import { StudentDtoModel, StudentService } from '../../../../../core/student-information';
-import { SectionDtoModel, StudentClassModel, SectionService, StudentClassService } from '../../../../../core/academics';
-import { LeaveTypeModel, LeaveTypeService } from '../../../../../core/human-resource';
-
-import { Constants } from '../../../../../core/api_url';
+import { StudentDtoModel, StudentService } from 'src/app/core/student-information';
+import { SectionDtoModel, StudentClassModel, SectionService, StudentClassService } from 'src/app/core/academics';
+import { LeaveTypeModel, LeaveTypeService } from 'src/app/core/human-resource';
+import { constants } from 'buffer';
+import { Constants } from 'src/app/core/api_url';
 
 
 
@@ -74,8 +74,8 @@ export class ApproveLeaveEditDialogComponent implements OnInit, OnDestroy {
 	loadAllClasses() {
 		debugger
 		this.studentClassService.getAllStudentClasss().subscribe(res => {
-			this.classList = res['data'];
-			// this.classList = res['data'];;
+			const data = res['data'];
+			this.classList = data['content'];
 			console.log(this.classList)
 		}, err => {
 		});

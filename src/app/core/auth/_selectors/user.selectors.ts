@@ -3,8 +3,9 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 // CRUD
 import { QueryResultsModel, HttpExtenstionsModel } from '../../_base/crud';
 // State
+import { UsersState } from '../_reducers/user.reducers';
 import { each } from 'lodash';
-import { User,UsersState } from '../../auth';
+import { User } from '../_models/user.model';
 
 export const selectUsersState = createFeatureSelector<UsersState>('users');
 
