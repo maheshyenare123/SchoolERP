@@ -119,7 +119,7 @@ export class IncomeGroupReportComponent implements OnInit {
     debugger
     this.incomeHeadService.getAllIncomeHeads().subscribe(res => {
       const data = res['data'];
-      this.incomeHeadList = data['content'];
+      this.incomeHeadList = res['data'];
       console.log(this.incomeHeadList)
     }, err => {
     });

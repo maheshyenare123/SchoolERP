@@ -92,7 +92,7 @@ export class ClassTimetableEditDialogComponent implements OnInit, OnDestroy {
 		debugger
 		this.studentClassService.getAllStudentClasss().subscribe(res => {
 			const data = res['data'];
-			this.classList = data['content'];
+			this.classList = res['data'];
 			console.log(this.classList)
 		}, err => {
 		});
@@ -112,7 +112,7 @@ export class ClassTimetableEditDialogComponent implements OnInit, OnDestroy {
 		debugger
 		this.subjectService.getAllSubjects().subscribe(res => {
 			const data = res['data'];
-			this.subjectList = data['content'];
+			this.subjectList= res['data'];
 			console.log(this.subjectList)
 
 
@@ -136,7 +136,7 @@ export class ClassTimetableEditDialogComponent implements OnInit, OnDestroy {
 			console.log("response collage List")
 			console.log(res)
 			const data = res['data'];
-			this.staffList = data['content'];
+		this.staffList = res['data'];
 			console.log(this.staffList)
 			// this.setDataInChecboxList();
 

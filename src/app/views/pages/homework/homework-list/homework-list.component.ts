@@ -87,7 +87,7 @@ this.dataSource = new HomeworksDataSource(this.store);
 		debugger
 		this.studentClassService.getAllStudentClasss().subscribe(res => {
 			const data = res['data'];
-			this.classList = data['content'];
+			this.classList = res['data'];
 			console.log(this.classList)
 		}, err => {
 		});
@@ -107,7 +107,7 @@ this.dataSource = new HomeworksDataSource(this.store);
 		debugger
 		this.subjectService.getAllSubjects().subscribe(res => {
 			const data = res['data'];
-			this.subjectList = data['content'];
+			this.subjectList= res['data'];
 			console.log(this.subjectList)
 		
 		

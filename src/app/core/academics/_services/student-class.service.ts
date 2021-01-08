@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from "@angular/common/http";
+import { HttpClient,HttpHeaders, HttpParams } from "@angular/common/http";
 import { Constants } from '../../api_url';
 import { HttpUtilsService, QueryResultsModel, QueryParamsModel } from '../../_base/crud';
 import { StudentClassModel } from '../_models/student-class.model';
@@ -23,11 +23,16 @@ export class StudentClassService {
   // READ
   getAllStudentClasss(): Observable<StudentClassModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<StudentClassModel[]>(Constants.URL.HOST_URL+Constants.Academics.Class, {headers: httpHeaders});
+ const httpParams =   new HttpParams()
+    .set('IsPagination',Constants.Pagination.withoutPagination);
+
+    return this.http.get<StudentClassModel[]>(Constants.URL.HOST_URL+Constants.Academics.Class, {headers: httpHeaders,  params: httpParams});
   }
   getAllSectionByClasssId(id): Observable<StudentClassModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<StudentClassModel[]>(Constants.URL.HOST_URL+Constants.Academics.Class+"/"+id+"/sections", {headers: httpHeaders});
+    const httpParams =   new HttpParams()
+    .set('IsPagination',Constants.Pagination.withoutPagination);
+    return this.http.get<StudentClassModel[]>(Constants.URL.HOST_URL+Constants.Academics.Class+"/"+id+"/sections", {headers: httpHeaders,params: httpParams});
   }
   getStudentClassById(studentClassId: number): Observable<StudentClassModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();

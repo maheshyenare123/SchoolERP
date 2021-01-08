@@ -101,7 +101,7 @@ this.loadAllClasses();
 this.loadAllStudentCategory();
 this.loadAllStudentHouse()
 this.loadAllHostel();
-this.loadAllRoutes()
+this.loadAllRoutes();
     //this.studentDetail = this.data.studentDetail;
     const newStudent = new StudentDtoModel();
 		newStudent.clear(); // Set all defaults fields
@@ -127,7 +127,7 @@ loadAllClasses() {
 	debugger
 	this.studentClassService.getAllStudentClasss().subscribe(res => {
 		const data = res['data'];
-		this.classList = data['content'];
+		this.classList = res['data'];
 		console.log(this.classList)
 	}, err => {
 	});

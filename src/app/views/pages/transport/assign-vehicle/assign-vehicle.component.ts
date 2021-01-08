@@ -130,7 +130,7 @@ this.addAssignVehicle();
 	//get All Class List
 	loadAllRoutes() {
 		debugger
-		this.routeService.getAllRoutes().subscribe(res => {
+		this.routeService.   getAllRoutes().subscribe(res => {
 			const data = res['data'];
 			this.routeList = data['content'];
 			console.log(this.routeList)

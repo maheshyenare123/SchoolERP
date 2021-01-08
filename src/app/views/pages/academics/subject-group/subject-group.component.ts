@@ -131,7 +131,7 @@ this.addSubjectGroup();
 		debugger
 		this.studentClassService.getAllStudentClasss().subscribe(res => {
 			const data = res['data'];
-			this.classList = data['content'];
+			this.classList = res['data'];
 			console.log(this.classList)
 		}, err => {
 		});
@@ -151,7 +151,7 @@ this.addSubjectGroup();
 		debugger
 		this.subjectService.getAllSubjects().subscribe(res => {
 			const data = res['data'];
-			this.subjectList = data['content'];
+			this.subjectList= res['data'];
 			console.log(this.subjectList)
 			this.setSubjectDataInChecboxList();
 		

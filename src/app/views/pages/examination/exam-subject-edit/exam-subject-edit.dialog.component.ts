@@ -82,7 +82,7 @@ export class ExamSubjectDialogComponent implements OnInit, OnDestroy {
 		debugger
 		this.subjectService.getAllSubjects().subscribe(res => {
 			const data = res['data'];
-			this.subjectList = data['content'];
+			this.subjectList= res['data'];
 			console.log(this.subjectList)
 
 

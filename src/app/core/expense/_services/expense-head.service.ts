@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from "@angular/common/http";
+import { HttpClient,HttpHeaders, HttpParams } from "@angular/common/http";
 import { Constants } from '../../api_url';
 import { HttpUtilsService, QueryResultsModel, QueryParamsModel } from '../../_base/crud';
 import { ExpenseHeadModel } from '../_models/expense-head.model';
@@ -23,7 +23,9 @@ export class ExpenseHeadService {
   // READ
   getAllExpenseHeads(): Observable<ExpenseHeadModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<ExpenseHeadModel[]>(Constants.URL.HOST_URL+Constants.Expenses.ExpenseHead, {headers: httpHeaders});
+    const httpParams =   new HttpParams()
+    .set('IsPagination',Constants.Pagination.withoutPagination);
+    return this.http.get<ExpenseHeadModel[]>(Constants.URL.HOST_URL+Constants.Expenses.ExpenseHead, {headers: httpHeaders,  params: httpParams});
   }
 
   getExpenseHeadById(expenseHeadId: number): Observable<ExpenseHeadModel> {
