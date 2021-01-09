@@ -179,7 +179,7 @@ this.addStudentHouse();
 
 			this.store.dispatch(new OneStudentHouseDeleted({ id: _item.id }));
 			this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
-			this.loadStudentHouseList();
+			// this.loadStudentHouseList();
 		});
 		
 
@@ -305,7 +305,7 @@ updateStudentHouse(_studentHouse: SchoolHousModel) {
 		studentHouse: _studentHouse
 	}));
 
-
+	this.loadStudentHouseList();
 }
 
 /**

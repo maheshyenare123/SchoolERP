@@ -181,7 +181,7 @@ this.addCategory();
 
 			this.store.dispatch(new OneCategoryDeleted({ id: _item.id }));
 			this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
-			this.loadCategoryList();
+			// this.loadCategoryList();
 		});
 		
 

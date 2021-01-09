@@ -10,7 +10,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbModule, NgbAlertConfig } from '@ng-bootstrap/ng-bootstrap';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -30,6 +30,7 @@ import { ApproveLeaveListComponent } from './approve-leave/approve-leave-list/ap
 import { StudentAttendenceEffects, approveLeavesReducer, ApproveLeaveEffects, studentAttendencesReducer, StudentAttendenceService, ApproveLeaveService, AttendenceTypeService } from '../../../core/attendance';
 import { TestComponent } from './test/test.component';
 import { ApproveRejectLeaveEditDialogComponent } from './approve-leave/approve-reject-leave-edit/approve-reject-leave-edit.dialog.component';
+import { DATE_FORMATS } from 'src/app/core/constants/date-formate';
 
 const routes: Routes = [
 	{
@@ -111,7 +112,7 @@ EffectsModule.forFeature([ApproveLeaveEffects]),
     DynamicSetActionsService,
 		{ provide: MatBottomSheetRef, useValue: {} },
 		{ provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
-		{ provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
+		{ provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
 
     {

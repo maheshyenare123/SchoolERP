@@ -118,8 +118,9 @@ export class TypesUtilsService {
       // tslint:disable-next-line:prefer-const
       let result = new Date();
    
-      result.setMonth(month - 1);
+    
       result.setDate(day);
+      result.setMonth(month - 1);
       result.setFullYear(year);
       return result;
     }
@@ -136,6 +137,6 @@ export class TypesUtilsService {
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
     const dateToday = date.getDate();
-    return `${month}/${dateToday}/${year}`;
+    return `${dateToday}/${month}/${year}`;
   }
 }

@@ -1,7 +1,7 @@
 import { MatRadioModule } from '@angular/material/radio';
 
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatRippleModule, MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatRippleModule, MatNativeDateModule, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconRegistry, MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -39,6 +39,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { NgModule } from '@angular/core';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { DATE_FORMATS } from 'src/app/core/constants/date-formate';
 
 
 @NgModule({
@@ -93,7 +94,7 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 		MatIconRegistry,
 		{ provide: MatBottomSheetRef, useValue: {} },
 		{ provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
-		{ provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
+		// { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
 		{ provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
 
 	],

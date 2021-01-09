@@ -46,6 +46,19 @@ export class PageConfig {
     },
     'student_information': {
 
+
+      // student_details: {
+      //   edit: {
+      //     page: { title: 'Edit Student Details', desc: '' }
+      //   },
+      //   add: {
+      //     page: { title: 'Student Details', desc: '' }
+      //   }
+      // },
+      
+
+
+
       'student_details': {
         page: { title: 'Student Details', desc: '' }
       },

@@ -46,12 +46,13 @@ export class AdmissionEnquiryService {
 
 
     const httpParams =new HttpParams()
-    .set('fromDate', "2020-01-01")
+    // .set('fromDate', "")
     .set('pageNo', queryParams.pageNumber.toString())
     .set('pageSize', queryParams.pageSize.toString())
     .set('sortBy', 'id')
-    .set('toDate', "2020-12-31");
-
+    // .set('toDate', "");
+    // status
+    // sourceId
     const url =Constants.URL.HOST_URL+Constants.Front_Office.Admission_Enquiry ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,

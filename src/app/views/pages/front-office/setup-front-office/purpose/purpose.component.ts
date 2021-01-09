@@ -271,7 +271,7 @@ onSubmit() {
 	} else {
 		this.createVisitorPurpose(editedVisitorPurpose);
 	}
-	this.loadVisitorPurposeList();
+	
 	const	_saveMessage= editedVisitorPurpose.id > 0 ? 'Purpose  has been updated' : 'Purpose has been created';
 		
 	const _messageType = editedVisitorPurpose.id > 0 ? MessageType.Update : MessageType.Create;
@@ -281,6 +281,7 @@ onSubmit() {
 		this.visitorPurposeForm.reset();
 
 		this.addVisitorPurpose();
+		// this.loadVisitorPurposeList();
 		// this.visitorPurpose.clear();
 		// this.createForm();
 

@@ -10,7 +10,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbModule, NgbAlertConfig } from '@ng-bootstrap/ng-bootstrap';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { MaterialModule } from '../material/material.module';
 
@@ -28,6 +28,7 @@ import { ExpenseHeadComponent } from './expense-head/expense-head.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { expensesReducer, ExpenseEffects, ExpenseHeadEffects, expenseHeadsReducer, ExpenseService, ExpenseHeadService } from 'src/app/core/expense';
+import { DATE_FORMATS } from 'src/app/core/constants/date-formate';
 
 const routes: Routes = [
 	{
@@ -91,7 +92,7 @@ const routes: Routes = [
     DynamicSetActionsService,
 		{ provide: MatBottomSheetRef, useValue: {} },
 		{ provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
-		{ provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
+		{ provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
 
     {

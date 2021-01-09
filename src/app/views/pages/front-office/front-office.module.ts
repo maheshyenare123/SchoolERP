@@ -10,8 +10,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbModule, NgbAlertConfig } from '@ng-bootstrap/ng-bootstrap';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
-import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import {MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS,  } from '@angular/material-moment-adapter';
 
 
 //components
@@ -41,6 +41,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ModuleGuard } from '../../../core/auth';
 import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService,DynamicSetActionsService  } from '../../../core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { DATE_FORMATS } from 'src/app/core/constants/date-formate';
 
 
 const routes: Routes = [
@@ -174,7 +175,11 @@ VisitorBookEditDialogComponent,
     DynamicSetActionsService ,
 		{ provide: MatBottomSheetRef, useValue: {} },
 		{ provide: MAT_BOTTOM_SHEET_DATA, useValue: {} },
-		{ provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
+    // { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },,
+    // { provide: MAT_DATE_LOCALE, useValue: DATE_FORMATS},
+    
+
+    { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
 
     {

@@ -2,8 +2,8 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { SourcesDataSource, SourceModel,selectSourcesActionLoading } from 'src/app/core/front-office';
-import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from 'src/app/core/_base/crud';
+import { SourcesDataSource, SourceModel, selectSourcesActionLoading } from 'src/app/core/front-office';
+import { QueryParamsModel, LayoutUtilsService, MessageType, TypesUtilsService } from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,40 +24,40 @@ import { SourcesPageRequested, OneSourceDeleted, ManySourcesDeleted, SourcesStat
 
 
 @Component({
-  selector: 'kt-source',
-  templateUrl: './source.component.html',
-  styleUrls: ['./source.component.scss']
+	selector: 'kt-source',
+	templateUrl: './source.component.html',
+	styleUrls: ['./source.component.scss']
 })
 export class SourceComponent implements OnInit {
 
- // Table fields
-dataSource: SourcesDataSource;
-//  dataSource = new MatTableDataSource(ELEMENT_DATA);
-displayedColumns = ['id', 'source', 'description', 'actions'];
-@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-@ViewChild('sort1', {static: true}) sort: MatSort;
-// Filter fields
-@ViewChild('searchInput', {static: true}) searchInput: ElementRef;
-filterStatus = '';
-filterType = '';
-// Selection
-selection = new SelectionModel<SourceModel>(true, []);
-sourcesResult: SourceModel[] = [];
-// Subscriptions
-private subscriptions: Subscription[] = [];
+	// Table fields
+	dataSource: SourcesDataSource;
+	//  dataSource = new MatTableDataSource(ELEMENT_DATA);
+	displayedColumns = ['id', 'source', 'description', 'actions'];
+	@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+	@ViewChild('sort1', { static: true }) sort: MatSort;
+	// Filter fields
+	@ViewChild('searchInput', { static: true }) searchInput: ElementRef;
+	filterStatus = '';
+	filterType = '';
+	// Selection
+	selection = new SelectionModel<SourceModel>(true, []);
+	sourcesResult: SourceModel[] = [];
+	// Subscriptions
+	private subscriptions: Subscription[] = [];
 
-// Public properties
-source: SourceModel;
-sourceForm: FormGroup;
-hasFormErrors = false;
-viewLoading = false;
-// Private properties
-private componentSubscriptions: Subscription;
-
-
+	// Public properties
+	source: SourceModel;
+	sourceForm: FormGroup;
+	hasFormErrors = false;
+	viewLoading = false;
+	// Private properties
+	private componentSubscriptions: Subscription;
 
 
-  constructor(public dialog: MatDialog,
+
+
+	constructor(public dialog: MatDialog,
 		public snackBar: MatSnackBar,
 		private layoutUtilsService: LayoutUtilsService,
 		private translate: TranslateService,
@@ -65,11 +65,11 @@ private componentSubscriptions: Subscription;
 		private fb: FormBuilder,
 		private typesUtilsService: TypesUtilsService) { }
 
-  ngOnInit() {
+	ngOnInit() {
 
-	debugger;
-	
-    const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+		debugger;
+
+		const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 		this.subscriptions.push(sortSubscription);
 
 		/* Data load will be triggered in two cases:
@@ -79,7 +79,7 @@ private componentSubscriptions: Subscription;
 		const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
 			tap(() => this.loadSourceList())
 		)
-		.subscribe();
+			.subscribe();
 		this.subscriptions.push(paginatorSubscriptions);
 
 		// Filtration, bind to searchInput
@@ -92,20 +92,20 @@ private componentSubscriptions: Subscription;
 				this.loadSourceList();
 			})
 		)
-		.subscribe();
+			.subscribe();
 		this.subscriptions.push(searchSubscription);
 
 		// Init DataSource
 		this.dataSource = new SourcesDataSource(this.store);
-	
+
 		const entitiesSubscription = this.dataSource.entitySubject.pipe(
 			skip(1),
 			distinctUntilChanged()
 		).subscribe(res => {
 			debugger
-	console.log(res);
+			console.log(res);
 			this.sourcesResult = res;
-			if(this.sourcesResult.length==0)this.dataSource.hasItems=false;
+			if (this.sourcesResult.length == 0) this.dataSource.hasItems = false;
 		});
 		this.subscriptions.push(entitiesSubscription);
 		// First load
@@ -113,12 +113,12 @@ private componentSubscriptions: Subscription;
 			this.loadSourceList();
 		}); // Remove this line, just loading imitation
 
-this.addSource();
-		
-  }
-/**
-	 * On Destroy
-	 */
+		this.addSource();
+
+	}
+	/**
+		 * On Destroy
+		 */
 	ngOnDestroy() {
 		this.subscriptions.forEach(el => el.unsubscribe());
 	}
@@ -181,7 +181,7 @@ this.addSource();
 			this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
 			this.loadSourceList();
 		});
-		
+
 
 	}
 
@@ -189,7 +189,7 @@ this.addSource();
 	 * Show add source dialog
 	 */
 	addSource() {
-		this.source=new SourceModel();
+		this.source = new SourceModel();
 		this.source.clear(); //
 		this.createForm();
 
@@ -200,80 +200,80 @@ this.addSource();
 	 * @param source: SourceModel
 	 */
 	editSource(source: SourceModel) {
-		
-		this.source=source;
+
+		this.source = source;
 		this.createForm();
 
 	}
 
 
 
-createForm() {
-	debugger;
-	this.sourceForm = this.fb.group({
-		source: [this.source.source, Validators.required],
-		description: [this.source.description, ],
-		isActive: [this.source.isActive, ],
-	});
-}
-
-
-/**
- * Check control is invalid
- * @param controlName: string
- */
-isControlInvalid(controlName: string): boolean {
-	const control = this.sourceForm.controls[controlName];
-	const result = control.invalid && control.touched;
-	return result;
-}
-
-/** ACTIONS */
-
-/**
- * Returns prepared source
- */
-prepareSource(): SourceModel {
-	const controls = this.sourceForm.controls;
-	const _source = new SourceModel();
-	_source.id = this.source.id;
-	_source.source = controls.source.value;
-	_source.description = controls.description.value;
-		if(_source.id>0){
-	_source.isActive = controls.isActive.value;
-}else{
-	_source.isActive = 'yes';
-}
-	return _source;
-}
-
-/**
- * On Submit
- */
-onSubmit() {
-	this.hasFormErrors = false;
-	const controls = this.sourceForm.controls;
-	/** check form */
-	if (this.sourceForm.invalid) {
-		Object.keys(controls).forEach(controlName =>
-			controls[controlName].markAsTouched()
-		);
-
-		this.hasFormErrors = true;
-		return;
+	createForm() {
+		debugger;
+		this.sourceForm = this.fb.group({
+			source: [this.source.source, Validators.required],
+			description: [this.source.description,],
+			isActive: [this.source.isActive,],
+		});
 	}
 
-	const editedSource = this.prepareSource();
-	if (editedSource.id > 0) {
-		this.updateSource(editedSource);
-	} else {
-		this.createSource(editedSource);
+
+	/**
+	 * Check control is invalid
+	 * @param controlName: string
+	 */
+	isControlInvalid(controlName: string): boolean {
+		const control = this.sourceForm.controls[controlName];
+		const result = control.invalid && control.touched;
+		return result;
 	}
 
-	const	_saveMessage= editedSource.id > 0 ? 'Source  has been updated' : 'Source has been created';
-		
-	const _messageType = editedSource.id > 0 ? MessageType.Update : MessageType.Create;
-	
+	/** ACTIONS */
+
+	/**
+	 * Returns prepared source
+	 */
+	prepareSource(): SourceModel {
+		const controls = this.sourceForm.controls;
+		const _source = new SourceModel();
+		_source.id = this.source.id;
+		_source.source = controls.source.value;
+		_source.description = controls.description.value;
+		if (_source.id > 0) {
+			_source.isActive = controls.isActive.value;
+		} else {
+			_source.isActive = 'yes';
+		}
+		return _source;
+	}
+
+	/**
+	 * On Submit
+	 */
+	onSubmit() {
+		this.hasFormErrors = false;
+		const controls = this.sourceForm.controls;
+		/** check form */
+		if (this.sourceForm.invalid) {
+			Object.keys(controls).forEach(controlName =>
+				controls[controlName].markAsTouched()
+			);
+
+			this.hasFormErrors = true;
+			return;
+		}
+
+		const editedSource = this.prepareSource();
+		if (editedSource.id > 0) {
+			this.updateSource(editedSource);
+		} else {
+			this.createSource(editedSource);
+		}
+
+		const _saveMessage = editedSource.id > 0 ? 'Source  has been updated' : 'Source has been created';
+
+		const _messageType = editedSource.id > 0 ? MessageType.Update : MessageType.Create;
+
 		this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
 		this.loadSourceList();
 		this.sourceForm.reset();
@@ -281,54 +281,54 @@ onSubmit() {
 		// this.source.clear();
 		// this.createForm();
 
-}
-onCancel(){
-	this.sourceForm.reset();
-	this.addSource();
-	// this.source.clear();
-	// this.createForm();
-}
-/**
- * Update Source
- *
- * @param _source: SourceModel
- */
-updateSource(_source: SourceModel) {
-	const updateSource: Update<SourceModel> = {
-		id: _source.id,
-		changes: _source
-	};
-	this.store.dispatch(new SourceUpdated({
-		partialSource: updateSource,
-		source: _source
-	}));
+	}
+	onCancel() {
+		this.sourceForm.reset();
+		this.addSource();
+		// this.source.clear();
+		// this.createForm();
+	}
+	/**
+	 * Update Source
+	 *
+	 * @param _source: SourceModel
+	 */
+	updateSource(_source: SourceModel) {
+		const updateSource: Update<SourceModel> = {
+			id: _source.id,
+			changes: _source
+		};
+		this.store.dispatch(new SourceUpdated({
+			partialSource: updateSource,
+			source: _source
+		}));
+		this.loadSourceList();  
 
+	}
 
-}
+	/**
+	 * Create source
+	 *
+	 * @param _source: SourceModel
+	 */
+	createSource(_source: SourceModel) {
+		this.store.dispatch(new SourceOnServerCreated({ source: _source }));
+		this.componentSubscriptions = this.store.pipe(
+			select(selectLastCreatedSourceId),
+			delay(1000), // Remove this line
+		).subscribe(res => {
+			if (!res) {
+				return;
+			}
 
-/**
- * Create source
- *
- * @param _source: SourceModel
- */
-createSource(_source:SourceModel) {
-	this.store.dispatch(new SourceOnServerCreated({ source: _source }));
-	this.componentSubscriptions = this.store.pipe(
-		select(selectLastCreatedSourceId),
-		delay(1000), // Remove this line
-	).subscribe(res => {
-		if (!res) {
-			return;
-		}
+			// this.dialogRef.close({ _source, isEdit: false });
+		});
+	}
 
-		// this.dialogRef.close({ _source, isEdit: false });
-	});
-}
-
-/** Alect Close event */
-onAlertClose($event) {
-	this.hasFormErrors = false;
-}
+	/** Alect Close event */
+	onAlertClose($event) {
+		this.hasFormErrors = false;
+	}
 
 }
 // export class NgbdTimepickerSteps {

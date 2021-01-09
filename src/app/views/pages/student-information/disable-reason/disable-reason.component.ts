@@ -180,7 +180,7 @@ this.addDisableReason();
 
 			this.store.dispatch(new OneDisableReasonDeleted({ id: _item.id }));
 			this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
-			this.loadDisableReasonList();
+			// this.loadDisableReasonList();
 		});
 		
 
@@ -302,8 +302,8 @@ updateDisableReason(_disableReason: DisableReasonModel) {
 		partialDisableReason: updateDisableReason,
 		disableReason: _disableReason
 	}));
-
-
+	
+	this.loadDisableReasonList();
 }
 
 /**

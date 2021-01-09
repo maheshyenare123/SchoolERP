@@ -394,7 +394,7 @@ deleteProducts() {
 		// 	this.loadStudentsList();
     // });
     
-    this.router.navigate(["/student-information/student-details-edit/"+student.id])
+    this.router.navigate(["student_information/student_details_edit/"+student.id])
 
 	}
 

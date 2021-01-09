@@ -44,7 +44,7 @@
 						<!-- formControlName="studentId" there is no such variable  -->
 						<mat-select placeholder="Select Student" formControlName="studentId">
 							<mat-option *ngFor="let student of studentList" [value]="student.id">
-								{{student.firstname}}{{student.lastname}}
+								{{student.firstname}} {{student.lastname}}
 							</mat-option>
 
 

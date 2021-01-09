@@ -186,7 +186,7 @@ loadAllSectionsByClassId(id:number) {
 		debugger
 		this.routeService.getAllRoutes().subscribe(res => {
 			const data = res['data'];
-			this.routeList = data['content'];
+			this.routeList = res['data'];
 			console.log(this.routeList)
 		}, err => {
 		});
@@ -515,7 +515,7 @@ loadAllSectionsByClassId(id:number) {
       student: _studentDetail
     }));
 
-    this.router.navigate(["/student-information/student-details"])
+    this.router.navigate(["student-information/student-details"])
 
     // Remove this line
     //of(undefined).pipe(delay(1000)).subscribe(() => this.dialogRef.close({ _studentDetail, isEdit: true }));
@@ -538,7 +538,7 @@ loadAllSectionsByClassId(id:number) {
         return;
       }
 
-      this.router.navigate(["/student-information/student-details"])
+      this.router.navigate(["student-information/student-details"])
       // this.dialogRef.close({ _studentDetail, isEdit: false });
     });
 
