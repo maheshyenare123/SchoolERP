@@ -1,8 +1,8 @@
 export class Constants {
    public static URL: any = {
       // HOST_URL: 'http://yamistha.cloudjiffy.net/',
-      // HOST_URL: 'http://3.140.52.88:8080/',
-      HOST_URL: 'http://localhost:8080/',
+      HOST_URL: 'http://3.140.52.88:8080/',
+      // HOST_URL: 'http://localhost:8080/',
       accessToken: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdXBlcmFkbWluQGdtYWlsLmNvbSIsIlNlc3Npb25JRCI6MSwiaWF0IjoxNjA1NjgwNTE4LCJleHAiOjE2MDU3NjY5MTh9.ylU_vhIgkXCnK_JPjpzUB2o-if_vtSf0eSTu4t-XQnk-MuolPdbe1W7rQvYagANBzlU3efKk8U57FqfMqiIFOg',
       sessionId: '1',
 // http://3.140.52.88:8080/swagger-ui.html#
@@ -26,8 +26,6 @@ export class Constants {
       withPagination:'1',
       withoutPagination:'0'
    }
-
-
 
    public static Authentication: any = {
       Login: 'auth/login',
