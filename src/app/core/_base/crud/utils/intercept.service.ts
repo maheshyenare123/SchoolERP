@@ -68,6 +68,8 @@ export class InterceptService implements HttpInterceptor {
                 document.location.reload();
              }else if(error.status === 0){
                alert("Server not respond")
+               this.router.navigate(['error/403']);
+
               // localStorage.removeItem('token');
               // localStorage.removeItem(environment.authTokenKey);
               // this.store.dispatch(new Logout());
