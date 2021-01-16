@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
 // Angular
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
@@ -66,6 +66,7 @@ import xml from 'highlight.js/lib/languages/xml';
 import json from 'highlight.js/lib/languages/json';
 import scss from 'highlight.js/lib/languages/scss';
 import typescript from 'highlight.js/lib/languages/typescript';
+import { ɵROUTER_PROVIDERS } from '@angular/router';
 
 
 
@@ -167,6 +168,10 @@ export function getHighlightLanguages() {
         languages: getHighlightLanguages
       }
     },
+    [ ɵROUTER_PROVIDERS,
+      {provide: LocationStrategy, useClass: HashLocationStrategy}],
+
+
     // template services
     SubheaderService,
     MenuHorizontalService,

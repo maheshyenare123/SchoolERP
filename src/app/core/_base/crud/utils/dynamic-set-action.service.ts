@@ -19,7 +19,7 @@ export class DynamicSetActionsService {
     //   });
     // /student_information/student
     //  var data:any[]=url.split("/");
-
+   if(menuItems!=null){
     let obj = menuItems.find(ele => ele.shortCode === pathname.split("/")[1]);
     // console.log(obj);
     if (!obj === undefined) {
@@ -31,6 +31,7 @@ export class DynamicSetActionsService {
         return obj;
 
       }
+    }
     }
 
 
