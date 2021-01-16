@@ -7,7 +7,7 @@ import { QueryResultsModel, BaseDataSource } from '../../_base/crud';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '../../reducers';
 // Selectors
-import { selectSessionInStore, selectSessionPageLoading,selectSessionShowInitWaitingMessage } from '../_selectors/Session.selectors';
+import { selectSessionInStore, selectSessionPageLoading,selectSessionShowInitWaitingMessage } from '../_selectors/session.selectors';
 
 export class SessionsDataSource extends BaseDataSource {
   constructor(private store: Store<AppState>) {

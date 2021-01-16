@@ -72,9 +72,8 @@ ngOnInit() {
 
 this.addHomework(); 
 // All Get Call
-this.loadAllSubject();
 this.loadAllClasses();
-this.loadAllSubjectGroup();
+
 
 // Init DataSource
 this.dataSource = new HomeworksDataSource(this.store);
@@ -91,6 +90,11 @@ this.dataSource = new HomeworksDataSource(this.store);
 			console.log(this.classList)
 		}, err => {
 		});
+  }
+  
+  onClassSelectChange(classId){
+		this.loadAllSectionsByClassId(classId);
+	
 	}
 	loadAllSectionsByClassId(id:number) {
 		debugger
@@ -102,21 +106,16 @@ this.dataSource = new HomeworksDataSource(this.store);
 		}, err => {
 		});
 	}
-
-	loadAllSubject() {
-		debugger
-		this.subjectService.getAllSubjects().subscribe(res => {
-			const data = res['data'];
-			this.subjectList= res['data'];
-			console.log(this.subjectList)
+  onSectionSelectChange(sectionId){
+    this.hasFormErrors = false;
+  const controls = this.searchForm.controls;
+    this.loadAllSubjectGroup(controls.classesId.value,sectionId);
 		
-		
-		}, err => {
-		});
 	}
-	loadAllSubjectGroup() {
+	
+  loadAllSubjectGroup(classId,sectionId) {
 		debugger
-		this.subjectGroupService.getAllSubjectGroups().subscribe(res => {
+		this.subjectGroupService.getAllSubjectGroupsWithClassAndSection(classId,sectionId ).subscribe(res => {
 			const data = res['data'];
 			this.subjectGroupList = data['content'];
 			console.log(this.subjectList)
@@ -124,12 +123,22 @@ this.dataSource = new HomeworksDataSource(this.store);
 		});
 	}
 
-	onClassSelectChange(classId){
-		this.loadAllSectionsByClassId(classId);
-		// var classObj=this.classList.find(x => x.id === classId);
-		// this.homeworkForm.controls.classes.setValue(classObj.classses);
-	
+  onSubjectGroupSelectChange(subjectGroupId){
+    this.loadAllSubject(subjectGroupId);
+		
 	}
+
+
+	loadAllSubject(subjectGroupId) {
+		debugger
+		this.subjectService.getAllSubjectsBySubjectGroupId(subjectGroupId).subscribe(res => {
+			const data = res['data'];
+			this.subjectList= res['data'];
+			console.log(this.subjectList)
+		}, err => {
+		});
+	}
+
 
 
 

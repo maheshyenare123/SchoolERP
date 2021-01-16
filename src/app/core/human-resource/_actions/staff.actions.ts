@@ -14,6 +14,7 @@ export enum StaffActionTypes {
   OneStaffDeleted = '[Staffs List Page] One Staff Deleted',
   ManyStaffsDeleted = '[Staffs List Page] Many Staff Deleted',
   StaffsPageRequested = '[Staffs List Page] Staffs Page Requested',
+  DisableStaffsPageRequested= '[ Disable Staffs List Page] Students Page Requested',
   StaffsuserPageRequested = '[Staffs User List Page] Staffs Page Requested',
   ParentsuserPageRequested = '[Parent User List Page] Staffs Page Requested',
   StaffsPageLoaded = '[Staffs API] Staffs Page Loaded',
@@ -75,7 +76,12 @@ export class StaffsPageRequested implements Action {
   constructor(public payload: { page: QueryParamsModel,roleId:number }) {
   }
 }
+export class DisableStaffsPageRequested implements Action {
+  readonly type = StaffActionTypes.DisableStaffsPageRequested;
 
+  constructor(public payload: { page: QueryParamsModel,roleId:number }) {
+  }
+}
 export class StaffsuserPageRequested implements Action {
   readonly type = StaffActionTypes.StaffsuserPageRequested;
 
@@ -126,4 +132,5 @@ export type StaffActions = StaffOnServerCreated
 | StaffsPageLoaded
 | StaffsPageCancelled
 | StaffsPageToggleLoading
-| StaffActionToggleLoading;
+| StaffActionToggleLoading
+| DisableStaffsPageRequested;

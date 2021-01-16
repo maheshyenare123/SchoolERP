@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from "@angular/common/http";
+import { HttpClient,HttpHeaders, HttpParams } from "@angular/common/http";
 import { Constants } from '../../api_url';
 import { HttpUtilsService, QueryResultsModel, QueryParamsModel } from '../../_base/crud';
 import { IncomeModel } from '../_models/income.model';
@@ -34,16 +34,39 @@ export class IncomeService {
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
   // items => filtered/sorted result
   // Server should return filtered/sorted result
-  findIncomes(queryParams: QueryParamsModel): Observable<QueryResultsModel> {
+  findIncomes(queryParams: QueryParamsModel,fromDate,toDate): Observable<QueryResultsModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
-
+    // const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
+    
+   if( toDate===undefined &&fromDate===undefined){
+    const httpParams = new HttpParams()
+    // .set('toDate', toDate)
+    // .set('fromDate', fromDate)
+    .set('sortBy', queryParams.sortField)
+    .set('pageNo', queryParams.pageNumber.toString())
+    .set('pageSize', queryParams.pageSize.toString());
     const url =Constants.URL.HOST_URL+Constants.Incomes.Income ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
      params: httpParams
     });
+   }else{
+    const httpParams = new HttpParams()
+    .set('toDate', toDate)
+    .set('fromDate', fromDate)
+    .set('sortBy', queryParams.sortField)
+    .set('pageNo', queryParams.pageNumber.toString())
+    .set('pageSize', queryParams.pageSize.toString());
+    const url =Constants.URL.HOST_URL+Constants.Incomes.Income ;
+    return this.http.get<QueryResultsModel>(url, {
+      headers: httpHeaders,
+     params: httpParams
+    });
+  }
+
+
+   
   }
 
   // UPDATE => PUT: update the Income on the server

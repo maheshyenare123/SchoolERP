@@ -61,9 +61,9 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 
 		// All Get Call
-		this.loadAllSubject();
+		
 		this.loadAllClasses();
-		this.loadAllSubjectGroup();
+	
 
 		this.store.pipe(select(selectHomeworksActionLoading)).subscribe(res => this.viewLoading = res);
 
@@ -81,32 +81,36 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 			console.log(this.classList)
 		}, err => {
 		});
+  }
+  
+  onClassSelectChange(classId){
+		this.loadAllSectionsByClassId(classId);
+		var classObj = this.classList.find(x => x.id === classId);
+		this.homeworkForm.controls.classes.setValue(classObj.classses);
+	
 	}
-	loadAllSectionsByClassId(id: number) {
+	loadAllSectionsByClassId(id:number) {
 		debugger
 		this.studentClassService.getAllSectionByClasssId(id).subscribe(res => {
-
+		
 			this.sectionList = res['data'];
 			console.log(this.sectionList)
-
+			
 		}, err => {
 		});
 	}
-
-	loadAllSubject() {
-		debugger
-		this.subjectService.getAllSubjects().subscribe(res => {
-			const data = res['data'];
-			this.subjectList= res['data'];
-			console.log(this.subjectList)
-
-
-		}, err => {
-		});
+  onSectionSelectChange(sectionId){
+    this.hasFormErrors = false;
+  const controls = this.homeworkForm.controls;
+	this.loadAllSubjectGroup(controls.classesId.value,sectionId);
+	var sectionObj = this.sectionList.find(x => x.id === sectionId);
+		this.homeworkForm.controls.section.setValue(sectionObj.section);
+		
 	}
-	loadAllSubjectGroup() {
+	
+  loadAllSubjectGroup(classId,sectionId) {
 		debugger
-		this.subjectGroupService.getAllSubjectGroups().subscribe(res => {
+		this.subjectGroupService.getAllSubjectGroupsWithClassAndSection(classId,sectionId ).subscribe(res => {
 			const data = res['data'];
 			this.subjectGroupList = data['content'];
 			console.log(this.subjectList)
@@ -114,18 +118,23 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	onClassSelectChange(classId) {
-		this.loadAllSectionsByClassId(classId);
-		var classObj = this.classList.find(x => x.id === classId);
-		this.homeworkForm.controls.classes.setValue(classObj.classses);
-
+  onSubjectGroupSelectChange(subjectGroupId){
+    this.loadAllSubject(subjectGroupId);
+		
 	}
-	onSectionSelectChange(subjectId) {
 
-		var sectionObj = this.sectionList.find(x => x.id === subjectId);
-		this.homeworkForm.controls.section.setValue(sectionObj.section);
 
+	loadAllSubject(subjectGroupId) {
+		debugger
+		this.subjectService.getAllSubjectsBySubjectGroupId(subjectGroupId).subscribe(res => {
+			const data = res['data'];
+			this.subjectList= res['data'];
+			console.log(this.subjectList)
+		}, err => {
+		});
 	}
+
+
 	onSubjectSelectChange(subjectId) {
 
 		var subjectObj = this.subjectList.find(x => x.id === subjectId);

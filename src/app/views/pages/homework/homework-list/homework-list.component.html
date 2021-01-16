@@ -37,7 +37,7 @@
 						</div>
 						<div class="col-lg-2 kt-margin-bottom-20-mobile">
 							<mat-form-field class="mat-form-field-fluid">
-								<mat-select placeholder="Select Section" formControlName="sectionId">
+								<mat-select placeholder="Select Section" formControlName="sectionId" (selectionChange)="onSectionSelectChange($event.value)">
 									<mat-option *ngFor="let section of sectionList" [value]="section.id">
 										{{section.section}}
 									</mat-option>
@@ -48,8 +48,8 @@
 						<div class="col-lg-3 kt-margin-bottom-20-mobile">
 							<mat-form-field class="mat-form-field-fluid">
 
-								<mat-select placeholder="Select Subject Group" formControlName="subjectGroupSubjectId">
-									<mat-option *ngFor="let subjectGroup of subjectGroupList" [value]="subjectGroup.id">
+								<mat-select placeholder="Select Subject Group" formControlName="subjectGroupSubjectId" 	(selectionChange)="onSubjectGroupSelectChange($event.value)">
+									<mat-option *ngFor="let subjectGroup of subjectGroupList" [value]="subjectGroup.id" >
 										{{subjectGroup.name}}
 									</mat-option>
 								</mat-select>

@@ -55,7 +55,24 @@ export class StaffService {
       params: httpParams
     });
   }
+  findDiabsleStaffs(queryParams: QueryParamsModel,roleId): Observable<QueryResultsModel> {
+    // Note: Add headers if needed (tokens/bearer)
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    // const httpParams = this.httpUtils.getFindHTTPParams(queryParams);
 
+    const httpParams =new HttpParams()
+    .set('roleId', roleId.toString())
+    .set('pageNo', queryParams.pageNumber.toString())
+    .set('pageSize', queryParams.pageSize.toString())
+    .set('searchTerm', '')
+    .set('sortBy', 'id');
+
+    const url =Constants.URL.HOST_URL+Constants.Human_Resource.Staff ;
+    return this.http.get<QueryResultsModel>(url, {
+      headers: httpHeaders,
+      params: httpParams
+    });
+  }
   findStaffsuser(queryParams: QueryParamsModel,role): Observable<QueryResultsModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
@@ -91,6 +108,22 @@ export class StaffService {
       params: httpParams
     });
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // UPDATE => PUT: update the Staff on the server
   updateStaff(staff: StaffModel): Observable<any> {

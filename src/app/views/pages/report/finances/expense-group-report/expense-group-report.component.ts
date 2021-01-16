@@ -211,7 +211,7 @@ export class ExpenseGroupReportComponent implements OnInit {
       this.paginator.pageSize
     );
     // Call request from server
-    this.store.dispatch(new ExpensesPageRequested({ page: queryParams, searchTerm: searchType }));
+    this.store.dispatch(new ExpensesPageRequested({ page: queryParams, toDate:'',fromDate:'' }));
     this.selection.clear();
   }
 

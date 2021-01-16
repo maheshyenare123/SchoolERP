@@ -211,7 +211,7 @@ ngOnInit() {
       this.paginator.pageSize
     );
     // Call request from server
-    this.store.dispatch(new ExpensesPageRequested({ page: queryParams, searchTerm: searchType }));
+    this.store.dispatch(new ExpensesPageRequested({ page: queryParams, fromDate:'',toDate:'' }));
     this.selection.clear();
   }
 

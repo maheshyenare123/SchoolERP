@@ -27,6 +27,13 @@ export class SubjectService {
     .set('IsPagination',Constants.Pagination.withoutPagination);
     return this.http.get<SubjectDtoModel[]>(Constants.URL.HOST_URL+Constants.Academics.Subject, {headers: httpHeaders,params: httpParams});
   }
+  getAllSubjectsBySubjectGroupId(subjectGroupId): Observable<SubjectDtoModel[]> {
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.get<SubjectDtoModel[]>(Constants.URL.HOST_URL+Constants.Academics.Subject+"/subject-group-id/"+subjectGroupId, {headers: httpHeaders});
+  }
+
+
+
 
   getSubjectById(subjectId: number): Observable<SubjectDtoModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();

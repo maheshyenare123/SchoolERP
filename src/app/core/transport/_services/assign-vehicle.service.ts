@@ -83,15 +83,13 @@ export class AssignVehicleService {
   deleteAssignVehicle(payloadItem: any): Observable<AssignVehicleModel> {
 debugger
 
-payloadItem
-
-payloadItem = {
+const vehicleRouteDto = {
   "id": payloadItem.id,
   "routeId": payloadItem.routeId,
   "vehicles": payloadItem.vehicles
 }
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const body = {vehicleRouteDto: payloadItem};
+    const body = payloadItem;
     const option ={
       headers: httpHeaders,
       body

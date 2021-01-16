@@ -27,7 +27,8 @@ import {
   ManyStaffsDeleted,
   OneStaffDeleted,
   StaffsuserPageRequested,
-  ParentsuserPageRequested
+  ParentsuserPageRequested,
+  DisableStaffsPageRequested
 } from '../_actions/staff.actions';
 
 @Injectable()
@@ -56,6 +57,28 @@ export class StaffEffects {
       });
     })
   );
+  @Effect()
+  loadDisableStaffsPage$ = this.actions$.pipe(
+    ofType<DisableStaffsPageRequested>(StaffActionTypes.DisableStaffsPageRequested),
+    mergeMap(({payload}) => {
+      this.store.dispatch(this.showPageLoadingDistpatcher);
+      const requestToServer = this.staffsService.findStaffs(payload.page,payload.roleId);
+      const lastQuery = of(payload.page);
+      return forkJoin(requestToServer, lastQuery);
+    }),
+    map(response => {
+      const result: QueryResultsModel = response[0];
+      const lastQuery: QueryParamsModel = response[1];
+      const data : FindResultsModel= result['data'];
+      return new StaffsPageLoaded({
+        staffs: data.content,
+        totalCount: data.totalElements,
+        page: lastQuery
+      });
+    })
+  );
+
+
 
   @Effect()
   loadStaffsuserPage$ = this.actions$.pipe(

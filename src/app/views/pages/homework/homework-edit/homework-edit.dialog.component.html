@@ -43,7 +43,7 @@
 					<mat-form-field class="mat-form-field-fluid">
 				
 					
-						  <mat-select placeholder="Select Subject Group" formControlName="subjectGroupSubjectId"  >
+						  <mat-select placeholder="Select Subject Group" formControlName="subjectGroupSubjectId"  (selectionChange)="onSubjectGroupSelectChange($event.value)">
 							<mat-option *ngFor="let subjectGroup of subjectGroupList" [value]="subjectGroup.id" >
 								{{subjectGroup.name}}
 							</mat-option>

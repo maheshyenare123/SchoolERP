@@ -325,14 +325,14 @@ export class MenuConfig {
               page: '/human_resource/payroll'
             },
             
-            {
-              title: 'Disabled Staff',
-              page: '/human_resource/disabled_staff'
-            },
-            {
-              title: 'Staff Rating',
-              page: '/human_resource/staff_rating'
-            },
+            // {
+            //   title: 'Disabled Staff',
+            //   page: '/human_resource/disabled_staff'
+            // },
+            // {
+            //   title: 'Staff Rating',
+            //   page: '/human_resource/staff_rating'
+            // },
 
             
             
@@ -531,10 +531,10 @@ export class MenuConfig {
               title: 'Exam Subject Marks',
               page: '/examination/exam_subject_marks/:examId/:examSubjectId/:examGroupId'
             },
-            {
-              title: 'Exam Result',
-              page: '/examination/exam_result'
-            },  
+            // {
+            //   title: 'Exam Result',
+            //   page: '/examination/exam_result'
+            // },  
 
             
           ]
@@ -556,116 +556,116 @@ export class MenuConfig {
 
 
 
-        {
-          title: 'Communication',
-          bullet: 'dot',
-          icon: 'flaticon-interface-7',
-          submenu: [
+        // {
+        //   title: 'Communication',
+        //   bullet: 'dot',
+        //   icon: 'flaticon-interface-7',
+        //   submenu: [
             
-            {
-              title: 'Notice Board',
-              page: '/communication/notice_board'
-            },
-            {
-              title: 'Send Email',
-              page: '/communication/send_email'
-            },
-            {
-              title: 'Send Sms',
-              page: '/communication/send_sms'
-            },  
-            {
-              title: 'Email Sms Log',
-              page: '/communication/email_sms_log'
-            },  
+        //     {
+        //       title: 'Notice Board',
+        //       page: '/communication/notice_board'
+        //     },
+        //     {
+        //       title: 'Send Email',
+        //       page: '/communication/send_email'
+        //     },
+        //     {
+        //       title: 'Send Sms',
+        //       page: '/communication/send_sms'
+        //     },  
+        //     {
+        //       title: 'Email Sms Log',
+        //       page: '/communication/email_sms_log'
+        //     },  
 
             
-          ]
-        },
+        //   ]
+        // },
 
  
-        {
-          title: 'System Setting',
-          bullet: 'dot',
-          icon: 'flaticon-interface-7',
-          submenu: [
+        // {
+        //   title: 'System Setting',
+        //   bullet: 'dot',
+        //   icon: 'flaticon-interface-7',
+        //   submenu: [
             
-            {
-              title: 'Roles Permissions',
-              page: '/system_setting/roles'
-            },
-            {
-              title: 'Session Setting',
-              page: '/system_setting/sessions'
-            },
-            {
-              title: 'Email Setting',
-              page: '/system_setting/email_setting'
-            },  
-            {
-              title: 'Sms Setting',
-              page: '/system_setting/sms_setting'
-            },
-            {
-              title: 'Backup Restore',
-              page: '/system_setting/backup_restore'
-            },  
-            {
-              title: 'Notification Setting',
-              page: '/system_setting/notification_setting'
-            },  
-            {
-              title: 'Users',
-              page: '/system_setting/users'
-            }, 
-          ]
-        },
+        //     {
+        //       title: 'Roles Permissions',
+        //       page: '/system_setting/roles'
+        //     },
+        //     {
+        //       title: 'Session Setting',
+        //       page: '/system_setting/sessions'
+        //     },
+        //     {
+        //       title: 'Email Setting',
+        //       page: '/system_setting/email_setting'
+        //     },  
+        //     {
+        //       title: 'Sms Setting',
+        //       page: '/system_setting/sms_setting'
+        //     },
+        //     {
+        //       title: 'Backup Restore',
+        //       page: '/system_setting/backup_restore'
+        //     },  
+        //     {
+        //       title: 'Notification Setting',
+        //       page: '/system_setting/notification_setting'
+        //     },  
+        //     {
+        //       title: 'Users',
+        //       page: '/system_setting/users'
+        //     }, 
+        //   ]
+        // },
 
 
 
-        {
-          title: 'Report',
-          bullet: 'dot',
-          icon: 'flaticon-interface-7',
-          submenu: [
+        // {
+        //   title: 'Report',
+        //   bullet: 'dot',
+        //   icon: 'flaticon-interface-7',
+        //   submenu: [
             
-            {
-              title: 'Student Information',
-              page: '/report/student_information'
-            },
-            {
-              title: 'Finance',
-              page: '/report/finance'
-            },
+        //     {
+        //       title: 'Student Information',
+        //       page: '/report/student_information'
+        //     },
+        //     {
+        //       title: 'Finance',
+        //       page: '/report/finance'
+        //     },
 
             
             
-            {
-              title: 'Human Resource',
-              page: '/report/human_resource_report'
-            },
+        //     {
+        //       title: 'Human Resource',
+        //       page: '/report/human_resource_report'
+        //     },
 
-            {
-              title: 'Library',
-              page: '/report/library_report'
-            },
+        //     {
+        //       title: 'Library',
+        //       page: '/report/library_report'
+        //     },
 
-            {
-              title: 'Inventory',
-              page: '/report/inventory_report'
-            },
+        //     {
+        //       title: 'Inventory',
+        //       page: '/report/inventory_report'
+        //     },
 
-            {
-              title: 'Transport',
-              page: '/report/transport_report'
-            },
-            {
-              title: 'Hostel',
-              page: '/report/hostel_report'
-            },
+        //     {
+        //       title: 'Transport',
+        //       page: '/report/transport_report'
+        //     },
+        //     {
+        //       title: 'Hostel',
+        //       page: '/report/hostel_report'
+        //     },
             
-          ]
-        },
+        //   ]
+        // },
        
       ]
     },

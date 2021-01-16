@@ -29,6 +29,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { incomesReducer, IncomeEffects, IncomeService, incomeHeadsReducer, IncomeHeadEffects, IncomeHeadService } from 'src/app/core/income';
 import { DATE_FORMATS } from 'src/app/core/constants/date-formate';
+import { CustomDateService } from 'src/app/core/constants/custom-date.service';
 
 const routes: Routes = [
 	{
@@ -112,6 +113,7 @@ const routes: Routes = [
     },
 
 //custom service
+CustomDateService,
 IncomeService,
 IncomeHeadService
   ],

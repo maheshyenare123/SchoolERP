@@ -145,7 +145,7 @@ this.loadAllIncomeHead();
 			this.paginator.pageSize
 		);
 		// Call request from server
-		this.store.dispatch(new IncomesPageRequested({ page: queryParams,searchTerm:this.searchType }));
+		this.store.dispatch(new IncomesPageRequested({ page: queryParams,toDate:'',fromDate:'' }));
 		this.selection.clear();
 	}
 

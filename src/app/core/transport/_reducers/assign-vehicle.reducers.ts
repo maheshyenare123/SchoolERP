@@ -28,6 +28,11 @@ export const initialAssignVehiclesState: AssignVehiclesState = adapter.getInitia
   showInitWaitingMessage: true
 });
 
+
+const newState = (state, newData) => {
+  return Object.assign({}, state, newData);
+};
+
 export function assignVehiclesReducer(state = initialAssignVehiclesState, action: AssignVehicleActions): AssignVehiclesState {
   switch (action.type) {
     case AssignVehicleActionTypes.AssignVehiclesPageToggleLoading: {
@@ -49,6 +54,8 @@ export function assignVehiclesReducer(state = initialAssignVehiclesState, action
         ...state, lastCreatedAssignVehicleId: action.payload.assignVehicle.id
       });
     case AssignVehicleActionTypes.AssignVehicleUpdated:
+
+// return newState(state, action.payload.partialAssignVehicle);
       return adapter.updateOne(action.payload.partialAssignVehicle, state);
     // case AssignVehicleActionTypes.AssignVehiclesStatusUpdated: {
     //   // tslint:disable-next-line

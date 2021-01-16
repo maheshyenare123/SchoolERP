@@ -39,7 +39,7 @@ export class IncomeEffects {
     ofType<IncomesPageRequested>(IncomeActionTypes.IncomesPageRequested),
     mergeMap(({payload}) => {
       this.store.dispatch(this.showPageLoadingDistpatcher);
-      const requestToServer = this.incomesService.findIncomes(payload.page);
+      const requestToServer = this.incomesService.findIncomes(payload.page,payload.fromDate,payload.toDate);
       const lastQuery = of(payload.page);
       return forkJoin(requestToServer, lastQuery);
     }),

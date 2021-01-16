@@ -7,6 +7,8 @@ export class AssignVehicleModel {
     isActive: string;
     routeId: number;
     vehicles: VehicleModel[];
+    routeTitle:string;
+
     // vehicleId: number;
 
     clear() {

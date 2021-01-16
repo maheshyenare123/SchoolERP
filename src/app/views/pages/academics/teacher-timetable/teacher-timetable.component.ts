@@ -90,8 +90,9 @@ classTimetablesData:TimetableDayModel;
 loadAllTeachers() {
 	debugger
 	this.staffService.getAllStaffs().subscribe(res => {
-		const data=res['data'];
-		this.staffList=data['content'];
+		// const data=res['data'];
+		this.staffList=res['data'];
+		// this.staffList=data['content'];
 	}, err => {
 	});
 }
@@ -209,6 +210,8 @@ onCancel(){
 	// this.createForm();
 
 }
-
+onAlertClose($event) {
+	this.hasFormErrors = false;
+}
 
 }

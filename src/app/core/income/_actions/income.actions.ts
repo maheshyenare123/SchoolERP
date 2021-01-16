@@ -70,7 +70,7 @@ export class ManyIncomesDeleted implements Action {
 export class IncomesPageRequested implements Action {
   readonly type = IncomeActionTypes.IncomesPageRequested;
 
-  constructor(public payload: { page: QueryParamsModel,searchTerm:any }) {
+  constructor(public payload: { page: QueryParamsModel,fromDate:any,toDate:any }) {
   }
 }
 

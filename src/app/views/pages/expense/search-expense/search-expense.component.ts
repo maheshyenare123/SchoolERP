@@ -21,6 +21,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ExpensesPageRequested, OneExpenseDeleted, ManyExpensesDeleted, ExpensesStatusUpdated, ExpenseUpdated, ExpenseOnServerCreated, selectLastCreatedExpenseId } from '../../../../core/expense';
+import { CustomDateService } from 'src/app/core/constants/custom-date.service';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 
 @Component({
@@ -33,8 +35,8 @@ export class SearchExpenseComponent implements OnInit {
   // Table fields
   dataSource: ExpensesDataSource;
   //  dataSource = new MatTableDataSource(ELEMENT_DATA);
- 
- 
+
+
   displayedColumns = ['id', 'name', 'invoiceNo', 'expenseHead', 'date', 'amount'];
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild('sort1', { static: true }) sort: MatSort;
@@ -48,7 +50,7 @@ export class SearchExpenseComponent implements OnInit {
   expenseForFill: ExpenseModel[] = [];
   // Subscriptions
   private subscriptions: Subscription[] = [];
- 
+
   // Public properties
   expense: ExpenseModel;
   expenseForm: FormGroup;
@@ -57,13 +59,13 @@ export class SearchExpenseComponent implements OnInit {
   viewLoading = false;
   // Private properties
   private componentSubscriptions: Subscription;
- 
+
   searchType: string;
   searchText: string;
- 
- 
- 
-  markAsHoliday:boolean=false;
+
+data:any;
+
+  markAsHoliday: boolean = false;
   constructor(public dialog: MatDialog,
     public snackBar: MatSnackBar,
     private layoutUtilsService: LayoutUtilsService,
@@ -71,19 +73,20 @@ export class SearchExpenseComponent implements OnInit {
     private store: Store<AppState>,
     private fb: FormBuilder,
     private typesUtilsService: TypesUtilsService,
-    private expenseService:ExpenseService) { }
- 
+    private expenseService: ExpenseService,
+    private customDateService: CustomDateService) { }
+
   ngOnInit() {
- 
- 
+
+
     this.addExpense();
     // Init DataSource
     this.dataSource = new ExpensesDataSource(this.store);
- 
+   
   }
- 
- //get All Class List
- 
+
+  //get All Class List
+
   onSearch() {
     debugger;
     this.hasFormErrors = false;
@@ -93,33 +96,89 @@ export class SearchExpenseComponent implements OnInit {
       Object.keys(controls).forEach(controlName =>
         controls[controlName].markAsTouched()
       );
- 
+
       this.hasFormErrors = true;
       return;
     }
-    this.getAllExpenseList(controls.searchType.value);
+var toDate="";
+var fromDate="";
  
- 
+    if(controls.searchType.value==='Today'){
+      var data = this.customDateService.toDay();
+      console.log("Today",data);
+      toDate=data;
+      fromDate=data;
+    }else if(controls.searchType.value==='ThisWeek'){
+       this.data = this.customDateService.thisWeekStartEndDates();
+      console.log("This Week",data);
+      toDate= this.data.toDate;
+      fromDate=this.data.fromDate;
+
+    }if(controls.searchType.value==='LastWeek'){
+       this.data = this.customDateService.lastWeekStartEndDates();
+      console.log(data);
+      toDate= this.data.toDate;
+      fromDate=this.data.fromDate;
+
+    }if(controls.searchType.value==='ThisMonth'){
+      this.data = this.customDateService.currentMonthStartEndDates();
+      console.log(data);
+      toDate= this.data.toDate;
+      fromDate=this.data.fromDate;
+
+    }if(controls.searchType.value==='LastMonth'){
+      this.data = this.customDateService.lastMonthStartEndDates();
+      console.log(data);
+      toDate= this.data.toDate;
+      fromDate=this.data.fromDate;
+
+    }if(controls.searchType.value==='LastThreeMonths'){
+     this.data = this.customDateService.lastThreeMonthsStartEndDates();
+      console.log(data);
+      toDate= this.data.toDate;
+      fromDate=this.data.fromDate;
+
+    }if(controls.searchType.value==='LastSixMonths'){
+      this.data = this.customDateService.lastSixMonthsStartEndDates();
+      console.log(data);
+      toDate= this.data.toDate;
+      fromDate=this.data.fromDate;
+
+    }if(controls.searchType.value==='ThisYear'){
+     this.data = this.customDateService.currentYearStartEndDates();
+      console.log(data);
+      toDate= this.data.toDate;
+      fromDate=this.data.fromDate;
+    }if(controls.searchType.value==='LastYear'){
+      this.data = this.customDateService.lastYearStartEndDates();
+      console.log(data);
+      toDate= this.data.toDate;
+      fromDate=this.data.fromDate;
+    }
+
+    this.getAllExpenseList(fromDate,toDate);
+
+
   }
- 
- 
-  getAllExpenseList(searchType){
+
+
+  getAllExpenseList(fromDate,toDate) {
 
 
     // If the user changes the sort order, reset back to the first page.
     const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
     this.subscriptions.push(sortSubscription);
-   
+
     /* Data load will be triggered in two cases:
     - when a pagination event occurs => this.paginator.page
     - when a sort event occurs => this.sort.sortChange
     **/
     const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-      tap(() => this.loadExpenseList(searchType))
+      tap(() => this.loadExpenseList(fromDate,toDate))
     )
-    .subscribe();
+      .subscribe();
     this.subscriptions.push(paginatorSubscriptions);
-   
+
     // // Filtration, bind to searchInput
     // const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
     //   // tslint:disable-next-line:max-line-length
@@ -132,7 +191,7 @@ export class SearchExpenseComponent implements OnInit {
     // )
     // .subscribe();
     // this.subscriptions.push(searchSubscription);
-   
+
     // Init DataSource
     this.dataSource = new ExpensesDataSource(this.store);
     const entitiesSubscription = this.dataSource.entitySubject.pipe(
@@ -145,23 +204,23 @@ export class SearchExpenseComponent implements OnInit {
     this.subscriptions.push(entitiesSubscription);
     // First load
     of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-      this.loadExpenseList(searchType);
+      this.loadExpenseList(fromDate,toDate);
     }); // Remove this line, just loading imitation
-   
+
   }
- 
- 
+
+
   /**
      * On Destroy
      */
   ngOnDestroy() {
     this.subscriptions.forEach(el => el.unsubscribe());
   }
- 
+
   /**
    * Load Expenses List from service through data-source
    */
-  loadExpenseList(searchType) {
+  loadExpenseList(fromDate,toDate) {
     debugger;
     this.selection.clear();
     const queryParams = new QueryParamsModel(
@@ -172,12 +231,12 @@ export class SearchExpenseComponent implements OnInit {
       this.paginator.pageSize
     );
     // Call request from server
-    this.store.dispatch(new ExpensesPageRequested({ page: queryParams, searchTerm: searchType }));
+    this.store.dispatch(new ExpensesPageRequested({ page: queryParams,fromDate:fromDate,toDate:toDate}));
     this.selection.clear();
   }
- 
- 
- 
+
+
+
   /**
    * Returns object for filter
    */
@@ -192,7 +251,7 @@ export class SearchExpenseComponent implements OnInit {
     filter.Expense = searchText;
     return filter;
   }
- 
+
   /** ACTIONS */
   /**
    * Delete Expense
@@ -200,28 +259,28 @@ export class SearchExpenseComponent implements OnInit {
    * @param _item: ExpenseModel
    */
   deleteExpense(_item: ExpenseModel) {
- 
+
     const _title = 'Purpose';
     const _description = 'Are you sure to permanently delete selected purpose?';
     const _waitDesciption = 'Purpose is deleting...';
     const _deleteMessage = ' Selected purpose has been deleted';
- 
- 
- 
+
+
+
     const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
     dialogRef.afterClosed().subscribe(res => {
       if (!res) {
         return;
       }
- 
+
       this.store.dispatch(new OneExpenseDeleted({ id: _item.id }));
       this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
- 
+
     });
- 
- 
+
+
   }
- 
+
   /**
    * Show add Expense dialog
    */
@@ -229,32 +288,31 @@ export class SearchExpenseComponent implements OnInit {
     this.expense = new ExpenseModel();
     this.expense.clear(); //
     this.createForm();
- 
+
   }
- 
+
   /**
    * Show Edit Expense dialog and save after success close result
    * @param expense: ExpenseModel
    */
   editExpense(expense: ExpenseModel) {
- 
+
     this.expense = expense;
     this.createForm();
- 
+
   }
- 
- 
- 
+
+
+
   createForm() {
     debugger;
     this.searchForm = this.fb.group({
-      searchType: [this.searchType, ],
-      searchText: [this.searchText, ],
-      
+      searchType: [this.searchType,],
+      searchText: [this.searchText,],
     })
   }
- 
- 
+
+
   /**
    * Check control is invalid
    * @param controlName: string
@@ -264,9 +322,9 @@ export class SearchExpenseComponent implements OnInit {
     const result = control.invalid && control.touched;
     return result;
   }
- 
+
   /** ACTIONS */
- 
+
   /**
    * Returns prepared expense
    */
@@ -274,11 +332,11 @@ export class SearchExpenseComponent implements OnInit {
     const controls = this.expenseForm.controls;
     const _expense = new ExpenseModel();
     _expense.id = this.expense.id;
- 
-    
+
+
     return _expense;
   }
- 
+
   /**
    * On Submit
    */
@@ -290,30 +348,30 @@ export class SearchExpenseComponent implements OnInit {
       Object.keys(controls).forEach(controlName =>
         controls[controlName].markAsTouched()
       );
- 
+
       this.hasFormErrors = true;
       return;
     }
- 
+
     const editedExpense = this.prepareExpense();
     if (editedExpense.id > 0) {
       this.updateExpense(editedExpense);
     } else {
       this.createExpense(editedExpense);
     }
- 
+
     const _saveMessage = editedExpense.id > 0 ? 'Purpose  has been updated' : 'Purpose has been created';
- 
+
     const _messageType = editedExpense.id > 0 ? MessageType.Update : MessageType.Create;
- 
+
     this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
- 
+
     this.expenseForm.reset();
- 
+
     this.addExpense();
     // this.expense.clear();
     // this.createForm();
- 
+
   }
   onCancel() {
     this.expenseForm.reset();
@@ -321,10 +379,10 @@ export class SearchExpenseComponent implements OnInit {
     // this.expense.clear();
     // this.createForm();
   }
- 
- 
- 
- 
+
+
+
+
   /**
    * Update Expense
    *
@@ -339,10 +397,10 @@ export class SearchExpenseComponent implements OnInit {
       partialExpense: updateExpense,
       expense: _expense
     }));
- 
- 
+
+
   }
- 
+
   /**
    * Create Expense
    *
@@ -357,22 +415,22 @@ export class SearchExpenseComponent implements OnInit {
       if (!res) {
         return;
       }
- 
+
       // this.dialogRef.close({ _expense, isEdit: false });
     });
   }
- 
+
   /** Alect Close event */
   onAlertClose($event) {
     this.hasFormErrors = false;
   }
- 
- }
+
+}
  // export class NgbdTimepickerSteps {
  //     time: NgbTimeStruct = {hour: 13, minute: 30, second: 0};
  //     hourStep = 1;
  //     minuteStep = 15;
  //     secondStep = 30;
  // }
- 
- 
+
+

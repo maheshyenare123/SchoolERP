@@ -39,7 +39,7 @@ export class ExpenseEffects {
     ofType<ExpensesPageRequested>(ExpenseActionTypes.ExpensesPageRequested),
     mergeMap(({payload}) => {
       this.store.dispatch(this.showPageLoadingDistpatcher);
-      const requestToServer = this.expensesService.findExpenses(payload.page);
+      const requestToServer = this.expensesService.findExpenses(payload.page,payload.fromDate,payload.toDate);
       const lastQuery = of(payload.page);
       return forkJoin(requestToServer, lastQuery);
     }),

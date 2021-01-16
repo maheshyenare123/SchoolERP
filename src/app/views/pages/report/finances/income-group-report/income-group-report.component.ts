@@ -212,7 +212,7 @@ export class IncomeGroupReportComponent implements OnInit {
       this.paginator.pageSize
     );
     // Call request from server
-    this.store.dispatch(new IncomesPageRequested({ page: queryParams, searchTerm: searchType }));
+    this.store.dispatch(new IncomesPageRequested({ page: queryParams, toDate:searchType,fromDate:'' }));
     this.selection.clear();
   }
 

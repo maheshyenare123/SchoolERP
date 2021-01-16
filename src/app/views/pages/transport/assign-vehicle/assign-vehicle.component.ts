@@ -131,8 +131,9 @@ this.addAssignVehicle();
 	loadAllRoutes() {
 		debugger
 		this.routeService.   getAllRoutes().subscribe(res => {
-			const data = res['data'];
-			this.routeList = data['content'];
+			// const data = res['data'];
+			this.routeList = res['data'];
+			// this.routeList = data['content'];
 			console.log(this.routeList)
 		}, err => {
 		});
@@ -142,8 +143,9 @@ this.addAssignVehicle();
 	loadAllVehicle() {
 		debugger
 		this.vehicleService.getAllVehicles().subscribe(res => {
-			const data = res['data'];
-			this.vehicleList = data['content'];
+			// const data = res['data'];
+			this.vehicleList = res['data'];
+			// this.vehicleList = data['content'];
 			console.log(this.vehicleList)
 			this.setVehicleDataInChecboxList();
 		
@@ -226,7 +228,7 @@ this.addAssignVehicle();
 			// this.store.dispatch(new OneAssignVehicleDeleted({ id: _item.id }));
 			this.store.dispatch(new OneAssignVehicleDeleted({ payloadItem: _item }));
 			this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
-			this.loadAssignVehicleList();
+			// this.loadAssignVehicleList();
 		});
 		
 

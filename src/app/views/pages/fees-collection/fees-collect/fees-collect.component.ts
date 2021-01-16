@@ -16,7 +16,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { StudentClassModel, SectionDtoModel, StudentClassService } from 'src/app/core/academics';
 import { FeeCollectEditDialogComponent } from '../fee-collect-edit/fee-collect-edit.dialog.component';
 import { StudentModel } from 'src/app/core/Models/student.model';
-
+declare var $;
 @Component({
   selector: 'kt-fees-collect',
   templateUrl: './fees-collect.component.html',
@@ -27,6 +27,8 @@ export class FeesCollectComponent implements OnInit {
  // Table fields
 dataSource: StudentFeeDepositesDataSource;
 displayedColumns = ['class', 'section', 'admissionNo', 'studentName', 'fatherName', 'dob', 'contact', 'actions'];
+
+
 @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 @ViewChild('sort1', {static: true}) sort: MatSort;
 // Filter fields
@@ -35,9 +37,21 @@ filterStatus = '';
 filterCondition = '';
 lastQuery: QueryParamsModel;
 // Selection
+// selection =[];
 selection = new SelectionModel<StudentFeeDepositeModel>(true, []);
 studentFeeDepositesResult: StudentFeeDepositeModel[] = [];
 private subscriptions: Subscription[] = [];
+
+dataSource1 : StudentFeeDepositeModel[]= [];
+displayedColumns1 = [ 'feesGroup','feesCode','due','status','amount','paymentId','mode','date','discount','fine','paid','balance','actions'];
+
+					// <th> (₹)</th>
+					// <th> (₹)</th>
+					// <th> (₹)</th>
+					// <th></th>
+		
+
+
 
 searchForm: FormGroup;
   hasFormErrors = false;
@@ -173,7 +187,7 @@ ngOnDestroy() {
  * Load Products List
  */
 loadStudentFeeDepositesList(classId,sectionId,searchText) {
-  this.selection.clear();
+  // this.selection=[];
   const queryParams = new QueryParamsModel(
     this.filterConfiguration(),
     this.sort.direction,
@@ -184,7 +198,7 @@ loadStudentFeeDepositesList(classId,sectionId,searchText) {
   // Call request from server
   this.store.dispatch(new StudentFeeDepositesPageRequested({ page: queryParams,classId,sectionId,searchText }));
  
-  this.selection.clear();
+  // this.selection=[];
 }
 
 /**
@@ -271,30 +285,30 @@ deleteStudentFeeDeposite(_item: StudentFeeDepositeModel) {
 /**
  * Delete products
  */
-deleteProducts() {
-  const _title = ' StudentFeeDeposites Delete';
-  const _description = 'Are you sure to permanently delete selected  StudentFeeDeposites?';
-  const _waitDesciption = ' StudentFeeDeposites are deleting...';
-  const _deleteMessage = 'Selected  StudentFeeDeposites have been deleted';
+// deleteProducts() {
+//   const _title = ' StudentFeeDeposites Delete';
+//   const _description = 'Are you sure to permanently delete selected  StudentFeeDeposites?';
+//   const _waitDesciption = ' StudentFeeDeposites are deleting...';
+//   const _deleteMessage = 'Selected  StudentFeeDeposites have been deleted';
 
-  const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
-  dialogRef.afterClosed().subscribe(res => {
-    if (!res) {
-      return;
-    }
+//   const dialogRef = this.layoutUtilsService.deleteElement(_title, _description, _waitDesciption);
+//   dialogRef.afterClosed().subscribe(res => {
+//     if (!res) {
+//       return;
+//     }
 
-    const idsForDeletion: number[] = [];
-    // tslint:disable-next-line:prefer-for-of
-    for (let i = 0; i < this.selection.selected.length; i++) {
-      idsForDeletion.push(this.selection.selected[i].feeGroupId);
-    }
+//     const idsForDeletion: number[] = [];
+//     // tslint:disable-next-line:prefer-for-of
+//     for (let i = 0; i < this.selection.selected.length; i++) {
+//       idsForDeletion.push(this.selection.selected[i].feeGroupId);
+//     }
 
-    //many product deleted
-    this.store.dispatch(new ManyStudentFeeDepositesDeleted({ ids: idsForDeletion }));
-    this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
-    this.selection.clear();
-  });
-}
+//     //many product deleted
+//     this.store.dispatch(new ManyStudentFeeDepositesDeleted({ ids: idsForDeletion }));
+//     this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
+//     this.selection.clear();
+//   });
+// }
 
 /**
  * Fetch selected products
@@ -392,10 +406,13 @@ deleteProducts() {
 
   getStudentFeeDepositeById(){
     debugger
+
+  
     this.feesDepositeList = []
     this.studentFeeDepositeService.getStudentFeeDepositeById(this.student.studentSessionId).subscribe(res => {
       const data = res['data'];
       this.feesDepositeList = data['studentFeeDetails'];
+      this.dataSource=data['studentFeeDetails'];
       console.log(this.feesDepositeList)
       this.totalAmount= 0;
       this.totalDiscount= 0;
@@ -411,6 +428,15 @@ deleteProducts() {
         this.totalBalance += item.balance;
 
       })
+
+      // this.dataSource.forEach(item=>{
+      //   this.totalAmount += item.amount;
+      //   this.totalDiscount += item.discount;
+      //   this.totalFine += item.fine;
+      //   this.totalPaid += item.paid;
+      //   this.totalBalance += item.balance;
+
+      // })
 
     }, err => {
     });
@@ -446,24 +472,24 @@ deleteProducts() {
 		});
 	}
 /**
- * Check all rows are selected
- */
-isAllSelected() {
-  const numSelected = this.selection.selected.length;
-  const numRows = this.studentFeeDepositesResult.length;
-  return numSelected === numRows;
-}
+	 * Check all rows are selected
+	 */
+	isAllSelected(): boolean {
+		const numSelected = this.selection.selected.length;
+		const numRows = this.studentFeeDepositesResult.length;
+		return numSelected === numRows;
+	}
 
-/**
- * Selects all rows if they are not all selected; otherwise clear selection
- */
-masterToggle() {
-  if (this.isAllSelected()) {
-    this.selection.clear();
-  } else {
-    this.studentFeeDepositesResult.forEach(row => this.selection.select(row));
-  }
-}
+	/**
+	 * Toggle all selections
+	 */
+	masterToggle() {
+		if (this.selection.selected.length === this.studentFeeDepositesResult.length) {
+			this.selection.clear();
+		} else {
+			this.studentFeeDepositesResult.forEach(feesdeposite => this.selection.select(feesdeposite));
+		}
+	}
 
 /* UI */
 /**
@@ -526,24 +552,92 @@ getItemCssClassByCondition(condition: number = 0): string {
   return '';
 }
 
-onSelection(data, $event){
-  if( $event.target.checked){
-    // this.customerIdList.push(data)
-  
-  }else{
-    // const index = this.customerIdList.findIndex(item =>item.customerId === data.customerId);
-    // this.customerIdList.splice(index, 1);
-  }
-}
+// onCheckBoxSelection(event,data,status,index){
 
-onSelectionAll(data, $event){
-  if( $event.target.checked){
-    // this.customerIdList.push(data)
-    
-  }else{
-    // const index = this.customerIdList.findIndex(item =>item.customerId === data.customerId);
-    // this.customerIdList.splice(index, 1);
-  }
-}
+//   if (status == "selectAll") {
+//       if (event.target.checked) {
+//         var i = 1;
+//         data.forEach(element => {
+//           this.selection.push(data);
+//           $('#checkbox' + i).prop("checked", true);
+//           i++;
+//         })
+//       } else {
+//         var i = 1;
+//         data.forEach(element => {
+//           this.selection.splice(index, 1);
+//           $('#checkbox' + i).prop("checked", false);
+//           i++;
+//         })
+//       }
+
+//     }else{
+
+//       if (event.target.checked) {
+//             this.selection.push(data);
+//             if (this.selection.length == this.studentFeeDepositesResult.length) {
+//               $('#selectAll').prop("checked", true);
+//             }
+        
+//           }
+//           else {
+//             $('#selectAll').prop("checked", false);
+//             this.selection.splice(index, 1);
+//           }
+
+
+//     }
+
+//   // if( $event.target.checked){
+//   //   this.selection.push(data);
+  
+//   // }else{
+//   //   const index = this.selection.findIndex(item =>item.customerId === data.customerId);
+//   //   this.selection.splice(index, 1);
+//   // }
+// }
+
+// if (status == "selectAll") {
+//   if (event.target.checked) {
+//     var i = 1;
+//     allSelectedList.forEach(element => {
+//       this.selectedMailList.push(element.appEmailId);
+//       $('#checkbox' + i).prop("checked", true);
+//       i++;
+//     })
+//   } else {
+
+//     var i = 1;
+
+//     allSelectedList.forEach(element => {
+//       this.selectedMailList.splice(this.selectedMailList.indexOf(element.appEmailId, 1));
+
+//       $('#checkbox' + i).prop("checked", false);
+//       i++;
+//     })
+//   }
+
+// } else {
+
+//   if (event.target.checked) {
+//     this.selectedMailList.push(obj.appEmailId);
+//     if (this.selectedMailList.length == this.approvedGrid.length) {
+//       $('#selectAll').prop("checked", true);
+//     }
+
+//   }
+//   else {
+//     $('#selectAll').prop("checked", false);
+//     this.selectedMailList.splice(this.selectedMailList.indexOf(obj.appEmailId), 1);
+//   }
+
+
+
+
+
+
+
+
+
 
 }

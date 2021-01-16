@@ -83,6 +83,16 @@ export function staffsReducer(state = initialStaffsState, action: StaffActions):
         showInitWaitingMessage: false
       });
     }
+
+    case StaffActionTypes.StaffsPageLoaded: {
+      return adapter.addMany(action.payload.staffs, {
+        ...initialStaffsState,
+        totalCount: action.payload.totalCount,
+        listLoading: false,
+        lastQuery: action.payload.page,
+        showInitWaitingMessage: false
+      });
+    }
     default:
       return state;
   }

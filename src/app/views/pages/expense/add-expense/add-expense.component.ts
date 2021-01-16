@@ -146,7 +146,7 @@ this.loadAllExpenseHead()
 			this.paginator.pageSize
 		);
 		// Call request from server
-		this.store.dispatch(new ExpensesPageRequested({ page: queryParams,searchTerm:this.searchType }));
+		this.store.dispatch(new ExpensesPageRequested({ page: queryParams,toDate:'',fromDate:'' }));
 		this.selection.clear();
 	}
 

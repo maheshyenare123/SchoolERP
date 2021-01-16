@@ -78,8 +78,8 @@ export class ClassTimetableEditDialogComponent implements OnInit, OnDestroy {
 		debugger;
 		this.loadAllStaff();
 		this.loadAllClasses();
-		this.loadAllSubject();
-		this.loadAllSubjectGroup();
+		// this.loadAllSubject();
+		// this.loadAllSubjectGroup();
 
 		this.store.pipe(select(selectClassTimetablesActionLoading)).subscribe(res => this.viewLoading = res);
 
@@ -108,26 +108,54 @@ export class ClassTimetableEditDialogComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	loadAllSubject() {
-		debugger
-		this.subjectService.getAllSubjects().subscribe(res => {
-			const data = res['data'];
-			this.subjectList= res['data'];
-			console.log(this.subjectList)
+
+	onSectionSelectChange(sectionId){
+		this.hasFormErrors = false;
+	  const controls = this.searchForm.controls;
+		this.loadAllSubjectGroup(controls.classId.value,sectionId);
+		var sectionObj = this.sectionList.find(x => x.id === sectionId);
+		this.searchForm.controls.section.setValue(sectionObj.section);
+			
+		}
+		
+	  loadAllSubjectGroup(classId,sectionId) {
+			debugger
+			this.subjectGroupService.getAllSubjectGroupsWithClassAndSection(classId,sectionId ).subscribe(res => {
+				const data = res['data'];
+				this.subjectGroupList = data['content'];
+				console.log(this.subjectList)
+			}, err => {
+			});
+		}
+	
+	  onSubjectGroupSelectChange(subjectGroupId){
+		this.loadAllSubject(subjectGroupId);
+			
+		}
+	
+	
+		loadAllSubject(subjectGroupId) {
+			debugger
+			this.subjectService.getAllSubjectsBySubjectGroupId(subjectGroupId).subscribe(res => {
+				const data = res['data'];
+				this.subjectList= res['data'];
+				console.log(this.subjectList)
+			}, err => {
+			});
+		}
+	
+	// loadAllSubject() {
+	// 	debugger
+	// 	this.subjectService.getAllSubjects().subscribe(res => {
+	// 		const data = res['data'];
+	// 		this.subjectList= res['data'];
+	// 		console.log(this.subjectList)
 
 
-		}, err => {
-		});
-	}
-	loadAllSubjectGroup() {
-		debugger
-		this.subjectGroupService.getAllSubjectGroups().subscribe(res => {
-			const data = res['data'];
-			this.subjectGroupList = data['content'];
-			console.log(this.subjectList)
-		}, err => {
-		});
-	}
+	// 	}, err => {
+	// 	});
+	// }
+	
 
 
 	loadAllStaff() {
@@ -150,11 +178,7 @@ export class ClassTimetableEditDialogComponent implements OnInit, OnDestroy {
 		this.searchForm.controls.classes.setValue(classObj.classses);
 
 	}
-	onSectionSelectChange(subjectId) {
-		var sectionObj = this.sectionList.find(x => x.id === subjectId);
-		this.searchForm.controls.section.setValue(sectionObj.section);
-
-	}
+	
 	onSubjectSelectChange(subjectId, indexi, indexj) {
 		var subjectObj = this.subjectList.find(x => x.id === subjectId);
 		let daysArray = this.classTimetableForm.get('days') as FormArray;

@@ -34,8 +34,8 @@ export class StaffDirectoryComponent implements OnInit {
 dataSource: StaffsDataSource;
 //  dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-   
-displayedColumns = ['id', 'staffId','name','role','department','designation','mobileNo','actions'];
+// 'staffId'
+displayedColumns = ['id','name','role','department','designation','mobileNo','actions'];
 @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 @ViewChild('sort1', {static: true}) sort: MatSort;
 // Filter fields
