@@ -147,7 +147,7 @@ export class MenuConfig {
             },
             {
               title: 'Student Admission',
-              page: '/student_information/student_details_edit/:id'
+              page: '/student_information/student_edit/:id'
             },
             // {
             //   title: 'Online Admission',

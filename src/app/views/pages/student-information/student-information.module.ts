@@ -44,7 +44,7 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                redirectTo: 'roles',
+                redirectTo: 'student_details',
                 pathMatch: 'full'
             },
             {
@@ -52,7 +52,7 @@ const routes: Routes = [
                 component: StudentDetailsListComponent
             },
             {
-                path: 'student_details_edit/:id',
+                path: 'student_edit/:id',
                 component: StudentDetailsEditComponent
             },
 

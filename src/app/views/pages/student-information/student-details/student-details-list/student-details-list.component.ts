@@ -70,7 +70,7 @@ constructor(
  * On init
  */
 ngOnInit() {
-
+  this.router.navigate(["student_information/student_details"])
   this.loadAllClasses();
   // this.loadAllSectionsByClassId(1);
   this.dataSource = new StudentsDataSource(this.store);
@@ -394,7 +394,7 @@ deleteProducts() {
 		// 	this.loadStudentsList();
     // });
     
-    this.router.navigate(["student_information/student_details_edit/"+student.id])
+    this.router.navigate(["student_information/student_edit/"+student.id])
 
 	}
 

@@ -62,7 +62,7 @@ export class PageConfig {
       'student_details': {
         page: { title: 'Student Details', desc: '' }
       },
-      'student_details_edit/:id': {
+      'student_edit/:id': {
         page: { title: 'Student Admission', desc: '' }
       },
       // 'online-admission': {

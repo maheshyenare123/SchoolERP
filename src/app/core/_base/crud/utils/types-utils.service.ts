@@ -50,10 +50,14 @@ export class TypesUtilsService {
   //   return '';
   // }
 
-   dateFormat(date: Date): string {
-    const month = date.getMonth() + 1;
+  dateFormat(date: Date): string {
+    const month = this.padNumber(date.getMonth() + 1);
     const day = this.padNumber(date.getDate());
     const year = date.getFullYear();
+    // if (month < 10) {
+    //  "0" + month;
+    // }
+
     if (date) {
       return `${year}-${month}-${day}`;
     }
@@ -117,8 +121,8 @@ export class TypesUtilsService {
       const day = this.toInteger(dateParts[2]);
       // tslint:disable-next-line:prefer-const
       let result = new Date();
-   
-    
+
+
       result.setDate(day);
       result.setMonth(month - 1);
       result.setFullYear(year);

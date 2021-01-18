@@ -63,11 +63,12 @@ private componentSubscriptions: Subscription;
 		private translate: TranslateService,
 		private store: Store<AppState>,
 		private fb: FormBuilder,
-    private typesUtilsService: TypesUtilsService
+	private typesUtilsService: TypesUtilsService,
+	private router :Router
     ) { }
 
   ngOnInit() {
-
+	
 	debugger;
 	
     const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
