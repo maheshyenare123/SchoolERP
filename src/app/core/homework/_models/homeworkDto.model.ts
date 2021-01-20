@@ -17,6 +17,7 @@ export class HomeworkDtoModel {
     staffId: number;
     staffName: string;
     subjectGroupSubjectId: number;
+    subjectGroupName :string;
     subjectId: number;
     subjectName: string;
     submitDate: string;

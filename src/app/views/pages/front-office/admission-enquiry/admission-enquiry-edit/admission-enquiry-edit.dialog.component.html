@@ -97,13 +97,24 @@
 					</mat-form-field>
 				</div>
 				<div class="col-lg-4 kt-margin-bottom-20-mobile">
-					<mat-form-field class="mat-form-field-fluid">
+					<!-- <mat-form-field class="mat-form-field-fluid">
 						<input  matInput placeholder="Enter Assigned" formControlName="assigned" />
 						<mat-error>Assigned is
 							<strong>required</strong>
 						</mat-error>
 						
+					</mat-form-field>   (selectionChange)="onClassSelectChange($event.value)"-->
+
+					<mat-form-field class="mat-form-field-fluid">
+						<mat-select  placeholder="Enter Assigned"  formControlName="assigned" >
+							<mat-option *ngFor="let data of assignedList" [value]="data.name+data.surname">
+							{{data.name}} {{data.surname}}
+							</mat-option>
+						  </mat-select>
 					</mat-form-field>
+
+
+
 				</div>
 			</div>
 
@@ -117,26 +128,40 @@
 							  {{reference.reference}}
 							</mat-option>
 						  </mat-select>
+						  <mat-error> Reference is
+							<strong>required</strong>
+						</mat-error>
 					</mat-form-field>
 				</div>
 				<div class="col-lg-3 kt-margin-bottom-20-mobile">
 					<mat-form-field class="mat-form-field-fluid">
-						<mat-select placeholder="Select Source"   formControlName="sourceId" (selectionChange)="onSourceSelectChange($event.value)" >
+						<mat-select  placeholder="Select Source"   formControlName="sourceId" (selectionChange)="onSourceSelectChange($event.value)" >
 							<mat-option *ngFor="let source of sourceList" [value]="source.id">
 							  {{source.source}}
 							</mat-option>
 						  </mat-select>
-						
+						  <!-- <mat-error *ngIf="enquiryForm.sourceId.errors.required"> Source is
+							<strong>required</strong>
+						</mat-error> -->
+						<!-- <mat-error *ngIf="enquiryForm.controls.sourceId.errors('required')">Please choose an animal</mat-error> -->
+						<!-- hasFormErrors -->
+						<!-- <div *ngIf="addForm.submitted && amount.invalid" class="invalid-feedback">
+							<div *ngIf="amount.errors.required">Amount is required</div> -->
+
+
 					</mat-form-field>
 				</div>
 				<div class="col-lg-3 kt-margin-bottom-20-mobile">
 					<mat-form-field class="mat-form-field-fluid">
-				
-						<mat-select placeholder="Select Class"   formControlName="classesId" (selectionChange)="onClassSelectChange($event.value)" >
+						<mat-select  placeholder="Select Class"  formControlName="classesId" (selectionChange)="onClassSelectChange($event.value)" >
 							<mat-option *ngFor="let class of classList" [value]="class.id">
 							  {{class.classses}}
 							</mat-option>
 						  </mat-select>
+						  <!-- <mat-error *ngIf="enquiryForm.classesId.errors.required"> Class is
+							<strong>required</strong>
+						</mat-error> -->
+						<!-- <mat-error *ngIf="enquiryForm.controls.classesId.errors('required')">Please choose an animal</mat-error> -->
 					</mat-form-field>
 				</div>
 

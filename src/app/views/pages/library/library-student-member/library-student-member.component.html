@@ -129,21 +129,21 @@
 				</ng-container> -->
 				
                 
-				<ng-container matColumnDef="memberId">
+				<!-- <ng-container matColumnDef="memberId">
 					<mat-header-cell *matHeaderCellDef mat-sort-header >Member Id
 					</mat-header-cell>
 					<mat-cell *matCellDef="let libraryStudentMember" >{{libraryStudentMember.memberId}}</mat-cell>
-				</ng-container>
+				</ng-container> -->
 
-				<ng-container matColumnDef="libraryCardNo">
+				<!-- <ng-container matColumnDef="libraryCardNo">
 					<mat-header-cell *matHeaderCellDef mat-sort-header>Library Card No</mat-header-cell>
 					<mat-cell *matCellDef="let libraryStudentMember">{{libraryStudentMember.libraryCardNo}}</mat-cell>
-				</ng-container>
+				</ng-container> -->
 
-				<ng-container matColumnDef="addmissionNo">
+				<!-- <ng-container matColumnDef="addmissionNo">
 					<mat-header-cell *matHeaderCellDef mat-sort-header>Addmission No</mat-header-cell>
 					<mat-cell *matCellDef="let libraryStudentMember">{{libraryStudentMember.admissionNo}}</mat-cell>
-				</ng-container>
+				</ng-container> -->
                 
 				<ng-container matColumnDef="studentName">
 					<mat-header-cell *matHeaderCellDef mat-sort-header>Student Name</mat-header-cell>
@@ -191,7 +191,7 @@
 						<ng-container *ngIf="libraryStudentMember.memberId==0">
 						<button type="button" (click)="editLibraryStudentMember(libraryStudentMember)" mat-icon-button color="primary"
 							matTooltip="add Membership">
-							<mat-icon>create</mat-icon>
+							<mat-icon>add</mat-icon>
 						</button>&nbsp;
 						</ng-container>
 						<ng-container *ngIf="libraryStudentMember.memberId>0">

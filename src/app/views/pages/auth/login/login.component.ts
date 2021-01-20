@@ -139,7 +139,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 			console.log(res);
 
 			localStorage.setItem('token', res['accessToken']);
+			localStorage.setItem('token', res['accessToken']);
 
+			
 			//    this.jwtauth.setToken(res.accessToken);
 			//   this.localstorage.set("CurrentRole",res.roles[0]);
 			//   this.localstorage.set("CurrentUsername",res.username);

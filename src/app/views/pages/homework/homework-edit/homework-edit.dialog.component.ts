@@ -163,7 +163,7 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 			homeworkDate: [this.typesUtilsService.getDateFromString(this.homework.homeworkDate), Validators.compose([Validators.nullValidator])],
 			submitDate: [this.typesUtilsService.getDateFromString(this.homework.submitDate), Validators.compose([Validators.nullValidator])],
 			description: [this.homework.description, Validators.required],
-			assigned: ['', Validators.required],
+			assigned: ['',],
 			staffId: [this.homework.staffId, ''],
 			staffName: [this.homework.staffName, ''],
 

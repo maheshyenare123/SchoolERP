@@ -1,148 +1,58 @@
-
-		<kt-portlet>
-			<!-- See prop => '../../_core/models/data-sources/_base.datasource.ts' (loading$) -->
-			<kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Teacher Time Table'"
-				[viewLoading$]="loading">
+<kt-portlet>
+	<!-- See prop => '../../_core/models/data-sources/_base.datasource.ts' (loading$) -->
+	<kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Teacher Time Table'" [viewLoading$]="loading">
 
 
-			</kt-portlet-header>
-			<!-- end::Header -->
+	</kt-portlet-header>
+	<!-- end::Header -->
 
 
-			<kt-portlet-body>
+	<kt-portlet-body>
 
-                    <div class="kt-form kt-margin-b-30">
-                        <form class="kt-form" [formGroup]="classTimetableForm">
-                            <div class="kt-portlet__body">
-    
-                                <!-- <div class="kt-portlet__body-progress">
+		<div class="kt-form kt-margin-b-30">
+			<form class="kt-form" [formGroup]="classTimetableForm">
+				<div class="kt-portlet__body">
+
+					<!-- <div class="kt-portlet__body-progress">
                                             <mat-spinner [diameter]="20"></mat-spinner>
                                         </div> -->
-    
-                                <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true"
-                                    (close)="onAlertClose($event)">
-                                    Oh snap! Change a few things up and try submitting again.
-                                </kt-alert>
-								<div class="row ">
-                                <div class="col-lg-3 kt-margin-bottom-20-mobile">
-                                    <mat-form-field class="mat-form-field-fluid">
-										<mat-select placeholder="Select Teacher" formControlName="staffId" >
-											<mat-option *ngFor="let staff of staffList" [value]="staff.id">
-												{{staff.name}} {{staff.surname}}
-											</mat-option>
-										</mat-select>
-                
-                                    </mat-form-field>
-								</div>
-								<div class="col-lg-3 kt-margin-bottom-20-mobile">
-									<button type="button" mat-raised-button color="primary" (click)="onSearch()"
-                                            [disabled]="viewLoading" matTooltip="Search">
-                                            Search
-                                        </button>
-								</div>
-								</div>
-                                <!-- <div class="row text-right">
-                                    <div class="col-lg-12">
-    
-                                      
-                                        <button type="button" mat-raised-button color="primary" (click)="onSubmit()"
-                                            [disabled]="viewLoading" matTooltip="Search">
-                                            Search
-                                        </button>
-                                    </div>
-                                </div> -->
-    
-                            </div>
-    
-                        </form>
-    
-                        <div class="kt-separator kt-separator--dashed"></div>
-    
-    
-    
-    
-                    </div>
-                
 
-				<!-- start::FILTERS -->
-				<!-- <div class="kt-form__filtration">
-					<div class="row align-items-center">
-
-						<div class="col-md-2 kt-margin-bottom-10-mobile">
+					<kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true"
+						(close)="onAlertClose($event)">
+						Oh snap! Change a few things up and try submitting again.
+					</kt-alert>
+					<div class="row ">
+						<div class="col-lg-3 kt-margin-bottom-20-mobile">
 							<mat-form-field class="mat-form-field-fluid">
-								<input matInput placeholder="Search Check Out Policy " #searchInput
-									placeholder="Search">
-								<mat-hint align="start">
-									<strong>Search</strong> in all fields
-								</mat-hint>
+								<mat-select placeholder="Select Teacher" formControlName="staffId">
+									<mat-option *ngFor="let staff of staffList" [value]="staff.id">
+										{{staff.name}} {{staff.surname}}
+									</mat-option>
+								</mat-select>
+
 							</mat-form-field>
 						</div>
-
+						<div class="col-lg-3 kt-margin-bottom-20-mobile">
+							<button type="button" mat-raised-button color="primary" (click)="onSearch()"
+								[disabled]="viewLoading" matTooltip="Search">
+								Search
+							</button>
+						</div>
 					</div>
-				</div> -->
-				<!-- end::FILTERS -->
-				<!-- <div class="mat-table__wrapper">
-					<mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource" matSort #sort1="matSort"
-						 matSortDirection="asc" matSortDisableClear>
-                         <ng-container matColumnDef="mon">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header >Monday
-                            </mat-header-cell>
-                            <mat-cell *matCellDef="let classTimetable" >{{classTimetable.timetable}}</mat-cell>
-                        </ng-container>
-        
-                        <ng-container matColumnDef="tue">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>Tuesday</mat-header-cell>
-                            <mat-cell *matCellDef="let classTimetable">{{classTimetable.timetable}}</mat-cell>
-                        </ng-container>
-        
-                        <ng-container matColumnDef="wed">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>Wednusday</mat-header-cell>
-                            <mat-cell *matCellDef="let classTimetable">{{classTimetable.timetable}}</mat-cell>
-                        </ng-container>
-        
-                        <ng-container matColumnDef="thus">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>Thusday</mat-header-cell>
-                            <mat-cell *matCellDef="let classTimetable">{{classTimetable.timetable}}</mat-cell>
-                        </ng-container>
-        
-                        <ng-container matColumnDef="fri">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>Friday</mat-header-cell>
-                            <mat-cell *matCellDef="let classTimetable" >{{classTimetable.timetable}}
-                            </mat-cell>
-                        </ng-container>
-        
-                        <ng-container matColumnDef="sat">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>Saturday</mat-header-cell>
-                            <mat-cell *matCellDef="let classTimetable" >{{classTimetable.timetable}}
-                            </mat-cell>
-                        </ng-container>
-        
-                        <ng-container matColumnDef="sun">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>Sunday</mat-header-cell>
-                            <mat-cell *matCellDef="let classTimetable" >{{classTimetable.timetable}}
-                            </mat-cell>
-                        </ng-container>
-                        
-						
 
-						<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
-						<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-					</mat-table>
-				
-					<div class="mat-table__message" *ngIf="!dataSource.hasItems">No records found</div>
-					<div class="mat-table__message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....
-					</div>
-				</div> -->
+				</div>
 
-				<!-- start: BOTTOM -->
-				<!-- <div class="mat-table__bottom">
-				<mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner>
-					<mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 15, 20, 30]"
-						[length]="dataSource.paginatorTotal$ | async" [showFirstLastButtons]="true"></mat-paginator>
-				</div> -->
-				<!-- end: BOTTOM -->
+			</form>
 
+			<div class="kt-separator kt-separator--dashed"></div>
+
+
+
+
+		</div>
+
+		<!-- 
                 <hr>
 		<table>
 
@@ -161,25 +71,20 @@
 			</thead>
 
 			<tbody>
-				<!-- <tr>
-					<td colspan="6">
-						<hr>
-					</td>
-					
-				</tr> -->
+				
 				<tr>
 					<br>
 				</tr>
 				<tr>
 					<td>
-						<!-- <span *ngFor="let data of classTimetablesData?.timeTable?.monday">  -->
+						
 						<span>
 							<ng-container *ngIf="classTimetablesData?.monday.length==0">
 								<mat-card>Not
 									Scheduled</mat-card>
 							</ng-container>
 							<ng-container *ngIf="classTimetablesData?.monday.length>0">
-								<!-- <ng-template #elseData> -->
+						
 								
 								<ng-container *ngFor="let data of classTimetablesData?.monday">
 
@@ -191,7 +96,7 @@
 									<br>
 								</ng-container>
 								</ng-container>
-								<!-- </ng-template> -->
+								
 						</span>
 
 					</td>
@@ -201,7 +106,7 @@
 								<mat-card>Not
 									Scheduled</mat-card>
 							</ng-container>
-							<!-- <ng-template #elseData> -->
+						
 							<ng-container *ngIf="classTimetablesData?.tuesday.length>0">
 								<ng-container *ngFor="let data of classTimetablesData?.tuesday">
 
@@ -212,7 +117,7 @@
 									</mat-card>
 									<br>
 								</ng-container>
-								<!-- </ng-template> -->
+							
 							</ng-container>
 
 
@@ -226,7 +131,7 @@
 								<mat-card>Not
 									Scheduled</mat-card>
 							</ng-container>
-							<!-- <ng-template #elseData> -->
+							
 							<ng-container *ngIf="classTimetablesData?.wednesday.length>0">
 								<ng-container *ngFor="let data of classTimetablesData?.wednesday">
 
@@ -238,7 +143,7 @@
 									<br>
 
 								</ng-container>
-								<!-- </ng-template> -->
+							
 							</ng-container>
 						</span>
 					</td>
@@ -248,7 +153,7 @@
 								<mat-card>Not
 									Scheduled</mat-card>
 							</ng-container>
-							<!-- <ng-template #elseData> -->
+							
 								
 							<ng-container *ngIf="classTimetablesData?.thursday.length>0">
 								<ng-container *ngFor="let data of classTimetablesData?.thursday">
@@ -261,7 +166,7 @@
 									</mat-card>
 									<br>
 								</ng-container>
-								<!-- </ng-template> -->
+								
 							</ng-container>
 
 
@@ -274,7 +179,7 @@
 								<mat-card>Not
 									Scheduled</mat-card>
 							</ng-container>
-							<!-- <ng-template #elseData> -->
+							
 								<ng-container *ngIf="classTimetablesData?.friday.length>0">
 							
 								<ng-container *ngFor="let data of classTimetablesData?.friday">
@@ -288,7 +193,7 @@
 
 								</ng-container>
 								</ng-container>
-							<!-- </ng-template> -->
+							
 
 
 						</span>
@@ -300,7 +205,7 @@
 								<mat-card>Not
 									Scheduled</mat-card>
 							</ng-container>
-							<!-- <ng-template #elseData> -->
+							
 								<ng-container *ngIf="classTimetablesData?.saturday.length>0">
 							
 								<ng-container *ngFor="let data of classTimetablesData?.saturday">
@@ -314,7 +219,7 @@
 
 								</ng-container>
 								</ng-container>
-							<!-- </ng-template> -->
+							
 
 
 						</span>
@@ -326,7 +231,7 @@
 								<mat-card>Not
 									Scheduled</mat-card>
 							</ng-container>
-							<!-- <ng-template #elseData> -->
+							
 								<ng-container *ngIf="classTimetablesData?.sunday.length>0">
 							
 								<ng-container *ngFor="let data of classTimetablesData?.sunday">
@@ -339,20 +244,219 @@
 									<br>
 								</ng-container>
 								</ng-container>
-							<!-- </ng-template> -->
-
-
-
+					
 						</span>
 
 					</td>
 
 				</tr>
 			</tbody>
-		
-		</table>
-			</kt-portlet-body>
-			<!-- end::Body -->
+		</table> -->
 
-		</kt-portlet>
-	
+
+
+<hr>
+
+		<div class="table-responsive">
+			<table class="table table-stripped">
+				<thead>
+					<tr>
+						<th class="text text-center">Monday</th>
+						<th class="text text-center">Tuesday</th>
+						<th class="text text-center">Wednesday</th>
+						<th class="text text-center">Thursday</th>
+						<th class="text text-center">Friday</th>
+						<th class="text text-center">Saturday</th>
+						<th class="text text-center">Sunday</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="text text-center">
+
+							<ng-container *ngIf="classTimetablesData?.monday.length==0">
+
+								<div class="attachment-block clearfix">
+									<span class="text text-center">Not <br>Scheduled</span><br>
+								</div>
+							</ng-container>
+							<ng-container *ngIf="classTimetablesData?.monday.length>0">
+								<ng-container *ngFor="let data of classTimetablesData?.monday">
+									<div class="attachment-block clearfix">
+										<span>Sub: {{data.subjectName}}</span><br>
+										<span>Class: {{data.classes}}({{data.section}})</span><br>
+										<span>{{data.timeFrom}}</span>
+										<b class="text text-center">-</b>
+										<span>{{data.timeTo}}</span><br>
+
+										<span>Room No: {{data.roomNo}}</span><br>
+
+									</div>
+
+								</ng-container>
+							</ng-container>
+						</td>
+						<td class="text text-center">
+
+							<ng-container *ngIf="classTimetablesData?.tuesday.length==0">
+
+								<div class="attachment-block clearfix">
+									<span class="text text-center">Not <br>Scheduled</span><br>
+								</div>
+							</ng-container>
+							<ng-container *ngIf="classTimetablesData?.tuesday.length>0">
+
+								<ng-container *ngFor="let data of classTimetablesData?.tuesday">
+									<div class="attachment-block clearfix">
+
+										<span class="text-green">Sub: {{data.subjectName}}</span><br>
+										<span>Class: {{data.classes}}({{data.section}})</span><br>
+										<span class="text-green">{{data.timeFrom}}</span>
+										<b class="text text-center">-</b>
+										<span class="text-green">{{data.timeTo}}</span><br>
+
+										<span class="text-green">Room No: {{data.roomNo}}</span><br>
+
+									</div>
+								</ng-container>
+							</ng-container>
+
+						</td>
+						<td class="text text-center">
+
+							<ng-container *ngIf="classTimetablesData?.wednesday.length==0">
+
+								<div class="attachment-block clearfix">
+									<span class="text text-center">Not <br>Scheduled</span><br>
+								</div>
+							</ng-container>
+							<ng-container *ngIf="classTimetablesData?.wednesday.length>0">
+
+								<ng-container *ngFor="let data of classTimetablesData?.wednesday">
+									<div class="attachment-block clearfix">
+
+										<span class="text-green">Sub: {{data.subjectName}}</span><br>
+										<span>Class: {{data.classes}}({{data.section}})</span><br>
+										<span class="text-green">{{data.timeFrom}}</span>
+										<b class="text text-center">-</b>
+										<span class="text-green">{{data.timeTo}}</span><br>
+
+										<span class="text-green">Room No: {{data.roomNo}}</span><br>
+
+									</div>
+								</ng-container>
+							</ng-container>
+						</td>
+						<td class="text text-center">
+
+							<ng-container *ngIf="classTimetablesData?.thursday.length==0">
+
+								<div class="attachment-block clearfix">
+									<span class="text text-center">Not <br>Scheduled</span><br>
+								</div>
+							</ng-container>
+							<ng-container *ngIf="classTimetablesData?.thursday.length>0">
+
+								<ng-container *ngFor="let data of classTimetablesData?.thursday">
+									<div class="attachment-block clearfix">
+
+										<span class="text-green">Sub: {{data.subjectName}}</span><br>
+										<span>Class: {{data.classes}}({{data.section}})</span><br>
+										<span class="text-green">{{data.timeFrom}}</span>
+										<b class="text text-center">-</b>
+										<span class="text-green">{{data.timeTo}}</span><br>
+
+										<span class="text-green">Room No: {{data.roomNo}}</span><br>
+
+									</div>
+								</ng-container>
+							</ng-container>
+						</td>
+						<td class="text text-center">
+
+							<ng-container *ngIf="classTimetablesData?.friday.length==0">
+
+								<div class="attachment-block clearfix">
+									<span class="text text-center">Not <br>Scheduled</span><br>
+								</div>
+							</ng-container>
+							<ng-container *ngIf="classTimetablesData?.friday.length>0">
+
+								<ng-container *ngFor="let data of classTimetablesData?.friday">
+									<div class="attachment-block clearfix">
+
+										<span class="text-green">Sub: {{data.subjectName}} </span><br>
+										<span>Class: {{data.classes}}({{data.section}})</span><br>
+										<span class="text-green">{{data.timeFrom}}</span>
+										<b class="text text-center">-</b>
+										<span class="text-green">{{data.timeTo}}</span><br>
+
+										<span class="text-green">Room No: {{data.roomNo}}</span><br>
+
+									</div>
+								</ng-container>
+							</ng-container>
+						</td>
+						<td class="text text-center">
+
+							<ng-container *ngIf="classTimetablesData?.saturday.length==0">
+
+								<div class="attachment-block clearfix">
+									<span class="text text-center">Not <br>Scheduled</span><br>
+								</div>
+							</ng-container>
+							<ng-container *ngIf="classTimetablesData?.saturday.length>0">
+
+								<ng-container *ngFor="let data of classTimetablesData?.saturday">
+									<div class="attachment-block clearfix">
+
+										<span class="text-green">Sub: {{data.subjectName}}</span><br>
+										<span>Class: {{data.classes}}({{data.section}})</span><br>
+										<span class="text-green">{{data.timeFrom}}</span>
+										<b class="text text-center">-</b>
+										<span class="text-green">{{data.timeTo}}</span><br>
+
+										<span class="text-green">Room No: {{data.roomNo}}</span><br>
+
+									</div>
+								</ng-container>
+							</ng-container>
+						</td>
+						<td class="text text-center">
+
+							<ng-container *ngIf="classTimetablesData?.sunday.length==0">
+
+								<div class="attachment-block clearfix">
+									<span class="text text-center">Not <br>Scheduled</span><br>
+								</div>
+							</ng-container>
+							<ng-container *ngIf="classTimetablesData?.sunday.length>0">
+
+								<ng-container *ngFor="let data of classTimetablesData?.sunday">
+									<div class="attachment-block clearfix">
+
+										<span class="text-green">Sub: {{data.subjectName}}</span><br>
+										<span>Class: {{data.classes}}({{data.section}})</span><br>
+										<span class="text-green">{{data.timeFrom}}</span>
+										<b class="text text-center">-</b>
+										<span class="text-green">{{data.timeTo}}</span><br>
+
+										<span class="text-green">Room No: {{data.roomNo}}</span><br>
+
+									</div>
+								</ng-container>
+							</ng-container>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
+
+
+
+	</kt-portlet-body>
+
+
+</kt-portlet>

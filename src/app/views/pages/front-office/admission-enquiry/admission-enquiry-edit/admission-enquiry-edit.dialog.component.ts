@@ -16,6 +16,8 @@ import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EnquiryModel, selectAdmissionEnquirysActionLoading, AdmissionEnquiryUpdated, AdmissionEnquiryOnServerCreated, selectLastCreatedAdmissionEnquiryId, ReferenceModel, SourceModel, AdmissionEnquiryService, SourceService, ReferenceService } from '../../../../../core/front-office';
 import { StudentClassService } from '../../../../../core/academics';
+import { StaffService } from 'src/app/core/human-resource';
+import { StaffDtoModel } from 'src/app/core/academics/_models/staffDto.model';
 // // Services and Models
 // import { DeliveryPersonModel, DeliveryPersonUpdated, DeliveryPersonOnServerCreated, selectLastCreatedDeliveryPersonId, selectDeliveryPersonsActionLoading } from '../../../../../core/master-entry';
 // import { EmployeeModel } from '../../../../../core/payroll/_models/employee.model';
@@ -42,6 +44,8 @@ export class AdmissionEnquiryEditDialogComponent implements OnInit, OnDestroy {
 	referenceList:ReferenceModel[] = [];
 	sourceList:SourceModel[]=[];
 classList=[]
+//assigned list
+assignedList: StaffDtoModel[] = [];
 	constructor(public dialogRef: MatDialogRef<AdmissionEnquiryEditDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		private fb: FormBuilder,
@@ -49,7 +53,8 @@ classList=[]
 		private typesUtilsService: TypesUtilsService,
 		private referenceService:ReferenceService,
 		private sourceService:SourceService,
-		private studentClassService:StudentClassService
+		private studentClassService:StudentClassService,
+		private staffService:StaffService
 		) {
 	}
 
@@ -62,7 +67,7 @@ classList=[]
 		this.loadAllReferences();
 		this.loadAllSources();
 		this.loadAllClasses();
-
+		this.loadAllAssigned();
 		this.store.pipe(select(selectAdmissionEnquirysActionLoading)).subscribe(res => this.viewLoading = res);
 		
 		this.enquiry = this.data.enquiry;
@@ -70,6 +75,18 @@ classList=[]
 	}
 
 	//get All Complain Type List
+	//all staff 
+	loadAllAssigned() {
+		debugger
+		this.staffService.getAllStaffs().subscribe(res => {
+			// const data=res['data'];
+			this.assignedList=res['data'];
+			// this.staffList=data['content'];
+			console.log(this.assignedList);
+		}, err => {
+		});
+	}
+
 loadAllReferences() {
 	debugger
 	this.referenceService.getAllReferences().subscribe(res => {
@@ -129,9 +146,9 @@ onSourceSelectChange(sourceId){
 
 			address: [this.enquiry.address, ''],
 			assigned: [this.enquiry.assigned, ''],
-			classes: [this.enquiry.classes, ''],
+			classes: [this.enquiry.classes,],
 			// classId: [this.enquiry.classId, ''],
-			classesId: [this.enquiry.classesId, ''],
+			classesId: [this.enquiry.classesId,  Validators.required],
 			contact: [this.enquiry.contact, [Validators.required,Validators.pattern("^[0-9]*$"),Validators.maxLength(10)]],
 			date: [this.typesUtilsService.getDateFromString(this.enquiry.date), Validators.compose([Validators.nullValidator])],
 			description: [this.enquiry.description, ''],
@@ -145,7 +162,6 @@ onSourceSelectChange(sourceId){
 			source: [this.enquiry.source, Validators.required],
 			sourceId: [this.enquiry.sourceId, Validators.required],
 			status: [this.enquiry.status, ''],
-
 		});
 	}
 

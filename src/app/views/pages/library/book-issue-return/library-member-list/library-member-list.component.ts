@@ -22,7 +22,8 @@ export class LibraryMemberListComponent implements OnInit {
 
  // Table fields
 dataSource: LibraryMemberListsDataSource;
-displayedColumns = ['memberId', 'libraryCardNo', 'admissionNo', 'name', 'memberType', 'phone', 'actions'];
+// 'memberId','admissionNo',
+displayedColumns = [ 'libraryCardNo',  'name', 'memberType', 'phone', 'actions'];
 @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 @ViewChild('sort1', {static: true}) sort: MatSort;
 // Filter fields

@@ -73,7 +73,7 @@ export class AssignClassTeacherComponent implements OnInit {
 		debugger;
 		this.loadAllStaff();
 		this.loadAllClasses();
-		this.loadAllSections();
+		// this.loadAllSections();
 
 
 		const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
@@ -133,15 +133,37 @@ export class AssignClassTeacherComponent implements OnInit {
 		}, err => {
 		});
 	}
-	loadAllSections() {
+	// loadAllSections() {
+	// 	debugger
+	// 	this.sectionService.getAllSections().subscribe(res => {
+	// 		const data = res['data'];
+	// 		this.sectionList = data['content'];
+	// 		console.log(this.sectionList)
+	// 	}, err => {
+	// 	});
+	// }
+
+	onClassSelectChange(classId){
+		this.loadAllSectionsByClassId(classId);
+		var classObj=this.classList.find(x => x.id === classId);
+		this.assignClassTeacherForm.controls.className.setValue(classObj.classses);
+	
+	}
+	loadAllSectionsByClassId(id:number) {
 		debugger
-		this.sectionService.getAllSections().subscribe(res => {
-			const data = res['data'];
-			this.sectionList = data['content'];
+		this.studentClassService.getAllSectionByClasssId(id).subscribe(res => {
+		
+			this.sectionList = res['data'];
 			console.log(this.sectionList)
+		
 		}, err => {
 		});
 	}
+
+
+
+
+
 
 	loadAllStaff() {
 		debugger

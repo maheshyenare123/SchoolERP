@@ -34,8 +34,8 @@ export class AttendanceByDateComponent implements OnInit {
 dataSource: StudentAttendencesDataSource;
 //  dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-   
-displayedColumns = ['id', 'admissionNo','date','rollNo','name','attendance','note'];
+//    'id', 'admissionNo',
+displayedColumns = ['rollNo','date','name','attendance','note'];
 @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 @ViewChild('sort1', {static: true}) sort: MatSort;
 // Filter fields

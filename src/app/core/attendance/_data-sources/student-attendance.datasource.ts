@@ -15,14 +15,10 @@ export class StudentAttendencesDataSource extends BaseDataSource {
     this.loading$ = this.store.pipe(
       select(selectStudentAttendencesPageLoading)
     );
-
     this.isPreloadTextViewed$ = this.store.pipe(
       select(selectStudentAttendencesShowInitWaitingMessage)
     );
-
-    this.store.pipe(
-      select(selectStudentAttendencesInStore)
-    ).subscribe((response: QueryResultsModel) => {
+    this.store.pipe(select(selectStudentAttendencesInStore)).subscribe((response: QueryResultsModel) => {
       this.paginatorTotalSubject.next(response.totalCount);
       this.entitySubject.next(response.items);
     });
