@@ -14,6 +14,7 @@ export class LibraryStudentMemberModel {
     section: string;
     sessionID: number;
     studentId: number;
+  
 
     clear() {
         this.admissionNo= '';
@@ -30,5 +31,6 @@ export class LibraryStudentMemberModel {
         this.section= '';
         this.sessionID= 0;
         this.studentId= 0;
+     
     }
 }

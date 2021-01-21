@@ -14,7 +14,7 @@ import { AppState } from '../../../../../core/reducers';
 // CRUD
 import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ApproveLeaveDtoModel, selectApproveLeavesActionLoading, ApproveLeaveUpdated, selectLastCreatedApproveLeaveId, ApproveLeaveOnServerCreated } from '../../../../../core/attendance';
+import { ApproveLeaveDtoModel, selectApproveLeavesActionLoading, ApproveLeaveUpdated, selectLastCreatedApproveLeaveId, ApproveLeaveOnServerCreated, ApproveLeaveService } from '../../../../../core/attendance';
 import { StudentDtoModel, StudentService } from 'src/app/core/student-information';
 import { SectionDtoModel, StudentClassModel, SectionService, StudentClassService } from 'src/app/core/academics';
 import { LeaveTypeModel, LeaveTypeService } from 'src/app/core/human-resource';
@@ -55,7 +55,8 @@ export class ApproveLeaveEditDialogComponent implements OnInit, OnDestroy {
 		private studentClassService: StudentClassService,
 		private sectionService: SectionService,
 		private studentService: StudentService,
-		private leaveTypeService: LeaveTypeService) {
+		private leaveTypeService: LeaveTypeService,
+		private approveLeaveService: ApproveLeaveService) {
 	}
 
 	/**
@@ -68,6 +69,14 @@ export class ApproveLeaveEditDialogComponent implements OnInit, OnDestroy {
 		this.store.pipe(select(selectApproveLeavesActionLoading)).subscribe(res => this.viewLoading = res);
 		// loadding
 		this.approveLeave = this.data.approveLeave;
+		if (this.data._saveMessage === 'Edit Approve Leave') {
+
+			this.loadAllSectionsByClassId(this.approveLeave.classesId);
+			this.loadAllStudent(this.approveLeave.classesId, this.approveLeave.sectionId)
+
+		}
+
+
 		this.createForm();
 	}
 	//get All Class List
@@ -97,8 +106,8 @@ export class ApproveLeaveEditDialogComponent implements OnInit, OnDestroy {
 
 	onSectionSelectChange(section) {
 		debugger
-		var leaveObj = this.sectionList.find(x => x.section === section);
-		this.loadAllStudent(this.approveLeaveForm.controls['classId'].value, leaveObj.id)
+		var sectionObj = this.sectionList.find(x => x.section === section);
+		this.loadAllStudent(this.approveLeaveForm.controls['classId'].value, sectionObj.id)
 	}
 
 
@@ -137,9 +146,9 @@ export class ApproveLeaveEditDialogComponent implements OnInit, OnDestroy {
 	createForm() {
 		this.approveLeaveForm = this.fb.group({
 
-			classId: ['',],
-			sectionId: ['',],
-			studentId: ['',],
+			classId: [this.approveLeave.classesId,],
+			sectionId: [this.approveLeave.sectionId,],
+			studentId: [this.approveLeave.studentId,],
 			applyDate: [this.typesUtilsService.getDateFromString(this.approveLeave.applyDate), Validators.compose([Validators.nullValidator])],
 			fromDate: [this.typesUtilsService.getDateFromString(this.approveLeave.fromDate), Validators.compose([Validators.nullValidator])],
 			toDate: [this.typesUtilsService.getDateFromString(this.approveLeave.toDate), Validators.compose([Validators.nullValidator])],
@@ -157,7 +166,7 @@ export class ApproveLeaveEditDialogComponent implements OnInit, OnDestroy {
 			classes: [this.approveLeave.classes, Validators.required],
 			section: [this.approveLeave.section, Validators.required],
 			staff: [this.approveLeave.staff, '']
-
+			
 
 
 		});
@@ -190,6 +199,7 @@ export class ApproveLeaveEditDialogComponent implements OnInit, OnDestroy {
 	 * Returns prepared approveLeave
 	 */
 	prepareapproveLeave(): ApproveLeaveDtoModel {
+		debugger;
 		const controls = this.approveLeaveForm.controls;
 		const _approveLeave = new ApproveLeaveDtoModel();
 		_approveLeave.id = this.approveLeave.id;
@@ -224,9 +234,9 @@ export class ApproveLeaveEditDialogComponent implements OnInit, OnDestroy {
 		_approveLeave.docs = controls.docs.value;
 		_approveLeave.reason = controls.reason.value;
 		_approveLeave.requestType = controls.requestType.value;
-		
+
 		// _approveLeave.studentSessionId = controls.studentSessionId.value;
-		_approveLeave.studentSessionId =1;
+		_approveLeave.studentSessionId = 1;
 
 		_approveLeave.leaveType = controls.leaveType.value;
 		_approveLeave.leaveTypeId = controls.leaveTypeId.value;
@@ -302,15 +312,22 @@ export class ApproveLeaveEditDialogComponent implements OnInit, OnDestroy {
 			id: _approveLeave.id,
 			changes: _approveLeave
 		};
-		this.store.dispatch(new ApproveLeaveUpdated({
-			partialApproveLeave: updateApproveLeave,
-			approveLeave: _approveLeave
-		}));
+		// this.store.dispatch(new ApproveLeaveUpdated({
+		// 	partialApproveLeave: updateApproveLeave,
+		// 	approveLeave: _approveLeave
+		// }));
+
+		this.approveLeaveService.updateApproveLeave(_approveLeave).subscribe(res => {
+
+			this.dialogRef.close({ _approveLeave, isEdit: true });
+
+		});
+
 
 		// integrate ApproveLeave  update api
 
 		// Remove this line
-		of(undefined).pipe(delay(1000)).subscribe(() => this.dialogRef.close({ _approveLeave, isEdit: true }));
+		// of(undefined).pipe(delay(1000)).subscribe(() => this.dialogRef.close({ _approveLeave, isEdit: true }));
 		// Uncomment this line
 		// this.dialogRef.close({ _approveLeave, isEdit: true }
 	}
@@ -321,17 +338,27 @@ export class ApproveLeaveEditDialogComponent implements OnInit, OnDestroy {
 	 * @param _approveLeave: ApproveLeaveDtoModel
 	 */
 	createApproveLeave(_approveLeave: ApproveLeaveDtoModel) {
-		this.store.dispatch(new ApproveLeaveOnServerCreated({ approveLeave: _approveLeave }));
-		this.componentSubscriptions = this.store.pipe(
-			select(selectLastCreatedApproveLeaveId),
-			delay(1000), // Remove this line
-		).subscribe(res => {
-			if (!res) {
-				return;
-			}
+		debugger;
+		// this.store.dispatch(new ApproveLeaveOnServerCreated({ approveLeave: _approveLeave }));
+		// this.componentSubscriptions = this.store.pipe(
+		// 	select(selectLastCreatedApproveLeaveId),
+		// 	delay(1000), // Remove this line
+		// ).subscribe(res => {
+		// 	if (!res) {
+		// 		return;
+		// 	}
+
+		// 	
+		// });
+
+		this.approveLeaveService.createApproveLeave(_approveLeave).subscribe(res => {
 
 			this.dialogRef.close({ _approveLeave, isEdit: false });
-		});
+
+		})
+
+
+
 
 		// integrate approveLeave  create api
 	}

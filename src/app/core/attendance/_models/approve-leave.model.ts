@@ -4,6 +4,7 @@ export class ApproveLeaveDtoModel {
 
     applyDate: string;
     approveBy: number;
+   
     docs: string;
     fromDate: string;
     id: number;
@@ -21,16 +22,17 @@ export class ApproveLeaveDtoModel {
     leaveTypeId: number;
     section: string;
     staff: string;
+    studentName: string;
 
-
-
-    classId: number;
+	
+    classesId: number;
     sectionId: number;
     studentId: number;
 
     clear() {
         this.applyDate = '';
         this.approveBy = 0;
+       
         this.docs = '';
         this.fromDate = '';
         this.id = 0;
@@ -49,9 +51,10 @@ export class ApproveLeaveDtoModel {
         this.section = '';
         this.staff = '';
 
-
-        this.classId = 0;
+        this.studentName='';
+        this.classesId = 0;
         this.sectionId = 0;
         this.studentId = 0;
+
     }
 }

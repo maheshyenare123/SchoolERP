@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { LibraryStudentMembersDataSource, LibraryStudentMemberModel, LibraryStudentMembersPageRequested, OneLibraryStudentMemberDeleted, ManyLibraryStudentMembersDeleted } from 'src/app/core/library';
+import { LibraryStudentMembersDataSource, LibraryStudentMemberModel, LibraryStudentMembersPageRequested, OneLibraryStudentMemberDeleted, ManyLibraryStudentMembersDeleted, LibraryStudentMemberService } from 'src/app/core/library';
 import { QueryParamsModel, LayoutUtilsService, MessageType } from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -14,6 +14,7 @@ import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs
 import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from 'src/app/core/academics';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { LibraryStudentMemberEditDialogComponent } from '../library-student-member-edit/library-student-member-edit.dialog.component';
+import { StudentMemberLibarayDataSource } from 'src/app/core/library/_data-sources/library-studentMember.datasource';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class LibraryStudentMemberComponent implements OnInit {
 
   // Table fields
 dataSource: LibraryStudentMembersDataSource;
+dataSourceStudent: StudentMemberLibarayDataSource;
 // 'addmissionNo' ,'memberId', 'libraryCardNo', 
 displayedColumns = [  'studentName', 'class', 'fatherName', 'dob', 'gender', 'mobileNo', 'actions'];
 @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -63,6 +65,7 @@ constructor(public dialog: MatDialog,
              private fb: FormBuilder,
              private studentClassService: StudentClassService,
              private sectionService: SectionService,
+             private libraryStudentMembersService: LibraryStudentMemberService
              ) { }
 
 
@@ -77,6 +80,7 @@ ngOnInit() {
  this.createForm();
  // Init DataSource
  this.dataSource = new LibraryStudentMembersDataSource(this.store);
+ this.dataSourceStudent = new StudentMemberLibarayDataSource(this.libraryStudentMembersService);
 }
 
 
@@ -117,54 +121,110 @@ loadAllSectionsByClassId(id:number) {
 			return;
 		}
 
-		this.getAllLibraryStudentMember(controls.classId.value, controls.sectionId.value);
+    this.getAllLibraryStudentMember(controls.classId.value, controls.sectionId.value);
+    // this.dataSource.loadLessons(this.course.id, '', 'asc', 0, 3);
 
 
 	}
-getAllLibraryStudentMember(classId,sectionId){
-  // If the user changes the sort order, reset back to the first page.
- const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
- this.subscriptions.push(sortSubscription);
+// getAllLibraryStudentMember(classId,sectionId){
+//   // If the user changes the sort order, reset back to the first page.
+//  const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+//  this.subscriptions.push(sortSubscription);
 
- /* Data load will be triggered in two cases:
- - when a pagination event occurs => this.paginator.page
- - when a sort event occurs => this.sort.sortChange
- **/
- const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
-   tap(() => this.loadLibraryStudentMembersList(classId,sectionId))
- )
- .subscribe();
- this.subscriptions.push(paginatorSubscriptions);
+//  /* Data load will be triggered in two cases:
+//  - when a pagination event occurs => this.paginator.page
+//  - when a sort event occurs => this.sort.sortChange
+//  **/
+//  const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
+//    tap(() => this.loadLibraryStudentMembersList(classId,sectionId))
+//  )
+//  .subscribe();
+//  this.subscriptions.push(paginatorSubscriptions);
 
- // Filtration, bind to searchInput
- const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
-   // tslint:disable-next-line:max-line-length
-   debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
-   distinctUntilChanged(), // This operator will eliminate duplicate values
-   tap(() => {
-     this.paginator.pageIndex = 0;
-     this.loadLibraryStudentMembersList(classId,sectionId);
-   })
- )
- .subscribe();
- this.subscriptions.push(searchSubscription);
+//  // Filtration, bind to searchInput
+//  const searchSubscription = fromEvent(this.searchInput.nativeElement, 'keyup').pipe(
+//    // tslint:disable-next-line:max-line-length
+//    debounceTime(50), // The user can type quite quickly in the input box, and that could trigger a lot of server requests. With this operator, we are limiting the amount of server requests emitted to a maximum of one every 150ms
+//    distinctUntilChanged(), // This operator will eliminate duplicate values
+//    tap(() => {
+//      this.paginator.pageIndex = 0;
+//      this.loadLibraryStudentMembersList(classId,sectionId);
+//    })
+//  )
+//  .subscribe();
+//  this.subscriptions.push(searchSubscription);
 
- // Init DataSource
- this.dataSource = new LibraryStudentMembersDataSource(this.store);
- const entitiesSubscription = this.dataSource.entitySubject.pipe(
-   skip(1),
-   distinctUntilChanged()
- ).subscribe(res => {
-   this.libraryStudentMembersResult = res;
-   console.log(this.libraryStudentMembersResult);
- });
- this.subscriptions.push(entitiesSubscription);
- // First load
- of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
-   this.loadLibraryStudentMembersList(classId,sectionId);
- }); // Remove this line, just loading imitation
+//  // Init DataSource
+//  this.dataSource = new LibraryStudentMembersDataSource(this.store);
+//  const entitiesSubscription = this.dataSource.entitySubject.pipe(
+//    skip(1),
+//    distinctUntilChanged()
+//  ).subscribe(res => {
+//    this.libraryStudentMembersResult = res;
+//    console.log(this.libraryStudentMembersResult);
+//  });
+//  this.subscriptions.push(entitiesSubscription);
+//  // First load
+//  of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
+//    this.loadLibraryStudentMembersList(classId,sectionId);
+//  }); // Remove this line, just loading imitation
+
+// }
+
+
+
+// ngOnInit() {
+
+//   this.course = this.route.snapshot.data["course"];
+
+//   this.dataSource = new LessonsDataSource(this.coursesService);
+
+//   // this.dataSource.loadLessons(this.course.id, '', 'asc', 0, 3);
+// }
+
+getAllLibraryStudentMember(classId,sectionId) {
+
+  this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+
+  fromEvent(this.searchInput.nativeElement,'keyup')
+      .pipe(
+          debounceTime(150),
+          distinctUntilChanged(),
+          tap(() => {
+              this.paginator.pageIndex = 0;
+
+              this.loadLibraryStudentMembersList(classId,sectionId);
+          })
+      )
+      .subscribe();
+
+  merge(this.sort.sortChange, this.paginator.page)
+  .pipe(
+      tap(() => this.loadLibraryStudentMembersList(classId,sectionId))
+  )
+  .subscribe();
+
+
+  this.loadLibraryStudentMembersList(classId,sectionId);
+  console.log(this.dataSource);
 
 }
+
+loadLibraryStudentMembersList(classId,sectionId) {
+  console.log("load libaray member list")
+  const queryParams = new QueryParamsModel(
+    this.filterConfiguration(),
+    this.sort.direction,
+    this.sort.active,
+    this.paginator.pageIndex,
+    this.paginator.pageSize
+  );
+  this.dataSourceStudent.loadLessons(queryParams,classId, sectionId);
+}
+
+
+
+
 	createForm() {
 		debugger;
 		this.searchForm = this.fb.group({
@@ -187,20 +247,20 @@ ngOnDestroy() {
 /**
  * Load Products List
  */
-loadLibraryStudentMembersList(classId,sectionId) {
-  this.selection.clear();
-  const queryParams = new QueryParamsModel(
-    this.filterConfiguration(),
-    this.sort.direction,
-    this.sort.active,
-    this.paginator.pageIndex,
-    this.paginator.pageSize
-  );
-  // Call request from server
-  this.store.dispatch(new LibraryStudentMembersPageRequested({ page: queryParams,classId,sectionId }));
+// loadLibraryStudentMembersList(classId,sectionId) {
+//   this.selection.clear();
+//   const queryParams = new QueryParamsModel(
+//     this.filterConfiguration(),
+//     this.sort.direction,
+//     this.sort.active,
+//     this.paginator.pageIndex,
+//     this.paginator.pageSize
+//   );
+//   // Call request from server
+//   this.store.dispatch(new LibraryStudentMembersPageRequested({ page: queryParams,classId,sectionId }));
  
-  this.selection.clear();
-}
+//   this.selection.clear();
+// }
 
 /**
  * Returns object for filter
@@ -385,7 +445,7 @@ deleteProducts() {
 			}
 
 			this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-			// this.loadLibraryStudentMembersList();
+			this.loadLibraryStudentMembersList(0,0);
 		});
 	}
 

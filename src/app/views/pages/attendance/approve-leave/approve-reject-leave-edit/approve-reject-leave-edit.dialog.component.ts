@@ -111,7 +111,7 @@ export class ApproveRejectLeaveEditDialogComponent implements OnInit, OnDestroy 
 		if (this.approveLeave.status == 0) {
 			_approveRejectLeave.status = 1;
 		} else if(this.approveLeave.status == 1){
-			_approveRejectLeave.status = 0;
+			_approveRejectLeave.status = 2;
 		}
 
 

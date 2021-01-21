@@ -214,9 +214,9 @@
                         </ng-container>
 
                         <ng-container matColumnDef="bookNumber">
-                            <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Book Number
+                            <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Book No
                             </mat-header-cell>
-                            <mat-cell *matCellDef="let bookIssueReturn">{{bookIssueReturn.bookName}}</mat-cell>
+                            <mat-cell *matCellDef="let bookIssueReturn">{{bookIssueReturn.bookNo}}</mat-cell>
 						</ng-container>
 
 						<ng-container matColumnDef="issueDate">
@@ -225,7 +225,7 @@
                             <mat-cell *matCellDef="let bookIssueReturn">{{bookIssueReturn.issueDate}}</mat-cell>
 						</ng-container>
 						<ng-container matColumnDef="dueReturnDate">
-                            <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Due Return Date
+                            <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Due Date
                             </mat-header-cell>
                             <mat-cell *matCellDef="let bookIssueReturn">{{bookIssueReturn.duereturnDate}}</mat-cell>
                         </ng-container>
@@ -236,7 +236,7 @@
 						</ng-container>
 						
                         <ng-container matColumnDef="actions">
-                            <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                            <mat-header-cell  class="w-25" *matHeaderCellDef>Actions</mat-header-cell>
                             <mat-cell *matCellDef="let bookIssueReturn">
                                
                                     <ng-container *ngIf="bookIssueReturn.isReturned==0">

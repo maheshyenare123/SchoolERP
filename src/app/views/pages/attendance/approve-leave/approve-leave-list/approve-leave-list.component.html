@@ -109,7 +109,7 @@
 				<ng-container matColumnDef="studentName">
 					<mat-header-cell *matHeaderCellDef mat-sort-header>Student Name
 					</mat-header-cell>
-					<mat-cell *matCellDef="let approveLeave">{{approveLeave.toTitle}}</mat-cell>
+					<mat-cell *matCellDef="let approveLeave">{{approveLeave.studentName}}</mat-cell>
 				</ng-container>
 				<ng-container matColumnDef="class">
 					<mat-header-cell *matHeaderCellDef mat-sort-header>Class
@@ -155,7 +155,7 @@
 				</ng-container>
 				<ng-container matColumnDef="approvedBy">
 					<mat-header-cell *matHeaderCellDef mat-sort-header>Approved By</mat-header-cell>
-					<mat-cell *matCellDef="let approveLeave">{{approveLeave.approvedBy}}</mat-cell>
+					<mat-cell *matCellDef="let approveLeave">{{approveLeave.staff}}</mat-cell>
 				</ng-container>
 
 				<ng-container matColumnDef="actions">

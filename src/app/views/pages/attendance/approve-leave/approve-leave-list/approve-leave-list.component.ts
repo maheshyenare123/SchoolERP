@@ -290,10 +290,11 @@ export class ApproveLeaveListComponent implements OnInit {
    */
   editApproveLeave(approveLeave: ApproveLeaveDtoModel) {
     let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
-    const _saveMessage = approveLeave.id > 0 ? 'Edit product' : 'Create product';
+    const _saveMessage = approveLeave.id > 0 ? 'Edit Approve Leave' : 'Create Approve Leave';
 
     const _messageType = approveLeave.id > 0 ? MessageType.Update : MessageType.Create;
-    const dialogRef = this.dialog.open(ApproveLeaveEditDialogComponent, { data: { approveLeave } });
+ 
+    const dialogRef = this.dialog.open(ApproveLeaveEditDialogComponent, { data: { approveLeave,_saveMessage } });
     dialogRef.afterClosed().subscribe(res => {
       if (!res) {
         return;

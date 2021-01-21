@@ -110,7 +110,7 @@
 		<!-- end::FILTERS & GROUP ACTIONS -->
 
 	<div class="mat-table-wrapper">
-			<mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource" matSort #sort1="matSort"
+			<mat-table class="lmat-elevation-z8" #table [dataSource]="dataSourceStudent" matSort #sort1="matSort"
 				matSortActive="id" matSortDirection="asc" matSortDisableClear>
 				<!-- Checkbox Column -->
 				<!-- <ng-container matColumnDef="select">
@@ -220,7 +220,7 @@
 				<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 			</mat-table>
 			<div class="mat-table-message" *ngIf="!dataSource.hasItems">No records found</div>
-			<div class="mat-table-message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
+			<div class="mat-table-message" *ngIf="dataSource.loading$ | async">Please wait....</div>
 		</div>
 
 		<!-- start: BOTTOM -->

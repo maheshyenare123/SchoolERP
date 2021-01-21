@@ -2,7 +2,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { BookIssueReturnsDataSource, BookIssueReturnModel, selectBookIssueReturnsActionLoading, BookService, BookModel, LibraryMemberIssueModel, } from 'src/app/core/library';
+import { BookIssueReturnsDataSource, BookIssueReturnModel, selectBookIssueReturnsActionLoading, BookService, BookModel, LibraryMemberIssueModel, BookIssueReturnService, } from 'src/app/core/library';
 import { QueryParamsModel, LayoutUtilsService, MessageType, TypesUtilsService } from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -74,7 +74,8 @@ export class BookIssueReturnDialogComponent implements OnInit {
 		private typesUtilsService: TypesUtilsService,
 		public dialogRef: MatDialogRef<BookIssueReturnDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
-		public bookService: BookService) { }
+		public bookService: BookService,
+		private bookIssueReturnService: BookIssueReturnService) { }
 
 	ngOnInit() {
 
@@ -147,13 +148,9 @@ export class BookIssueReturnDialogComponent implements OnInit {
 	onBookSelectChange(bookId) {
 
 		var bookObj = this.bookList.find(x => x.id === bookId);
-
 		this.bookIssueReturnForm.controls.bookNo.setValue(bookObj.bookNo);
-
 		this.bookIssueReturnForm.controls.bookTitle.setValue(bookObj.bookTitle);
 	}
-
-
 
 	/**
 		 * On Destroy
@@ -345,7 +342,7 @@ export class BookIssueReturnDialogComponent implements OnInit {
 		} else {
 			this.createBookIssueReturn(editedBookIssueReturn);
 		}
-		this.loadBookIssueReturnList(this.libraryMember.memberId);
+		// this.loadBookIssueReturnList(this.libraryMember.memberId);
 		const _saveMessage = editedBookIssueReturn.id > 0 ? 'Issue Book has been returned' : 'Issue Book has been created';
 
 		const _messageType = editedBookIssueReturn.id > 0 ? MessageType.Update : MessageType.Create;
@@ -373,16 +370,21 @@ export class BookIssueReturnDialogComponent implements OnInit {
 	 * @param _bookIssueReturn: BookIssueReturnModel
 	 */
 	createBookIssueReturn(_bookIssueReturn: BookIssueReturnModel) {
-		this.store.dispatch(new BookIssueReturnOnServerCreated({ bookIssueReturn: _bookIssueReturn }));
-		this.componentSubscriptions = this.store.pipe(
-			select(selectLastCreatedBookIssueReturnId),
-			// delay(1000), // Remove this line
-		).subscribe(res => {
-			if (!res) {
-				return;
-			}
-			// this.dialogRef.close({ _bookIssueReturn, isEdit: false });
+		// this.store.dispatch(new BookIssueReturnOnServerCreated({ bookIssueReturn: _bookIssueReturn }));
+		// this.componentSubscriptions = this.store.pipe(
+		// 	select(selectLastCreatedBookIssueReturnId),
+		// 	// delay(1000), // Remove this line
+		// ).subscribe(res => {
+		// 	if (!res) {
+		// 		return;
+		// 	}
+		// 	// this.dialogRef.close({ _bookIssueReturn, isEdit: false });
+		// });
+		this.bookIssueReturnService.createBookIssueReturn(_bookIssueReturn).subscribe(res => {
+			this.loadBookIssueReturnList(this.libraryMember.memberId);
 		});
+
+
 	}
 	/**
 	 * Update bookIssueReturn
@@ -390,14 +392,19 @@ export class BookIssueReturnDialogComponent implements OnInit {
 	 * @param _bookIssueReturn: BookIssueReturnModel
 	 */
 	updateBookIssueReturn(_bookIssueReturn: BookIssueReturnModel) {
-		const updateBookIssueReturn: Update<BookIssueReturnModel> = {
-			id: _bookIssueReturn.id,
-			changes: _bookIssueReturn
-		};
-		this.store.dispatch(new BookIssueReturnUpdated({
-			partialBookIssueReturn: updateBookIssueReturn,
-			bookIssueReturn: _bookIssueReturn
-		}));
+		// const updateBookIssueReturn: Update<BookIssueReturnModel> = {
+		// 	id: _bookIssueReturn.id,
+		// 	changes: _bookIssueReturn
+		// };
+		// this.store.dispatch(new BookIssueReturnUpdated({
+		// 	partialBookIssueReturn: updateBookIssueReturn,
+		// 	bookIssueReturn: _bookIssueReturn
+		// }));
+
+		this.bookIssueReturnService.updateBookIssueReturn(_bookIssueReturn).subscribe(res => {
+			this.loadBookIssueReturnList(this.libraryMember.memberId);
+		});
+
 
 		this.showReturnDate = false;
 	}
