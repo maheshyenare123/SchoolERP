@@ -163,7 +163,7 @@ export class ClassTimetableEditDialogComponent implements OnInit, OnDestroy {
 		this.assignClassTeacherService.getAllStaffs().subscribe(res => {
 			console.log("response collage List")
 			console.log(res)
-			const data = res['data'];
+			// const data = res['data'];
 		this.staffList = res['data'];
 			console.log(this.staffList)
 			// this.setDataInChecboxList();

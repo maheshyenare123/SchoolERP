@@ -1,0 +1,39 @@
+mat-cell:nth-child(1),
+mat-header-cell:nth-child(1) {
+    flex: 0 0 10%;
+}
+mat-cell:nth-child(2),
+mat-header-cell:nth-child(2) {
+    flex: 0 0 20%;
+}
+mat-cell:nth-child(3),
+mat-header-cell:nth-child(3) {
+    flex: 0 0 20%;
+}
+
+mat-cell:nth-child(5),
+mat-header-cell:nth-child(5) {
+    flex: 0 0 20%;
+}
+
+
+
+.pull-right {
+    float: right!important;
+}
+.mailbox-controls {
+    padding: 0px;
+    /* padding-bottom: 10px; */
+}
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+

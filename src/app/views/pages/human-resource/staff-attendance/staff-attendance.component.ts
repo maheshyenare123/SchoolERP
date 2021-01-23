@@ -39,7 +39,8 @@ export class StaffAttendanceComponent implements OnInit {
 	//  dataSource = new MatTableDataSource(ELEMENT_DATA);
 
 	dataSource: StaffAttendanceModel[] = [];
-	displayedColumns = ['id', 'staffId', 'name', 'role', 'attendance', 'note'];
+	// 'id',
+	displayedColumns = [ 'staffId', 'name', 'role', 'attendance', 'note'];
 	@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 	@ViewChild('sort1', { static: true }) sort: MatSort;
 	// Filter fields
@@ -254,7 +255,6 @@ export class StaffAttendanceComponent implements OnInit {
 
 	onMarkAsHoliday() {
 		this.markAsHoliday = true;
-
 		var attendanceTypeObj = this.attendanceTypeList.find(x => x.type.toLowerCase() === Constants.HOLIDAY.toLowerCase());
 		this.dataSource.forEach((ele, index) => {
 			this.dataSource[index].attendenceTypeId = attendanceTypeObj.id;

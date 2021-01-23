@@ -21,10 +21,11 @@ export class StaffService {
   }
 
   // READ
-  getAllStaffs(): Observable<StaffModel[]> {
+  getAllStaffs(roleId): Observable<StaffModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const httpParams =   new HttpParams()
-    .set('IsPagination',Constants.Pagination.withoutPagination);
+    .set('IsPagination',Constants.Pagination.withoutPagination)
+    .set('roleId',roleId);
     return this.http.get<StaffModel[]>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff, {headers: httpHeaders,params: httpParams});
 
   }

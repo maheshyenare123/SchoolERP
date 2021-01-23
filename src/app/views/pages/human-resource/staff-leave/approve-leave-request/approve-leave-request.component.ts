@@ -294,10 +294,10 @@ deleteProducts() {
 	 */
 	editStaffLeaveRequest(staffLeaveRequest: StaffLeaveRequestModel) {
 		let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
-    //const _saveMessage = staffLeaveRequest.id > 0 ? 'Edit product' : 'Create product';
+    const _saveMessage = staffLeaveRequest.id > 0 ? 'Edit Approve Leave Request' : 'Create  Approve Leave Request';
     
 		//const _messageType = staffLeaveRequest.id > 0 ? MessageType.Update : MessageType.Create;
-		const dialogRef = this.dialog.open(ApproveLeaveRequestEditDialogComponent, { data: { staffLeaveRequest } });
+		const dialogRef = this.dialog.open(ApproveLeaveRequestEditDialogComponent, { data: { staffLeaveRequest ,_saveMessage} });
 		dialogRef.afterClosed().subscribe(res => {
 			if (!res) {
 				return;
@@ -313,7 +313,7 @@ deleteProducts() {
     // const _saveMessage = staffLeaveRequest.id > 0 ? 'Edit product' : 'Create product';
     
 		// const _messageType = staffLeaveRequest.id > 0 ? MessageType.Update : MessageType.Create;
-		const dialogRef = this.dialog.open(ApproveLeaveRequestViewDialogComponent, { data: { staffLeaveRequest } });
+		const dialogRef = this.dialog.open(ApproveLeaveRequestViewDialogComponent, { data: { staffLeaveRequest } , width: '800px'});
 		dialogRef.afterClosed().subscribe(res => {
 			if (!res) {
 				return;

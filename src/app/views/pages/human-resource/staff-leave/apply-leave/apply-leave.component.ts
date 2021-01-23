@@ -310,7 +310,7 @@ deleteProducts() {
     // const _saveMessage = staffLeaveRequest.id > 0 ? 'Edit product' : 'Create product';
     
 		// const _messageType = staffLeaveRequest.id > 0 ? MessageType.Update : MessageType.Create;
-		const dialogRef = this.dialog.open(ApplyLeaveViewDialogComponent, { data: { staffLeaveRequest } });
+		const dialogRef = this.dialog.open(ApplyLeaveViewDialogComponent, { data: { staffLeaveRequest }, width: '800px'});
 		dialogRef.afterClosed().subscribe(res => {
 			if (!res) {
 				return;

@@ -17,18 +17,18 @@ export class StaffLeaveRequestService {
   createStaffLeaveRequest(staffLeaveRequest: StaffLeaveRequestModel): Observable<StaffLeaveRequestModel> {
     // Note: Add headers if needed (tokens/bearer)
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.post<StaffLeaveRequestModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Leave, staffLeaveRequest, {headers: httpHeaders});
+    return this.http.post<StaffLeaveRequestModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Leave_Request, staffLeaveRequest, {headers: httpHeaders});
   }
 
   // READ
   getAllStaffLeaveRequests(): Observable<StaffLeaveRequestModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<StaffLeaveRequestModel[]>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Leave, {headers: httpHeaders});
+    return this.http.get<StaffLeaveRequestModel[]>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Leave_Request, {headers: httpHeaders});
   }
 
   getStaffLeaveRequestById(staffLeaveRequestId: number): Observable<StaffLeaveRequestModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    return this.http.get<StaffLeaveRequestModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Leave+ `/${staffLeaveRequestId}`, {headers: httpHeaders});
+    return this.http.get<StaffLeaveRequestModel>(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Leave_Request+ `/${staffLeaveRequestId}`, {headers: httpHeaders});
   }
 
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
@@ -47,7 +47,7 @@ export class StaffLeaveRequestService {
     .set('staffId', id.toString());
     
 
-    const url =Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Leave ;
+    const url =Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Leave_Request ;
     return this.http.get<QueryResultsModel>(url, {
       headers: httpHeaders,
       params: httpParams
@@ -57,7 +57,7 @@ export class StaffLeaveRequestService {
   // UPDATE => PUT: update the StaffLeaveRequest on the server
   updateStaffLeaveRequest(staffLeaveRequest: StaffLeaveRequestModel): Observable<any> {
     const httpHeader = this.httpUtils.getHTTPHeaders();
-    return this.http.put(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Leave+'/'+staffLeaveRequest.id, staffLeaveRequest, {headers: httpHeader});
+    return this.http.put(Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Leave_Request+'/'+staffLeaveRequest.id, staffLeaveRequest, {headers: httpHeader});
   }
 
   // UPDATE Status
@@ -67,19 +67,19 @@ export class StaffLeaveRequestService {
       staffLeaveRequestsForUpdate: staffLeaveRequests,
       newStatus: status
     };
-    const url = Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Leave+ '/updateStatus';
+    const url = Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Leave_Request+ '/updateStatus';
     return this.http.put(url, body, {headers: httpHeaders});
   }
 
   // DELETE => delete the StaffLeaveRequest from the server
   deleteStaffLeaveRequest(staffLeaveRequestId: number): Observable<StaffLeaveRequestModel> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
-    const url = `${Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Leave}/${staffLeaveRequestId}`;
+    const url = `${Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Leave_Request}/${staffLeaveRequestId}`;
     return this.http.delete<StaffLeaveRequestModel>(url,{headers: httpHeaders});
   }
 
   deleteStaffLeaveRequests(ids: number[] = []): Observable<any> {
-    const url = Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Leave + '/deleteStaffLeaveRequests';
+    const url = Constants.URL.HOST_URL+Constants.Human_Resource.Staff_Leave_Request + '/deleteStaffLeaveRequests';
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     const body = {staffLeaveRequestIdsForDelete: ids};
     return this.http.put<QueryResultsModel>(url, body, {headers: httpHeaders});

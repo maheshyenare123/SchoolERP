@@ -1,5 +1,7 @@
 /** Angular */
 import { Injectable } from '@angular/core';
+import { AnyARecord } from 'dns';
+import * as moment from 'moment';
 
 @Injectable()
 export class TypesUtilsService {
@@ -143,4 +145,13 @@ export class TypesUtilsService {
     const dateToday = date.getDate();
     return `${dateToday}/${month}/${year}`;
   }
+
+
+  getDaysBetweenTowDates(fromDate1: Date, toDate1: Date):any {
+    var fromDate = moment(fromDate1, 'DD-MM-YYYY');
+    var toDate = moment(toDate1, 'DD-MM-YYYY');
+    return toDate.diff(fromDate, 'days');
+  }
+
+
 }

@@ -70,7 +70,7 @@ documentFile(){
  * Returns page title
  */
 getTitle(): string {
-return 'Leave Details';
+return 'Apply Leave Details';
 }
 
 

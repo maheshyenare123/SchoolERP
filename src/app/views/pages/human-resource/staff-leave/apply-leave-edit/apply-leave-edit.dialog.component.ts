@@ -78,6 +78,12 @@ loadAllLeaveType() {
 	var leaveObj = this.leaveTypeList.find(x => x.id === leaveId);
 	this.staffLeaveRequestForm.controls.leaveType.setValue(leaveObj.type);
   }
+
+
+
+
+
+  
 createForm() {
 	this.staffLeaveRequestForm = this.fb.group({
 		date: [this.typesUtilsService.getDateFromString(this.staffLeaveRequest.date), Validators.compose([Validators.nullValidator])],
@@ -132,7 +138,7 @@ preparestaffLeaveRequest(): StaffLeaveRequestModel {
 		
 		_staffLeaveRequest.adminRemark = controls.adminRemark.value;
 		_staffLeaveRequest.documentFile = controls.documentFile.value;
-		_staffLeaveRequest.leaveDays = controls.leaveDays.value;
+		
 		_staffLeaveRequest.leaveType = controls.leaveType.value;
 		_staffLeaveRequest.leaveTypeId = controls.leaveTypeId.value;
 		_staffLeaveRequest.reason = controls.reason.value;
@@ -140,8 +146,8 @@ preparestaffLeaveRequest(): StaffLeaveRequestModel {
 		_staffLeaveRequest.sessionID = 1;
 		// _staffLeaveRequest.staffId = controls.staffId.value;
 		_staffLeaveRequest.staffId = 1;
-		// _staffLeaveRequest.staffName = controls.staffName.value;
-		_staffLeaveRequest.staffName ='vaibhav';
+		_staffLeaveRequest.staffName = controls.staffName.value;
+		// _staffLeaveRequest.staffName ='vaibhav';
 		_staffLeaveRequest.status = controls.status.value;
 
 		const _date = controls.date.value;
@@ -164,7 +170,9 @@ preparestaffLeaveRequest(): StaffLeaveRequestModel {
 		}
 
 // calculate days for leave
-
+if (_leaveFrom && _leaveTo) {
+_staffLeaveRequest.leaveDays = this.typesUtilsService.getDaysBetweenTowDates(_leaveFrom,_leaveTo);;
+}
 
 	return _staffLeaveRequest;
 }

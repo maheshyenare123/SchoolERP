@@ -14,6 +14,7 @@ export class StaffLeaveRequestModel {
     staffId: number;
     staffName: string;
     status: string;
+    roleId:string;
 
     clear() {
        

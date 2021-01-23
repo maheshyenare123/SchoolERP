@@ -14,7 +14,10 @@ import { AppState } from '../../../../../core/reducers';
 // CRUD
 import { TypesUtilsService } from '../../../../../core/_base/crud';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { StaffLeaveRequestModel, selectStaffLeaveRequestsActionLoading, StaffLeaveRequestUpdated, selectLastCreatedStaffLeaveRequestId, StaffLeaveRequestOnServerCreated, LeaveTypeService, LeaveTypeModel } from '../../../../../core/human-resource';
+import { StaffLeaveRequestModel, selectStaffLeaveRequestsActionLoading, StaffLeaveRequestUpdated, selectLastCreatedStaffLeaveRequestId, StaffLeaveRequestOnServerCreated, LeaveTypeService, LeaveTypeModel, StaffService } from '../../../../../core/human-resource';
+import { RoleService } from 'src/app/core/role_permission';
+import { RolesDtoModel } from 'src/app/core/Models/rolesDto.model';
+import { StaffDtoModel } from 'src/app/core/Models/staffDto.model';
 
 
 
@@ -26,109 +29,152 @@ import { StaffLeaveRequestModel, selectStaffLeaveRequestsActionLoading, StaffLea
 	encapsulation: ViewEncapsulation.None
 })
 export class ApproveLeaveRequestEditDialogComponent implements OnInit, OnDestroy {
-	
-	
-// Public properties
-staffLeaveRequest: StaffLeaveRequestModel;
-staffLeaveRequestForm: FormGroup;
-hasFormErrors = false;
-viewLoading = false;
-// Private properties
-private componentSubscriptions: Subscription;
-files: File[] = [];
-leaveTypeList: LeaveTypeModel[] = [];
-constructor(public dialogRef: MatDialogRef<ApproveLeaveRequestEditDialogComponent>,
-	@Inject(MAT_DIALOG_DATA) public data: any,
-	private fb: FormBuilder,
-	private store: Store<AppState>,
-	private typesUtilsService: TypesUtilsService,
-	private leaveTypeService: LeaveTypeService) {
-}
 
-/**
- * On init
- */
-ngOnInit() {
-	debugger
-	this.store.pipe(select(selectStaffLeaveRequestsActionLoading)).subscribe(res => this.viewLoading = res);
-	// loadding
-	this.staffLeaveRequest = this.data.staffLeaveRequest;
-	this.createForm();
-	this.loadAllLeadType()
-}
 
-/**
- * On destroy
- */
-ngOnDestroy() {
-	if (this.componentSubscriptions) {
-		this.componentSubscriptions.unsubscribe();
+	// Public properties
+	staffLeaveRequest: StaffLeaveRequestModel;
+	staffLeaveRequestForm: FormGroup;
+	hasFormErrors = false;
+	viewLoading = false;
+	// Private properties
+	private componentSubscriptions: Subscription;
+	files: File[] = [];
+
+	//combox lists
+	leaveTypeList: LeaveTypeModel[] = [];
+	rolesList: RolesDtoModel[] = [];
+	staffList: StaffDtoModel[] = [];
+	constructor(public dialogRef: MatDialogRef<ApproveLeaveRequestEditDialogComponent>,
+		@Inject(MAT_DIALOG_DATA) public data: any,
+		private fb: FormBuilder,
+		private store: Store<AppState>,
+		private typesUtilsService: TypesUtilsService,
+		private leaveTypeService: LeaveTypeService,
+		private roleService: RoleService,
+		private staffService: StaffService) {
 	}
-}
+
+	/**
+	 * On init
+	 */
+	ngOnInit() {
+		debugger
+		this.loadAllLeaveType()
+		this.loadAllRoles();
+		this.store.pipe(select(selectStaffLeaveRequestsActionLoading)).subscribe(res => this.viewLoading = res);
+		// loadding
+		this.staffLeaveRequest = this.data.staffLeaveRequest;
+
+		if (this.data._saveMessage === 'Edit Approve Leave Request') {
+			this.loadAllStaffByRoleId(this.staffLeaveRequest.roleId);
+		}
+		this.createForm();
+	}
+
+	/**
+	 * On destroy
+	 */
+	ngOnDestroy() {
+		if (this.componentSubscriptions) {
+			this.componentSubscriptions.unsubscribe();
+		}
+	}
 
 
-loadAllLeadType() {
-	debugger
-	this.leaveTypeService.getAllLeaveTypes().subscribe(res => {
-		const data = res['data'];
-		this.leaveTypeList = data['content'];
-		console.log(this.leaveTypeList)
-	}, err => {
-	});
-}
+	loadAllLeaveType() {
+		debugger
+		this.leaveTypeService.getAllLeaveTypes().subscribe(res => {
+			const data = res['data'];
+			this.leaveTypeList = data['content'];
+			console.log(this.leaveTypeList)
+		}, err => {
+		});
+	}
+	//get All Roles List
+	loadAllRoles() {
+		debugger
+		this.roleService.getAllRoles().subscribe(res => {
+			const data = res['data'];
+			this.rolesList = data['content'];
+			console.log(this.rolesList)
+		}, err => {
+		});
+	}
 
-createForm() {
-	this.staffLeaveRequestForm = this.fb.group({
-		date: [this.typesUtilsService.getDateFromString(this.staffLeaveRequest.date), Validators.compose([Validators.nullValidator])],
-		leaveFrom: [this.typesUtilsService.getDateFromString(this.staffLeaveRequest.leaveFrom), Validators.compose([Validators.nullValidator])],
-		leaveTo: [this.typesUtilsService.getDateFromString(this.staffLeaveRequest.leaveTo), Validators.compose([Validators.nullValidator])],
-		adminRemark: [this.staffLeaveRequest.adminRemark,],
-		documentFile: [this.staffLeaveRequest.documentFile, ],
-		leaveDays: [this.staffLeaveRequest.leaveDays, 0],
-		leaveType: [this.staffLeaveRequest.leaveType,],
-		leaveTypeId: [this.staffLeaveRequest.leaveTypeId,],
-		reason: [this.staffLeaveRequest.reason, ],
-		sessionID: [this.staffLeaveRequest.sessionID,],
-		staffId: [this.staffLeaveRequest.staffId,],
-		staffName: [this.staffLeaveRequest.staffName,],
-		status: [this.staffLeaveRequest.status,],	
-	});
-}
-getLeaveType($event){
-	//leaveType  set leaveType String from id
-	//this.staffLeaveRequestForm.get('leaveType').setValue();
-}
-/**
- * Returns page title
- */
-getTitle(): string {
-	// if (this.staffLeaveRequest.id > 0) {
-	// 	return `Edit Leave '${this.staffLeaveRequest.staffName}'`;
-	// }
+	onLeaveTypeSelectChange(leaveId) {
+		var leaveObj = this.leaveTypeList.find(x => x.id === leaveId);
+		this.staffLeaveRequestForm.controls.leaveType.setValue(leaveObj.type);
+	}
 
-	return 'Approve Leave';
-}
+	onRoleSelectChange(roleId) {
 
-/**
- * Check control is invalid
- * @param controlName: string
- */
-isControlInvalid(controlName: string): boolean {
-	const control = this.staffLeaveRequestForm.controls[controlName];
-	const result = control.invalid && control.touched;
-	return result;
-}
+		this.loadAllStaffByRoleId(roleId);
 
-/** ACTIONS */
+	}
 
-/**
- * Returns prepared staffLeaveRequest
- */
-preparestaffLeaveRequest(): StaffLeaveRequestModel {
-	const controls = this.staffLeaveRequestForm.controls;
-	const _staffLeaveRequest = new StaffLeaveRequestModel();
-	_staffLeaveRequest.id = this.staffLeaveRequest.id;
-		
+
+	loadAllStaffByRoleId(roleId) {
+		this.staffService.getAllStaffs(roleId).subscribe(res => {
+			this.staffList = res['data'];
+			console.log(this.staffList);
+		})
+	}
+
+	onStaffSelectChange(staffId) {
+		var staffObj = this.staffList.find(x => x.id === staffId);
+		this.staffLeaveRequestForm.controls.staffName.setValue(staffObj.name);
+
+
+	}
+
+	createForm() {
+		this.staffLeaveRequestForm = this.fb.group({
+			date: [this.typesUtilsService.getDateFromString(this.staffLeaveRequest.date), Validators.compose([Validators.nullValidator])],
+			leaveFrom: [this.typesUtilsService.getDateFromString(this.staffLeaveRequest.leaveFrom), Validators.compose([Validators.nullValidator])],
+			leaveTo: [this.typesUtilsService.getDateFromString(this.staffLeaveRequest.leaveTo), Validators.compose([Validators.nullValidator])],
+			adminRemark: [this.staffLeaveRequest.adminRemark,],
+			documentFile: [this.staffLeaveRequest.documentFile,],
+			leaveDays: [this.staffLeaveRequest.leaveDays, 0],
+			leaveType: [this.staffLeaveRequest.leaveType,],
+			leaveTypeId: [this.staffLeaveRequest.leaveTypeId,],
+			reason: [this.staffLeaveRequest.reason,],
+			sessionID: [this.staffLeaveRequest.sessionID,],
+			staffId: [this.staffLeaveRequest.staffId,],
+			staffName: [this.staffLeaveRequest.staffName,],
+			status: [this.staffLeaveRequest.status,],
+			roleId: [this.staffLeaveRequest.roleId],
+
+		});
+	}
+
+	/**
+	 * Returns page title
+	 */
+	getTitle(): string {
+
+		return 'Approve Leave Request Edit';
+	}
+
+	/**
+	 * Check control is invalid
+	 * @param controlName: string
+	 */
+	isControlInvalid(controlName: string): boolean {
+		const control = this.staffLeaveRequestForm.controls[controlName];
+		const result = control.invalid && control.touched;
+		return result;
+	}
+
+	/** ACTIONS */
+
+	/**
+	 * Returns prepared staffLeaveRequest
+	 */
+	preparestaffLeaveRequest(): StaffLeaveRequestModel {
+		const controls = this.staffLeaveRequestForm.controls;
+		const _staffLeaveRequest = new StaffLeaveRequestModel();
+		_staffLeaveRequest.id = this.staffLeaveRequest.id;
+
 		_staffLeaveRequest.adminRemark = controls.adminRemark.value;
 		_staffLeaveRequest.documentFile = controls.documentFile.value;
 		_staffLeaveRequest.leaveDays = controls.leaveDays.value;
@@ -160,99 +206,99 @@ preparestaffLeaveRequest(): StaffLeaveRequestModel {
 		}
 
 
-	return _staffLeaveRequest;
-}
-
-/**
- * On Submit
- */
-onSubmit() {
-	this.hasFormErrors = false;
-	const controls = this.staffLeaveRequestForm.controls;
-	/** check form */
-	if (this.staffLeaveRequestForm.invalid) {
-		Object.keys(controls).forEach(controlName =>
-			controls[controlName].markAsTouched()
-		);
-
-		this.hasFormErrors = true;
-		return;
+		return _staffLeaveRequest;
 	}
 
-	const editedStaffLeaveRequest = this.preparestaffLeaveRequest();
-	if (editedStaffLeaveRequest.id > 0) {
-		this.updateStaffLeaveRequest(editedStaffLeaveRequest);
-	} else {
-		this.createStaffLeaveRequest(editedStaffLeaveRequest);
-	}
-}
+	/**
+	 * On Submit
+	 */
+	onSubmit() {
+		this.hasFormErrors = false;
+		const controls = this.staffLeaveRequestForm.controls;
+		/** check form */
+		if (this.staffLeaveRequestForm.invalid) {
+			Object.keys(controls).forEach(controlName =>
+				controls[controlName].markAsTouched()
+			);
 
-/**
- * Update StaffLeaveRequest
- *
- * @param _staffLeaveRequest: StaffLeaveRequestModel
- */
-updateStaffLeaveRequest(_staffLeaveRequest: StaffLeaveRequestModel) {
-	const updateStaffLeaveRequest: Update<StaffLeaveRequestModel> = {
-		id: _staffLeaveRequest.id,
-		changes: _staffLeaveRequest
-	};
-	this.store.dispatch(new StaffLeaveRequestUpdated({
-		partialStaffLeaveRequest: updateStaffLeaveRequest,
-		staffLeaveRequest: _staffLeaveRequest
-	}));
-
-	// integrate StaffLeaveRequest  update api
-
-	// Remove this line
-	of(undefined).pipe(delay(1000)).subscribe(() => this.dialogRef.close({ _staffLeaveRequest, isEdit: true }));
-	// Uncomment this line
-	// this.dialogRef.close({ _staffLeaveRequest, isEdit: true }
-}
-
-/**
- * Create StaffLeaveRequest
- *
- * @param _staffLeaveRequest: StaffLeaveRequestModel
- */
-createStaffLeaveRequest(_staffLeaveRequest: StaffLeaveRequestModel) {
-	this.store.dispatch(new StaffLeaveRequestOnServerCreated({ staffLeaveRequest: _staffLeaveRequest }));
-	this.componentSubscriptions = this.store.pipe(
-		select(selectLastCreatedStaffLeaveRequestId),
-		delay(1000), // Remove this line
-	).subscribe(res => {
-		if (!res) {
+			this.hasFormErrors = true;
 			return;
 		}
 
-		this.dialogRef.close({ _staffLeaveRequest, isEdit: false });
-	});
-
-	// integrate StaffLeaveRequest  create api
-}
-
-/** Alect Close event */
-onAlertClose($event) {
-	this.hasFormErrors = false;
-}
-
-onSelect(event) {
-	console.log(event);
-	this.files.push(...event.addedFiles);
-  }
-   
-  onRemove(event) {
-	console.log(event);
-	this.files.splice(this.files.indexOf(event), 1);
-  }
-
-  _keyPress(event: any) {
-	const pattern = /[0-9]/;
-	let inputChar = String.fromCharCode(event.charCode);
-	if (!pattern.test(inputChar)) {
-		event.preventDefault();
-
+		const editedStaffLeaveRequest = this.preparestaffLeaveRequest();
+		if (editedStaffLeaveRequest.id > 0) {
+			this.updateStaffLeaveRequest(editedStaffLeaveRequest);
+		} else {
+			this.createStaffLeaveRequest(editedStaffLeaveRequest);
+		}
 	}
-}
+
+	/**
+	 * Update StaffLeaveRequest
+	 *
+	 * @param _staffLeaveRequest: StaffLeaveRequestModel
+	 */
+	updateStaffLeaveRequest(_staffLeaveRequest: StaffLeaveRequestModel) {
+		const updateStaffLeaveRequest: Update<StaffLeaveRequestModel> = {
+			id: _staffLeaveRequest.id,
+			changes: _staffLeaveRequest
+		};
+		this.store.dispatch(new StaffLeaveRequestUpdated({
+			partialStaffLeaveRequest: updateStaffLeaveRequest,
+			staffLeaveRequest: _staffLeaveRequest
+		}));
+
+		// integrate StaffLeaveRequest  update api
+
+		// Remove this line
+		of(undefined).pipe(delay(1000)).subscribe(() => this.dialogRef.close({ _staffLeaveRequest, isEdit: true }));
+		// Uncomment this line
+		// this.dialogRef.close({ _staffLeaveRequest, isEdit: true }
+	}
+
+	/**
+	 * Create StaffLeaveRequest
+	 *
+	 * @param _staffLeaveRequest: StaffLeaveRequestModel
+	 */
+	createStaffLeaveRequest(_staffLeaveRequest: StaffLeaveRequestModel) {
+		this.store.dispatch(new StaffLeaveRequestOnServerCreated({ staffLeaveRequest: _staffLeaveRequest }));
+		this.componentSubscriptions = this.store.pipe(
+			select(selectLastCreatedStaffLeaveRequestId),
+			delay(1000), // Remove this line
+		).subscribe(res => {
+			if (!res) {
+				return;
+			}
+
+			this.dialogRef.close({ _staffLeaveRequest, isEdit: false });
+		});
+
+		// integrate StaffLeaveRequest  create api
+	}
+
+	/** Alect Close event */
+	onAlertClose($event) {
+		this.hasFormErrors = false;
+	}
+
+	onSelect(event) {
+		console.log(event);
+		this.files.push(...event.addedFiles);
+	}
+
+	onRemove(event) {
+		console.log(event);
+		this.files.splice(this.files.indexOf(event), 1);
+	}
+
+	_keyPress(event: any) {
+		const pattern = /[0-9]/;
+		let inputChar = String.fromCharCode(event.charCode);
+		if (!pattern.test(inputChar)) {
+			event.preventDefault();
+
+		}
+	}
 }
 

@@ -3,7 +3,9 @@ export class ExpenseModel {
     amount: number;
     date: string;
     documents: string;
+
     expHeadId: number;
+    expCategory:string;
     id: number;
     invoiceNo: string;
     isActive: string;
@@ -22,5 +24,6 @@ export class ExpenseModel {
         this.isDeleted= '';
         this.name= '';
         this.note= '';
+        this.expCategory='';
     }
 }

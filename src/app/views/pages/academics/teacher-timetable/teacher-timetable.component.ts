@@ -89,7 +89,7 @@ classTimetablesData:TimetableDayModel;
   //get All Complain Type List
 loadAllTeachers() {
 	debugger
-	this.staffService.getAllStaffs().subscribe(res => {
+	this.staffService.getAllStaffs(0).subscribe(res => {
 		// const data=res['data'];
 		this.staffList=res['data'];
 		// this.staffList=data['content'];

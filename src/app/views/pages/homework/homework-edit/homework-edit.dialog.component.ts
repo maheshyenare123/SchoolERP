@@ -68,7 +68,15 @@ export class HomeworkEditDialogComponent implements OnInit, OnDestroy {
 		this.store.pipe(select(selectHomeworksActionLoading)).subscribe(res => this.viewLoading = res);
 
 		this.homework = this.data.homework;
+
+		if(this.data._saveMessage==='Edit  Homework'){
+			this.loadAllSectionsByClassId(this.homework.classesId);
+			this.loadAllSubjectGroup(this.homework.classesId,this.homework.sectionId);
+			this.loadAllSubject(this.homework.subjectGroupSubjectId);
+		}
+
 		this.createForm();
+
 	}
 
 

@@ -105,7 +105,7 @@ export class Constants {
       Staff_Designation: 'api/staffdesignation',
       Department: 'api/department',
       Leave_Type: 'api/leave-type',
-      Staff_Leave:'api/staff-leave',
+      // Staff_Leave:'api/staff-leave',
       Staff_Leave_Request:'api/staff-leave-request',
       Staff_Leave_Details:'api/staff-leave-details',
       Staff_Payroll: 'api/staff-payroll',

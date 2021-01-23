@@ -77,12 +77,9 @@ createForm() {
 		sessionID: [this.staffLeaveRequest.sessionID,],
 		staffId: [this.staffLeaveRequest.staffId,],
 		staffName: [this.staffLeaveRequest.staffName,],
-		status: [this.staffLeaveRequest.status,'Pending'],	
+		status: [this.staffLeaveRequest.status,],	
 	});
-}
-getLeaveType($event){
-	//leaveType  set leaveType String from id
-	//this.staffLeaveRequestForm.get('leaveType').setValue();
+	console.log(this.staffLeaveRequestForm);
 }
 
 documentFile(){
@@ -92,11 +89,7 @@ documentFile(){
  * Returns page title
  */
 getTitle(): string {
-	// if (this.staffLeaveRequest.id > 0) {
-	// 	return `Edit Leave '${this.staffLeaveRequest.staffName}'`;
-	// }
-
-	return 'New Leave';
+	return 'Approve Leave Request';
 }
 
 /**
@@ -221,28 +214,6 @@ createStaffLeaveRequest(_staffLeaveRequest: StaffLeaveRequestModel) {
 	// integrate StaffLeaveRequest  create api
 }
 
-/** Alect Close event */
-onAlertClose($event) {
-	this.hasFormErrors = false;
-}
 
-onSelect(event) {
-	console.log(event);
-	this.files.push(...event.addedFiles);
-  }
-   
-  onRemove(event) {
-	console.log(event);
-	this.files.splice(this.files.indexOf(event), 1);
-  }
-
-  _keyPress(event: any) {
-	const pattern = /[0-9]/;
-	let inputChar = String.fromCharCode(event.charCode);
-	if (!pattern.test(inputChar)) {
-		event.preventDefault();
-
-	}
-}
 }
 

@@ -150,12 +150,12 @@
                         <ng-container matColumnDef="hostelId">
                             <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Hostel
                             </mat-header-cell>
-                            <mat-cell *matCellDef="let hostelRoom">{{hostelRoom.hostelId}}</mat-cell>
+                            <mat-cell *matCellDef="let hostelRoom">{{hostelRoom.hostelName}}</mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="roomTypeId">
                             <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Room Type
                             </mat-header-cell>
-                            <mat-cell *matCellDef="let hostelRoom">{{hostelRoom.roomTypeId}}</mat-cell>
+                            <mat-cell *matCellDef="let hostelRoom">{{hostelRoom.roomType}}</mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="noOfBed">
                             <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>No Of Bed
@@ -175,12 +175,12 @@
                                     <button mat-icon-button color="primary" matTooltip="Edit Hostel Room"
                                         (click)="editHostelRoom(hostelRoom)">
                                         <mat-icon>create</mat-icon>
-                                    </button>&nbsp;
+                                    </button>
                  
                                     <button mat-icon-button color="warn" matTooltip="Delete Hostel Room" type="button"
                                         (click)="deleteHostelRoom(hostelRoom)">
                                         <mat-icon>delete</mat-icon>
-                                    </button>&nbsp;
+                                    </button>
                            
 
 
