@@ -199,15 +199,15 @@
                             <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Fees Code
                             </mat-header-cell>
                             <mat-cell *matCellDef="let feesMaster">
-                                <table>
+                                <table  width="100%">
                                     <tr *ngFor="let data of feesMaster.feeMasters; let i = index">
-                                        <td>{{data.feetypeName}}</td>
-                                        <td>₹{{data.amount}}.00</td>
-                                        <td> 
+                                        <td width="50%">{{data.feetypeName}}</td>
+                                        <td width="20%">₹{{data.amount}}.00</td>
+                                        <td width="20%"> 
                                             <button mat-icon-button color="primary" matTooltip="Edit Fees Master"
                                                 (click)="editFeesMaster(data)">
                                                 <mat-icon>create</mat-icon>
-                                            </button>&nbsp;
+                                            </button>
                                             <button mat-icon-button color="warn" matTooltip="Delete Fees Master" type="button"
                                                 (click)="deleteFeesMaster(data)">
                                                 <mat-icon>delete</mat-icon>

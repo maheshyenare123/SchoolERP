@@ -78,7 +78,7 @@ assignedList: StaffDtoModel[] = [];
 	//all staff 
 	loadAllAssigned() {
 		debugger
-		this.staffService.getAllStaffs().subscribe(res => {
+		this.staffService.getAllStaffs(0).subscribe(res => {
 			// const data=res['data'];
 			this.assignedList=res['data'];
 			// this.staffList=data['content'];

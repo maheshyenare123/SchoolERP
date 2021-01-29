@@ -357,6 +357,7 @@ export class MenuConfig {
               title: 'Fees Discount',
               page: '/fees_collection/fees_discount'
             },
+ 
             {
               title: 'Fees Master',
               page: '/fees_collection/fees_master'

@@ -16,6 +16,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { StudentClassModel, SectionDtoModel, StudentClassService } from 'src/app/core/academics';
 import { FeeCollectEditDialogComponent } from '../fee-collect-edit/fee-collect-edit.dialog.component';
 import { StudentModel } from 'src/app/core/Models/student.model';
+import { StudentDtoModel } from 'src/app/core/student-information';
 declare var $;
 @Component({
   selector: 'kt-fees-collect',
@@ -60,7 +61,7 @@ studentfeedeposite
   classList: StudentClassModel[] = [];
 	sectionList: SectionDtoModel[] = [];
   collectionFeeShowFlag: boolean = false;
-  student: StudentModel;
+  student: StudentDtoModel;
   studentListFlag: boolean = true;
   feesDepositeList: any;
   feesDiscountList: any;
@@ -396,20 +397,19 @@ deleteStudentFeeDeposite(_item: StudentFeeDepositeModel) {
 		// });
   }
   
-  collectionFeeShow(studentFeeDeposite: StudentModel){
-    this.student = studentFeeDeposite
-    this.collectionFeeShowFlag = true;
-    this.studentListFlag = false;
-    this.getStudentFeeDepositeById();
-    this.loadAllFeesDiscount();
+  collectionFeeShow(student: StudentDtoModel){
+    this.student = student;
+    // this.collectionFeeShowFlag = true;
+    // this.studentListFlag = false;
+this.router.navigate(['/fees_collection/fees_collect/student/'+student.id])
+    // this.getStudentFeeDepositeById();
+    // this.loadAllFeesDiscount();
   }
 
   getStudentFeeDepositeById(){
     debugger
-
-  
     this.feesDepositeList = []
-    this.studentFeeDepositeService.getStudentFeeDepositeById(this.student.studentSessionId).subscribe(res => {
+    this.studentFeeDepositeService.getStudentFeeDepositeById(this.student.id).subscribe(res => {
       const data = res['data'];
       this.feesDepositeList = data['studentFeeDetails'];
       this.dataSource=data['studentFeeDetails'];
@@ -445,7 +445,7 @@ deleteStudentFeeDeposite(_item: StudentFeeDepositeModel) {
   loadAllFeesDiscount() {
 		debugger
 		this.feesDiscountList = []
-	this.studentFeeDepositeService.getStudentDiscountById(this.student.studentSessionId).subscribe(res => {
+	this.studentFeeDepositeService.getStudentDiscountById(this.student.id).subscribe(res => {
 	  const data1 = res['data'];
 	  this.feesDiscountList = data1;
 	  console.log(this.feesDiscountList)

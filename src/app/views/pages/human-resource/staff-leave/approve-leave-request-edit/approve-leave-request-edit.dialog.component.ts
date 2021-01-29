@@ -124,8 +124,8 @@ export class ApproveLeaveRequestEditDialogComponent implements OnInit, OnDestroy
 		var staffObj = this.staffList.find(x => x.id === staffId);
 		this.staffLeaveRequestForm.controls.staffName.setValue(staffObj.name);
 
-
 	}
+	
 
 	createForm() {
 		this.staffLeaveRequestForm = this.fb.group({

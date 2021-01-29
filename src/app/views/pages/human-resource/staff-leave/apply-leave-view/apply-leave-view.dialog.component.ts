@@ -63,7 +63,7 @@ ngOnDestroy() {
 	}
 }
 
-documentFile(){
+documentFile( staffLeaveRequest){
 
 }
 /**

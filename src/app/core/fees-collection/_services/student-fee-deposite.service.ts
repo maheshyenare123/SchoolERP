@@ -20,6 +20,8 @@ export class StudentFeeDepositeService {
     return this.http.post<StudentFeeDepositeModel>(Constants.URL.HOST_URL + Constants.Fees_Collection.Student_Fee_Deposite, studentFeeDeposite, { headers: httpHeaders });
   }
 
+ 
+
   // READ
   getAllStudentFeeDeposites(): Observable<StudentFeeDepositeModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();

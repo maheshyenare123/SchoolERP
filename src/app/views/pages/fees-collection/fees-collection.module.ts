@@ -20,19 +20,20 @@ import { ModuleGuard } from 'src/app/core/auth';
 import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsService,DynamicSetActionsService } from 'src/app/core/_base/crud';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
-
 import { FeesCollectionComponent } from './fees-collection.component';
 import { FeesReminderComponent } from './fees-reminder/fees-reminder.component';
 import { FeesTypeComponent } from './fees-type/fees-type.component';
 import { FeesGroupComponent } from './fees-group/fees-group.component';
 import { FeesDiscountComponent } from './fees-discounts/fees-discount/fees-discount.component';
-import { FeesDiscountAssignStudentDialogComponent } from './fees-discounts/fees-discount-assign-student/fees-discount-assign-student.dialog.component';
+import { FeesDiscountAssignStudentComponent } from './fees-discounts/fees-discount-assign-student/fees-discount-assign-student.component';
 import { FeesMasterComponent } from './fees-masters/fees-master/fees-master.component';
-import { FeesMasterAssignStudentDialogComponent } from './fees-masters/fees-master-assign-student/fees-master-assign-student.dialog.component';
+import { FeesMasterAssignStudentDialogComponent } from './fees-masters/fees-master-assign-studentold/fees-master-assign-student.dialog.component';
+
+
 import { FeesCarryForwordComponent } from './fees-carry-forword/fees-carry-forword.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { AdmissionEnquiryEffects } from 'src/app/core/front-office';
+
 import { feesTypesReducer, FeesTypeEffects, FeesTypeService, feesGroupsReducer, FeesGroupEffects, FeesGroupService, feesDiscountsReducer, FeesDiscountService, feesMastersReducer, FeesMasterEffects, FeesMasterService, FeesDiscountEffects, assignStudentFeemastersReducer, AssignStudentFeemasterService, StudentFeeDepositeService, studentFeeDepositesReducer, StudentFeeDepositeEffects, AssignStudentFeemasterActionTypes, AssignStudentFeemasterEffects, AssignStudentFeediscountEffects, AssignStudentFeediscountService, assignStudentFeediscountsReducer, StudentFeeAmountDetailsEffects, StudentFeeAmountDetailsService, studentFeeAmountDetailssReducer } from 'src/app/core/fees-collection';
 import { FeesCollectComponent } from './fees-collect/fees-collect.component';
 import { FeeCollectEditDialogComponent } from './fee-collect-edit/fee-collect-edit.dialog.component';
@@ -40,6 +41,10 @@ import { SearchFeesPaymentComponent } from './search-fees-payment/search-fees-pa
 import { SearchDueFeesComponent } from './search-due-fees/search-due-fees.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { DATE_FORMATS } from 'src/app/core/constants/date-formate';
+import { FeesMasterAssignStudentComponent } from './fees-masters/fees-master-assign-student/fees-master-assign-student.component';
+import { FeesCollectStudentComponent } from './fees-collect-student/fees-collect-student.component';
+import { FeeCollectMultipleDialogComponent } from './fee-collect-multiple/fee-collect-multiple.dialog.component';
+
 const routes: Routes = [
 	{
 		path: '',
@@ -47,7 +52,7 @@ const routes: Routes = [
 		children: [
       {
 				path: '',
-				redirectTo: 'roles',
+				redirectTo: 'fees_type',
 				pathMatch: 'full'
       },
       {
@@ -63,12 +68,25 @@ const routes: Routes = [
 				component: FeesDiscountComponent
       },
       {
+				path: 'fees_discount/assign/:id',
+				component: FeesDiscountAssignStudentComponent
+      },
+      {
 				path: 'fees_master',
 				component: FeesMasterComponent
       },
       {
+				path: 'fees_master/assign/:id',
+				component: FeesMasterAssignStudentComponent
+      },
+
+      {
 				path: 'fees_collect',
 				component: FeesCollectComponent
+      },
+      {
+				path: 'fees_collect/student/:id',
+				component: FeesCollectStudentComponent
       },
       {
 				path: 'search_fees_payment',
@@ -96,14 +114,20 @@ const routes: Routes = [
     FeesTypeComponent,
     FeesGroupComponent,
     FeesDiscountComponent,
-    FeesDiscountAssignStudentDialogComponent,
+   
     FeesMasterComponent,
     FeesMasterAssignStudentDialogComponent,
+    FeesMasterAssignStudentComponent,
+
     FeesCarryForwordComponent,
     FeesCollectComponent,
     FeeCollectEditDialogComponent,
     SearchFeesPaymentComponent,
-    SearchDueFeesComponent
+    SearchDueFeesComponent,
+    FeesDiscountAssignStudentComponent,
+    FeesCollectStudentComponent,
+    FeeCollectMultipleDialogComponent
+    
   ],
   imports: [
     CommonModule,
@@ -186,9 +210,10 @@ StudentFeeDepositeService,
 StudentFeeAmountDetailsService
   ],
     entryComponents: [
-      FeesDiscountAssignStudentDialogComponent,
+      
       FeesMasterAssignStudentDialogComponent,
-      FeeCollectEditDialogComponent
+      FeeCollectEditDialogComponent,
+      FeeCollectMultipleDialogComponent
     ],
   exports: [RouterModule],
 })

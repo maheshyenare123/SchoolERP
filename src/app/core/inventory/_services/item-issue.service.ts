@@ -20,6 +20,12 @@ export class ItemIssueService {
     return this.http.post<ItemIssueModel>(Constants.URL.HOST_URL+Constants.Inventory.ItemIssue, itemIssue, {headers: httpHeaders});
   }
 
+returnIssueItem(itemIssueId: number ){
+  const httpHeaders = this.httpUtils.getHTTPHeaders();
+  return this.http.get<ItemIssueModel>(Constants.URL.HOST_URL+Constants.Inventory.ItemIssue+"/return" +`/${itemIssueId}`, {headers: httpHeaders});
+
+}
+
   // READ
   getAllItemIssues(): Observable<ItemIssueModel[]> {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
@@ -30,6 +36,8 @@ export class ItemIssueService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     return this.http.get<ItemIssueModel>(Constants.URL.HOST_URL+Constants.Inventory.ItemIssue+ `/${itemIssueId}`, {headers: httpHeaders});
   }
+
+
 
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
   // items => filtered/sorted result

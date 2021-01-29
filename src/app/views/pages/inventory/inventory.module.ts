@@ -34,6 +34,7 @@ import { ItemStockComponent } from './item-stock/item-stock.component';
 import { ItemIssueEditDialogComponent } from './item-issue/item-issue-edit/item-issue-edit.dialog.component';
 import { ItemIssueListComponent } from './item-issue/item-issue-list/item-issue-list.component';
 import { DATE_FORMATS } from 'src/app/core/constants/date-formate';
+import { ItemIssueReturnDialogComponent } from './item-issue/item-issue-return/item-issue-return.dialog.component';
 
 const routes: Routes = [
 	{
@@ -84,6 +85,7 @@ const routes: Routes = [
     ItemStockComponent,
     ItemIssueListComponent,
     ItemIssueEditDialogComponent,
+    ItemIssueReturnDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -161,6 +163,7 @@ ItemIssueService,
   ],
     entryComponents: [
       ItemIssueEditDialogComponent,
+      ItemIssueReturnDialogComponent
     ],
   exports: [RouterModule],
 })

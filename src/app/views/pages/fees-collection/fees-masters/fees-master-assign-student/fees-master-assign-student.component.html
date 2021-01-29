@@ -1,0 +1,199 @@
+<kt-portlet>
+    <kt-portlet-header [class]="'kt-portlet__head--lg'" [title]="'Select Criteria'">
+    </kt-portlet-header>
+    <kt-portlet-body>
+        <div class="kt-form kt-margin-b-30">
+            <form class="form" [formGroup]="searchForm">
+                <div class="card-body">
+
+                    <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true"
+                        (close)="onAlertClose($event)">
+                        Oh snap! Change a few things up and try submitting again.
+                    </kt-alert>
+
+                    <div class="form-group row">
+                        <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <mat-select placeholder="Class" formControlName="classId"
+                                    (selectionChange)="onClassSelectChange($event.value)">
+                                    <mat-option *ngFor="let classData of classList" [value]="classData.id">
+                                        {{classData.classses}}
+                                    </mat-option>
+                                </mat-select>
+
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <mat-select placeholder="Section" formControlName="sectionId">
+                                    <mat-option *ngFor="let sectionData of sectionList" [value]="sectionData.id">
+                                        {{sectionData.section}}
+                                    </mat-option>
+                                </mat-select>
+
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-lg-2 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <mat-select placeholder="Gender" formControlName="gender">
+                                    <mat-option value="male">Male</mat-option>
+                                    <mat-option value="female">Female</mat-option>
+                                </mat-select>
+
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <mat-select placeholder="RTE" formControlName="rte">
+                                    <mat-option value="Yes">Yes</mat-option>
+                                    <mat-option value="No">No</mat-option>
+                                </mat-select>
+
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 kt-margin-bottom-20-mobile">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <button type="button" mat-raised-button color="primary" (click)="onSearch()"
+                                        [disabled]="viewLoading" matTooltip="Save changes">
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </kt-portlet-body>
+   
+
+    <hr>
+
+    <kt-portlet-header [sticky]="true" [title]="'Assign Fees Group'" [class]="'card-head-lg'">
+    </kt-portlet-header>
+
+
+        <kt-portlet-body>
+
+
+            <div class="form-group row">
+                <div class="col-lg-3 kt-margin-bottom-20-mobile">
+                    <div class="card-title">
+                        <h5 class="card-label">{{feesMaster.feeGroupName}}</h5>
+                    </div>
+                    <table class="table mb0"    style="width: 100%;">
+
+                        <tr   *ngFor="let data of feesMaster.feeMasters"    >
+                            <td>
+
+                                {{data.feetypeName}}
+                            </td>
+                            <td>
+
+                                ₹ {{data.amount}}.00
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+
+
+                <div class="col-lg-9 kt-margin-bottom-20-mobile">
+
+                    <div class="mat-table__wrapper">
+                        <mat-table class="lmat-elevation-z8" #table [dataSource]="assignFeesStudentList" matSort
+                            #sort1="matSort" matSortActive="id" matSortDirection="asc" matSortDisableClear>
+
+
+                            <ng-container matColumnDef="select">
+                                <mat-header-cell *matHeaderCellDef class="mat-column-checkbox">
+                                    <mat-checkbox (change)="$event ? masterToggle() : null"
+                                        [checked]="selection.hasValue() && isAllSelected()"
+                                        [indeterminate]="selection.hasValue() && !isAllSelected()" [color]="'primary'">
+                                    </mat-checkbox>
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" class="mat-column-checkbox">
+                                    <mat-checkbox (click)="$event.stopPropagation()"
+                                        (change)="$event ? selection.toggle(row) : null"
+                                        [checked]="selection.isSelected(row)" [color]="'primary'">
+                                    </mat-checkbox>
+                                </mat-cell>
+                            </ng-container>
+
+
+                            <ng-container matColumnDef="admissionNo">
+
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Admission No</mat-header-cell>
+                                <mat-cell *matCellDef="let assignFeesStudent">{{assignFeesStudent.admissionNo}}
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="name">
+                                <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Name </mat-header-cell>
+                                <mat-cell *matCellDef="let assignFeesStudent">{{assignFeesStudent.firstname}}
+                                    {{assignFeesStudent.lastname}}</mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="class">
+                                <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Class
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let assignFeesStudent">{{assignFeesStudent.className}}
+                                    ({{assignFeesStudent.sectionName}})</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="fatherName">
+                                <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Father Name
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let assignFeesStudent">{{assignFeesStudent.fatherName}}
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="gender">
+                                <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Gender
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let assignFeesStudent">{{assignFeesStudent.gender}}</mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="category">
+                                <mat-header-cell class="w-75" *matHeaderCellDef mat-sort-header>Category
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let assignFeesStudent">{{assignFeesStudent.category}}</mat-cell>
+                            </ng-container>
+
+
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+                            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+                        </mat-table>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <hr>
+            <div class="d-flex justify-content-between">
+                <div class="mr-2"></div>
+                <div>
+                    <button type="button" mat-raised-button color="primary" (click)="onSubmit()"  matTooltip="Save changes">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </kt-portlet-body>
+
+
+</kt-portlet>
+
+<!-- 
+<style>
+    thead th {
+        border-bottom: 1px solid black;
+    }
+
+
+    tfoot tr td {
+        background-color: lightgray;
+    }
+</style> -->

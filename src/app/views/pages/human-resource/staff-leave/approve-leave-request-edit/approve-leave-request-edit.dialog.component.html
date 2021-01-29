@@ -44,16 +44,10 @@
 				</div>
 
 				<div class="col-lg-3 kt-margin-bottom-20-mobile">
-					<!-- <mat-form-field class="mat-form-field-fluid">
-						<mat-select placeholder="Name" formControlName="staffName">
-							<mat-option value="00">Mahesh(ASP0909)</mat-option>
-							<mat-option value="11">Teacher(ASP0909)</mat-option>
-						</mat-select>
-
-					</mat-form-field> -->
+	
 
 					<mat-form-field class="mat-form-field-fluid">
-						<mat-select placeholder="Select Staff" formControlName="staffId" (selectionChange)="onStaffSelectChange($event.value,i,j)" >
+						<mat-select placeholder="Select Staff" formControlName="staffId" (selectionChange)="onStaffSelectChange($event.value)" >
 							<mat-option *ngFor="let staff of staffList" [value]="staff.id">
 								{{staff.name}} {{staff.surname}}
 							</mat-option>
@@ -78,8 +72,6 @@
 					<mat-form-field class="mat-form-field-fluid">
 						<mat-select placeholder="Available Leave" formControlName="leaveTypeId" (selectionChange)="onLeaveTypeSelectChange($event.value)">
 						
-
-
 							<mat-option *ngFor="let leaveType of leaveTypeList" [value]="leaveType.id">
 								{{leaveType.type}}
 							</mat-option>

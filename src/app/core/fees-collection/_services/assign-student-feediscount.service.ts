@@ -16,9 +16,18 @@ export class AssignStudentFeediscountService {
   // CREATE =>  POST: add a new AssignStudentFeediscount to the server
   createAssignStudentFeediscount(assignStudentFeediscount: AssignFeediscountStudentRequestDtoModel): Observable<AssignFeediscountStudentRequestDtoModel> {
     // Note: Add headers if needed (tokens/bearer)
+    debugger;
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     return this.http.post<AssignFeediscountStudentRequestDtoModel>(Constants.URL.HOST_URL+Constants.Fees_Collection.AssignStudentFeediscount, assignStudentFeediscount, {headers: httpHeaders});
   }
+
+  createAssignStudentFeediscountList(assignStudentFeediscount): Observable<AssignFeediscountStudentRequestDtoModel> {
+    // Note: Add headers if needed (tokens/bearer)
+    debugger;
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.post<AssignFeediscountStudentRequestDtoModel>(Constants.URL.HOST_URL+Constants.Fees_Collection.AssignStudentFeediscount, assignStudentFeediscount, {headers: httpHeaders});
+  }
+
 
   // READ
   getAllAssignStudentFeediscounts(): Observable<AssignFeediscountStudentRequestDtoModel[]> {

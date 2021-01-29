@@ -207,7 +207,6 @@ createStaffLeaveRequest(_staffLeaveRequest: StaffLeaveRequestModel) {
 		if (!res) {
 			return;
 		}
-
 		this.dialogRef.close({ _staffLeaveRequest, isEdit: false });
 	});
 

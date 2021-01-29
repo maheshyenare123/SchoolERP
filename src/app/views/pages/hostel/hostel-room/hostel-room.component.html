@@ -43,7 +43,7 @@
                                     <mat-form-field class="mat-form-field-fluid">
                                         <mat-select placeholder="Room Type" formControlName="roomTypeId">
                                             <mat-option *ngFor="let roomType of roomTypeList" [value]="roomType.id" >
-                                                {{roomType.roomType}}
+                                                {{roomType.roomType}} ({{roomType.description}})
                                             </mat-option>
                                         </mat-select>
 

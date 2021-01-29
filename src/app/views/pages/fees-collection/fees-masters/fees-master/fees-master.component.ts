@@ -21,7 +21,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FeesMastersPageRequested, OneFeesMasterDeleted, ManyFeesMastersDeleted, FeesMastersStatusUpdated, FeesMasterUpdated, FeesMasterOnServerCreated, selectLastCreatedFeesMasterId } from '../../../../../core/fees-collection';
-import { FeesMasterAssignStudentDialogComponent } from '../fees-master-assign-student/fees-master-assign-student.dialog.component';
+import { FeesMasterAssignStudentDialogComponent } from '../fees-master-assign-studentold/fees-master-assign-student.dialog.component';
+import { routerReducer } from '@ngrx/router-store';
 
 
 @Component({
@@ -69,7 +70,8 @@ private componentSubscriptions: Subscription;
 		private fb: FormBuilder,
 		private typesUtilsService: TypesUtilsService,
 		private feesGroupService:FeesGroupService,
-		private feesTypeService:FeesTypeService
+		private feesTypeService:FeesTypeService,
+		private router:Router,
 		) { }
 
   ngOnInit() {
@@ -380,20 +382,24 @@ onFineTypeChange($event){
   }
 }
 
-assignMasterFeesToStudent(assignFeesStudent: AssignFeesStudentModel) {
+assignMasterFeesToStudent(feesMaster: FeesMasterModel) {
 	let saveMessageTranslateParam = 'ECOMMERCE.CUSTOMERS.EDIT.';
 //const _saveMessage = homework.id > 0 ? 'Edit  Homework' : 'Create  Homework';
 
 	//const _messageType = homework.id > 0 ? MessageType.Update : MessageType.Create;
-	const dialogRef = this.dialog.open(FeesMasterAssignStudentDialogComponent, { data: { assignFeesStudent } });
-	dialogRef.afterClosed().subscribe(res => {
-		if (!res) {
-			return;
-		}
+	// const dialogRef = this.dialog.open(FeesMasterAssignStudentDialogComponent, { data: { assignFeesStudent } });
+	// dialogRef.afterClosed().subscribe(res => {
+	// 	if (!res) {
+	// 		return;
+	// 	}
+
+console.log(feesMaster);
+	this.router.navigate(['fees_collection/fees_master/assign/'+feesMaster.feeGroupId])	
+
 
 	//	this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
 		
-	 });
+	//  });
 }
 onCancel(){
 	this.feesMasterForm.reset();

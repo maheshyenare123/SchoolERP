@@ -19,6 +19,11 @@ export class StudentFeeAmountDetailsService {
     const httpHeaders = this.httpUtils.getHTTPHeaders();
     return this.http.post<StudentFeeAmountDetailsModel>(Constants.URL.HOST_URL+Constants.Fees_Collection.Student_Fee_Deposite, studentFeeAmountDetails, {headers: httpHeaders});
   }
+  createStudentFeeDepositeAll(studentFeeDeposite: StudentFeeAmountDetailsModel[]): Observable<StudentFeeAmountDetailsModel> {
+    // Note: Add headers if needed (tokens/bearer)
+    const httpHeaders = this.httpUtils.getHTTPHeaders();
+    return this.http.post<StudentFeeAmountDetailsModel>(Constants.URL.HOST_URL + Constants.Fees_Collection.Student_Fee_Deposite+"/all", studentFeeDeposite, { headers: httpHeaders });
+  }
 
   // READ
   getAllStudentFeeAmountDetailss(): Observable<StudentFeeAmountDetailsModel[]> {
