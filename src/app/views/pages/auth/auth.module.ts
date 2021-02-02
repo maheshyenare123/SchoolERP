@@ -65,7 +65,8 @@ const routes: Routes = [
 		MatCheckboxModule,
 		TranslateModule.forChild(),
 		StoreModule.forFeature('auth', authReducer),
-		EffectsModule.forFeature([AuthEffects])
+		EffectsModule.forFeature([AuthEffects]),
+	
 	],
 	providers: [
 		InterceptService,

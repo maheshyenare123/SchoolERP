@@ -14,7 +14,7 @@ import { AppState } from '../../../../core/reducers';
 import { AuthNoticeService, AuthService, Login, UserLoaded, UserRequested  } from '../../../../core/auth';
 import { AuthLoginService } from './auth-login.service';
 import { RolePermissionService, RolesModel } from 'src/app/core/role_permission';
-
+import { JwtHelperService } from "@auth0/angular-jwt";
 
 /**
  * ! Just example => Should be removed in development
@@ -65,6 +65,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 		private route: ActivatedRoute,
 		private authloginservice: AuthLoginService,
 		private rolePermissionService:RolePermissionService,
+		private jwtHelperService :JwtHelperService
 	) {
 		this.unsubscribe = new Subject();
 	}
@@ -139,9 +140,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 			console.log(res);
 
 			localStorage.setItem('token', res['accessToken']);
-			localStorage.setItem('token', res['accessToken']);
+		
+			const decodedToken = this.jwtHelperService.decodeToken(res['accessToken']);
+			localStorage.setItem('sessionId', decodedToken.SessionID);
 
-			
+
 			//    this.jwtauth.setToken(res.accessToken);
 			//   this.localstorage.set("CurrentRole",res.roles[0]);
 			//   this.localstorage.set("CurrentUsername",res.username);
@@ -152,8 +155,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 			alert('Login Successfully');
 			this.getDynamicMenuConfig();
 			this.templateLogin();
-
-
+			
+		
+		
 
 		}, (err) => {
 			console.log('Error While Login');

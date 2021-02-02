@@ -196,20 +196,20 @@
 
                 <tr *ngFor="let feesdiscount of feesDiscountList">
 
-                    <td>{{feesdiscount?.data?.feesDiscountName}}</td>
-                    <td>{{feesdiscount?.data?.feesDiscountCode}}</td>
+                    <td>{{feesdiscount?.feesDiscountName}}</td>
+                    <td>{{feesdiscount?.feesDiscountCode}}</td>
                     <td></td>
-                    <td>Discount of ₹ {{feesdiscount.data?.feesDiscountAmount}}.00
+                    <td>Discount of ₹ {{feesdiscount.feesDiscountAmount}}.00
                         <span *ngIf="paymentId == null">Assigned</span>
-                        <span *ngIf="paymentId != null">applied for{{feesdiscount.data?.paymentId}}</span>
+                        <span *ngIf="paymentId != null">applied for{{feesdiscount.paymentId}}</span>
                     </td>
                     <td></td>
                     <td></td>
-                    <td>{{feesdiscount?.data?.paymentMode}}</td>
+                    <td>{{feesdiscount?.paymentMode}}</td>
                     <td></td>
                     <td></td>
-                    <td>{{feesdiscount?.data?.amountFine}}.00</td>
-                    <td>{{feesdiscount?.data?.amount}}.00</td>
+                    <td>{{feesdiscount?.amountFine}}.00</td>
+                    <td>{{feesdiscount?.amount}}.00</td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -221,9 +221,9 @@
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td></td>
                     <td>Grand Total</td>
                     <td>₹{{totalAmount}}.00</td>
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td>₹{{totalDiscount}}.00</td>

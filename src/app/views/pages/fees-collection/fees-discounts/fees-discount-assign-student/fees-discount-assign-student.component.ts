@@ -257,7 +257,7 @@ export class FeesDiscountAssignStudentComponent implements OnInit {
     this.searchForm = this.fb.group({
       classId: ['',],
       sectionId: ['',],
-      category: ['',],
+      category: ['0',],
       gender: ['',],
       rte: ['',],
 

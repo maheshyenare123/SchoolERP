@@ -188,7 +188,7 @@
                         matSortActive="id" matSortDirection="asc" matSortDisableClear>
                         <ng-container matColumnDef="id">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
-                            <mat-cell *matCellDef="let feesMaster">{{feesMaster.id}}</mat-cell>
+                            <mat-cell *matCellDef="let feesMaster">{{feesMaster.feeGroupId}}</mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="feesGroup">
                             <!-- ATTRIBUTE mat-sort-header  for sorting | https://material.angular.io/components/sort/overview -->

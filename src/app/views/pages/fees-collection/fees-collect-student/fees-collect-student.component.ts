@@ -19,6 +19,7 @@ import { FeeCollectEditDialogComponent } from '../fee-collect-edit/fee-collect-e
 import { StudentDtoModel, StudentService } from 'src/app/core/student-information';
 import { StudentModel } from 'src/app/core/Models/student.model';
 import { FeeCollectMultipleDialogComponent } from '../fee-collect-multiple/fee-collect-multiple.dialog.component';
+import { AllRolesLoaded } from 'src/app/core/auth';
 @Component({
   selector: 'kt-fees-collect-student',
   templateUrl: './fees-collect-student.component.html',
@@ -100,7 +101,21 @@ export class FeesCollectStudentComponent implements OnInit {
     this.feesDepositeList = []
     this.masterSelected = false;
     this.studentFeeDepositeService.getStudentFeeDepositeById(id).subscribe(res => {
+      //  if(res){
+      //   const data =  res['message'];
+      //   alert(data);
+      //   return
+      //  }
+
       const data = res['data'];
+
+      if (data == undefined) {
+        const data = res['message'];
+        alert(data);
+        return
+      }
+
+
       this.studentFeeDepositesResult = data['studentFeeDetails'];
 
       this.totalAmount = 0;
@@ -164,26 +179,26 @@ export class FeesCollectStudentComponent implements OnInit {
     }
     const _saveMessage = 'Collect Fees ';
     const _messageType = MessageType.Create;
-    const dialogRef = this.dialog.open(FeeCollectMultipleDialogComponent, { data: { selectedList, type, student },width:'500' });
+    const dialogRef = this.dialog.open(FeeCollectMultipleDialogComponent, { data: { selectedList, type, student }, width: '500' });
     dialogRef.afterClosed().subscribe(res => {
       this.getStudentFeeDepositeById(this.student.id)
       if (!res) {
         return;
       }
-      });
+    });
 
-      this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
+    this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
   }
 
 
   /**
      * Check all rows are selected
      */
-  
+
   checkAll(ev) {
-      debugger;
-      this.feesDepositeList.forEach(x => x.checked = ev.target.checked)
-    if(ev.target.checked) {
+    debugger;
+    this.feesDepositeList.forEach(x => x.checked = ev.target.checked)
+    if (ev.target.checked) {
       this.showCollectAll = true;
     } else {
       this.showCollectAll = false;

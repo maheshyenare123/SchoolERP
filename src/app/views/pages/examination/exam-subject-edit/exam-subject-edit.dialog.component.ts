@@ -144,7 +144,7 @@ export class ExamSubjectDialogComponent implements OnInit, OnDestroy {
 
 	removeItemRow(index) {
 		debugger
-			let itemArray = this.examSubjectForm[index].get('items') as FormArray;
+			let itemArray = this.examSubjectForm.get('items') as FormArray;
 			itemArray.removeAt(index);
 	}
 

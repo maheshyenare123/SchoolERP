@@ -26,7 +26,7 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
 
   @ViewChild('asideMenuOffcanvas', {static: true}) asideMenuOffcanvas: ElementRef;
   @ViewChild('asideMenu', {static: true}) asideMenu: ElementRef;
-
+  brandClasses = '';
   asideLogo = '';
   asideClasses = '';
   currentRouteUrl = '';
@@ -111,6 +111,7 @@ export class AsideLeftComponent implements OnInit, AfterViewInit {
     }
 
     this.asideClasses = this.htmlClassService.getClasses('aside', true).toString();
+    this.brandClasses = this.htmlClassService.getClasses('brand', true).toString();
     this.asideLogo = this.getAsideLogo();    
     setTimeout(() => {
       this.offcanvas = new KTOffcanvas(this.asideMenuOffcanvas.nativeElement, this.menuCanvasOptions);

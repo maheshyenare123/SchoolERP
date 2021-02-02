@@ -6,18 +6,18 @@
 
 	<kt-portlet-body>
 		<table style="width: 100%;border-bottom: 1px lightgray;" *ngIf="examGroupDetail">
-			<tr>
-				<td style="text-align: left;">
+			<thead>
+				<th style="text-align: left;">
 					<label>Exam Group</label>
-				</td>
-				<td style="text-align: left;">
+				</th>
+				<th style="text-align: left;">
 					<label>Exam Type</label>
-				</td>
-				<td style="text-align: left;">
+				</th>
+				<th style="text-align: left;">
 					<label>Description</label>
-				</td>
+				</th>
 				
-			</tr>
+			</thead>
 			<tr>
 				<td style="text-align: left;">
 					{{examGroupDetail.name}}
@@ -111,21 +111,7 @@
 	<div class="mat-table-wrapper">
 			<mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource" matSort #sort1="matSort"
 				matSortActive="id" matSortDirection="asc" matSortDisableClear>
-				<!-- Checkbox Column -->
-				<!-- <ng-container matColumnDef="select">
-					<mat-header-cell *matHeaderCellDef class="mat-column-checkbox">
-						<mat-checkbox (change)="$event ? masterToggle() : null"
-							[checked]="selection.hasValue() && isAllSelected()"
-							[indeterminate]="selection.hasValue() && !isAllSelected()" [color]="'primary'">
-						</mat-checkbox>
-					</mat-header-cell>
-					<mat-cell *matCellDef="let row" class="mat-column-checkbox">
-						<mat-checkbox (click)="$event.stopPropagation()"
-							(change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
-							[color]="'primary'">
-						</mat-checkbox>
-					</mat-cell>
-                </ng-container> -->
+				
 				
 
                 <ng-container matColumnDef="subject">

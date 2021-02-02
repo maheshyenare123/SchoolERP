@@ -50,9 +50,8 @@ export class AssignStudentFeediscountService {
 //
 debugger
 
-if(gender != null && rte != null){
+if(gender != '' && rte != ''){
   const httpParams =new HttpParams()
-  
   .set('categoryId', category.toString())
   .set('classesId', classId.toString())
   .set('rte', rte.toString())
@@ -69,14 +68,15 @@ if(gender != null && rte != null){
 }
 
 
-if(gender == null && rte == null){
+if(gender == '' && rte == ''){
   const httpParams =new HttpParams()
-  
+
   .set('categoryId', category.toString())
   .set('classesId', classId.toString())
+  .set('sectionId', sectionId.toString())
   .set('pageNo', queryParams.pageNo.toString())
   .set('pageSize', queryParams.itemsPerPage.toString())
-  .set('sectionId', sectionId.toString())
+
   .set('sortBy', 'id');
   const url =Constants.URL.HOST_URL+Constants.Fees_Collection.AssignStudentFeediscount+'/'+feeGroupId ;
   return this.http.get<QueryResultsModel>(url, {
@@ -86,7 +86,7 @@ if(gender == null && rte == null){
 }
 
 
-    if(gender == null){
+    if(gender == ''){
       const httpParams =new HttpParams()
       .set('classesId', classId.toString())
       .set('categoryId', category.toString())
@@ -102,7 +102,7 @@ if(gender == null && rte == null){
         params: httpParams
       });
     }
-		if(rte == null){
+		if(rte == ''){
       const httpParams =new HttpParams()
       .set('classesId', classId.toString())
       .set('gender', gender.toString())

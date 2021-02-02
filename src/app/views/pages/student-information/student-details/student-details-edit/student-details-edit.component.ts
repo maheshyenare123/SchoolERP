@@ -20,7 +20,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HostelModel, HostelRoomModel, HostelRoomService, HostelService } from 'src/app/core/hostel';
 import { AssignVehicleModel, AssignVehicleService, RouteModel, RouteService, VehicleModel } from 'src/app/core/transport';
 import { StudentModel } from 'src/app/core/Models/student.model';
-import {MatAccordion} from '@angular/material/expansion';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'kt-student-details-edit',
@@ -46,7 +46,7 @@ export class StudentDetailsEditComponent implements OnInit {
   addMoreDetailFormGroup: FormGroup;
   uploadDocumentFormGroup: FormGroup;
 
-  
+
   filesStudent: File[] = [];
   filesFather: File[] = [];
   filesMother: File[] = [];
@@ -58,8 +58,8 @@ export class StudentDetailsEditComponent implements OnInit {
 
   classList: StudentClassModel[] = [];
   sectionList: SectionDtoModel[] = [];
-  categoryList:CategoryDtoModel[]=[];
-  studentHouseList:SchoolHousModel[]=[];
+  categoryList: CategoryDtoModel[] = [];
+  studentHouseList: SchoolHousModel[] = [];
   studentId: any;
   hostelList: HostelModel[] = [];
   routeList: RouteModel[] = [];
@@ -77,15 +77,15 @@ export class StudentDetailsEditComponent implements OnInit {
     private studentService: StudentService,
     private studentClassService: StudentClassService,
     private sectionService: SectionService,
-    private categoryService:CategoryService,
-    private studentHouseService:StudentHouseService,
+    private categoryService: CategoryService,
+    private studentHouseService: StudentHouseService,
     private router: Router,
-    private route:ActivatedRoute,
-    private hostelService:HostelService,
-    private hostelRoomService:HostelRoomService,
+    private route: ActivatedRoute,
+    private hostelService: HostelService,
+    private hostelRoomService: HostelRoomService,
     private routeService: RouteService,
     private assignVehicleService: AssignVehicleService,
-    ) {
+  ) {
   }
 
   /**
@@ -93,29 +93,29 @@ export class StudentDetailsEditComponent implements OnInit {
    */
   ngOnInit() {
     debugger
-   
-   
+
+
     this.route.params.subscribe(params => {
-      console.log(params); 
-      this.studentId=params.id;
+      console.log(params);
+      this.studentId = params.id;
       this.loadStudentById(this.studentId)
-      
+
     })
 
 
 
 
     this.store.pipe(select(selectStudentsActionLoading)).subscribe(res => this.viewLoading = res);
-this.loadAllClasses();
-this.loadAllStudentCategory();
-this.loadAllStudentHouse()
-this.loadAllHostel();
-this.loadAllRoutes()
-this.loadAllAssignVehicals();
+    this.loadAllClasses();
+    this.loadAllStudentCategory();
+    this.loadAllStudentHouse()
+    this.loadAllHostel();
+    this.loadAllRoutes()
+    this.loadAllAssignVehicals();
     //this.studentDetail = this.data.studentDetail;
     const newStudent = new StudentDtoModel();
-		newStudent.clear(); // Set all defaults fields
-		newStudent
+    newStudent.clear(); // Set all defaults fields
+    newStudent
     this.studentDetail = newStudent
     this.createForm();
     this.isLinear = true;
@@ -123,7 +123,7 @@ this.loadAllAssignVehicals();
 
   loadStudentById(studentId) {
     debugger
-    
+
     this.studentService.getStudentById(studentId).subscribe(res => {
       const data = res['data'];
       this.studentDetail = data;
@@ -132,128 +132,135 @@ this.loadAllAssignVehicals();
     });
   }
 
-  
-loadAllClasses() {
-	debugger
-	this.studentClassService.getAllStudentClasss().subscribe(res => {
-    // const data = res['data'];
-    this.classList= res['data'];
-		// this.classList = data['content'];
-		console.log(this.classList)
-	}, err => {
-	});
-}
-onClassSelectChange(classId){
-  this.classId = classId;
-  this.loadAllSectionsByClassId(classId);
- 
-}
-loadAllSectionsByClassId(id:number) {
-	debugger
-	this.studentClassService.getAllSectionByClasssId(id).subscribe(res => {
 
-		this.sectionList = res['data'];
-		console.log(this.sectionList)
-	}, err => {
-	});
-}
+  loadAllClasses() {
+    debugger
+    this.studentClassService.getAllStudentClasss().subscribe(res => {
+      // const data = res['data'];
+      this.classList = res['data'];
+      // this.classList = data['content'];
+      console.log(this.classList)
+    }, err => {
+    });
+  }
+  onClassSelectChange(classId) {
+    this.classId = classId;
+    this.loadAllSectionsByClassId(classId);
 
-onSectionSelectChange(sectionId){
+  }
+  loadAllSectionsByClassId(id: number) {
+    debugger
+    this.studentClassService.getAllSectionByClasssId(id).subscribe(res => {
 
-  this.loadAllStudentByClassIdandSectionId(this.classId,sectionId);
- 
-}
+      this.sectionList = res['data'];
+      console.log(this.sectionList)
+    }, err => {
+    });
+  }
 
-loadAllStudentByClassIdandSectionId(classId:number,sectionId:number) {
-	debugger
-	this.studentService.allStudents(0,classId,sectionId).subscribe(res => {
+  onSectionSelectChange(sectionId) {
 
-		this.studentList = res['data'];
-		console.log(this.studentList)
-	}, err => {
-	});
-}
+    this.loadAllStudentByClassIdandSectionId(this.classId, sectionId);
 
-onHostelSelectChange(hostelId){
-  this.loadAllHostelRoomsByHostelId(hostelId);
- 
-}
-loadAllHostelRoomsByHostelId(id:number) {
-	debugger
-	this.hostelRoomService.AllHostelRoomsByHostelId(id).subscribe(res => {
-		this.hostelRoomList = res;
-		console.log(this.hostelRoomList)
-	}, err => {
-	});
-}
+  }
+
+  loadAllStudentByClassIdandSectionId(classId: number, sectionId: number) {
+    debugger
+    this.studentService.allStudents(0, classId, sectionId).subscribe(res => {
+
+      this.studentList = res['data'];
+      console.log(this.studentList)
+    }, err => {
+    });
+  }
+
+  onHostelSelectChange(hostelId) {
+    this.loadAllHostelRoomsByHostelId(hostelId);
+
+  }
+  loadAllHostelRoomsByHostelId(id: number) {
+    debugger
+    this.hostelRoomService.AllHostelRoomsByHostelId(id).subscribe(res => {
+   
+      if (res.success) {
+        this.hostelRoomList = res;
+        console.log(this.hostelRoomList)
+      } else {
+        alert(res.message)
+        return;
+      }
+
+    }, err => {
+    });
+  }
 
 
-	//get All Source List
-	loadAllStudentCategory() {
-		debugger
-		this.categoryService.getAllCategorys().subscribe(res => {
-			const data=res['data'];
-			this.categoryList=data['content'];
-			console.log(this.categoryList)
-		}, err => {
-		});
+  //get All Source List
+  loadAllStudentCategory() {
+    debugger
+    this.categoryService.getAllCategorys().subscribe(res => {
+      const data = res['data'];
+      this.categoryList = data['content'];
+      console.log(this.categoryList)
+    }, err => {
+    });
   }
 
 
 
-  
 
-  	//get All Source List
-	loadAllStudentHouse() {
-		debugger
-		this.studentHouseService.getAllStudentHouses().subscribe(res => {
-			const data=res['data'];
-			this.studentHouseList=data['content'];
-			console.log(this.studentHouseList)
-		}, err => {
-		});
+
+  //get All Source List
+  loadAllStudentHouse() {
+    debugger
+    this.studentHouseService.getAllStudentHouses().subscribe(res => {
+      const data = res['data'];
+      this.studentHouseList = data['content'];
+      console.log(this.studentHouseList)
+    }, err => {
+    });
   }
-  
+
   loadAllHostel() {
-		debugger
-		this.hostelService.getAllHostels().subscribe(res => {
-			const data = res['data'];
-			this.hostelList = data['content'];
-			console.log(this.hostelList)
-		}, err => {
-		});
+    debugger
+    this.hostelService.getAllHostels().subscribe(res => {
+      const data = res['data'];
+      this.hostelList = data['content'];
+      console.log(this.hostelList)
+    }, err => {
+    });
   }
 
 
   loadAllRoutes() {
-		debugger
-		this.routeService.getAllRoutes().subscribe(res => {
+    debugger
+    this.routeService.getAllRoutes().subscribe(res => {
       // const data = res['data'];
-      this.routeList  = res['data'];
+      this.routeList = res['data'];
       // this.routeList = data['content'];
-      
-			console.log(this.routeList)
-		}, err => {
-		});
-	}
+
+      console.log(this.routeList)
+    }, err => {
+    });
+  }
 
   loadAllAssignVehicals() {
-		debugger
-		this.assignVehicleService.getAllAssignVehicles().subscribe(res => {
-			const data = res['data'];
-			this.assignVehiclesList = data['content'];
-			console.log(this.assignVehiclesList)
-		}, err => {
-		});
-	}
-  onRouteSelectChange(routeId){
-    this.assignVehiclesList.map(item=>{
-      if(item.id === routeId){
+    debugger
+    this.assignVehicleService.getAllAssignVehicles().subscribe(res => {
+      const data = res['data'];
+      this.assignVehiclesList = data['content'];
+      console.log(this.assignVehiclesList)
+    }, err => {
+    });
+  }
+  onRouteSelectChange(routeId) {
+    this.assignVehiclesList.map(item => {
+      if (item.id === routeId) {
         this.vehiclesList = item.vehicles;
       }
     })
   }
-  
+
 
   /**
    * On destroy
@@ -277,7 +284,7 @@ loadAllHostelRoomsByHostelId(id:number) {
       categoryId: [this.studentDetail.categoryId, 0],
       religion: [this.studentDetail.religion, ''],
       cast: [this.studentDetail.cast, ''],
-      mobileno: [this.studentDetail.mobileno, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10),Validators.minLength(10)]],
+      mobileno: [this.studentDetail.mobileno, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
       email: [this.studentDetail.email, Validators.compose([Validators.required, Validators.email])],
       admissionDate: [this.typesUtilsService.getDateFromString(this.studentDetail.admissionDate), Validators.compose([Validators.nullValidator])],
       bloodGroup: [this.studentDetail.bloodGroup, ''],
@@ -291,16 +298,16 @@ loadAllHostelRoomsByHostelId(id:number) {
 
     this.parentGuardianFormGroup = this.fb.group({
       fatherName: [this.studentDetail.fatherName, ''],
-      fatherPhone: [this.studentDetail.fatherPhone, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10),Validators.minLength(10)]],
+      fatherPhone: [this.studentDetail.fatherPhone, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
       fatherOccupation: [this.studentDetail.fatherOccupation, ''],
       fatherPic: [this.studentDetail.fatherPic, ''],
       motherName: [this.studentDetail.motherName, ''],
-      motherPhone: [this.studentDetail.motherPhone, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10),Validators.minLength(10)]],
+      motherPhone: [this.studentDetail.motherPhone, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
       motherOccupation: [this.studentDetail.motherOccupation, ''],
       motherPic: [this.studentDetail.motherPic, ''],
       guardianIs: [this.studentDetail.guardianIs, Validators.required],
       guardianName: [this.studentDetail.guardianName, Validators.required],
-      guardianPhone: [this.studentDetail.guardianPhone, [Validators.required,Validators.pattern("^[0-9]*$"),Validators.maxLength(10),Validators.minLength(10)]],
+      guardianPhone: [this.studentDetail.guardianPhone, [Validators.required, Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
       guardianOccupation: [this.studentDetail.guardianOccupation, ''],
       guardianPic: [this.studentDetail.guardianPic, ''],
       guardianRelation: [this.studentDetail.guardianRelation, ''],
@@ -341,7 +348,7 @@ loadAllHostelRoomsByHostelId(id:number) {
       samagraId: [this.studentDetail.samagraId, ''],
       state: [this.studentDetail.state, ''],
       transportFees: [this.studentDetail.transportFees, 0],
-      
+
 
 
     });
@@ -376,15 +383,15 @@ loadAllHostelRoomsByHostelId(id:number) {
   preparestudentDetail(): StudentDtoModel {
 
     const controls = this.studentDetailForm.controls;
-        
-     const controls1 = this.studentInformationFormGroup.controls;
-     const controls2 = this.parentGuardianFormGroup.controls;
-     const controls3 = this.addMoreDetailFormGroup.controls;
+
+    const controls1 = this.studentInformationFormGroup.controls;
+    const controls2 = this.parentGuardianFormGroup.controls;
+    const controls3 = this.addMoreDetailFormGroup.controls;
 
     const _studentDetail = new StudentDtoModel();
     _studentDetail.id = this.studentDetail.id;
 
-//
+    //
     _studentDetail.rollNo = controls1.rollNo.value;
     _studentDetail.classId = controls1.classId.value;
     _studentDetail.sectionId = controls1.sectionId.value;
@@ -421,7 +428,7 @@ loadAllHostelRoomsByHostelId(id:number) {
     _studentDetail.image = controls1.image.value;
     _studentDetail.siblingId = controls1.siblingId.value;
 
-//
+    //
     _studentDetail.fatherName = controls2.fatherName.value;
     _studentDetail.fatherPhone = controls2.fatherPhone.value;
     _studentDetail.fatherOccupation = controls2.fatherOccupation.value;
@@ -438,7 +445,7 @@ loadAllHostelRoomsByHostelId(id:number) {
     _studentDetail.guardianPic = controls2.guardianPic.value;
     _studentDetail.guardianEmail = controls2.guardianEmail.value;
     _studentDetail.guardianAddress = controls2.guardianAddress.value;
-    
+
     //
     _studentDetail.currentAddress = controls3.currentAddress.value;
     _studentDetail.permanentAddress = controls3.permanentAddress.value;
@@ -454,8 +461,8 @@ loadAllHostelRoomsByHostelId(id:number) {
     _studentDetail.previousSchool = controls3.previousSchool.value;
     _studentDetail.note = controls3.note.value;
 
-    
-   //
+
+    //
     _studentDetail.adharNo = controls.adharNo.value;
     _studentDetail.admissionNo = controls.admissionNo.value;
     _studentDetail.appKey = controls.appKey.value;
@@ -472,14 +479,14 @@ loadAllHostelRoomsByHostelId(id:number) {
     _studentDetail.samagraId = controls.samagraId.value;
     _studentDetail.state = controls.state.value;
     _studentDetail.transportFees = controls.transportFees.value;
-   
-    if(_studentDetail.id>0){
+
+    if (_studentDetail.id > 0) {
       _studentDetail.isActive = controls.isActive.value;
-    }else{
+    } else {
       _studentDetail.isActive = 'yes';
     }
-     
-    
+
+
     return _studentDetail;
   }
 
@@ -541,7 +548,7 @@ loadAllHostelRoomsByHostelId(id:number) {
   }
 
   onSubmit1() {
-//only save add siblings
+    //only save add siblings
 
     this.hasFormErrors = false;
     const controls = this.studentDetailForm.controls;
@@ -585,9 +592,9 @@ loadAllHostelRoomsByHostelId(id:number) {
    */
   createStudentDetail(_studentDetail: StudentDtoModel) {
     this.store.dispatch(new StudentOnServerCreated({ student: _studentDetail }));
-    
-   
-    
+
+
+
     this.componentSubscriptions = this.store.pipe(
       select(selectLastCreatedStudentId),
       delay(1000), // Remove this line
@@ -600,7 +607,7 @@ loadAllHostelRoomsByHostelId(id:number) {
       // this.dialogRef.close({ _studentDetail, isEdit: false });
     });
 
-    
+
   }
 
   onCancel() {
@@ -708,25 +715,25 @@ loadAllHostelRoomsByHostelId(id:number) {
 
   onChangeGuardianIs($event) {
     debugger
-    if($event.value == "Father"){
+    if ($event.value == "Father") {
 
-      this.parentGuardianFormGroup.get("guardianName").setValue(this.parentGuardianFormGroup.get("fatherName").value) 
-      this.parentGuardianFormGroup.get("guardianPhone").setValue(this.parentGuardianFormGroup.get("fatherPhone").value)  
-      this.parentGuardianFormGroup.get("guardianOccupation").setValue(this.parentGuardianFormGroup.get("fatherOccupation").value)  
-      this.parentGuardianFormGroup.get("guardianRelation").setValue(this.parentGuardianFormGroup.get("guardianIs").value)  
+      this.parentGuardianFormGroup.get("guardianName").setValue(this.parentGuardianFormGroup.get("fatherName").value)
+      this.parentGuardianFormGroup.get("guardianPhone").setValue(this.parentGuardianFormGroup.get("fatherPhone").value)
+      this.parentGuardianFormGroup.get("guardianOccupation").setValue(this.parentGuardianFormGroup.get("fatherOccupation").value)
+      this.parentGuardianFormGroup.get("guardianRelation").setValue(this.parentGuardianFormGroup.get("guardianIs").value)
 
     }
-    if($event.value == "Mother"){
-      this.parentGuardianFormGroup.get("guardianName").setValue(this.parentGuardianFormGroup.get("motherName").value) 
-      this.parentGuardianFormGroup.get("guardianPhone").setValue(this.parentGuardianFormGroup.get("motherPhone").value)  
-      this.parentGuardianFormGroup.get("guardianOccupation").setValue(this.parentGuardianFormGroup.get("motherOccupation").value)  
-      this.parentGuardianFormGroup.get("guardianRelation").setValue(this.parentGuardianFormGroup.get("guardianIs").value)  
+    if ($event.value == "Mother") {
+      this.parentGuardianFormGroup.get("guardianName").setValue(this.parentGuardianFormGroup.get("motherName").value)
+      this.parentGuardianFormGroup.get("guardianPhone").setValue(this.parentGuardianFormGroup.get("motherPhone").value)
+      this.parentGuardianFormGroup.get("guardianOccupation").setValue(this.parentGuardianFormGroup.get("motherOccupation").value)
+      this.parentGuardianFormGroup.get("guardianRelation").setValue(this.parentGuardianFormGroup.get("guardianIs").value)
     }
-    if($event.value == "Other"){
-      this.parentGuardianFormGroup.get("guardianName").setValue('') 
-      this.parentGuardianFormGroup.get("guardianPhone").setValue('')  
-      this.parentGuardianFormGroup.get("guardianOccupation").setValue('')  
-      this.parentGuardianFormGroup.get("guardianRelation").setValue('')  
+    if ($event.value == "Other") {
+      this.parentGuardianFormGroup.get("guardianName").setValue('')
+      this.parentGuardianFormGroup.get("guardianPhone").setValue('')
+      this.parentGuardianFormGroup.get("guardianOccupation").setValue('')
+      this.parentGuardianFormGroup.get("guardianRelation").setValue('')
 
     }
 

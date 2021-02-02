@@ -67,8 +67,8 @@ import json from 'highlight.js/lib/languages/json';
 import scss from 'highlight.js/lib/languages/scss';
 import typescript from 'highlight.js/lib/languages/typescript';
 import { ɵROUTER_PROVIDERS } from '@angular/router';
-
-
+import { JwtModule } from "@auth0/angular-jwt";
+import { JwtHelperService,JWT_OPTIONS   } from "@auth0/angular-jwt";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   wheelSpeed: 0.5,
@@ -135,7 +135,15 @@ export function getHighlightLanguages() {
     TranslateModule.forRoot(),
     MatProgressSpinnerModule,
     InlineSVGModule.forRoot(),
-    ThemeModule
+    ThemeModule,
+    JwtModule
+		// .forRoot({
+		// 	config: {
+		// 	  tokenGetter: tokenGetter,
+		// 	  allowedDomains: ["example.com"],
+		// 	  disallowedRoutes: ["http://example.com/examplebadroute/"],
+		// 	},
+		//   }),
   ],
   exports: [],
   providers: [
@@ -147,6 +155,8 @@ export function getHighlightLanguages() {
     KtDialogService,
     DataTableService,
     SplashScreenService,
+    JwtHelperService,
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
