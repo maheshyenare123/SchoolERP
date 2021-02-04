@@ -21,8 +21,6 @@ import { InterceptService, TypesUtilsService, HttpUtilsService, LayoutUtilsServi
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MaterialModule } from '../material/material.module';
 
-
-
 import { AcademicsComponent } from './academics.component';
 import { TeacherTimetableComponent } from './teacher-timetable/teacher-timetable.component';
 import { SubjectComponent } from './subject/subject.component';
@@ -34,7 +32,7 @@ import { SubjectGroupComponent } from './subject-group/subject-group.component';
 import { ClassTimetableListComponent } from './class-timetable/class-timetable-list/class-timetable-list.component'
 import { ClassTimetableEditDialogComponent } from './class-timetable/class-timetable-edit/class-timetable-edit.dialog.component'
 import { AssignClassTeachersPageCancelled, classTimetablesReducer, ClassTimetableEffects, assignClassTeachersReducer, AssignClassTeacherEffects, SectionEffects, sectionsReducer, subjectsReducer, SubjectEffects, subjectGroupsReducer, SubjectGroupEffects, ClassTimetableService, AssignClassTeacherService, SectionService, SubjectService, SubjectGroupService, StudentClassEffects, studentClasssReducer, StudentClassService } from '../../../core/academics';
-import { DATE_FORMATS } from 'src/app/core/constants/date-formate';
+import { DATE_FORMATS } from '../../../core/constants'
 
 
 const routes: Routes = [

@@ -56,16 +56,16 @@ export class MenuConfig {
     //     //           title: 'Reference',
     //     //           page: '/frontoffice/setup-front-office/reference',
     //     //         },
-                
+
     //     //       ]
     //     //     },
-            
+
     //     //   ]
     //     // },
-       
-       
-       
-       
+
+
+
+
     //   ]
     // },
     aside: {
@@ -79,7 +79,7 @@ export class MenuConfig {
           translate: 'MENU.DASHBOARD',
           bullet: 'dot',
         },
-      
+
         {
           title: 'Front Office',
           bullet: 'dot',
@@ -100,11 +100,11 @@ export class MenuConfig {
             {
               title: 'Postal Dispatch',
               page: '/front_office/postaldispatch'
-            },{
+            }, {
               title: 'Postal Receive',
               page: '/front_office/postalreceive'
             },
-            
+
             {
               title: 'Complain',
               page: '/front_office/complain'
@@ -130,10 +130,10 @@ export class MenuConfig {
                   title: 'Reference',
                   page: '/front_office/setup_front_office/reference',
                 },
-                
+
               ]
             },
-            
+
           ]
         },
         {
@@ -173,8 +173,8 @@ export class MenuConfig {
               title: 'Disable Reason',
               page: '/student_information/disable_reason'
             },
-           
-            
+
+
           ]
         },
         {
@@ -182,7 +182,7 @@ export class MenuConfig {
           bullet: 'dot',
           icon: 'flaticon-interface-7',
           submenu: [
-            
+
             {
               title: 'Class Timetable',
               page: '/academics/class_timetable'
@@ -196,7 +196,7 @@ export class MenuConfig {
               title: 'Assign Class Teacher',
               page: '/academics/assign_class_teacher'
             },
-            
+
             {
               title: 'Class',
               page: '/academics/class'
@@ -213,7 +213,7 @@ export class MenuConfig {
               title: 'Subject Group',
               page: '/academics/subject_group'
             },
-            
+
           ]
         },
         {
@@ -221,7 +221,7 @@ export class MenuConfig {
           bullet: 'dot',
           icon: 'flaticon-interface-7',
           submenu: [
-            
+
             {
               title: 'Student Attendance',
               page: '/attendance/student_attendance'
@@ -234,7 +234,7 @@ export class MenuConfig {
               title: 'Approve Leave',
               page: '/attendance/approve_leave'
             },
-            
+
           ]
         },
 
@@ -243,12 +243,12 @@ export class MenuConfig {
           bullet: 'dot',
           icon: 'flaticon-interface-7',
           submenu: [
-            
+
             {
               title: 'Homework',
               page: '/homework/homework_list'
             },
-            
+
           ]
         },
 
@@ -257,7 +257,7 @@ export class MenuConfig {
           bullet: 'dot',
           icon: 'flaticon-interface-7',
           submenu: [
-            
+
             {
               title: 'Book List',
               page: '/library/book_list'
@@ -274,19 +274,19 @@ export class MenuConfig {
               title: 'Library Staff Member',
               page: '/library/library_staff_member'
             },
-            
 
-            
+
+
           ]
         },
 
-        
+
         {
           title: 'Human Resource',
           bullet: 'dot',
           icon: 'flaticon-interface-7',
           submenu: [
-           
+
             {
               title: 'Add Staff',
               page: '/human_resource/staff'
@@ -307,7 +307,7 @@ export class MenuConfig {
               title: 'Approve Leave Request',
               page: '/human_resource/approve_leave_request'
             },
-            
+
             {
               title: 'Leave Type',
               page: '/human_resource/leave_type'
@@ -324,7 +324,7 @@ export class MenuConfig {
               title: 'Payroll',
               page: '/human_resource/payroll'
             },
-            
+
             // {
             //   title: 'Disabled Staff',
             //   page: '/human_resource/disabled_staff'
@@ -334,17 +334,17 @@ export class MenuConfig {
             //   page: '/human_resource/staff_rating'
             // },
 
-            
-            
+
+
           ]
         },
-        
+
         {
           title: 'Fees Collection',
           bullet: 'dot',
           icon: 'flaticon-interface-7',
           submenu: [
-            
+
             {
               title: 'Fees Type',
               page: '/fees_collection/fees_type'
@@ -357,12 +357,12 @@ export class MenuConfig {
               title: 'Fees Discount',
               page: '/fees_collection/fees_discount'
             },
- 
+
             {
               title: 'Fees Master',
               page: '/fees_collection/fees_master'
             },
-            
+
             {
               title: 'Fees Collect',
               page: '/fees_collection/fees_collect'
@@ -381,17 +381,17 @@ export class MenuConfig {
               title: 'Fees Reminder',
               page: '/fees_collection/fees_reminder'
             },
-            
+
           ]
         },
-        
+
 
         {
           title: 'Income',
           bullet: 'dot',
           icon: 'flaticon-interface-7',
           submenu: [
-            
+
             {
               title: 'Add Income',
               page: '/income/add_income'
@@ -404,7 +404,7 @@ export class MenuConfig {
               title: 'Income Head',
               page: '/income/income_head'
             },
-            
+
           ]
         },
 
@@ -413,7 +413,7 @@ export class MenuConfig {
           bullet: 'dot',
           icon: 'flaticon-interface-7',
           submenu: [
-            
+
             {
               title: 'Add Expense',
               page: '/expense/add_expense'
@@ -426,17 +426,17 @@ export class MenuConfig {
               title: 'Expense Head',
               page: '/expense/expense_head'
             },
-            
+
           ]
         },
-        
+
 
         {
           title: 'Transport',
           bullet: 'dot',
           icon: 'flaticon-interface-7',
           submenu: [
-            
+
             {
               title: 'Routes',
               page: '/transport/routes'
@@ -449,17 +449,17 @@ export class MenuConfig {
               title: 'Assign Vehicle',
               page: '/transport/assign_vehicle'
             },
-            
+
           ]
         },
-        
+
 
         {
           title: 'Hostel',
           bullet: 'dot',
           icon: 'flaticon-interface-7',
           submenu: [
-            
+
             {
               title: 'Hostel',
               page: '/hostel/hostel'
@@ -472,7 +472,7 @@ export class MenuConfig {
               title: 'Hostel Room',
               page: '/hostel/hostel_room'
             },
-            
+
           ]
         },
 
@@ -481,7 +481,7 @@ export class MenuConfig {
           bullet: 'dot',
           icon: 'flaticon-interface-7',
           submenu: [
-            
+
             {
               title: 'Item Category',
               page: '/inventory/item_category'
@@ -506,7 +506,7 @@ export class MenuConfig {
               title: 'Item Issue',
               page: '/inventory/item_issue'
             },
-            
+
           ]
         },
 
@@ -515,33 +515,30 @@ export class MenuConfig {
           bullet: 'dot',
           icon: 'flaticon-interface-7',
           submenu: [
-            
+
             {
               title: 'Exam Group',
               page: '/examination/exam_group'
             },
-            // {
-            //   title: 'Exam',
-            //   page: '/examination/exam/:id'
-            // },
+           
             {
               title: 'Exam Schedule',
               page: '/examination/exam_schedule'
-            },  
+            },
             {
               title: 'Exam Subject Marks',
               page: '/examination/exam_subject_marks/:examId/:examSubjectId/:examGroupId'
             },
-            // {
-            //   title: 'Exam Result',
-            //   page: '/examination/exam_result'
-            // },  
+            {
+              title: 'Exam Result',
+              page: '/examination/exam_result'
+            },  
 
-            
+
           ]
         },
 
-        
+
 
         {
           title: 'Certificate',
@@ -557,117 +554,117 @@ export class MenuConfig {
 
 
 
-        // {
-        //   title: 'Communication',
-        //   bullet: 'dot',
-        //   icon: 'flaticon-interface-7',
-        //   submenu: [
-            
-        //     {
-        //       title: 'Notice Board',
-        //       page: '/communication/notice_board'
-        //     },
-        //     {
-        //       title: 'Send Email',
-        //       page: '/communication/send_email'
-        //     },
-        //     {
-        //       title: 'Send Sms',
-        //       page: '/communication/send_sms'
-        //     },  
-        //     {
-        //       title: 'Email Sms Log',
-        //       page: '/communication/email_sms_log'
-        //     },  
+        {
+          title: 'Communication',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
 
-            
-        //   ]
-        // },
-
- 
-        // {
-        //   title: 'System Setting',
-        //   bullet: 'dot',
-        //   icon: 'flaticon-interface-7',
-        //   submenu: [
-            
-        //     {
-        //       title: 'Roles Permissions',
-        //       page: '/system_setting/roles'
-        //     },
-        //     {
-        //       title: 'Session Setting',
-        //       page: '/system_setting/sessions'
-        //     },
-        //     {
-        //       title: 'Email Setting',
-        //       page: '/system_setting/email_setting'
-        //     },  
-        //     {
-        //       title: 'Sms Setting',
-        //       page: '/system_setting/sms_setting'
-        //     },
-        //     {
-        //       title: 'Backup Restore',
-        //       page: '/system_setting/backup_restore'
-        //     },  
-        //     {
-        //       title: 'Notification Setting',
-        //       page: '/system_setting/notification_setting'
-        //     },  
-        //     {
-        //       title: 'Users',
-        //       page: '/system_setting/users'
-        //     }, 
-        //   ]
-        // },
+            {
+              title: 'Notice Board',
+              page: '/communication/notice_board'
+            },
+            {
+              title: 'Send Email',
+              page: '/communication/send_email'
+            },
+            {
+              title: 'Send Sms',
+              page: '/communication/send_sms'
+            },
+            {
+              title: 'Email Sms Log',
+              page: '/communication/email_sms_log'
+            },
 
 
+          ]
+        },
 
-        // {
-        //   title: 'Report',
-        //   bullet: 'dot',
-        //   icon: 'flaticon-interface-7',
-        //   submenu: [
-            
-        //     {
-        //       title: 'Student Information',
-        //       page: '/report/student_information'
-        //     },
-        //     {
-        //       title: 'Finance',
-        //       page: '/report/finance'
-        //     },
 
-            
-            
-        //     {
-        //       title: 'Human Resource',
-        //       page: '/report/human_resource_report'
-        //     },
+        {
+          title: 'System Setting',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
 
-        //     {
-        //       title: 'Library',
-        //       page: '/report/library_report'
-        //     },
+            {
+              title: 'Roles Permissions',
+              page: '/system_setting/roles'
+            },
+            {
+              title: 'Session Setting',
+              page: '/system_setting/sessions'
+            },
+            {
+              title: 'Email Setting',
+              page: '/system_setting/email_setting'
+            },
+            {
+              title: 'Sms Setting',
+              page: '/system_setting/sms_setting'
+            },
+            {
+              title: 'Backup Restore',
+              page: '/system_setting/backup_restore'
+            },
+            {
+              title: 'Notification Setting',
+              page: '/system_setting/notification_setting'
+            },
+            {
+              title: 'Users',
+              page: '/system_setting/users'
+            },
+          ]
+        },
 
-        //     {
-        //       title: 'Inventory',
-        //       page: '/report/inventory_report'
-        //     },
 
-        //     {
-        //       title: 'Transport',
-        //       page: '/report/transport_report'
-        //     },
-        //     {
-        //       title: 'Hostel',
-        //       page: '/report/hostel_report'
-        //     },
-            
-        //   ]
-        // },
-       
+
+        {
+          title: 'Report',
+          bullet: 'dot',
+          icon: 'flaticon-interface-7',
+          submenu: [
+
+            {
+              title: 'Student Information',
+              page: '/report/student_information'
+            },
+            {
+              title: 'Finance',
+              page: '/report/finance'
+            },
+
+
+
+            {
+              title: 'Human Resource',
+              page: '/report/human_resource_report'
+            },
+
+            {
+              title: 'Library',
+              page: '/report/library_report'
+            },
+
+            {
+              title: 'Inventory',
+              page: '/report/inventory_report'
+            },
+
+            {
+              title: 'Transport',
+              page: '/report/transport_report'
+            },
+            {
+              title: 'Hostel',
+              page: '/report/hostel_report'
+            },
+
+          ]
+        },
+
       ]
     },
   };

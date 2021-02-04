@@ -51,10 +51,10 @@ export class PortletHeaderComponent implements OnInit, AfterViewInit, OnDestroy 
 	@HostBinding('class') classes = 'card-header';
 	@HostBinding('attr.ktSticky') stickyDirective: StickyDirective;
 
-	@ViewChild('refIcon', {static: true}) refIcon: ElementRef;
+	@ViewChild('refIcon', { static: true }) refIcon: ElementRef;
 	hideIcon: boolean;
 
-	@ViewChild('refTools', {static: true}) refTools: ElementRef;
+	@ViewChild('refTools', { static: true }) refTools: ElementRef;
 	hideTools: boolean;
 
 	private lastScrollTop = 0;
@@ -101,6 +101,7 @@ export class PortletHeaderComponent implements OnInit, AfterViewInit, OnDestroy 
 							// normal fixed header
 							if (document.body.classList.contains('header-fixed')) {
 								height += headerElement.offsetHeight;
+
 							}
 							// if (document.body.classList.contains('subheader-fixed')) {
 							// 	height += subheaderElement.offsetHeight;

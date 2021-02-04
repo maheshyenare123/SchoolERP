@@ -302,7 +302,7 @@ deleteProducts() {
     const _saveMessage = enquiry.id > 0 ? 'Edit Admission Enquiry' : 'Create Admission Enquiry';
     
 		const _messageType = enquiry.id > 0 ? MessageType.Update : MessageType.Create;
-		const dialogRef = this.dialog.open(AdmissionEnquiryEditDialogComponent, { data: { enquiry } });
+		const dialogRef = this.dialog.open(AdmissionEnquiryEditDialogComponent, { data: { enquiry } ,disableClose: true} );
 		dialogRef.afterClosed().subscribe(res => {
 			if (!res) {
 				return;

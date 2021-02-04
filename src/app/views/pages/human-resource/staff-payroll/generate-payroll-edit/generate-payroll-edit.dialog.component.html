@@ -1,5 +1,4 @@
-<div class="card card-custom" style="height: 768px ;overflow-y: scroll;"
-	[ngClass]="{ 'card-body-progress card-body-progress-overlay' : viewLoading }">
+<div class="card card-custom" [ngClass]="{ 'card-body-progress card-body-progress-overlay' : viewLoading }">
 	<!--  -->
 	<div class="card-header">
 		<div class="card-title">
@@ -7,16 +6,18 @@
 		</div>
 	</div>
 	<form class="form" [formGroup]="staffPayslipForm">
-		<div class="card-body">
+		<div class="card-body" [perfectScrollbar]="{ wheelPropagation: false }" class="scroll"
+			[ngStyle]="{ height: '500px', position: 'relative' }">
 
 			<div class="card-body-progress">
 				<mat-spinner [diameter]="20"></mat-spinner>
 			</div>
 
-			<kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
+			<kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true"
+				(close)="onAlertClose($event)">
 				Oh snap! Change a few things up and try submitting again.
 			</kt-alert>
-		
+
 			<div class="form-group row">
 				<div class="col-lg-8 kt-margin-bottom-20-mobile">
 					<h3>Staff Details</h3>
@@ -39,7 +40,7 @@
 							</td>
 						</tr>
 						<tr>
-							
+
 							<td>
 								<label>Phone:</label>
 							</td>
@@ -54,7 +55,7 @@
 							</td>
 						</tr>
 						<tr>
-							
+
 							<td>
 								<label>EPF NO:</label>
 							</td>
@@ -69,7 +70,7 @@
 							</td>
 						</tr>
 						<tr>
-							
+
 							<td>
 								<label>Department:</label>
 							</td>
@@ -85,7 +86,7 @@
 						</tr>
 					</table>
 				</div>
-				
+
 				<div class="col-lg-4 kt-margin-bottom-20-mobile">
 					<h3>Attendance Details</h3>
 					<table style="width: 100%;">
@@ -113,21 +114,21 @@
 							</td>
 						</tr>
 						<tr>
-							
+
 							<td>
 								<label>October</label>
 							</td>
 							<td>
-								0	
-							</td>
-							<td>
 								0
 							</td>
 							<td>
 								0
 							</td>
 							<td>
-								0	
+								0
+							</td>
+							<td>
+								0
 							</td>
 							<td>
 								0
@@ -137,21 +138,21 @@
 							</td>
 						</tr>
 						<tr>
-							
+
 							<td>
 								<label>October</label>
 							</td>
 							<td>
-								0	
-							</td>
-							<td>
 								0
 							</td>
 							<td>
 								0
 							</td>
 							<td>
-								0	
+								0
+							</td>
+							<td>
+								0
 							</td>
 							<td>
 								0
@@ -161,21 +162,21 @@
 							</td>
 						</tr>
 						<tr>
-							
+
 							<td>
 								<label>October</label>
 							</td>
 							<td>
-								0	
-							</td>
-							<td>
 								0
 							</td>
 							<td>
 								0
 							</td>
 							<td>
-								0	
+								0
+							</td>
+							<td>
+								0
 							</td>
 							<td>
 								0
@@ -194,121 +195,127 @@
 			<div class="form-group row">
 				<div class="col-lg-4 kt-margin-bottom-20-mobile" style="border: 1px solid black;">
 					<form class="form" [formGroup]="earningForm">
-					
-					<table style="width: 100%">
-						<tr>
-							<td width="50%"><label>Earning</label></td>
-							<td width="50%"><button type="button" mat-icon-button color="primary"
-								class="col-md-1" style="float: right;" (click)="addItemRowEarning()">
-								   <!-- <i class="material-icons">add</i> -->
-								   <mat-icon>add</mat-icon>
-							   </button></td>
-						</tr>
-					</table>
-					
-					
-				   
-					<table  style="width: 100%">
-						<thead>
+
+						<table style="width: 100%">
 							<tr>
-								<th >Type</th>
-								<th >Amount</th>
-								<th >Remove</th>
+								<td width="50%"><label>Earning</label></td>
+								<td width="50%"><button type="button" mat-icon-button color="primary" class="col-md-1"
+										style="float: right;" (click)="addItemRowEarning()">
+										<!-- <i class="material-icons">add</i> -->
+										<mat-icon>add</mat-icon>
+									</button></td>
 							</tr>
-						</thead>
-						<tbody>
-							<tr formArrayName="itemsearning"
-								*ngFor="let item of earningForm.get('itemsearning')?.controls;let i = index;">
-								<ng-container [formGroupName]="i">
-								
-									<td  >
-										<mat-form-field class="mat-form-field-fluid" style="width:10vw">
-											<input  matInput placeholder="Enter Type" formControlName="type" />
-											<mat-error>Enter Type is
-												<strong>required</strong>
-											</mat-error>
-											
-										</mat-form-field>
-									</td>
-									<td   >
-										<mat-form-field class="mat-form-field-fluid " style="width:7vw">
-											<input type="number"  matInput placeholder="Enter Amount" formControlName="earningItemAmount" (keyup)="itemsOnChangeEarning($event,i)" (keypress)=_keyPress($event)/>
-											<mat-error>Enter Amount is
-												<strong>required</strong>
-											</mat-error>
-											
-										</mat-form-field>
-									</td>
-									<td >
-									 <button type="button" mat-icon-button color="warn"
-									 class="col-md-1 mr-2" (click)="removeItemRowEarning(i)">
-									 <!-- <i class="material-icons" >clear</i> -->
-									 <mat-icon>close</mat-icon>
-									</button>
-									   
-									</td>
-								</ng-container>
-							</tr>
-					</table>
-				</form>
+						</table>
+
+
+
+						<table style="width: 100%">
+							<thead>
+								<tr>
+									<th>Type</th>
+									<th>Amount</th>
+									<th>Remove</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr formArrayName="itemsearning"
+									*ngFor="let item of earningForm.get('itemsearning')?.controls;let i = index;">
+									<ng-container [formGroupName]="i">
+
+										<td>
+											<mat-form-field class="mat-form-field-fluid" style="width:10vw">
+												<input matInput placeholder="Enter Type" formControlName="type" />
+												<mat-error>Enter Type is
+													<strong>required</strong>
+												</mat-error>
+
+											</mat-form-field>
+										</td>
+										<td>
+											<mat-form-field class="mat-form-field-fluid " style="width:7vw">
+												<input type="number" matInput placeholder="Enter Amount"
+													formControlName="earningItemAmount"
+													(keyup)="itemsOnChangeEarning($event,i)"
+													(keypress)=_keyPress($event) />
+												<mat-error>Enter Amount is
+													<strong>required</strong>
+												</mat-error>
+
+											</mat-form-field>
+										</td>
+										<td>
+											<button type="button" mat-icon-button color="warn" class="col-md-1 mr-2"
+												(click)="removeItemRowEarning(i)">
+												<!-- <i class="material-icons" >clear</i> -->
+												<mat-icon>close</mat-icon>
+											</button>
+
+										</td>
+									</ng-container>
+								</tr>
+						</table>
+					</form>
 				</div>
-				
+
 				<div class="col-lg-4 kt-margin-bottom-20-mobile" style="border: 1px solid black;">
 					<form class="form" [formGroup]="deductionForm">
-					<table style="width: 100%">
-						<tr>
-							<td width="50%"><label>Deduction</label></td>
-							<td width="50%"><button type="button"  mat-icon-button color="primary"
-								class="col-md-1" style="float: right;"  (click)="addItemRowDeduction()">
-								   <!-- <i class="material-icons">add</i> -->
-								   <mat-icon>add</mat-icon>
-							   </button></td>
-						</tr>
-					</table>
 						<table style="width: 100%">
-						<thead>
 							<tr>
-								<th >Type</th>
-								<th >Amount</th>
-								<th >Remove</th>
+								<td width="50%"><label>Deduction</label></td>
+								<td width="50%"><button type="button" mat-icon-button color="primary" class="col-md-1"
+										style="float: right;" (click)="addItemRowDeduction()">
+										<!-- <i class="material-icons">add</i> -->
+										<mat-icon>add</mat-icon>
+									</button></td>
 							</tr>
-						</thead>
-						<tbody>
-							<tr formArrayName="itemsdeduction"
-								*ngFor="let item of deductionForm.get('itemsdeduction')?.controls;let i = index;">
-								<ng-container [formGroupName]="i">
-								
-									<td  class="form-group">
-										<mat-form-field class="mat-form-field-fluid" style="width:10vw">
-											<input  matInput placeholder="Enter Type" formControlName="type" />
-											<mat-error>Enter Type is
-												<strong>required</strong>
-											</mat-error>		
-										</mat-form-field>
-									</td>
-									<td class="form-group">
-										<mat-form-field class="mat-form-field-fluid" style="width:7vw">
-											<input type="number"  matInput placeholder="Enter Amount" formControlName="deductionItemAmount" (keyup)="itemsOnChangeDeduction($event,i)" (keypress)=_keyPress($event)/>
-											<mat-error>Enter Type is
-												<strong>required</strong>
-											</mat-error>
-										</mat-form-field>
-									</td>
-									<td >
-									 <button type="button"  mat-icon-button color="warn"
-									 class="col-md-1 mr-2" (click)="removeItemRowDeduction(i)">
-									 <!-- <i class="material-icons" >clear</i> -->
-									 <mat-icon>close</mat-icon>
+						</table>
+						<table style="width: 100%">
+							<thead>
+								<tr>
+									<th>Type</th>
+									<th>Amount</th>
+									<th>Remove</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr formArrayName="itemsdeduction"
+									*ngFor="let item of deductionForm.get('itemsdeduction')?.controls;let i = index;">
+									<ng-container [formGroupName]="i">
 
-									</button>
-									   
-									</td>
-								</ng-container>
-							</tr>
-					</table>
-				</form>
+										<td class="form-group">
+											<mat-form-field class="mat-form-field-fluid" style="width:10vw">
+												<input matInput placeholder="Enter Type" formControlName="type" />
+												<mat-error>Enter Type is
+													<strong>required</strong>
+												</mat-error>
+											</mat-form-field>
+										</td>
+										<td class="form-group">
+											<mat-form-field class="mat-form-field-fluid" style="width:7vw">
+												<input type="number" matInput placeholder="Enter Amount"
+													formControlName="deductionItemAmount"
+													(keyup)="itemsOnChangeDeduction($event,i)"
+													(keypress)=_keyPress($event) />
+												<mat-error>Enter Type is
+													<strong>required</strong>
+												</mat-error>
+											</mat-form-field>
+										</td>
+										<td>
+											<button type="button" mat-icon-button color="warn" class="col-md-1 mr-2"
+												(click)="removeItemRowDeduction(i)">
+												<!-- <i class="material-icons" >clear</i> -->
+												<mat-icon>close</mat-icon>
+
+											</button>
+
+										</td>
+									</ng-container>
+								</tr>
+						</table>
+					</form>
 				</div>
-				
+
 				<div class="col-lg-4 kt-margin-bottom-20-mobile" style="border: 1px solid black;">
 					<!-- <table style="width: 100%">
 						<tr>
@@ -320,20 +327,21 @@
 							   </button></td>
 						</tr>
 					</table> -->
-					<table   style="width: 100%;  padding: 0; margin: 0;" >
+					<table style="width: 100%;  padding: 0; margin: 0;">
 						<tr>
-							<td ><label>Payroll Summary(₹)</label></td>
-							<td><button type="button"  mat-raised-button color="primary"
-								class="col-md-1"   (click)="Calculator()">Calculate
-								   <i class="material-icons">calculate</i>
-								   <!-- <mat-icon>calculate</mat-icon> -->
-							   </button></td>
+							<td><label>Payroll Summary(₹)</label></td>
+							<td><button type="button" mat-raised-button color="primary" class="col-md-1"
+									(click)="Calculator()">Calculate
+									<i class="material-icons">calculate</i>
+									<!-- <mat-icon>calculate</mat-icon> -->
+								</button></td>
 						</tr>
 						<tr>
 							<td>Basic Salary</td>
-							<td>	
+							<td>
 								<mat-form-field class="mat-form-field-fluid">
-									<input type="number"  matInput placeholder="Enter Basic Salary" formControlName="basic"  (keypress)=_keyPress($event)/>
+									<input type="number" matInput placeholder="Enter Basic Salary"
+										formControlName="basic" (keypress)=_keyPress($event) />
 									<mat-error>Enter Basic Salary is
 										<strong>required</strong>
 									</mat-error>
@@ -344,7 +352,8 @@
 							<td>Earning</td>
 							<td>
 								<mat-form-field class="mat-form-field-fluid">
-									<input type="number"  matInput placeholder="Enter Earning" formControlName="totalAllowance"  (keypress)=_keyPress($event) readonly/>
+									<input type="number" matInput placeholder="Enter Earning"
+										formControlName="totalAllowance" (keypress)=_keyPress($event) readonly />
 									<mat-error>Enter Earning is
 										<strong>required</strong>
 									</mat-error>
@@ -355,7 +364,8 @@
 							<td>Deduction</td>
 							<td>
 								<mat-form-field class="mat-form-field-fluid">
-									<input type="number"  matInput placeholder="Enter Deduction" formControlName="totalDeduction"  (keypress)=_keyPress($event) readonly/>
+									<input type="number" matInput placeholder="Enter Deduction"
+										formControlName="totalDeduction" (keypress)=_keyPress($event) readonly />
 									<mat-error>Enter Deduction is
 										<strong>required</strong>
 									</mat-error>
@@ -366,7 +376,8 @@
 							<td>Gross Salary</td>
 							<td>
 								<mat-form-field class="mat-form-field-fluid">
-									<input type="number"  matInput placeholder="Enter Gross Salary" formControlName="grossSalary"  (keypress)=_keyPress($event) readonly/>
+									<input type="number" matInput placeholder="Enter Gross Salary"
+										formControlName="grossSalary" (keypress)=_keyPress($event) readonly />
 									<mat-error>Enter Gross Salary is
 										<strong>required</strong>
 									</mat-error>
@@ -377,7 +388,8 @@
 							<td>Tax</td>
 							<td>
 								<mat-form-field class="mat-form-field-fluid">
-									<input type="number"  matInput placeholder="Enter Tax" formControlName="tax"  (keypress)=_keyPress($event) />
+									<input type="number" matInput placeholder="Enter Tax" formControlName="tax"
+										(keypress)=_keyPress($event) />
 									<mat-error>Enter Tax is
 										<strong>required</strong>
 									</mat-error>
@@ -388,7 +400,8 @@
 							<td>Net Salary</td>
 							<td>
 								<mat-form-field class="mat-form-field-fluid">
-									<input type="number"  matInput placeholder="Enter Net Salary" formControlName="netSalary"  (keypress)=_keyPress($event) readonly/>
+									<input type="number" matInput placeholder="Enter Net Salary"
+										formControlName="netSalary" (keypress)=_keyPress($event) readonly />
 									<mat-error>Enter Net Salary is
 										<strong>required</strong>
 									</mat-error>
@@ -398,19 +411,21 @@
 
 					</table>
 				</div>
-			</div>	
+			</div>
 
-		
+
 
 		</div>
 		<div class="card-footer">
 			<div class="d-flex justify-content-between">
 				<div class="mr-2"></div>
 				<div>
-					<button type="button" mat-raised-button [mat-dialog-close]="data.animal" cdkFocusInitial matTooltip="Cancel changes">
+					<button type="button" mat-raised-button [mat-dialog-close]="data.animal" cdkFocusInitial
+						matTooltip="Cancel changes">
 						Cancel
 					</button>&nbsp;
-					<button type="button" mat-raised-button color="primary" (click)="onSubmit()" [disabled]="viewLoading" matTooltip="Save changes">
+					<button type="button" mat-raised-button color="primary" (click)="onSubmit()"
+						[disabled]="viewLoading" matTooltip="Save changes">
 						Save
 					</button>
 				</div>
@@ -420,9 +435,8 @@
 </div>
 
 <style>
-td {
-	padding: 0; 
-	margin: 0;
- }
+	td {
+		padding: 0;
+		margin: 0;
+	}
 </style>
-

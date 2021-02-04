@@ -12,6 +12,9 @@ import { selectComplaintTypesInStore, selectComplaintTypesPageLoading,selectComp
 export class ComplainTypesDataSource extends BaseDataSource {
   constructor(private store: Store<AppState>) {
     super();
+
+
+
     this.loading$ = this.store.pipe(
       select(selectComplaintTypesPageLoading)
     );
@@ -20,6 +23,8 @@ export class ComplainTypesDataSource extends BaseDataSource {
       select(selectComplaintTypesShowInitWaitingMessage)
     );
 
+
+    
     this.store.pipe(
       select(selectComplaintTypesInStore)
     ).subscribe((response: QueryResultsModel) => {

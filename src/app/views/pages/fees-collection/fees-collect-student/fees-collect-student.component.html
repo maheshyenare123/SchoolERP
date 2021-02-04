@@ -88,13 +88,13 @@
         <!-- <hr> -->
         <!-- <br> -->
 
-        <div class="row align-items-center collapse form-group-actions kt-margin-top-20 kt-margin-bottom-20"  
+        <div class="row align-items-center collapse form-group-actions kt-margin-top-20 kt-margin-bottom-20"
             [ngClass]="{'show' : showCollectAll}">
-       
+
             <div class="col-xl-12">
                 <div class="form-group form-group-inline">
-                    <button (click)="collectAllStudentFees('multiple')" mat-raised-button matTooltip="Fetch selected fees"
-                        class="mat-button-mt-4">
+                    <button (click)="collectAllStudentFees('multiple')" mat-raised-button
+                        matTooltip="Fetch selected fees" class="mat-button-mt-4">
                         <!-- <mat-icon>clear_all</mat-icon> -->
                         Collect Selected
                     </button>&nbsp;
@@ -107,17 +107,52 @@
 
 
         <table style="width: 100%;">
+
+            <thead>
+                <tr>
+
+                    <th class="text-left">
+                        <input style="width: 5%;" type="checkbox" [(ngModel)]="masterSelected" name="all" value="m1"
+                            (change)="checkAll($event)" />
+                    </th>
+
+                    <th style="width:12%;">Fees Group</th>
+                    <th style="width: 12%;">Fees Code </th>
+                    <th style="width: 10%;">Due Date</th>
+                    <th style="width: 7%;">Status</th>
+                    <th style="width: 10%;">Amount <span>(₹)</span> </th>
+                    <th style="width: 7%;">Payment Id </th>
+                    <th style="width: 5%;">Mode</th>
+                    <th style="width: 10%;">Date</th>
+                    <th style="width: 7%;">Discount <span>(₹)</span> </th>
+                    <th style="width: 7%;">Fine <span>(₹)</span> </th>
+                    <th style="width: 10%;">Paid <span>(₹)</span> </th>
+                    <th style="width: 10%;">Balance <span>(₹)</span></th>
+                    <th style="width: 5%;">Action</th>
+                </tr>
+            </thead>
+
+
+
+
+
+
+
+
+
+            <!-- 
             <thead>
 
 
                 <th class="text-center">
-                    <input type="checkbox" [(ngModel)]="masterSelected" name="all" value="m1" (change)="checkAll($event)"/>
+                    <input type="checkbox" [(ngModel)]="masterSelected" name="all" value="m1"
+                        (change)="checkAll($event)" />
                 </th>
 
                 <th>Fees Group</th>
                 <th>Fees Code</th>
                 <th>Due Date</th>
-                <th>Status</th>
+                <th width='10%'>Status</th>
                 <th>Amount (₹)</th>
                 <th>Payment Id</th>
                 <th>Mode</th>
@@ -127,12 +162,13 @@
                 <th>Paid (₹)</th>
                 <th>Balance</th>
                 <th>Action</th>
-            </thead>
+            </thead> -->
             <tbody *ngFor="let feesdeposite of feesDepositeList;let i=index">
                 <tr>
 
-                    <td><input type="checkbox" value="{{feesdeposite.data.feeMastersId}}" [(ngModel)]="feesDepositeList[i].checked"    (change)="isAllChecked()"></td>
-     
+                    <td><input type="checkbox" value="{{feesdeposite.data.feeMastersId}}"
+                            [(ngModel)]="feesDepositeList[i].checked" (change)="isAllChecked()"></td>
+
                     <td>{{feesdeposite.data.feeGroupName}}</td>
                     <td>{{feesdeposite.data.feeCode}}</td>
                     <td>{{feesdeposite.data.dueDate}}</td>
@@ -153,16 +189,16 @@
                     <td>{{feesdeposite.data.fine}}.00</td>
                     <td>{{feesdeposite.data.paid}}.00</td>
                     <td>
-                        
+
                         <ng-container *ngIf="feesdeposite.data.balance==0;else elseData">
                             {{feesdeposite.data.amount}}.00
                         </ng-container>
                         <ng-template #elseData>
                             {{feesdeposite.data.balance}}.00
                         </ng-template>
-                     
-                        
-                       </td>
+
+
+                    </td>
                     <td>
                         <div class="btn-group pull-right">
                             <ng-container
@@ -181,6 +217,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
+
                     <td>{{feesdeposite1.id}}</td>
                     <td>{{feesdeposite1.paymentMode}}</td>
                     <td>{{feesdeposite1.date}}</td>
@@ -189,12 +226,17 @@
                     <td>{{feesdeposite1.amount}}.00</td>
                     <td></td>
                     <td></td>
+                    <td></td>
                 </tr>
+
+
+
+
             </tbody>
             <tfoot>
 
-
-                <tr *ngFor="let feesdiscount of feesDiscountList">
+                <tr class="dark-light " *ngFor="let feesdiscount of feesDiscountList">
+                    <td></td>
 
                     <td>{{feesdiscount?.feesDiscountName}}</td>
                     <td>{{feesdiscount?.feesDiscountCode}}</td>
@@ -211,11 +253,9 @@
                     <td>{{feesdiscount?.amountFine}}.00</td>
                     <td>{{feesdiscount?.amount}}.00</td>
                     <td></td>
+
                     <td></td>
                 </tr>
-
-
-
                 <tr>
 
                     <td></td>
@@ -224,6 +264,7 @@
                     <td></td>
                     <td>Grand Total</td>
                     <td>₹{{totalAmount}}.00</td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td>₹{{totalDiscount}}.00</td>
