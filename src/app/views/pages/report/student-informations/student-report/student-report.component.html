@@ -1,157 +1,295 @@
-
-  
-  
-  <kt-portlet>
+<kt-portlet>
     <kt-student-information [tabName]="'Student Report'"></kt-student-information>
-  </kt-portlet>
- 
+</kt-portlet>
+
 <br>
 <kt-portlet>
-    <kt-portlet-header [sticky]="true" [title]="'Student Report'" [class]="'card-head-lg'">
+    <kt-portlet-header [sticky]="true" [title]="'Select Criteria'" [class]="'card-head-lg'"> </kt-portlet-header>
 
-    </kt-portlet-header>
-    <!-- end::Header -->
-
-    <!-- <kt-portlet-body>
-        <div class="form-group kt-form__group row">
-            <div class="col-lg-4 kt-margin-bottom-20-mobile active">
-                <a class="cursor" (click)="studentReport()">
-                    <mat-icon>description</mat-icon>Student Report
-                </a>
-            </div>
-            <div class="col-lg-4 kt-margin-bottom-20-mobile">
-                <a class="cursor" (click)="guardianReport()">
-                    <mat-icon>description</mat-icon>Guardian Report
-                </a>
-            </div>
-            <div class="col-lg-4 kt-margin-bottom-20-mobile">
-                <a class="cursor" (click)="studentHistory()">
-                    <mat-icon>description</mat-icon> Student History
-                </a>
-            </div>
-            <div class="col-lg-4 kt-margin-bottom-20-mobile">
-                <a class="cursor" (click)="studentLoginCredential()">
-                    <mat-icon>description</mat-icon> Student Login Credential
-                </a>
-            </div>
-            <div class="col-lg-4 kt-margin-bottom-20-mobile">
-                <a class="cursor" (click)="classSubjectReport()">
-                    <mat-icon>description</mat-icon> Class Subject Report
-                </a>
-            </div>
-            <div class="col-lg-4 kt-margin-bottom-20-mobile">
-                <a class="cursor" (click)="admissionReport()">
-                    <mat-icon>description</mat-icon> Admission Report
-                </a>
-            </div>
-            <div class="col-lg-4 kt-margin-bottom-20-mobile">
-                <a class="cursor" (click)="siblingReport()">
-                    <mat-icon>description</mat-icon> Sibling Report
-                </a>
-            </div>
-            <div class="col-lg-4 kt-margin-bottom-20-mobile">
-                <a class="cursor" (click)="studentProfile()">
-                    <mat-icon>description</mat-icon> Student Profile
-                </a>
-            </div>
-            <div class="col-lg-4 kt-margin-bottom-20-mobile">
-                <a class="cursor" (click)="homeworkEvaluationReport()">
-                    <mat-icon>description</mat-icon> Homework Evaluation Report
-                </a>
-            </div>
-        </div>
-    </kt-portlet-body> -->
-    <!-- end::Body -->
-<!-- </kt-portlet> -->
-
-<!-- <kt-portlet> -->
     <kt-portlet-body>
         <div class="kt-form kt-margin-b-30">
             <form class="form" [formGroup]="searchForm">
                 <div class="card-body">
-        
+
                     <div class="card-body-progress">
                         <mat-spinner [diameter]="20"></mat-spinner>
                     </div>
-        
-                    <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true" (close)="onAlertClose($event)">
+
+                    <kt-alert *ngIf="hasFormErrors" type="warn" [duration]="30000" [showCloseButton]="true"
+                        (close)="onAlertClose($event)">
                         Oh snap! Change a few things up and try submitting again.
                     </kt-alert>
 
                     <div class="form-group row">
-                       <div class="col-lg-10 kt-margin-bottom-20-mobile">
-                           <div class="form-group row">
-                               <div class="col-lg-3 kt-margin-bottom-20-mobile">
-                                   <mat-form-field class="mat-form-field-fluid">
-                                       <mat-select placeholder="Select Class" formControlName="classId" >
-  
-                                           <mat-option *ngFor="let classData of classList" [value]="classData.id" (change)="onClassSelectChange(classData)">
-                                               {{classData.classses}}
-                                           </mat-option>
-                                       </mat-select>
-                                       <mat-error>Class
-                                           <strong>is required</strong>
-                                       </mat-error>
-                                   </mat-form-field>
-                               </div>
-                               <div class="col-lg-3 kt-margin-bottom-20-mobile">
-                                   <mat-form-field class="mat-form-field-fluid">
-                                       <mat-select placeholder="Section" formControlName="sectionId">
-                                           <mat-option *ngFor="let sectionData of sectionList" [value]="sectionData.id">
-                                               {{sectionData.section}}
-                                           </mat-option>
-                                       </mat-select>
-                                       <mat-error>Section
-                                           <strong>is required</strong>
-                                       </mat-error>
-                                   </mat-form-field>
-                               </div>
-                           </div>	
-                           <div class="form-group row">	
-                              <div class="col-lg-3 kt-margin-bottom-20-mobile">
-                                  <mat-form-field class="mat-form-field-fluid">
-                                      <mat-select placeholder="Category" formControlName="category">
-                                       <mat-option *ngFor="let category of categoryList" [value]="category.id">
-                                           {{category.category}}
-                                         </mat-option>
-                                      </mat-select>
-  
-                                  </mat-form-field>
-                              </div>
-                              <div class="col-lg-3 kt-margin-bottom-20-mobile">
-                                  <mat-form-field class="mat-form-field-fluid">
-                                      <mat-select placeholder="Gender" formControlName="gender">
-                                          <mat-option value="male">Male</mat-option>
-                                          <mat-option value="female">Female</mat-option>
-                                      </mat-select>
-  
-                                  </mat-form-field>
-                              </div>
-                              <div class="col-lg-3 kt-margin-bottom-20-mobile">
-                                  <mat-form-field class="mat-form-field-fluid">
-                                      <mat-select placeholder="RTE" formControlName="rte">
-                                          <mat-option value="Yes">Yes</mat-option>
-                                          <mat-option value="No">No</mat-option>
-                                      </mat-select>
-  
-                                  </mat-form-field>
-                              </div>
-                           </div>
-                       </div>
-                       <div class="col-lg-2 kt-margin-bottom-20-mobile">
-                           <div class="d-flex justify-content-between">
-                               <div class="mr-2"></div>
-                               <div>
-                                   <!-- <button type="button" mat-raised-button color="primary" (click)="onSearch()" [disabled]="viewLoading" matTooltip="Save changes">
-                                       Search
-                                   </button> -->
-                               </div>
-                           </div>
-                       </div>
+
+                        <div class="col-lg-2 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <mat-select placeholder="Select Class" formControlName="classId">
+
+                                    <mat-option *ngFor="let classData of classList" [value]="classData.id"
+                                        (selectionChange)="onClassSelectChange(classData)">
+                                        {{classData.classses}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error>Class
+                                    <strong>is required</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <mat-select placeholder="Section" formControlName="sectionId">
+                                    <mat-option *ngFor="let sectionData of sectionList" [value]="sectionData.id">
+                                        {{sectionData.section}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error>Section
+                                    <strong>is required</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-lg-2 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <mat-select placeholder="Category" formControlName="category">
+                                    <mat-option *ngFor="let category of categoryList" [value]="category.id">
+                                        {{category.category}}
+                                    </mat-option>
+                                </mat-select>
+
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <mat-select placeholder="Gender" formControlName="gender">
+                                    <mat-option value="male">Male</mat-option>
+                                    <mat-option value="female">Female</mat-option>
+                                </mat-select>
+
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 kt-margin-bottom-20-mobile">
+                            <mat-form-field class="mat-form-field-fluid">
+                                <mat-select placeholder="RTE" formControlName="rte">
+                                    <mat-option value="Yes">Yes</mat-option>
+                                    <mat-option value="No">No</mat-option>
+                                </mat-select>
+
+                            </mat-form-field>
+                        </div>
+
+
+                        <div class="col-lg-2 kt-margin-bottom-20-mobile">
+                            <div class="d-flex justify-content-between">
+                                <div class="mr-2"></div>
+                                <div>
+                                    <button type="button" mat-raised-button color="primary" (click)="onSearch()"
+                                        [disabled]="viewLoading" matTooltip="Save changes">
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
+
                 </div>
+
             </form>
         </div>
-</kt-portlet-body>
-<!-- end::Body -->
+
+
+        <!-- <h3>Student Report</h3> -->
+        <hr>
+
+
+        <!-- <div class="course">
+
+
+            <mat-form-field>
+
+                <input matInput placeholder="Search lessons" #input>
+
+            </mat-form-field>
+
+            <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+
+                <mat-spinner></mat-spinner>
+
+            </div>
+
+            <mat-table class="lessons-table mat-elevation-z8" [dataSource]="dataSource" matSort matSortActive="seqNo"
+                matSortDirection="asc" matSortDisableClear>
+
+                <ng-container matColumnDef="section">
+
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>#</mat-header-cell>
+
+                    <mat-cell *matCellDef="let row">{{lesson.sectionId}}</mat-cell>
+
+                </ng-container>
+
+                <ng-container matColumnDef="admissionNo">
+
+                    <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+
+                    <mat-cell class="description-cell" *matCellDef="let row">{{row.admissionNo}}</mat-cell>
+
+                </ng-container>
+
+                <ng-container matColumnDef="studentName">
+
+                    <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
+
+                    <mat-cell class="duration-cell" *matCellDef="let row">{{row.firstname}} {{row.lastname}}</mat-cell>
+
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+            </mat-table>
+
+
+            <mat-paginator [length]="course?.lessonsCount" [pageSize]="3" [pageSizeOptions]="[3, 5, 10]">
+            </mat-paginator>
+
+
+        </div>
+
+
+
+
+ -->
+
+
+
+
+        <div class="form mb-3">
+            <div class="form-filtration">
+                <div class="col-md-4 kt-margin-bottom-10-mobile">
+                    <mat-form-field>
+                        <input matInput placeholder="Search product" #searchInput placeholder="Search"
+                            class="mat-form-field mat-form-field-fluid">
+                        <mat-hint align="start">
+                            <strong>Search in all fields</strong>
+                        </mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="mat-table-wrapper">
+            <mat-table class="lmat-elevation-z8" #table [dataSource]="dataSource" matSort #sort1="matSort"
+                matSortActive="id" matSortDirection="asc" matSortDisableClear>
+
+                <ng-container matColumnDef="section">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Section
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let student">{{student.sectionId}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="admissionNo">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Admission No
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let student">{{student.admissionNo}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Name
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let student">{{student.firstname}} {{student.lastname}}</mat-cell>
+                </ng-container>
+               
+                <ng-container matColumnDef="fatherName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Father Name
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let student">{{student.fatherName}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="dob">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Date of Birth</mat-header-cell>
+                    <mat-cell *matCellDef="let student">{{student.dob}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="gender">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Gender</mat-header-cell>
+                    <mat-cell *matCellDef="let student">{{student.gender}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="category">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Category</mat-header-cell>
+                    <mat-cell *matCellDef="let student">{{student.categoryId}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="contact">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Contact</mat-header-cell>
+                    <mat-cell *matCellDef="let student">{{student.mobileno}}</mat-cell>
+                </ng-container>
+
+
+                <!-- <ng-container matColumnDef="localIdentificationNo">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Local Identification No
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let student">{{student.classId}}</mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="nationalIdentificationNo">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>National Identification No
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let student">{{student.classId}}</mat-cell>
+                </ng-container> -->
+
+
+                <ng-container matColumnDef="rte">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>RTE
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let student">{{student.rte}}</mat-cell>
+                </ng-container>
+
+
+
+
+
+
+
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef>
+                        Actions
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let student">
+
+                        <button type="button" (click)="onStudentProfileView(student)" mat-icon-button color="primary"
+                            matTooltip="View Student">
+                            <mat-icon>menu</mat-icon>
+                        </button>&nbsp;
+
+                        <button type="button" (click)="editStudent(student)" mat-icon-button color="primary"
+                            matTooltip="Edit Student">
+                            <mat-icon>create</mat-icon>
+                        </button>&nbsp;
+
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            </mat-table>
+            <div class="mat-table-message" *ngIf="!dataSource.hasItems">No records found</div>
+            <div class="mat-table-message" *ngIf="dataSource.isPreloadTextViewed$ | async">Please wait....</div>
+        </div>
+
+        <div class="mat-table-bottom">
+            <mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner>
+            <mat-paginator [pageSize]="10" [pageSizeOptions]="[3, 5, 10]" [length]="dataSource.paginatorTotal$ | async"
+                [showFirstLastButtons]="true"></mat-paginator>
+        </div>
+
+
+
+
+
+
+
+    </kt-portlet-body>
+    <!-- end::Body -->
 </kt-portlet>

@@ -2,8 +2,8 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { ReferencesDataSource, ReferenceModel,selectReferencesActionLoading } from 'src/app/core/front-office';
-import { QueryParamsModel, LayoutUtilsService, MessageType ,TypesUtilsService} from 'src/app/core/_base/crud';
+import { ReferencesDataSource, ReferenceModel, selectReferencesActionLoading, ReferenceService } from 'src/app/core/front-office';
+import { QueryParamsModel, LayoutUtilsService, MessageType, TypesUtilsService } from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -20,56 +20,58 @@ import { Update } from '@ngrx/entity';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
-import { ReferencesPageRequested, OneReferenceDeleted, ManyReferencesDeleted, ReferencesStatusUpdated, ReferenceUpdated, ReferenceOnServerCreated, selectLastCreatedReferenceId } from '../../../../../core/front-office';
+import { OneReferenceDeleted, ReferenceUpdated, ReferenceOnServerCreated, selectLastCreatedReferenceId } from '../../../../../core/front-office';
+import { ApiResponseModel } from 'src/app/core/_base/crud/models/query-models/api-reponse.model';
 
 
 @Component({
-  selector: 'kt-reference',
-  templateUrl: './reference.component.html',
-  styleUrls: ['./reference.component.scss']
+	selector: 'kt-reference',
+	templateUrl: './reference.component.html',
+	styleUrls: ['./reference.component.scss']
 })
 export class ReferenceComponent implements OnInit {
 
-  // Table fields
-dataSource: ReferencesDataSource;
-//  dataSource = new MatTableDataSource(ELEMENT_DATA);
-displayedColumns = ['id', 'reference', 'description', 'actions'];
-@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-@ViewChild('sort1', {static: true}) sort: MatSort;
-// Filter fields
-@ViewChild('searchInput', {static: true}) searchInput: ElementRef;
-filterStatus = '';
-filterType = '';
-// Selection
-selection = new SelectionModel<ReferenceModel>(true, []);
-referencesResult: ReferenceModel[] = [];
-// Subscriptions
-private subscriptions: Subscription[] = [];
+	// Table fields
+	dataSource: ReferencesDataSource;
+	//  dataSource = new MatTableDataSource(ELEMENT_DATA);
+	displayedColumns = ['id', 'reference', 'description', 'actions'];
+	@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+	@ViewChild('sort1', { static: true }) sort: MatSort;
+	// Filter fields
+	@ViewChild('searchInput', { static: true }) searchInput: ElementRef;
+	filterStatus = '';
+	filterType = '';
+	// Selection
+	selection = new SelectionModel<ReferenceModel>(true, []);
+	referencesResult: ReferenceModel[] = [];
+	// Subscriptions
+	private subscriptions: Subscription[] = [];
 
-// Public properties
-reference: ReferenceModel;
-referenceForm: FormGroup;
-hasFormErrors = false;
-viewLoading = false;
-// Private properties
-private componentSubscriptions: Subscription;
-
-
+	// Public properties
+	reference: ReferenceModel;
+	referenceForm: FormGroup;
+	hasFormErrors = false;
+	viewLoading = false;
+	// Private properties
+	private componentSubscriptions: Subscription;
 
 
-  constructor(public dialog: MatDialog,
+
+
+	constructor(public dialog: MatDialog,
 		public snackBar: MatSnackBar,
 		private layoutUtilsService: LayoutUtilsService,
 		private translate: TranslateService,
 		private store: Store<AppState>,
 		private fb: FormBuilder,
-		private typesUtilsService: TypesUtilsService) { }
+		private typesUtilsService: TypesUtilsService,
+		private referenceService: ReferenceService) { }
 
-  ngOnInit() {
+	ngOnInit() {
 
-	debugger;
-	
-    const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+		debugger;
+
+		const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 		this.subscriptions.push(sortSubscription);
 
 		/* Data load will be triggered in two cases:
@@ -79,7 +81,7 @@ private componentSubscriptions: Subscription;
 		const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
 			tap(() => this.loadReferenceList())
 		)
-		.subscribe();
+			.subscribe();
 		this.subscriptions.push(paginatorSubscriptions);
 
 		// Filtration, bind to searchInput
@@ -92,20 +94,22 @@ private componentSubscriptions: Subscription;
 				this.loadReferenceList();
 			})
 		)
-		.subscribe();
+			.subscribe();
 		this.subscriptions.push(searchSubscription);
 
 		// Init DataSource
-		this.dataSource = new ReferencesDataSource(this.store);
-	
+		this.dataSource = new ReferencesDataSource(this.referenceService);
+		// this.dataSource = new ReferencesDataSource(this.store);
+
+
 		const entitiesSubscription = this.dataSource.entitySubject.pipe(
 			skip(1),
 			distinctUntilChanged()
 		).subscribe(res => {
 			debugger
-	console.log(res);
+			console.log(res);
 			this.referencesResult = res;
-			if(this.referencesResult.length==0)this.dataSource.hasItems=false;
+			if (this.referencesResult.length == 0) this.dataSource.hasItems = false;
 		});
 		this.subscriptions.push(entitiesSubscription);
 		// First load
@@ -113,12 +117,12 @@ private componentSubscriptions: Subscription;
 			this.loadReferenceList();
 		}); // Remove this line, just loading imitation
 
-this.addReference();
-		
-  }
-/**
-	 * On Destroy
-	 */
+		this.addReference();
+
+	}
+	/**
+		 * On Destroy
+		 */
 	ngOnDestroy() {
 		this.subscriptions.forEach(el => el.unsubscribe());
 	}
@@ -137,7 +141,8 @@ this.addReference();
 			this.paginator.pageSize
 		);
 		// Call request from server
-		this.store.dispatch(new ReferencesPageRequested({ page: queryParams }));
+		// this.store.dispatch(new ReferencesPageRequested({ page: queryParams }));
+		this.dataSource.loadPageRequesed(queryParams);
 		this.selection.clear();
 	}
 
@@ -176,12 +181,17 @@ this.addReference();
 			if (!res) {
 				return;
 			}
+			// this.store.dispatch(new OneReferenceDeleted({ id: _item.id }));
+			this.referenceService.deleteReference(_item.id).subscribe(res => {
+				this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
+				this.loadReferenceList();
+			}, err => {
+				this.loadReferenceList();
+			});
 
-			this.store.dispatch(new OneReferenceDeleted({ id: _item.id }));
-			this.layoutUtilsService.showActionNotification(_deleteMessage, MessageType.Delete);
-			this.loadReferenceList();
+
 		});
-		
+
 
 	}
 
@@ -189,7 +199,7 @@ this.addReference();
 	 * Show add Reference dialog
 	 */
 	addReference() {
-		this.reference=new ReferenceModel();
+		this.reference = new ReferenceModel();
 		this.reference.clear(); //
 		this.createForm();
 
@@ -200,135 +210,165 @@ this.addReference();
 	 * @param reference: ReferenceModel
 	 */
 	editReference(reference: ReferenceModel) {
-		
-		this.reference=reference;
+
+		this.reference = reference;
 		this.createForm();
 
 	}
 
 
 
-createForm() {
-	debugger;
-	this.referenceForm = this.fb.group({
-		reference: [this.reference.reference, Validators.required],
-		description: [this.reference.description, ],
-		isActive: [this.reference.isActive, ],
-	});
-}
-
-
-/**
- * Check control is invalid
- * @param controlName: string
- */
-isControlInvalid(controlName: string): boolean {
-	const control = this.referenceForm.controls[controlName];
-	const result = control.invalid && control.touched;
-	return result;
-}
-
-/** ACTIONS */
-
-/**
- * Returns prepared reference
- */
-prepareReference(): ReferenceModel {
-	const controls = this.referenceForm.controls;
-	const _reference = new ReferenceModel();
-	_reference.id = this.reference.id;
-	_reference.reference = controls.reference.value;
-	_reference.description = controls.description.value;
-			if(_reference.id>0){
-	_reference.isActive = controls.isActive.value;
-}else{
-	_reference.isActive = 'yes';
-}
-	return _reference;
-}
-
-/**
- * On Submit
- */
-onSubmit() {
-	this.hasFormErrors = false;
-	const controls = this.referenceForm.controls;
-	/** check form */
-	if (this.referenceForm.invalid) {
-		Object.keys(controls).forEach(controlName =>
-			controls[controlName].markAsTouched()
-		);
-
-		this.hasFormErrors = true;
-		return;
+	createForm() {
+		debugger;
+		this.referenceForm = this.fb.group({
+			reference: [this.reference.reference, Validators.required],
+			description: [this.reference.description,],
+			isActive: [this.reference.isActive,],
+		});
 	}
 
-	const editedReference = this.prepareReference();
-	if (editedReference.id > 0) {
-		this.updateReference(editedReference);
-	} else {
-		this.createReference(editedReference);
+
+	/**
+	 * Check control is invalid
+	 * @param controlName: string
+	 */
+	isControlInvalid(controlName: string): boolean {
+		const control = this.referenceForm.controls[controlName];
+		const result = control.invalid && control.touched;
+		return result;
 	}
 
-	const	_saveMessage= editedReference.id > 0 ? 'Reference  has been updated' : 'Reference has been created';
-		
-	const _messageType = editedReference.id > 0 ? MessageType.Update : MessageType.Create;
-	
-		this.layoutUtilsService.showActionNotification(_saveMessage, _messageType);
-		this.loadReferenceList();
+	/** ACTIONS */
+
+	/**
+	 * Returns prepared reference
+	 */
+	prepareReference(): ReferenceModel {
+		const controls = this.referenceForm.controls;
+		const _reference = new ReferenceModel();
+		_reference.id = this.reference.id;
+		_reference.reference = controls.reference.value;
+		_reference.description = controls.description.value;
+		if (_reference.id > 0) {
+			_reference.isActive = controls.isActive.value;
+		} else {
+			_reference.isActive = 'yes';
+		}
+		return _reference;
+	}
+
+	/**
+	 * On Submit
+	 */
+	onSubmit() {
+		this.hasFormErrors = false;
+		const controls = this.referenceForm.controls;
+		/** check form */
+		if (this.referenceForm.invalid) {
+			Object.keys(controls).forEach(controlName =>
+				controls[controlName].markAsTouched()
+			);
+
+			this.hasFormErrors = true;
+			return;
+		}
+
+		const editedReference = this.prepareReference();
+		if (editedReference.id > 0) {
+			this.updateReference(editedReference);
+		} else {
+			this.createReference(editedReference);
+		}
+
+
+
 		this.referenceForm.reset();
 		this.addReference();
 		// this.reference.clear();
 		// this.createForm();
 
-}
-onCancel(){
-	this.referenceForm.reset();
-	this.addReference();
-	// this.reference.clear();
-	// this.createForm();
-}
-/**
- * Update Reference
- *
- * @param _reference: ReferenceModel
- */
-updateReference(_reference: ReferenceModel) {
-	const updateReference: Update<ReferenceModel> = {
-		id: _reference.id,
-		changes: _reference
-	};
-	this.store.dispatch(new ReferenceUpdated({
-		partialReference: updateReference,
-		reference: _reference
-	}));
+	}
+	onCancel() {
+		this.referenceForm.reset();
+		this.addReference();
+		// this.reference.clear();
+		// this.createForm();
+	}
+	/**
+	 * Update Reference
+	 *
+	 * @param _reference: ReferenceModel
+	 */
+	updateReference(_reference: ReferenceModel) {
+		// const updateReference: Update<ReferenceModel> = {
+		// 	id: _reference.id,
+		// 	changes: _reference
+		// };
+		// this.store.dispatch(new ReferenceUpdated({
+		// 	partialReference: updateReference,
+		// 	reference: _reference
+		// }));
+		// of(undefined).pipe(delay(1000))
 
 
-}
 
-/**
- * Create reference
- *
- * @param _reference: ReferenceModel
- */
-createReference(_reference:ReferenceModel) {
-	this.store.dispatch(new ReferenceOnServerCreated({ reference: _reference }));
-	this.componentSubscriptions = this.store.pipe(
-		select(selectLastCreatedReferenceId),
-		delay(1000), // Remove this line
-	).subscribe(res => {
-		if (!res) {
-			return;
-		}
+		this.referenceService.updateReference(_reference).subscribe(res => {
 
-		// this.dialogRef.close({ _reference, isEdit: false });
-	});
-}
+			this.layoutUtilsService.showActionNotification('Reference  has been updated', MessageType.Update);
+			this.loadReferenceList();
 
-/** Alect Close event */
-onAlertClose($event) {
-	this.hasFormErrors = false;
-}
+		}, err => {
+			this.layoutUtilsService.showActionNotification('Error to update Reference', MessageType.Failed);
+			this.loadReferenceList();
+		})
+
+
+
+	}
+
+	/**
+	 * Create reference
+	 *
+	 * @param _reference: ReferenceModel
+	 */
+	createReference(_reference: ReferenceModel) {
+		// this.store.dispatch(new ReferenceOnServerCreated({ reference: _reference }));
+
+		// this.componentSubscriptions = this.store.pipe(
+		// 	select(selectLastCreatedReferenceId),
+		// 	delay(1000), // Remove this line
+		// ).subscribe(res => {
+		// 	if (!res) {
+		// 		return;
+		// 	}
+
+		// 	// this.dialogRef.close({ _reference, isEdit: false });
+		// });
+		// this.loadReferenceList();
+
+
+
+		this.referenceService.createReference(_reference).subscribe(res => {
+
+			this.layoutUtilsService.showActionNotification('Reference has been created', MessageType.Create);
+			this.loadReferenceList();
+
+		}, err => {
+			this.layoutUtilsService.showActionNotification('Error to created Reference', MessageType.Failed);
+			this.loadReferenceList();
+		})
+
+
+
+
+
+
+	}
+
+	/** Alect Close event */
+	onAlertClose($event) {
+		this.hasFormErrors = false;
+	}
 
 }
 // export class NgbdTimepickerSteps {

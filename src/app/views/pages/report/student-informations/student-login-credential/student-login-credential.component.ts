@@ -1,7 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { StudentsDataSource, StudentDtoModel, StudentsPageRequested, OneStudentDeleted, ManyStudentsDeleted,StudentService } from 'src/app/core/student-information';
 import { QueryParamsModel, LayoutUtilsService, MessageType } from 'src/app/core/_base/crud';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription, merge, fromEvent, of } from 'rxjs';
@@ -13,6 +12,9 @@ import { AppState } from '../../../../../core/reducers';
 import { tap, debounceTime, distinctUntilChanged, skip, delay, take } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService } from 'src/app/core/academics';
+import { StudentReportDataSource } from 'src/app/core/reports/student-report.datasource';
+import { StudentReportService } from 'src/app/core/reports/student-information-report.service';
+import { StudentLoginCredentialModel } from 'src/app/core/reports/_models/student-login-credential.model';
 
 @Component({
   selector: 'kt-student-login-credential',
@@ -22,7 +24,7 @@ import { StudentClassModel, SectionDtoModel, StudentClassService, SectionService
 export class StudentLoginCredentialComponent implements OnInit {
 
    // Table fields
-   dataSource: StudentsDataSource;
+   dataSource: StudentReportDataSource;
    displayedColumns = ['admissionNo', 'name' , 'userName','password', 'parentUserName','parentPassword'];
    @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
    @ViewChild('sort1', {static: true}) sort: MatSort;
@@ -32,8 +34,8 @@ export class StudentLoginCredentialComponent implements OnInit {
    filterCondition = '';
    lastQuery: QueryParamsModel;
    // Selection
-   selection = new SelectionModel<StudentDtoModel>(true, []);
-   studentsResult: StudentDtoModel[] = [];
+   selection = new SelectionModel<StudentLoginCredentialModel>(true, []);
+   studentsResult: StudentLoginCredentialModel[] = [];
    private subscriptions: Subscription[] = [];
    
      searchForm: FormGroup;
@@ -55,10 +57,10 @@ export class StudentLoginCredentialComponent implements OnInit {
                 private layoutUtilsService: LayoutUtilsService,
                 private store: Store<AppState>,
                 private fb: FormBuilder,
-                private studentService: StudentService,
+                
                 private studentClassService: StudentClassService,
                 private sectionService: SectionService,
-               
+                private studentReportService: StudentReportService
                 ) { }
  
   /**
@@ -68,46 +70,10 @@ export class StudentLoginCredentialComponent implements OnInit {
   
    this.loadAllClasses();
    // this.loadAllSectionsByClassId(1);
-   this.dataSource = new StudentsDataSource(this.store);
+   this.dataSource = new StudentReportDataSource(this.studentReportService);
    this.createForm();
  }
  
-
-  studentReport() {
-		this.router.navigate(["/report/student-report"])
-  }
-  
-  guardianReport() {
-			this.router.navigate(["/report/guardian-report"])
-  }
-
-  studentHistory() {
-		this.router.navigate(["/report/student-history"])
-  }
-
-  studentLoginCredential() {
-		this.router.navigate(["/report/student-login-credential"])
-  }
-
-  classSubjectReport() {
-		this.router.navigate(["/report/class-subject-report"])
-  }
-
-  admissionReport() {
-		this.router.navigate(["/report/admission-report"])
-  }
-
-  siblingReport() {
-		this.router.navigate(["/report/sibling-report"])
-  }
-
-  studentProfile() {
-		this.router.navigate(["/report/student-profile"])
-  }
-
-  homeworkEvaluationReport() {
-		this.router.navigate(["/report/homework-evaluation-report"])
-  }
 
  //get All Class List
  
@@ -153,8 +119,6 @@ loadAllSectionsByClassId(id:number) {
 
 
   getAllStudentList(classId,sectionId){
-
-
     // If the user changes the sort order, reset back to the first page.
     const sortSubscription = this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
     this.subscriptions.push(sortSubscription);
@@ -183,7 +147,7 @@ loadAllSectionsByClassId(id:number) {
     // this.subscriptions.push(searchSubscription);
    
     // Init DataSource
-    this.dataSource = new StudentsDataSource(this.store);
+    this.dataSource = new StudentReportDataSource(this.studentReportService);
     const entitiesSubscription = this.dataSource.entitySubject.pipe(
       skip(1),
       distinctUntilChanged()
@@ -219,7 +183,7 @@ loadStudentsList(classId,sectionId) {
     this.paginator.pageSize
   );
   // Call request from server
-  this.store.dispatch(new StudentsPageRequested({ page: queryParams ,classId,sectionId}));
+ this.dataSource.loadStudentLoginCredentialReport(queryParams,classId,sectionId);
  
   this.selection.clear();
 }

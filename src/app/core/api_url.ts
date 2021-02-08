@@ -4,10 +4,10 @@ export class Constants {
       // HOST_URL: 'http://3.140.52.88:8080/',
       HOST_URL: 'http://localhost:8080/',
       // HOST_URL: 'http://103.150.187.85:8080/',
-   
+
       accessToken: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdXBlcmFkbWluQGdtYWlsLmNvbSIsIlNlc3Npb25JRCI6MSwiaWF0IjoxNjA1NjgwNTE4LCJleHAiOjE2MDU3NjY5MTh9.ylU_vhIgkXCnK_JPjpzUB2o-if_vtSf0eSTu4t-XQnk-MuolPdbe1W7rQvYagANBzlU3efKk8U57FqfMqiIFOg',
       sessionId: '1',
-// http://3.140.52.88:8080/swagger-ui.html#
+      // http://3.140.52.88:8080/swagger-ui.html#
    }
 
 
@@ -16,29 +16,29 @@ export class Constants {
    public static HOLIDAY: string = 'holiday';
    public static PRESENT: string = 'present';
 
-   public static StudentLeaveStatus:any={
-      All:'all',
-      Pending:'0',
-      Approve:'1',
-      Reject:'2'
+   public static StudentLeaveStatus: any = {
+      All: 'all',
+      Pending: '0',
+      Approve: '1',
+      Reject: '2'
    }
    // Note: Defined values for leave status 0 - Pending, 1 - Approve, 2 - Reject
 
-   public static Pagination:any={
-      withPagination:'1',
-      withoutPagination:'0'
+   public static Pagination: any = {
+      withPagination: '1',
+      withoutPagination: '0'
    }
 
    public static Authentication: any = {
       Login: 'auth/login',
    }
-   public static  Role_permission: any = {
+   public static Role_permission: any = {
       // by rolename
       // Permission:'api/permission', 
-      Role:'api/role',
-      Permission:'api/permission/groups-category'
+      Role: 'api/role',
+      Permission: 'api/permission/groups-category'
    }
-  
+
    public static Front_Office: any = {
       Admission_Enquiry: 'api/enquiry',
       Complain: 'api/complaint',
@@ -59,7 +59,7 @@ export class Constants {
       Student_House: 'api/school-house',
       Disable_Student: 'api/student/api/disable-student',
       Online_Addmission: 'api/',
-      User:'api/user'
+      User: 'api/user'
 
    }
 
@@ -71,7 +71,7 @@ export class Constants {
       Section: 'api/section',
       Subject: 'api/subject',
       Subject_Group: 'api/subject-group',
-     
+
    }
 
    public static Attendance: any = {
@@ -80,14 +80,14 @@ export class Constants {
       //   Attendance_By_Date:'',
       Student_Attendance: 'api/student-attendance',
       Attendance_Type: 'api/attendance-type',
-      Approve_Disapprove_Leave:'api/student-approve-leave'
+      Approve_Disapprove_Leave: 'api/student-approve-leave'
    }
 
 
    public static Homework: any = {
 
       Homework_Add: 'api/homework',
-      Homework_Evaluation:'api/homework-evaluation'
+      Homework_Evaluation: 'api/homework-evaluation'
 
    }
    public static Library: any = {
@@ -106,13 +106,13 @@ export class Constants {
       Department: 'api/department',
       Leave_Type: 'api/leave-type',
       // Staff_Leave:'api/staff-leave',
-      Staff_Leave_Request:'api/staff-leave-request',
-      Staff_Leave_Details:'api/staff-leave-details',
+      Staff_Leave_Request: 'api/staff-leave-request',
+      Staff_Leave_Details: 'api/staff-leave-details',
       Staff_Payroll: 'api/staff-payroll',
       Staff_Rating: 'api/staff-rating',
       Staff_Attendance: 'api/staff-attendance',
-      Roles:'api/role',
-      User:'api/user'
+      Roles: 'api/role',
+      User: 'api/user'
    }
 
    public static Fees_Collection: any = {
@@ -121,12 +121,9 @@ export class Constants {
       Fees_Discount: 'api/fee-discount',
       Fees_Master: 'api/feemaster',
       AssignStudentFeemaster: 'api/feemaster/assign/student',
-
       AssignStudentFeediscount: 'api/fee-discount/assign/student',
       Student_Fee_Deposite: 'api/student-fee-deposite',
-
-     
-      Student_Discount:'api/student-discount'
+      Student_Discount: 'api/student-discount'
 
    }
 
@@ -142,14 +139,14 @@ export class Constants {
       Expense: 'api/expense',
       ExpenseHead: 'api/expense-head',
    }
-  
+
    public static Transports: any = {
       Route: 'api/transport-route',
       Vehicle: 'api/vehicle',
       AssignVehicle: 'api/vehicle-route',
    }
 
-   
+
    public static Hostels: any = {
       Hostel: 'api/hostel',
       RoomType: 'api/room-type',
@@ -165,7 +162,7 @@ export class Constants {
       ItemIssue: 'api/item-issue'
    }
 
-   
+
    public static Exams: any = {
       ExamGroup: 'api/exam-group',
       Exam: 'api/exam',
@@ -173,13 +170,30 @@ export class Constants {
       AssignStudentExam: 'api/exam/students',
       ExamSubject: 'api/exam/subjects',
       ExamSubjectMarks: 'api/exam/subjects/marks'
-   } 
-   
-   public static System_Settings: any = {
-      Session:'api/session',
-      Email:'api/email',
-      Sms:'api/sms',
+   }
 
-      }
+   public static System_Settings: any = {
+      Session: 'api/session',
+      Email: 'api/email',
+      Sms: 'api/sms',
+
+   }
+
+
+
+   public static Student_Report: any = {
+      Student_Report: 'api/student-report/studentreport',
+      Student_Login_Credential_Report: 'api/student-report/logindetailreport',
+      Sibling_Report: 'api/student-report/sibling_report',
+      Student_Profile_Report: 'api/session',
+      Student_History_Report: 'api/session',
+      Class_Subject_Report: 'api/student-report/class_subject',
+      Guardian_report: 'api/student-report/guardianreport',
+      Admission_report: 'api/',
+     Homework_Evaluation_report: 'api/'
+   }
+
+
+
 
 }

@@ -6,7 +6,34 @@
 
     <kt-portlet-body>
 
-        <div class="form-group kt-form__group row" >
+
+
+        <!-- <ul id="grouplist" class="list-group">
+
+            <li class="list-group-item" [ngClass]="{'active': selectedItem == data}" (click)="listClick($event, item)"
+                *ngFor="let  data of studentReportsData">
+                {{data}}
+            </li>
+        </ul> -->
+
+        <div class="form-group kt-form__group row">
+            <div class="col-lg-4 kt-margin-bottom-20-mobile" *ngFor="let  data of studentReportsData"
+                (click)="listClick(data.tabName,data.path)" [ngClass]="{'active': selectedItem === data.tabName}">
+                <!-- <div > -->
+                <a class="cursor" >
+                    <mat-icon>description</mat-icon>{{data.tabName}}
+                </a>
+                <!-- </div> -->
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <!-- <div class="form-group kt-form__group row" >
           <ng-container *ngFor='let data of studentReportsData'>
             <ng-container *ngIf='data===tabName;else elseData'>
                 <div class="col-lg-4 kt-margin-bottom-20-mobile  active">
@@ -24,8 +51,8 @@
             </ng-template>
         </ng-container>
 
-        </div>
-<!-- 
+        </div> -->
+        <!-- 
         <div class="form-group kt-form__group row" >
             
             <div class="col-lg-4 kt-margin-bottom-20-mobile" [ngClass]="'Student Report===tabName' ? 'disable' : 'active' "  >
